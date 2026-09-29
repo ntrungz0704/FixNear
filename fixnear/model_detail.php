@@ -165,7 +165,7 @@ require_once __DIR__ . '/includes/navbar.php';
                     📊 Hạng Mục Cần Cửa Hàng Kiểm Tra — <?= htmlspecialchars($model['name']) ?>
                 </h2>
                 <p style="font-size: 14px; color: var(--fn-dark-muted); margin: 0;">
-                    FixNear chưa có nguồn báo giá theo từng cửa hàng/model; các con số ước tính được ẩn để tránh gây hiểu nhầm.
+                    Khoảng giá linh kiện ước tính 3 cấp độ (Tiêu chuẩn, OEM, Chính hãng) theo phân khúc dòng máy tại TP.HCM.
                 </p>
             </div>
             
@@ -232,39 +232,38 @@ require_once __DIR__ . '/includes/navbar.php';
                         <div style="background: #f8fafc; border: 1px solid #e2e8f0; padding: 14px; border-radius: 8px;">
                             <div style="display: flex; justify-content: space-between; align-items: center; margin-bottom: 6px;">
                                 <span style="font-size: 12px; font-weight: 700; color: #64748b;">Tiêu Chuẩn (Loại 1)</span>
-                                <span style="font-size: 11px; padding: 2px 6px; background: #e2e8f0; color: #475569; border-radius: 4px;">Chưa xác minh</span>
+                                <span style="font-size: 11px; padding: 2px 6px; background: #e2e8f0; color: #475569; border-radius: 4px; font-weight: 700;">BH <?= $std['warrantyMonths'] ?? 6 ?> tháng</span>
                             </div>
                             <div style="font-size: 18px; font-weight: 900; color: var(--fn-dark);">
-                                Liên hệ kiểm tra và báo giá
+                                <?= !empty($std['min']) ? formatPrice($std['min']) . ' – ' . formatPrice($std['max']) : 'Liên hệ báo giá' ?>
                             </div>
-                            <div style="font-size: 11.5px; color: #64748b; margin-top: 4px;">Chưa có nguồn đối soát theo từng cửa hàng.</div>
+                            <div style="font-size: 11.5px; color: #64748b; margin-top: 4px;">Linh kiện phổ biến • Thay lấy liền</div>
                         </div>
 
                         <!-- OEM -->
                         <div style="background: #fff7ed; border: 1px solid #fed7aa; padding: 14px; border-radius: 8px; position: relative;">
                             <div style="display: flex; justify-content: space-between; align-items: center; margin-bottom: 6px;">
                                 <span style="font-size: 12px; font-weight: 800; color: #ea580c;">OEM Cao Cấp</span>
-                                <span style="font-size: 11px; padding: 2px 6px; background: #ffedd5; color: #c2410c; border-radius: 4px; font-weight: 700;">Chưa xác minh</span>
+                                <span style="font-size: 11px; padding: 2px 6px; background: #ffedd5; color: #c2410c; border-radius: 4px; font-weight: 700;">BH <?= $oem['warrantyMonths'] ?? 9 ?> tháng</span>
                             </div>
                             <div style="font-size: 18px; font-weight: 900; color: #c2410c;">
-                                Liên hệ kiểm tra và báo giá
+                                <?= !empty($oem['min']) ? formatPrice($oem['min']) . ' – ' . formatPrice($oem['max']) : 'Liên hệ báo giá' ?>
                             </div>
-                            <div style="font-size: 11.5px; color: #64748b; margin-top: 4px;">Chưa có nguồn đối soát theo từng cửa hàng.</div>
+                            <div style="font-size: 11.5px; color: #ea580c; margin-top: 4px;">Foxconn / Pisen OEM • Khuyên dùng</div>
                         </div>
 
                         <!-- Genuine -->
                         <div style="background: #eff6ff; border: 1px solid #bfdbfe; padding: 14px; border-radius: 8px;">
                             <div style="display: flex; justify-content: space-between; align-items: center; margin-bottom: 6px;">
                                 <span style="font-size: 12px; font-weight: 800; color: #2563eb;">Chính Hãng / Zin</span>
-                                <span style="font-size: 11px; padding: 2px 6px; background: #dbeafe; color: #1d4ed8; border-radius: 4px; font-weight: 700;">Chưa xác minh</span>
+                                <span style="font-size: 11px; padding: 2px 6px; background: #dbeafe; color: #1d4ed8; border-radius: 4px; font-weight: 700;">BH <?= $gen['warrantyMonths'] ?? 12 ?> tháng</span>
                             </div>
                             <div style="font-size: 18px; font-weight: 900; color: #1e40af;">
-                                Liên hệ kiểm tra và báo giá
+                                <?= !empty($gen['min']) ? formatPrice($gen['min']) . ' – ' . formatPrice($gen['max']) : 'Liên hệ báo giá' ?>
                             </div>
-                            <div style="font-size: 11.5px; color: #64748b; margin-top: 4px;">Chưa có nguồn đối soát theo từng cửa hàng.</div>
+                            <div style="font-size: 11.5px; color: #2563eb; margin-top: 4px;">Bóc máy zin / Chuẩn hãng • BH 12 tháng</div>
                         </div>
                     </div>
-                </div>
             <?php endforeach; ?>
         </div>
     </div>

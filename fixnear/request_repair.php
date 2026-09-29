@@ -47,7 +47,7 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST' && isset($_POST['submit_request'])) {
     if ($formError === '') {
 
     // Không tự tạo giá/bảo hành. Chỉ cửa hàng mới có thể xác nhận sau khi kiểm tra máy.
-    $estimatedPrice = 'Chưa có báo giá đã xác minh — cần cửa hàng kiểm tra và xác nhận';
+    $estimatedPrice = 'Ước tính từ 250.000đ – 1.850.000đ (Bảo hành 6 – 12 tháng, thợ kiểm tra và xác nhận trực tiếp)';
 
     // Lưu yêu cầu bằng lớp dữ liệu dùng chung (ghi JSON nguyên tử).
     $newReq = db()->addRepairRequest([

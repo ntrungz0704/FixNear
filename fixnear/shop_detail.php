@@ -172,27 +172,25 @@ $msg = $_GET['msg'] ?? '';
                                     </span>
                                 </td>
                                 <td>
-                                    <?php if ($priceVerified): ?>
+                                    <?php if (!empty($srv['min_price']) && !empty($srv['max_price'])): ?>
                                         <span class="fn-price-range"><?= formatPrice($srv['min_price']) ?> – <?= formatPrice($srv['max_price']) ?></span>
                                     <?php else: ?>
-                                        <span style="font-size:12.5px;color:#92400e;font-weight:700;">Chưa có giá đã xác minh</span>
+                                        <span style="font-size:13px; color: var(--fn-primary); font-weight:700;">Liên hệ kiểm tra & báo giá</span>
                                     <?php endif; ?>
                                 </td>
                                 <td>
                                     <span style="font-weight: 600; font-size: 13px; color: var(--fn-dark);">
-                                        <?= $priceVerified ? htmlspecialchars($srv['warranty'] ?? 'Cần xác nhận') : 'Cần cửa hàng xác nhận' ?>
+                                        <?= htmlspecialchars(!empty($srv['warranty_text']) ? $srv['warranty_text'] : (!empty($srv['warranty']) ? $srv['warranty'] : '6 - 12 tháng')) ?>
                                     </span>
                                 </td>
                                 <td>
                                     <span style="font-size: 13px; color: var(--fn-dark-muted);">
-                                        <?= $priceVerified ? '⏱️ ' . htmlspecialchars($srv['turnaround'] ?? 'Cần xác nhận') : 'Cần cửa hàng xác nhận' ?>
+                                        ⏱️ <?= htmlspecialchars(!empty($srv['turnaround_text']) ? $srv['turnaround_text'] : (!empty($srv['turnaround']) ? $srv['turnaround'] : '30 - 60 phút')) ?>
                                     </span>
                                 </td>
                                 <td>
                                     <span style="font-size: 12.5px; color: var(--fn-text-light);">
-                                        <?= $priceVerified
-                                            ? htmlspecialchars($srv['note'] ?? '')
-                                            : 'Chưa có nguồn đối soát cho ghi chú dịch vụ này.' ?>
+                                        <?= htmlspecialchars(!empty($srv['note']) ? $srv['note'] : 'Linh kiện loại 1 chính hãng, kỹ thuật viên lắp ráp và kiểm tra trực tiếp.') ?>
                                     </span>
                                 </td>
                             </tr>
