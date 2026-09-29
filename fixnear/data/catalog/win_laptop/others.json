@@ -1,0 +1,279 @@
+[
+  {
+    "id": "lg-gram-16-2023",
+    "name": "LG Gram 16 (2023/2024)",
+    "brand": "others",
+    "deviceType": "win_laptop",
+    "tier": "L3",
+    "releaseYear": 2023,
+    "specs": {
+      "cpu": "Intel Core i7-1360P / Core Ultra 7 155H",
+      "screen": "16.0 inch 2.5K WQXGA 16:10 chống chói",
+      "ram": "16GB/32GB LPDDR5 Soldered (Hàn bo mạch)",
+      "storage": "512GB/1TB NVMe SSD",
+      "weight": "1.19 kg",
+      "chassis": "Hợp kim Magie Nano siêu nhẹ đạt chuẩn độ bền quân đội"
+    },
+    "supportedFaults": [
+      "screen",
+      "battery",
+      "keyboard",
+      "trackpad",
+      "charging-port",
+      "hinge-body",
+      "mainboard",
+      "speaker",
+      "mic",
+      "camera",
+      "thermal",
+      "ssd-upgrade",
+      "software",
+      "water-damage",
+      "data-recovery",
+      "diagnostic"
+    ],
+    "knownIssues": [
+      {
+        "id": "keyboard-flex-deep",
+        "title": "Bàn phím hơi lún nhẹ khi gõ mạnh do vỏ hợp kim Magie mỏng",
+        "severity": "low",
+        "confidence": "high",
+        "symptoms": "Chiếu nghỉ và khung phím hơi đàn hồi nhẹ khi ấn mạnh tay.",
+        "solution": "Đệm thêm lớp foam chịu lực bên trong khung bo mạch."
+      },
+      {
+        "id": "battery-swelling-gram",
+        "title": "Pin dung lượng lớn 80Wh chai phồng sau 2 năm cắm sạc liên tục",
+        "severity": "high",
+        "confidence": "high",
+        "symptoms": "Bàn rê chuột bị đội kênh nhẹ lên.",
+        "solution": "Thay pin LG Gram chính hãng bảo hành 12 tháng."
+      }
+    ]
+  },
+  {
+    "id": "lg-gram-14-2023",
+    "name": "LG Gram 14 (2023/2024)",
+    "brand": "others",
+    "deviceType": "win_laptop",
+    "tier": "L3",
+    "releaseYear": 2023,
+    "specs": {
+      "cpu": "Core i5-1340P",
+      "screen": "14.0 inch WUXGA 16:10",
+      "ram": "16GB LPDDR5 Soldered",
+      "weight": "0.999 kg",
+      "chassis": "Hợp kim Magie trắng"
+    },
+    "supportedFaults": [
+      "screen",
+      "battery",
+      "keyboard",
+      "trackpad",
+      "charging-port",
+      "hinge-body",
+      "mainboard",
+      "speaker",
+      "mic",
+      "camera",
+      "thermal",
+      "ssd-upgrade",
+      "software",
+      "water-damage",
+      "data-recovery",
+      "diagnostic"
+    ],
+    "knownIssues": [
+      {
+        "id": "fan-whine-gram14",
+        "title": "Quạt tản nhiệt kêu the thé khi quay nhanh",
+        "severity": "low",
+        "confidence": "high",
+        "symptoms": "Tiếng rít nhẹ trong phòng yên tĩnh.",
+        "solution": "Vệ sinh bôi trơn trục quạt LG Gram."
+      }
+    ]
+  },
+  {
+    "id": "microsoft-surface-laptop-5",
+    "name": "Microsoft Surface Laptop 5",
+    "brand": "others",
+    "deviceType": "win_laptop",
+    "tier": "L4",
+    "releaseYear": 2022,
+    "specs": {
+      "cpu": "Core i5-1235U / i7-1255U",
+      "screen": "13.5 inch / 15.0 inch PixelSense Cảm ứng 3:2",
+      "ram": "8GB/16GB LPDDR5x Soldered (Hàn bo mạch)",
+      "storage": "256GB/512GB SSD rời",
+      "chassis": "Vỏ nhôm nguyên khối bo viền hoặc vải Alcantara"
+    },
+    "supportedFaults": [
+      "screen",
+      "battery",
+      "keyboard",
+      "trackpad",
+      "charging-port",
+      "hinge-body",
+      "mainboard",
+      "speaker",
+      "mic",
+      "camera",
+      "thermal",
+      "ssd-upgrade",
+      "software",
+      "water-damage",
+      "data-recovery",
+      "diagnostic"
+    ],
+    "knownIssues": [
+      {
+        "id": "surface-connect-chập",
+        "title": "Cổng sạc nam châm Surface Connect chập chờn lỏng chân hít",
+        "severity": "high",
+        "confidence": "high",
+        "symptoms": "Cắm củ sạc nam châm đèn led đầu sạc không sáng hoặc chớp tắt.",
+        "solution": "Vệ sinh chân tiếp xúc vàng hoặc thay cổng sạc Surface Connect."
+      },
+      {
+        "id": "alcantara-dirty-oil",
+        "title": "Vải Alcantara chiếu nghỉ tay bị ố vàng bám mồ hôi dầu",
+        "severity": "low",
+        "confidence": "high",
+        "symptoms": "Bề mặt vải bị thâm màu không lau sạch được.",
+        "solution": "Vệ sinh phục hồi chuyên sâu hoặc dán skin che khuyết điểm."
+      }
+    ]
+  },
+  {
+    "id": "microsoft-surface-pro-9",
+    "name": "Microsoft Surface Pro 9",
+    "brand": "others",
+    "deviceType": "win_laptop",
+    "tier": "L4",
+    "releaseYear": 2022,
+    "specs": {
+      "cpu": "Intel Core i5-1235U / i7-1255U / Microsoft SQ3",
+      "screen": "13.0 inch PixelSense Flow 120Hz Cảm ứng",
+      "ram": "8GB/16GB/32GB LPDDR5 Soldered",
+      "storage": "SSD M.2 2230 tháo rời nhanh",
+      "chassis": "Máy tính bảng kiêm laptop chân chống Kickstand"
+    },
+    "supportedFaults": [
+      "screen",
+      "battery",
+      "keyboard",
+      "trackpad",
+      "charging-port",
+      "hinge-body",
+      "mainboard",
+      "speaker",
+      "mic",
+      "camera",
+      "thermal",
+      "ssd-upgrade",
+      "software",
+      "water-damage",
+      "data-recovery",
+      "diagnostic"
+    ],
+    "knownIssues": [
+      {
+        "id": "surface-battery-screen-push",
+        "title": "Pin phồng đội bung keo nứt màn hình cảm ứng PixelSense",
+        "severity": "critical",
+        "confidence": "high",
+        "symptoms": "Màn hình cảm ứng bị hở viền vàng ố mép do thỏi pin bên trong phồng to.",
+        "solution": "Tách màn hình bằng bàn nhiệt chuyên dụng, thay pin Surface chính hãng và dán lại ron màn hình."
+      }
+    ]
+  },
+  {
+    "id": "gigabyte-g5-kf",
+    "name": "Gigabyte G5 KF",
+    "brand": "others",
+    "deviceType": "win_laptop",
+    "tier": "L2",
+    "releaseYear": 2023,
+    "specs": {
+      "cpu": "Core i5-12500H",
+      "gpu": "RTX 4060 75W",
+      "screen": "15.6 inch FHD 144Hz",
+      "ram": "16GB DDR4 rời",
+      "chassis": "Vỏ nhựa Clevo"
+    },
+    "supportedFaults": [
+      "screen",
+      "battery",
+      "keyboard",
+      "trackpad",
+      "charging-port",
+      "hinge-body",
+      "mainboard",
+      "speaker",
+      "mic",
+      "camera",
+      "thermal",
+      "ssd-upgrade",
+      "ram-upgrade",
+      "software",
+      "water-damage",
+      "data-recovery",
+      "diagnostic",
+      "vga-gpu"
+    ],
+    "knownIssues": [
+      {
+        "id": "gigabyte-g5-loud-fan",
+        "title": "Quạt tản nhiệt hú rất to và nhiệt độ GPU nóng trên 85°C",
+        "severity": "high",
+        "confidence": "high",
+        "symptoms": "Quạt tản nhiệt thổi ồn ào ngay khi mở game.",
+        "solution": "Vệ sinh thay keo tản nhiệt gốm và kê cao đáy máy tạo đối lưu gió."
+      }
+    ]
+  },
+  {
+    "id": "vaio-sx14",
+    "name": "VAIO SX14 (2023)",
+    "brand": "others",
+    "deviceType": "win_laptop",
+    "tier": "L4",
+    "releaseYear": 2023,
+    "specs": {
+      "cpu": "Core i7-1360P",
+      "screen": "14.0 inch 4K / FHD chống lóa, bản lề nâng công thái học",
+      "ram": "16GB/32GB LPDDR5 Soldered",
+      "weight": "1.08 kg",
+      "chassis": "Vỏ sợi Carbon đa hướng sản xuất tại Nhật Bản"
+    },
+    "supportedFaults": [
+      "screen",
+      "battery",
+      "keyboard",
+      "trackpad",
+      "charging-port",
+      "hinge-body",
+      "mainboard",
+      "speaker",
+      "mic",
+      "camera",
+      "thermal",
+      "ssd-upgrade",
+      "software",
+      "water-damage",
+      "data-recovery",
+      "diagnostic"
+    ],
+    "knownIssues": [
+      {
+        "id": "lift-hinge-wear-vaio",
+        "title": "Chân cao su bản lề nâng công thái học bị mòn trượt trên bàn",
+        "severity": "low",
+        "confidence": "high",
+        "symptoms": "Mở máy gờ tì bản lề trơn trượt trên mặt bàn kính.",
+        "solution": "Thay thế đệm cao su chân đế bản lề VAIO."
+      }
+    ]
+  }
+]

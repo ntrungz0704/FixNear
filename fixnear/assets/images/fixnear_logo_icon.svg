@@ -1,0 +1,30 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 100 100" width="36" height="36" style="flex-shrink:0;">
+  <defs>
+    <linearGradient id="gearGrad" x1="0%" y1="0%" x2="100%" y2="100%">
+      <stop offset="0%" stop-color="#fb923c" />
+      <stop offset="100%" stop-color="#ea580c" />
+    </linearGradient>
+    <filter id="gearShadow" x="-10%" y="-10%" width="130%" height="130%">
+      <feDropShadow dx="0" dy="2" stdDeviation="3" flood-color="#ea580c" flood-opacity="0.35"/>
+    </filter>
+  </defs>
+  
+  <!-- Bánh răng cơ khí sắc nét 8 răng -->
+  <path d="M 44,6 L 56,6 L 57.5,16.5 C 60.5,17.5 63.3,19 65.8,20.8 L 75.5,15.5 L 83.5,23.5 L 78.2,33.2 C 80,35.7 81.5,38.5 82.5,41.5 L 93,43 L 93,55 L 82.5,56.5 C 81.5,59.5 80,62.3 78.2,64.8 L 83.5,74.5 L 75.5,82.5 L 65.8,77.2 C 63.3,79 60.5,80.5 57.5,81.5 L 56,92 L 44,92 L 42.5,81.5 C 39.5,80.5 36.7,79 34.2,77.2 L 24.5,82.5 L 16.5,74.5 L 21.8,64.8 C 20,62.3 18.5,59.5 17.5,56.5 L 7,55 L 7,43 L 17.5,41.5 C 18.5,38.5 20,35.7 21.8,33.2 L 16.5,23.5 L 24.5,15.5 L 34.2,20.8 C 36.7,19 39.5,17.5 42.5,16.5 Z" 
+        fill="url(#gearGrad)" filter="url(#gearShadow)" stroke="#c2410c" stroke-width="1.5" stroke-linejoin="round" />
+  
+  <!-- Lỗ trục trung tâm bánh răng màu tối -->
+  <circle cx="50" cy="50" r="23" fill="#0f172a" />
+  
+  <!-- Chiếc cờ lê cơ khí chuẩn xác nghiêng 45 độ màu trắng tinh khôi nổi bật -->
+  <g transform="rotate(-45 50 50)">
+    <!-- Thân cờ lê -->
+    <path d="M 46,28 L 54,28 L 54,68 L 46,68 Z" fill="#ffffff" />
+    <!-- Đầu cờ lê trên (ngàm vặn ốc lục giác) -->
+    <path d="M 38,20 C 38,13.4 43.4,8 50,8 C 56.6,8 62,13.4 62,20 C 62,24.5 59.5,28.4 55.8,30.4 L 54,28 L 54,23 L 50,19 L 46,23 L 46,28 L 44.2,30.4 C 40.5,28.4 38,24.5 38,20 Z" fill="#ffffff" />
+    <polygon points="50,12 56,17 56,22 44,22 44,17" fill="#0f172a" />
+    <!-- Đuôi cờ lê dưới (vòng tròn hở hoặc đầu tròn) -->
+    <circle cx="50" cy="73" r="8" fill="#ffffff" />
+    <circle cx="50" cy="73" r="4.5" fill="#0f172a" />
+  </g>
+</svg>

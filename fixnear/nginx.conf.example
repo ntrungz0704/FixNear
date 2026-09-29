@@ -1,0 +1,66 @@
+# FixNear — Nginx Configuration Example
+# Sử dụng cấu hình này thay vì .htaccess khi triển khai trên Nginx.
+# Đặt trong khối server {} của virtual host.
+
+server {
+    listen 80;
+    server_name fixnear.example.com;
+    root /var/www/fixnear;
+    index index.php;
+
+    # Chặn truy cập trực tiếp vào thư mục dữ liệu
+    location ~ ^/data/ {
+        deny all;
+        return 404;
+    }
+
+    # Chặn truy cập config
+    location ~ ^/config/ {
+        deny all;
+        return 404;
+    }
+
+    # Chặn truy cập scripts/tools
+    location ~ ^/(scripts|tools|audit)/ {
+        deny all;
+        return 404;
+    }
+
+    # Chặn truy cập file SQL
+    location ~* \.(sql|json\.lock)$ {
+        deny all;
+        return 404;
+    }
+
+    # Chặn truy cập file ẩn
+    location ~ /\. {
+        deny all;
+        return 404;
+    }
+
+    # PHP-FPM
+    location ~ \.php$ {
+        fastcgi_pass unix:/var/run/php/php-fpm.sock;
+        fastcgi_param SCRIPT_FILENAME $document_root$fastcgi_script_name;
+        include fastcgi_params;
+
+        # Không cho phép install.php trên production
+        # Bỏ dòng dưới nếu cần cài đặt cục bộ
+        location = /install.php {
+            deny all;
+            return 404;
+        }
+    }
+
+    # Cache tĩnh
+    location ~* \.(css|js|png|jpg|jpeg|gif|svg|ico|woff2?)$ {
+        expires 30d;
+        add_header Cache-Control "public, immutable";
+    }
+
+    # Security headers
+    add_header X-Content-Type-Options nosniff always;
+    add_header X-Frame-Options SAMEORIGIN always;
+    add_header X-XSS-Protection "1; mode=block" always;
+    add_header Referrer-Policy strict-origin-when-cross-origin always;
+}

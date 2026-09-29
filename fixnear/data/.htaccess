@@ -1,0 +1,8 @@
+# Mutable JSON contains accounts, requests and contact details.
+# Apache 2.4+
+Require all denied
+
+# Apache 2.2 compatibility
+<IfModule !mod_authz_core.c>
+    Deny from all
+</IfModule>

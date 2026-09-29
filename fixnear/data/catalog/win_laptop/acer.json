@@ -1,0 +1,418 @@
+[
+  {
+    "id": "acer-predator-helios-16",
+    "name": "Acer Predator Helios 16",
+    "brand": "acer",
+    "deviceType": "win_laptop",
+    "tier": "L4",
+    "releaseYear": 2023,
+    "specs": {
+      "cpu": "Core i7-13700HX / i9-13900HX",
+      "gpu": "RTX 4070 / RTX 4080 175W",
+      "screen": "16.0 inch WQXGA 240Hz 500 nits, dải đèn LED RGB nắp lưng",
+      "ram": "16GB/32GB DDR5 rời",
+      "chassis": "Vỏ kim loại đen hầm hố"
+    },
+    "supportedFaults": [
+      "screen",
+      "battery",
+      "keyboard",
+      "trackpad",
+      "charging-port",
+      "hinge-body",
+      "mainboard",
+      "speaker",
+      "mic",
+      "camera",
+      "thermal",
+      "ssd-upgrade",
+      "ram-upgrade",
+      "software",
+      "water-damage",
+      "data-recovery",
+      "diagnostic",
+      "vga-gpu"
+    ],
+    "knownIssues": [
+      {
+        "id": "aeroblade-fan-high-pitch",
+        "title": "Quạt kim loại AeroBlade 3D thế hệ 5 phát tiếng rít the thé",
+        "severity": "medium",
+        "confidence": "high",
+        "symptoms": "Cánh quạt kim loại siêu mỏng tạo tiếng rít tần số cao khi quay 5000 vòng/phút.",
+        "solution": "Cân chỉnh động lực học quạt và làm sạch bụi bám khe tản."
+      },
+      {
+        "id": "liquid-metal-offset",
+        "title": "Nhiệt độ CPU chạm ngưỡng 100°C do kim loại lỏng bị dồn lệch",
+        "severity": "high",
+        "confidence": "high",
+        "symptoms": "Nhiệt độ nhân CPU không đều, máy tự động sụt xung nhịp.",
+        "solution": "Dàn phẳng lại lớp keo kim loại lỏng hoặc thay bằng pad Honeywell PTM7950."
+      }
+    ]
+  },
+  {
+    "id": "acer-predator-helios-neo-16",
+    "name": "Acer Predator Helios Neo 16",
+    "brand": "acer",
+    "deviceType": "win_laptop",
+    "tier": "L3",
+    "releaseYear": 2023,
+    "specs": {
+      "cpu": "Core i5-13500HX / i7-13700HX",
+      "gpu": "RTX 4050 / RTX 4060",
+      "screen": "16.0 inch WQXGA 165Hz 100% sRGB",
+      "ram": "16GB DDR5 rời",
+      "chassis": "Nắp nhôm khắc mật mã Morse"
+    },
+    "supportedFaults": [
+      "screen",
+      "battery",
+      "keyboard",
+      "trackpad",
+      "charging-port",
+      "hinge-body",
+      "mainboard",
+      "speaker",
+      "mic",
+      "camera",
+      "thermal",
+      "ssd-upgrade",
+      "ram-upgrade",
+      "software",
+      "water-damage",
+      "data-recovery",
+      "diagnostic",
+      "vga-gpu"
+    ],
+    "knownIssues": [
+      {
+        "id": "charging-dc-hot-neo16",
+        "title": "Đầu sạc DC kim tròn 330W nóng ran chân cắm",
+        "severity": "high",
+        "confidence": "high",
+        "symptoms": "Chân cắm sạc lỏng lẻo sau thời gian cắm rút.",
+        "solution": "Thay dây cắm Jack nguồn DC-in chịu tải cao."
+      }
+    ]
+  },
+  {
+    "id": "acer-nitro-5-tiger",
+    "name": "Acer Nitro 5 Tiger",
+    "brand": "acer",
+    "deviceType": "win_laptop",
+    "tier": "L3",
+    "releaseYear": 2022,
+    "specs": {
+      "cpu": "Core i5-12500H / i7-12700H",
+      "gpu": "RTX 3050 / RTX 3050 Ti / RTX 3060",
+      "screen": "15.6 inch FHD 144Hz",
+      "ram": "8GB/16GB DDR4 rời",
+      "chassis": "Vỏ nhựa đường chỉ đỏ xanh"
+    },
+    "supportedFaults": [
+      "screen",
+      "battery",
+      "keyboard",
+      "trackpad",
+      "charging-port",
+      "hinge-body",
+      "mainboard",
+      "speaker",
+      "mic",
+      "camera",
+      "thermal",
+      "ssd-upgrade",
+      "ram-upgrade",
+      "software",
+      "water-damage",
+      "data-recovery",
+      "diagnostic",
+      "vga-gpu"
+    ],
+    "knownIssues": [
+      {
+        "id": "nitro5-thermal-throttling",
+        "title": "Quá nhiệt CPU >95°C nghẹt bụi tản nhiệt sau 1 năm sử dụng",
+        "severity": "high",
+        "confidence": "high",
+        "symptoms": "Nhiệt độ nóng rát vùng phím số, chơi game tụt fps giật cục (drop fps).",
+        "solution": "Vệ sinh làm sạch bụi bẩn khe đồng tản nhiệt, bôi keo tản nhiệt gốm MX-4 / MX-6 cao cấp."
+      },
+      {
+        "id": "nitro5-power-jack-break",
+        "title": "Bung gãy chân cắm sạc nguồn phía đuôi máy",
+        "severity": "high",
+        "confidence": "high",
+        "symptoms": "Cắm củ sạc vào bị thụt sâu vào trong thân máy.",
+        "solution": "Hàn cố định chân giắc sạc nguồn hoặc thay cụm cáp sạc đuôi mới."
+      }
+    ]
+  },
+  {
+    "id": "acer-nitro-16-phoenix",
+    "name": "Acer Nitro 16 Phoenix",
+    "brand": "acer",
+    "deviceType": "win_laptop",
+    "tier": "L3",
+    "releaseYear": 2023,
+    "specs": {
+      "cpu": "Ryzen 7 7735HS / Core i5-13500H",
+      "gpu": "RTX 4050 / RTX 4060",
+      "screen": "16.0 inch WUXGA/WQXGA 165Hz 100% sRGB",
+      "ram": "16GB DDR5 rời",
+      "chassis": "Vỏ nhựa logo N cánh chim"
+    },
+    "supportedFaults": [
+      "screen",
+      "battery",
+      "keyboard",
+      "trackpad",
+      "charging-port",
+      "hinge-body",
+      "mainboard",
+      "speaker",
+      "mic",
+      "camera",
+      "thermal",
+      "ssd-upgrade",
+      "ram-upgrade",
+      "software",
+      "water-damage",
+      "data-recovery",
+      "diagnostic",
+      "vga-gpu"
+    ],
+    "knownIssues": [
+      {
+        "id": "phoenix-fan-bearing",
+        "title": "Tiếng kêu lạo xạo ở cánh quạt tản nhiệt CPU",
+        "severity": "medium",
+        "confidence": "high",
+        "symptoms": "Quạt quay có tiếng gõ cơ học nhỏ.",
+        "solution": "Tra dầu bôi trơn trục quạt hoặc thay quạt mới."
+      }
+    ]
+  },
+  {
+    "id": "acer-nitro-v-15",
+    "name": "Acer Nitro V 15",
+    "brand": "acer",
+    "deviceType": "win_laptop",
+    "tier": "L2",
+    "releaseYear": 2023,
+    "specs": {
+      "cpu": "Core i5-13420H",
+      "gpu": "RTX 2050 / RTX 4050",
+      "screen": "15.6 inch FHD 144Hz",
+      "ram": "8GB/16GB DDR5 rời",
+      "chassis": "Vỏ nhựa mỏng nhẹ"
+    },
+    "supportedFaults": [
+      "screen",
+      "battery",
+      "keyboard",
+      "trackpad",
+      "charging-port",
+      "hinge-body",
+      "mainboard",
+      "speaker",
+      "mic",
+      "camera",
+      "thermal",
+      "ssd-upgrade",
+      "ram-upgrade",
+      "software",
+      "water-damage",
+      "data-recovery",
+      "diagnostic",
+      "vga-gpu"
+    ],
+    "knownIssues": [
+      {
+        "id": "battery-aged-nitrov",
+        "title": "Pin dung lượng nhỏ 57Wh tụt nhanh khi chơi game",
+        "severity": "medium",
+        "confidence": "high",
+        "symptoms": "Pin dùng văn phòng được 3 tiếng.",
+        "solution": "Thay pin mới chất lượng cao."
+      }
+    ]
+  },
+  {
+    "id": "acer-aspire-3-a315",
+    "name": "Acer Aspire 3 A315",
+    "brand": "acer",
+    "deviceType": "win_laptop",
+    "tier": "L1",
+    "releaseYear": 2023,
+    "specs": {
+      "cpu": "Core i3-1215U / Ryzen 5 7520U",
+      "screen": "15.6 inch FHD 60Hz",
+      "ram": "8GB nâng cấp được",
+      "storage": "256GB/512GB SSD",
+      "chassis": "Vỏ nhựa bạc"
+    },
+    "supportedFaults": [
+      "screen",
+      "battery",
+      "keyboard",
+      "trackpad",
+      "charging-port",
+      "hinge-body",
+      "mainboard",
+      "speaker",
+      "mic",
+      "camera",
+      "thermal",
+      "ssd-upgrade",
+      "ram-upgrade",
+      "software",
+      "water-damage",
+      "data-recovery",
+      "diagnostic"
+    ],
+    "knownIssues": [
+      {
+        "id": "aspire3-hinge-break",
+        "title": "Gãy chân ốc bản lề vỏ nhựa bên trái (Lỗi kinh điển trên Aspire)",
+        "severity": "critical",
+        "confidence": "high",
+        "symptoms": "Mở nắp máy góc trái bung toác, rách vỏ mép viền.",
+        "solution": "Hàn cấy lại chân ốc đồng gia cố keo AB chịu lực chuyên dụng."
+      }
+    ]
+  },
+  {
+    "id": "acer-aspire-5-a515",
+    "name": "Acer Aspire 5 A515",
+    "brand": "acer",
+    "deviceType": "win_laptop",
+    "tier": "L2",
+    "releaseYear": 2023,
+    "specs": {
+      "cpu": "Core i5-1335U / i5-13420H",
+      "screen": "15.6 inch FHD IPS",
+      "ram": "DDR4 nâng cấp được",
+      "storage": "512GB SSD",
+      "chassis": "Nắp nhôm thân nhựa"
+    },
+    "supportedFaults": [
+      "screen",
+      "battery",
+      "keyboard",
+      "trackpad",
+      "charging-port",
+      "hinge-body",
+      "mainboard",
+      "speaker",
+      "mic",
+      "camera",
+      "thermal",
+      "ssd-upgrade",
+      "ram-upgrade",
+      "software",
+      "water-damage",
+      "data-recovery",
+      "diagnostic"
+    ],
+    "knownIssues": [
+      {
+        "id": "keyboard-chattering-aspire5",
+        "title": "Bàn phím nhảy chữ hoặc liệt phím số",
+        "severity": "medium",
+        "confidence": "high",
+        "symptoms": "Gõ văn bản không ăn phím.",
+        "solution": "Thay bàn phím laptop Acer mới."
+      }
+    ]
+  },
+  {
+    "id": "acer-aspire-7-gaming",
+    "name": "Acer Aspire 7 Gaming",
+    "brand": "acer",
+    "deviceType": "win_laptop",
+    "tier": "L2",
+    "releaseYear": 2023,
+    "specs": {
+      "cpu": "Core i5-12450H",
+      "gpu": "GTX 1650 / RTX 2050 / RTX 3050",
+      "screen": "15.6 inch FHD 144Hz",
+      "ram": "8GB/16GB DDR4 rời",
+      "chassis": "Nắp nhôm thân nhựa đen"
+    },
+    "supportedFaults": [
+      "screen",
+      "battery",
+      "keyboard",
+      "trackpad",
+      "charging-port",
+      "hinge-body",
+      "mainboard",
+      "speaker",
+      "mic",
+      "camera",
+      "thermal",
+      "ssd-upgrade",
+      "ram-upgrade",
+      "software",
+      "water-damage",
+      "data-recovery",
+      "diagnostic",
+      "vga-gpu"
+    ],
+    "knownIssues": [
+      {
+        "id": "hinge-plastic-aspire7",
+        "title": "Chân ốc bản lề lỏng lẻo sau thời gian dài gập mở",
+        "severity": "medium",
+        "confidence": "high",
+        "symptoms": "Mở nắp máy cập kênh.",
+        "solution": "Hàn cấy chân ốc và siết lại bản lề."
+      }
+    ]
+  },
+  {
+    "id": "acer-swift-go-14-oled",
+    "name": "Acer Swift Go 14 OLED",
+    "brand": "acer",
+    "deviceType": "win_laptop",
+    "tier": "L3",
+    "releaseYear": 2023,
+    "specs": {
+      "cpu": "Core i5-13500H / Core Ultra 5 125H",
+      "screen": "14.0 inch 2.8K OLED 90Hz",
+      "ram": "16GB LPDDR5 Soldered",
+      "chassis": "Nhôm nguyên khối mỏng 1.25kg"
+    },
+    "supportedFaults": [
+      "screen",
+      "battery",
+      "keyboard",
+      "trackpad",
+      "charging-port",
+      "hinge-body",
+      "mainboard",
+      "speaker",
+      "mic",
+      "camera",
+      "thermal",
+      "ssd-upgrade",
+      "software",
+      "water-damage",
+      "data-recovery",
+      "diagnostic"
+    ],
+    "knownIssues": [
+      {
+        "id": "oled-battery-swift",
+        "title": "Pin sụt nhanh do màn hình OLED 2.8K",
+        "severity": "medium",
+        "confidence": "high",
+        "symptoms": "Onscreen được hơn 3 tiếng.",
+        "solution": "Thay pin dung lượng cao và giảm tần số quét."
+      }
+    ]
+  }
+]

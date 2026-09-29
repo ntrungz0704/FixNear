@@ -1,0 +1,473 @@
+{
+  "phone": {
+    "P1": {
+      "name": "Điện thoại Phổ thông / Màn LCD / Đời cũ",
+      "description": "Dòng máy phổ thông, chip tầm thấp, màn hình IPS LCD hoặc máy thế hệ cũ (iPhone 7/8, Galaxy A0x, Redmi A series, Realme C series).",
+      "faults": {
+        "screen": { "min": 350000, "max": 700000, "turnaround": "30 - 60 phút", "warrantyMonths": 6 },
+        "glass-press": { "min": 200000, "max": 350000, "turnaround": "60 - 90 phút", "warrantyMonths": 6 },
+        "battery": { "min": 200000, "max": 350000, "turnaround": "20 - 40 phút", "warrantyMonths": 6 },
+        "charging-port": { "min": 150000, "max": 280000, "turnaround": "30 - 45 phút", "warrantyMonths": 3 },
+        "water-damage": { "min": 200000, "max": 400000, "turnaround": "2 - 4 giờ", "warrantyMonths": 1 },
+        "mainboard": { "min": 350000, "max": 750000, "turnaround": "1 - 2 ngày", "warrantyMonths": 3 },
+        "camera": { "min": 200000, "max": 450000, "turnaround": "30 - 60 phút", "warrantyMonths": 3 },
+        "speaker": { "min": 150000, "max": 300000, "turnaround": "30 - 45 phút", "warrantyMonths": 3 },
+        "mic": { "min": 150000, "max": 280000, "turnaround": "30 - 45 phút", "warrantyMonths": 3 },
+        "hinge-body": { "min": 200000, "max": 400000, "turnaround": "60 - 90 phút", "warrantyMonths": 3 },
+        "back-glass": { "min": 180000, "max": 320000, "turnaround": "45 - 60 phút", "warrantyMonths": 3 },
+        "thermal": { "min": 100000, "max": 150000, "turnaround": "20 - 30 phút", "warrantyMonths": 1 },
+        "software": { "min": 80000, "max": 150000, "turnaround": "20 - 40 phút", "warrantyMonths": 1 },
+        "data-recovery": { "min": 300000, "max": 800000, "turnaround": "1 - 3 ngày", "warrantyMonths": 0 },
+        "diagnostic": { "min": 0, "max": 0, "turnaround": "15 - 30 phút", "warrantyMonths": 0 }
+      }
+    },
+    "P2": {
+      "name": "Điện thoại Tầm trung / Màn AMOLED 60Hz",
+      "description": "Dòng máy tầm trung, màn hình AMOLED tiêu chuẩn hoặc flagship đời trước (iPhone X/11, Galaxy A3x/A5x, Redmi Note, Oppo Reno).",
+      "faults": {
+        "screen": { "min": 700000, "max": 1600000, "turnaround": "45 - 60 phút", "warrantyMonths": 6 },
+        "glass-press": { "min": 300000, "max": 600000, "turnaround": "60 - 90 phút", "warrantyMonths": 6 },
+        "battery": { "min": 300000, "max": 550000, "turnaround": "30 - 45 phút", "warrantyMonths": 6 },
+        "charging-port": { "min": 250000, "max": 450000, "turnaround": "30 - 60 phút", "warrantyMonths": 3 },
+        "water-damage": { "min": 300000, "max": 600000, "turnaround": "2 - 4 giờ", "warrantyMonths": 1 },
+        "mainboard": { "min": 500000, "max": 1200000, "turnaround": "1 - 2 ngày", "warrantyMonths": 3 },
+        "camera": { "min": 350000, "max": 800000, "turnaround": "45 - 60 phút", "warrantyMonths": 3 },
+        "speaker": { "min": 200000, "max": 400000, "turnaround": "30 - 45 phút", "warrantyMonths": 3 },
+        "mic": { "min": 200000, "max": 380000, "turnaround": "30 - 45 phút", "warrantyMonths": 3 },
+        "hinge-body": { "min": 300000, "max": 600000, "turnaround": "60 - 90 phút", "warrantyMonths": 3 },
+        "back-glass": { "min": 250000, "max": 500000, "turnaround": "45 - 90 phút", "warrantyMonths": 3 },
+        "face-id": { "min": 450000, "max": 850000, "turnaround": "2 - 4 giờ", "warrantyMonths": 6 },
+        "thermal": { "min": 120000, "max": 200000, "turnaround": "20 - 30 phút", "warrantyMonths": 1 },
+        "software": { "min": 100000, "max": 200000, "turnaround": "20 - 45 phút", "warrantyMonths": 1 },
+        "data-recovery": { "min": 400000, "max": 1200000, "turnaround": "1 - 3 ngày", "warrantyMonths": 0 },
+        "diagnostic": { "min": 0, "max": 0, "turnaround": "15 - 30 phút", "warrantyMonths": 0 }
+      }
+    },
+    "P3": {
+      "name": "Điện thoại Cận cao cấp / Flagship Tiêu chuẩn",
+      "description": "Dòng máy cận cao cấp, flagship tiêu chuẩn màn hình 120Hz (iPhone 12/13/14 thường, Galaxy S21/S22, Xiaomi 12/13).",
+      "faults": {
+        "screen": { "min": 1400000, "max": 2800000, "turnaround": "45 - 90 phút", "warrantyMonths": 6 },
+        "glass-press": { "min": 500000, "max": 1000000, "turnaround": "60 - 120 phút", "warrantyMonths": 6 },
+        "battery": { "min": 450000, "max": 850000, "turnaround": "30 - 60 phút", "warrantyMonths": 6 },
+        "charging-port": { "min": 350000, "max": 650000, "turnaround": "45 - 60 phút", "warrantyMonths": 3 },
+        "water-damage": { "min": 450000, "max": 950000, "turnaround": "3 - 6 giờ", "warrantyMonths": 1 },
+        "mainboard": { "min": 800000, "max": 2200000, "turnaround": "1 - 3 ngày", "warrantyMonths": 3 },
+        "camera": { "min": 600000, "max": 1500000, "turnaround": "45 - 90 phút", "warrantyMonths": 3 },
+        "speaker": { "min": 300000, "max": 600000, "turnaround": "30 - 60 phút", "warrantyMonths": 3 },
+        "mic": { "min": 300000, "max": 550000, "turnaround": "30 - 60 phút", "warrantyMonths": 3 },
+        "hinge-body": { "min": 450000, "max": 950000, "turnaround": "1 - 2 giờ", "warrantyMonths": 3 },
+        "back-glass": { "min": 400000, "max": 800000, "turnaround": "60 - 90 phút", "warrantyMonths": 3 },
+        "face-id": { "min": 650000, "max": 1200000, "turnaround": "2 - 4 giờ", "warrantyMonths": 6 },
+        "thermal": { "min": 150000, "max": 250000, "turnaround": "20 - 30 phút", "warrantyMonths": 1 },
+        "software": { "min": 120000, "max": 250000, "turnaround": "30 - 45 phút", "warrantyMonths": 1 },
+        "data-recovery": { "min": 600000, "max": 1800000, "turnaround": "1 - 3 ngày", "warrantyMonths": 0 },
+        "diagnostic": { "min": 0, "max": 0, "turnaround": "15 - 30 phút", "warrantyMonths": 0 }
+      }
+    },
+    "P4": {
+      "name": "Điện thoại Flagship Cao cấp / Pro Max / Ultra",
+      "description": "Dòng máy đầu bảng cao cấp nhất, màn LTPO 120Hz, vỏ titan/thép (iPhone 14/15/16 Pro & Pro Max, Galaxy S23/S24 Ultra, Xiaomi 14 Ultra).",
+      "faults": {
+        "screen": { "min": 2400000, "max": 4800000, "turnaround": "60 - 90 phút", "warrantyMonths": 6 },
+        "glass-press": { "min": 800000, "max": 1600000, "turnaround": "90 - 150 phút", "warrantyMonths": 6 },
+        "battery": { "min": 650000, "max": 1250000, "turnaround": "40 - 60 phút", "warrantyMonths": 6 },
+        "charging-port": { "min": 500000, "max": 950000, "turnaround": "45 - 90 phút", "warrantyMonths": 3 },
+        "water-damage": { "min": 600000, "max": 1400000, "turnaround": "3 - 6 giờ", "warrantyMonths": 1 },
+        "mainboard": { "min": 1200000, "max": 3200000, "turnaround": "1 - 3 ngày", "warrantyMonths": 3 },
+        "camera": { "min": 950000, "max": 2400000, "turnaround": "45 - 90 phút", "warrantyMonths": 3 },
+        "speaker": { "min": 400000, "max": 850000, "turnaround": "40 - 60 phút", "warrantyMonths": 3 },
+        "mic": { "min": 400000, "max": 800000, "turnaround": "40 - 60 phút", "warrantyMonths": 3 },
+        "hinge-body": { "min": 700000, "max": 1500000, "turnaround": "1 - 2 giờ", "warrantyMonths": 3 },
+        "back-glass": { "min": 650000, "max": 1300000, "turnaround": "60 - 120 phút", "warrantyMonths": 3 },
+        "face-id": { "min": 850000, "max": 1600000, "turnaround": "2 - 4 giờ", "warrantyMonths": 6 },
+        "thermal": { "min": 180000, "max": 300000, "turnaround": "20 - 30 phút", "warrantyMonths": 1 },
+        "software": { "min": 150000, "max": 300000, "turnaround": "30 - 45 phút", "warrantyMonths": 1 },
+        "data-recovery": { "min": 800000, "max": 2500000, "turnaround": "1 - 4 ngày", "warrantyMonths": 0 },
+        "diagnostic": { "min": 0, "max": 0, "turnaround": "15 - 30 phút", "warrantyMonths": 0 }
+      }
+    },
+    "P5": {
+      "name": "Điện thoại Màn hình gập (Foldable / Flip)",
+      "description": "Dòng máy màn hình dẻo gập công nghệ cao, bản lề bánh răng đa trục (Galaxy Z Fold, Z Flip, Pixel Fold, Find N).",
+      "faults": {
+        "screen": { "min": 3800000, "max": 7500000, "turnaround": "1 - 2 ngày", "warrantyMonths": 6 },
+        "glass-press": { "min": 1200000, "max": 2200000, "turnaround": "2 - 4 giờ", "warrantyMonths": 6 },
+        "battery": { "min": 700000, "max": 1350000, "turnaround": "60 - 90 phút", "warrantyMonths": 6 },
+        "charging-port": { "min": 550000, "max": 1000000, "turnaround": "60 - 90 phút", "warrantyMonths": 3 },
+        "water-damage": { "min": 800000, "max": 1800000, "turnaround": "4 - 8 giờ", "warrantyMonths": 1 },
+        "mainboard": { "min": 1500000, "max": 3800000, "turnaround": "2 - 4 ngày", "warrantyMonths": 3 },
+        "camera": { "min": 950000, "max": 2200000, "turnaround": "60 - 90 phút", "warrantyMonths": 3 },
+        "speaker": { "min": 450000, "max": 900000, "turnaround": "45 - 60 phút", "warrantyMonths": 3 },
+        "mic": { "min": 450000, "max": 850000, "turnaround": "45 - 60 phút", "warrantyMonths": 3 },
+        "hinge-body": { "min": 1200000, "max": 2800000, "turnaround": "1 - 2 ngày", "warrantyMonths": 6 },
+        "foldable-cable": { "min": 1500000, "max": 2600000, "turnaround": "3 - 5 giờ", "warrantyMonths": 6 },
+        "back-glass": { "min": 700000, "max": 1400000, "turnaround": "60 - 120 phút", "warrantyMonths": 3 },
+        "thermal": { "min": 200000, "max": 350000, "turnaround": "30 - 45 phút", "warrantyMonths": 1 },
+        "software": { "min": 150000, "max": 300000, "turnaround": "30 - 45 phút", "warrantyMonths": 1 },
+        "data-recovery": { "min": 900000, "max": 2800000, "turnaround": "2 - 4 ngày", "warrantyMonths": 0 },
+        "diagnostic": { "min": 0, "max": 0, "turnaround": "20 - 40 phút", "warrantyMonths": 0 }
+      }
+    }
+  },
+  "win_laptop": {
+    "L1": {
+      "name": "Laptop Văn phòng Phổ thông / Vỏ nhựa",
+      "description": "Laptop phân khúc học sinh, sinh viên, nhân viên văn phòng cơ bản, vỏ nhựa, màn hình HD/FHD 60Hz (Inspiron 3000, HP 14s/15s, Acer Aspire 3).",
+      "faults": {
+        "screen": { "min": 950000, "max": 1650000, "turnaround": "45 - 60 phút", "warrantyMonths": 6 },
+        "battery": { "min": 500000, "max": 850000, "turnaround": "30 - 45 phút", "warrantyMonths": 6 },
+        "keyboard": { "min": 350000, "max": 650000, "turnaround": "45 - 90 phút", "warrantyMonths": 6 },
+        "trackpad": { "min": 300000, "max": 550000, "turnaround": "45 - 60 phút", "warrantyMonths": 3 },
+        "charging-port": { "min": 250000, "max": 450000, "turnaround": "45 - 90 phút", "warrantyMonths": 3 },
+        "hinge-body": { "min": 300000, "max": 600000, "turnaround": "2 - 4 giờ", "warrantyMonths": 6 },
+        "mainboard": { "min": 550000, "max": 1400000, "turnaround": "1 - 3 ngày", "warrantyMonths": 3 },
+        "speaker": { "min": 250000, "max": 450000, "turnaround": "30 - 60 phút", "warrantyMonths": 3 },
+        "mic": { "min": 200000, "max": 400000, "turnaround": "30 - 60 phút", "warrantyMonths": 3 },
+        "camera": { "min": 250000, "max": 500000, "turnaround": "30 - 60 phút", "warrantyMonths": 3 },
+        "thermal": { "min": 150000, "max": 250000, "turnaround": "30 - 45 phút", "warrantyMonths": 1 },
+        "ssd-upgrade": { "min": 550000, "max": 1200000, "turnaround": "30 - 60 phút", "warrantyMonths": 24 },
+        "ram-upgrade": { "min": 450000, "max": 950000, "turnaround": "20 - 40 phút", "warrantyMonths": 24 },
+        "software": { "min": 120000, "max": 200000, "turnaround": "30 - 60 phút", "warrantyMonths": 1 },
+        "water-damage": { "min": 400000, "max": 900000, "turnaround": "1 - 2 ngày", "warrantyMonths": 1 },
+        "data-recovery": { "min": 500000, "max": 1500000, "turnaround": "1 - 3 ngày", "warrantyMonths": 0 },
+        "diagnostic": { "min": 0, "max": 0, "turnaround": "20 - 40 phút", "warrantyMonths": 0 }
+      }
+    },
+    "L2": {
+      "name": "Laptop Văn phòng Trung cấp / Vỏ kim loại",
+      "description": "Laptop mỏng nhẹ thời trang, vỏ nhôm nguyên khối hoặc hợp kim, màn hình FHD IPS sắc nét (Inspiron 5000, HP Pavilion, Vivobook S, IdeaPad 5).",
+      "faults": {
+        "screen": { "min": 1350000, "max": 2300000, "turnaround": "45 - 90 phút", "warrantyMonths": 6 },
+        "battery": { "min": 650000, "max": 1150000, "turnaround": "30 - 60 phút", "warrantyMonths": 6 },
+        "keyboard": { "min": 500000, "max": 950000, "turnaround": "60 - 120 phút", "warrantyMonths": 6 },
+        "trackpad": { "min": 400000, "max": 750000, "turnaround": "45 - 60 phút", "warrantyMonths": 3 },
+        "charging-port": { "min": 350000, "max": 600000, "turnaround": "45 - 90 phút", "warrantyMonths": 3 },
+        "hinge-body": { "min": 450000, "max": 850000, "turnaround": "2 - 4 giờ", "warrantyMonths": 6 },
+        "mainboard": { "min": 800000, "max": 1900000, "turnaround": "1 - 3 ngày", "warrantyMonths": 3 },
+        "speaker": { "min": 300000, "max": 550000, "turnaround": "30 - 60 phút", "warrantyMonths": 3 },
+        "mic": { "min": 250000, "max": 450000, "turnaround": "30 - 60 phút", "warrantyMonths": 3 },
+        "camera": { "min": 350000, "max": 650000, "turnaround": "30 - 60 phút", "warrantyMonths": 3 },
+        "thermal": { "min": 180000, "max": 300000, "turnaround": "30 - 45 phút", "warrantyMonths": 1 },
+        "ssd-upgrade": { "min": 650000, "max": 1450000, "turnaround": "30 - 60 phút", "warrantyMonths": 24 },
+        "ram-upgrade": { "min": 500000, "max": 1100000, "turnaround": "20 - 40 phút", "warrantyMonths": 24 },
+        "software": { "min": 150000, "max": 250000, "turnaround": "30 - 60 phút", "warrantyMonths": 1 },
+        "water-damage": { "min": 500000, "max": 1200000, "turnaround": "1 - 2 ngày", "warrantyMonths": 1 },
+        "data-recovery": { "min": 600000, "max": 1800000, "turnaround": "1 - 3 ngày", "warrantyMonths": 0 },
+        "diagnostic": { "min": 0, "max": 0, "turnaround": "20 - 40 phút", "warrantyMonths": 0 }
+      }
+    },
+    "L3": {
+      "name": "Laptop Gaming Tầm trung / Doanh nghiệp Bền bỉ",
+      "description": "Laptop gaming quốc dân tản nhiệt kép và máy doanh nghiệp đạt chuẩn độ bền quân đội (Asus TUF, Acer Nitro 5, HP Victus, Dell Latitude, ThinkPad E/L).",
+      "faults": {
+        "screen": { "min": 1800000, "max": 3200000, "turnaround": "45 - 90 phút", "warrantyMonths": 6 },
+        "battery": { "min": 850000, "max": 1500000, "turnaround": "45 - 60 phút", "warrantyMonths": 6 },
+        "keyboard": { "min": 650000, "max": 1300000, "turnaround": "60 - 120 phút", "warrantyMonths": 6 },
+        "trackpad": { "min": 500000, "max": 900000, "turnaround": "45 - 90 phút", "warrantyMonths": 3 },
+        "charging-port": { "min": 450000, "max": 800000, "turnaround": "60 - 90 phút", "warrantyMonths": 3 },
+        "hinge-body": { "min": 600000, "max": 1100000, "turnaround": "3 - 6 giờ", "warrantyMonths": 6 },
+        "mainboard": { "min": 1200000, "max": 2800000, "turnaround": "2 - 4 ngày", "warrantyMonths": 3 },
+        "vga-gpu": { "min": 1400000, "max": 2900000, "turnaround": "2 - 4 ngày", "warrantyMonths": 3 },
+        "speaker": { "min": 400000, "max": 750000, "turnaround": "45 - 60 phút", "warrantyMonths": 3 },
+        "mic": { "min": 300000, "max": 550000, "turnaround": "45 - 60 phút", "warrantyMonths": 3 },
+        "camera": { "min": 400000, "max": 750000, "turnaround": "45 - 60 phút", "warrantyMonths": 3 },
+        "thermal": { "min": 250000, "max": 400000, "turnaround": "45 - 60 phút", "warrantyMonths": 1 },
+        "ssd-upgrade": { "min": 800000, "max": 1900000, "turnaround": "30 - 60 phút", "warrantyMonths": 24 },
+        "ram-upgrade": { "min": 650000, "max": 1450000, "turnaround": "20 - 40 phút", "warrantyMonths": 24 },
+        "software": { "min": 150000, "max": 300000, "turnaround": "40 - 60 phút", "warrantyMonths": 1 },
+        "water-damage": { "min": 700000, "max": 1600000, "turnaround": "1 - 3 ngày", "warrantyMonths": 1 },
+        "data-recovery": { "min": 750000, "max": 2200000, "turnaround": "1 - 4 ngày", "warrantyMonths": 0 },
+        "diagnostic": { "min": 0, "max": 0, "turnaround": "20 - 45 phút", "warrantyMonths": 0 }
+      }
+    },
+    "L4": {
+      "name": "Laptop Flagship Cao cấp / Gaming High-End / Workstation",
+      "description": "Dòng máy trạm di động cao cấp, gaming đỉnh cao hoặc ultrabook siêu sang (Dell XPS 13/15, Alienware, Asus ROG Strix/Zephyrus, HP Omen, ThinkPad X1 Carbon).",
+      "faults": {
+        "screen": { "min": 2800000, "max": 5500000, "turnaround": "1 - 2 ngày", "warrantyMonths": 6 },
+        "battery": { "min": 1200000, "max": 2200000, "turnaround": "45 - 90 phút", "warrantyMonths": 6 },
+        "keyboard": { "min": 950000, "max": 2100000, "turnaround": "1 - 2 ngày", "warrantyMonths": 6 },
+        "trackpad": { "min": 700000, "max": 1400000, "turnaround": "1 - 2 giờ", "warrantyMonths": 3 },
+        "charging-port": { "min": 600000, "max": 1100000, "turnaround": "1 - 2 giờ", "warrantyMonths": 3 },
+        "hinge-body": { "min": 850000, "max": 1800000, "turnaround": "1 - 2 ngày", "warrantyMonths": 6 },
+        "mainboard": { "min": 1800000, "max": 4500000, "turnaround": "2 - 5 ngày", "warrantyMonths": 3 },
+        "vga-gpu": { "min": 2200000, "max": 4800000, "turnaround": "2 - 5 ngày", "warrantyMonths": 3 },
+        "speaker": { "min": 550000, "max": 1100000, "turnaround": "45 - 90 phút", "warrantyMonths": 3 },
+        "mic": { "min": 400000, "max": 750000, "turnaround": "45 - 90 phút", "warrantyMonths": 3 },
+        "camera": { "min": 550000, "max": 1100000, "turnaround": "45 - 90 phút", "warrantyMonths": 3 },
+        "thermal": { "min": 350000, "max": 600000, "turnaround": "60 - 90 phút", "warrantyMonths": 1 },
+        "ssd-upgrade": { "min": 1100000, "max": 2800000, "turnaround": "30 - 60 phút", "warrantyMonths": 24 },
+        "ram-upgrade": { "min": 850000, "max": 2200000, "turnaround": "30 - 45 phút", "warrantyMonths": 24 },
+        "software": { "min": 200000, "max": 400000, "turnaround": "40 - 60 phút", "warrantyMonths": 1 },
+        "water-damage": { "min": 950000, "max": 2400000, "turnaround": "2 - 4 ngày", "warrantyMonths": 1 },
+        "data-recovery": { "min": 950000, "max": 3000000, "turnaround": "2 - 5 ngày", "warrantyMonths": 0 },
+        "diagnostic": { "min": 0, "max": 0, "turnaround": "30 - 60 phút", "warrantyMonths": 0 }
+      }
+    }
+  },
+  "macbook": {
+    "MAC1": {
+      "name": "MacBook Intel Cũ (2015 - 2017)",
+      "description": "MacBook Air & MacBook Pro thế hệ Intel 2015-2017, cổng sạc MagSafe 2, bàn phím cắt kéo đời cũ.",
+      "faults": {
+        "screen": { "min": 1800000, "max": 3500000, "turnaround": "1 - 2 giờ", "warrantyMonths": 6 },
+        "battery": { "min": 750000, "max": 1300000, "turnaround": "45 - 90 phút", "warrantyMonths": 6 },
+        "keyboard": { "min": 650000, "max": 1200000, "turnaround": "2 - 4 giờ", "warrantyMonths": 6 },
+        "trackpad": { "min": 500000, "max": 950000, "turnaround": "45 - 90 phút", "warrantyMonths": 3 },
+        "charging-port": { "min": 400000, "max": 750000, "turnaround": "45 - 90 phút", "warrantyMonths": 3 },
+        "hinge-body": { "min": 500000, "max": 950000, "turnaround": "2 - 4 giờ", "warrantyMonths": 6 },
+        "mainboard": { "min": 1100000, "max": 2400000, "turnaround": "1 - 3 ngày", "warrantyMonths": 3 },
+        "speaker": { "min": 400000, "max": 800000, "turnaround": "45 - 60 phút", "warrantyMonths": 3 },
+        "mic": { "min": 350000, "max": 650000, "turnaround": "45 - 60 phút", "warrantyMonths": 3 },
+        "camera": { "min": 450000, "max": 850000, "turnaround": "1 - 2 giờ", "warrantyMonths": 3 },
+        "thermal": { "min": 200000, "max": 350000, "turnaround": "30 - 45 phút", "warrantyMonths": 1 },
+        "ssd-upgrade": { "min": 750000, "max": 1800000, "turnaround": "30 - 60 phút", "warrantyMonths": 24 },
+        "software": { "min": 150000, "max": 300000, "turnaround": "45 - 60 phút", "warrantyMonths": 1 },
+        "water-damage": { "min": 750000, "max": 1800000, "turnaround": "1 - 3 ngày", "warrantyMonths": 1 },
+        "data-recovery": { "min": 750000, "max": 2200000, "turnaround": "1 - 4 ngày", "warrantyMonths": 0 },
+        "diagnostic": { "min": 0, "max": 0, "turnaround": "20 - 40 phút", "warrantyMonths": 0 }
+      }
+    },
+    "MAC2": {
+      "name": "MacBook Intel Touch Bar & Retina (2018 - 2020)",
+      "description": "MacBook Pro Touch Bar 13/15/16 inch & MacBook Air Retina Intel 2018-2020, bàn phím cánh bướm Butterfly / Magic Keyboard.",
+      "faults": {
+        "screen": { "min": 3200000, "max": 6200000, "turnaround": "1 - 2 giờ", "warrantyMonths": 6 },
+        "flexgate": { "min": 1200000, "max": 1900000, "turnaround": "3 - 5 giờ", "warrantyMonths": 6 },
+        "battery": { "min": 1100000, "max": 1900000, "turnaround": "1 - 2 giờ", "warrantyMonths": 6 },
+        "keyboard": { "min": 1100000, "max": 2200000, "turnaround": "3 - 5 giờ", "warrantyMonths": 6 },
+        "trackpad": { "min": 750000, "max": 1400000, "turnaround": "1 - 2 giờ", "warrantyMonths": 3 },
+        "charging-port": { "min": 550000, "max": 1100000, "turnaround": "1 - 2 giờ", "warrantyMonths": 3 },
+        "hinge-body": { "min": 700000, "max": 1400000, "turnaround": "2 - 4 giờ", "warrantyMonths": 6 },
+        "mainboard": { "min": 1600000, "max": 3800000, "turnaround": "2 - 4 ngày", "warrantyMonths": 3 },
+        "speaker": { "min": 600000, "max": 1200000, "turnaround": "45 - 90 phút", "warrantyMonths": 3 },
+        "mic": { "min": 450000, "max": 850000, "turnaround": "45 - 90 phút", "warrantyMonths": 3 },
+        "camera": { "min": 600000, "max": 1200000, "turnaround": "1 - 2 giờ", "warrantyMonths": 3 },
+        "thermal": { "min": 250000, "max": 400000, "turnaround": "45 - 60 phút", "warrantyMonths": 1 },
+        "software": { "min": 180000, "max": 350000, "turnaround": "45 - 60 phút", "warrantyMonths": 1 },
+        "water-damage": { "min": 950000, "max": 2400000, "turnaround": "2 - 4 ngày", "warrantyMonths": 1 },
+        "data-recovery": { "min": 950000, "max": 2800000, "turnaround": "2 - 5 ngày", "warrantyMonths": 0 },
+        "diagnostic": { "min": 0, "max": 0, "turnaround": "30 - 60 phút", "warrantyMonths": 0 }
+      }
+    },
+    "MAC3": {
+      "name": "MacBook Apple Silicon M1 / M2 Cơ bản (2020 - 2023)",
+      "description": "MacBook Air M1/M2 và MacBook Pro 13 M1/M2, kiến trúc chip tích hợp SoC thống nhất (Unified Memory), không hỗ trợ nâng RAM/SSD rời.",
+      "faults": {
+        "screen": { "min": 3800000, "max": 7200000, "turnaround": "1 - 2 giờ", "warrantyMonths": 6 },
+        "battery": { "min": 1300000, "max": 2200000, "turnaround": "1 - 2 giờ", "warrantyMonths": 6 },
+        "keyboard": { "min": 1200000, "max": 2400000, "turnaround": "3 - 5 giờ", "warrantyMonths": 6 },
+        "trackpad": { "min": 850000, "max": 1600000, "turnaround": "1 - 2 giờ", "warrantyMonths": 3 },
+        "charging-port": { "min": 650000, "max": 1250000, "turnaround": "1 - 2 giờ", "warrantyMonths": 3 },
+        "hinge-body": { "min": 800000, "max": 1600000, "turnaround": "2 - 4 giờ", "warrantyMonths": 6 },
+        "mainboard": { "min": 2000000, "max": 4800000, "turnaround": "2 - 5 ngày", "warrantyMonths": 3 },
+        "speaker": { "min": 700000, "max": 1350000, "turnaround": "45 - 90 phút", "warrantyMonths": 3 },
+        "mic": { "min": 500000, "max": 950000, "turnaround": "45 - 90 phút", "warrantyMonths": 3 },
+        "camera": { "min": 700000, "max": 1400000, "turnaround": "1 - 2 giờ", "warrantyMonths": 3 },
+        "thermal": { "min": 250000, "max": 450000, "turnaround": "30 - 45 phút", "warrantyMonths": 1 },
+        "software": { "min": 200000, "max": 400000, "turnaround": "45 - 60 phút", "warrantyMonths": 1 },
+        "water-damage": { "min": 1200000, "max": 2800000, "turnaround": "2 - 4 ngày", "warrantyMonths": 1 },
+        "data-recovery": { "min": 1200000, "max": 3500000, "turnaround": "2 - 5 ngày", "warrantyMonths": 0 },
+        "diagnostic": { "min": 0, "max": 0, "turnaround": "30 - 60 phút", "warrantyMonths": 0 }
+      }
+    },
+    "MAC4": {
+      "name": "MacBook Pro 14 / 16 Liquid Retina XDR (M1/M2/M3/M4 Pro & Max)",
+      "description": "MacBook Pro chuyên nghiệp màn hình Liquid Retina XDR Mini-LED ProMotion 120Hz, vỏ nhôm CNC cao cấp nhất.",
+      "faults": {
+        "screen": { "min": 6800000, "max": 13500000, "turnaround": "1 - 3 ngày", "warrantyMonths": 6 },
+        "battery": { "min": 1800000, "max": 2900000, "turnaround": "1 - 2 giờ", "warrantyMonths": 6 },
+        "keyboard": { "min": 1800000, "max": 3200000, "turnaround": "3 - 6 giờ", "warrantyMonths": 6 },
+        "trackpad": { "min": 1100000, "max": 2100000, "turnaround": "1 - 2 giờ", "warrantyMonths": 3 },
+        "charging-port": { "min": 850000, "max": 1600000, "turnaround": "1 - 2 giờ", "warrantyMonths": 3 },
+        "hinge-body": { "min": 1100000, "max": 2200000, "turnaround": "1 - 2 ngày", "warrantyMonths": 6 },
+        "mainboard": { "min": 2800000, "max": 6500000, "turnaround": "3 - 7 ngày", "warrantyMonths": 3 },
+        "speaker": { "min": 950000, "max": 1850000, "turnaround": "1 - 2 giờ", "warrantyMonths": 3 },
+        "mic": { "min": 650000, "max": 1200000, "turnaround": "1 - 2 giờ", "warrantyMonths": 3 },
+        "camera": { "min": 950000, "max": 1850000, "turnaround": "1 - 2 ngày", "warrantyMonths": 3 },
+        "thermal": { "min": 350000, "max": 600000, "turnaround": "45 - 60 phút", "warrantyMonths": 1 },
+        "software": { "min": 250000, "max": 500000, "turnaround": "45 - 60 phút", "warrantyMonths": 1 },
+        "water-damage": { "min": 1600000, "max": 3800000, "turnaround": "2 - 5 ngày", "warrantyMonths": 1 },
+        "data-recovery": { "min": 1500000, "max": 4500000, "turnaround": "3 - 7 ngày", "warrantyMonths": 0 },
+        "diagnostic": { "min": 0, "max": 0, "turnaround": "30 - 60 phút", "warrantyMonths": 0 }
+      }
+    }
+  },
+  "tablet": {
+    "T1": {
+      "name": "Máy tính bảng Phổ thông / Màn LCD",
+      "description": "Tablet học tập và giải trí cơ bản, màn hình LCD, kính cảm ứng ngoài tách rời (iPad Gen 8/9/10, Galaxy Tab A series, Redmi Pad SE).",
+      "faults": {
+        "screen": { "min": 750000, "max": 1500000, "turnaround": "45 - 90 phút", "warrantyMonths": 6 },
+        "glass-press": { "min": 350000, "max": 650000, "turnaround": "60 - 120 phút", "warrantyMonths": 6 },
+        "battery": { "min": 400000, "max": 750000, "turnaround": "45 - 60 phút", "warrantyMonths": 6 },
+        "charging-port": { "min": 300000, "max": 550000, "turnaround": "45 - 90 phút", "warrantyMonths": 3 },
+        "mainboard": { "min": 600000, "max": 1400000, "turnaround": "1 - 3 ngày", "warrantyMonths": 3 },
+        "camera": { "min": 350000, "max": 650000, "turnaround": "45 - 60 phút", "warrantyMonths": 3 },
+        "speaker": { "min": 250000, "max": 450000, "turnaround": "30 - 60 phút", "warrantyMonths": 3 },
+        "mic": { "min": 250000, "max": 450000, "turnaround": "30 - 60 phút", "warrantyMonths": 3 },
+        "hinge-body": { "min": 400000, "max": 800000, "turnaround": "2 - 4 giờ", "warrantyMonths": 3 },
+        "thermal": { "min": 150000, "max": 250000, "turnaround": "30 - 45 phút", "warrantyMonths": 1 },
+        "software": { "min": 120000, "max": 220000, "turnaround": "30 - 45 phút", "warrantyMonths": 1 },
+        "water-damage": { "min": 450000, "max": 1000000, "turnaround": "1 - 3 ngày", "warrantyMonths": 1 },
+        "data-recovery": { "min": 500000, "max": 1400000, "turnaround": "1 - 3 ngày", "warrantyMonths": 0 },
+        "diagnostic": { "min": 0, "max": 0, "turnaround": "15 - 30 phút", "warrantyMonths": 0 }
+      }
+    },
+    "T2": {
+      "name": "Máy tính bảng Tầm trung / Cận cao cấp",
+      "description": "Tablet màn hình 2K sắc nét, hỗ trợ bút cảm ứng Apple Pencil/S-Pen, viền mỏng (iPad Air 4/5/6, iPad Mini 5/6, Galaxy Tab S7/S8, Xiaomi Pad 6).",
+      "faults": {
+        "screen": { "min": 1600000, "max": 3200000, "turnaround": "1 - 2 giờ", "warrantyMonths": 6 },
+        "glass-press": { "min": 650000, "max": 1200000, "turnaround": "2 - 3 giờ", "warrantyMonths": 6 },
+        "battery": { "min": 600000, "max": 1100000, "turnaround": "45 - 90 phút", "warrantyMonths": 6 },
+        "charging-port": { "min": 450000, "max": 800000, "turnaround": "1 - 2 giờ", "warrantyMonths": 3 },
+        "pencil-charging": { "min": 500000, "max": 900000, "turnaround": "2 - 3 giờ", "warrantyMonths": 3 },
+        "mainboard": { "min": 950000, "max": 2200000, "turnaround": "1 - 3 ngày", "warrantyMonths": 3 },
+        "camera": { "min": 500000, "max": 1100000, "turnaround": "45 - 90 phút", "warrantyMonths": 3 },
+        "speaker": { "min": 350000, "max": 650000, "turnaround": "45 - 60 phút", "warrantyMonths": 3 },
+        "mic": { "min": 300000, "max": 550000, "turnaround": "45 - 60 phút", "warrantyMonths": 3 },
+        "hinge-body": { "min": 600000, "max": 1200000, "turnaround": "2 - 4 giờ", "warrantyMonths": 6 },
+        "thermal": { "min": 180000, "max": 300000, "turnaround": "30 - 45 phút", "warrantyMonths": 1 },
+        "software": { "min": 150000, "max": 280000, "turnaround": "30 - 45 phút", "warrantyMonths": 1 },
+        "water-damage": { "min": 650000, "max": 1500000, "turnaround": "1 - 3 ngày", "warrantyMonths": 1 },
+        "data-recovery": { "min": 700000, "max": 2000000, "turnaround": "1 - 4 ngày", "warrantyMonths": 0 },
+        "diagnostic": { "min": 0, "max": 0, "turnaround": "20 - 40 phút", "warrantyMonths": 0 }
+      }
+    },
+    "T3": {
+      "name": "Máy tính bảng Flagship Pro / Màn OLED & Mini-LED",
+      "description": "Tablet cao cấp hàng đầu màn hình 120Hz ProMotion Liquid Retina XDR / AMOLED (iPad Pro 11/12.9/13 M1/M2/M4, Galaxy Tab S8/S9 Ultra). Màn hình ép liền cảm ứng.",
+      "faults": {
+        "screen": { "min": 3200000, "max": 7500000, "turnaround": "1 - 2 ngày", "warrantyMonths": 6 },
+        "glass-press": { "min": 1100000, "max": 2200000, "turnaround": "3 - 5 giờ", "warrantyMonths": 6 },
+        "battery": { "min": 950000, "max": 1800000, "turnaround": "1 - 2 giờ", "warrantyMonths": 6 },
+        "charging-port": { "min": 650000, "max": 1200000, "turnaround": "1 - 2 giờ", "warrantyMonths": 3 },
+        "pencil-charging": { "min": 700000, "max": 1300000, "turnaround": "2 - 4 giờ", "warrantyMonths": 3 },
+        "face-id": { "min": 850000, "max": 1600000, "turnaround": "2 - 4 giờ", "warrantyMonths": 6 },
+        "mainboard": { "min": 1500000, "max": 3800000, "turnaround": "2 - 5 ngày", "warrantyMonths": 3 },
+        "camera": { "min": 800000, "max": 1800000, "turnaround": "1 - 2 giờ", "warrantyMonths": 3 },
+        "speaker": { "min": 500000, "max": 950000, "turnaround": "45 - 90 phút", "warrantyMonths": 3 },
+        "mic": { "min": 400000, "max": 750000, "turnaround": "45 - 90 phút", "warrantyMonths": 3 },
+        "hinge-body": { "min": 900000, "max": 1800000, "turnaround": "1 - 2 ngày", "warrantyMonths": 6 },
+        "thermal": { "min": 250000, "max": 400000, "turnaround": "30 - 45 phút", "warrantyMonths": 1 },
+        "software": { "min": 180000, "max": 350000, "turnaround": "30 - 45 phút", "warrantyMonths": 1 },
+        "water-damage": { "min": 950000, "max": 2400000, "turnaround": "2 - 4 ngày", "warrantyMonths": 1 },
+        "data-recovery": { "min": 950000, "max": 3000000, "turnaround": "2 - 5 ngày", "warrantyMonths": 0 },
+        "diagnostic": { "min": 0, "max": 0, "turnaround": "20 - 45 phút", "warrantyMonths": 0 }
+      }
+    }
+  },
+  "pc_desktop": {
+    "D1": {
+      "name": "PC Văn phòng / Máy bộ Phổ thông",
+      "description": "Máy tính bàn văn phòng cơ bản, máy bộ Dell OptiPlex, HP ProDesk dùng tác vụ văn phòng, kế toán. (Giá là công dịch vụ kiểm tra, sửa chữa và thay thế).",
+      "faults": {
+        "psu-repair": { "min": 250000, "max": 500000, "turnaround": "1 - 2 giờ", "warrantyMonths": 6 },
+        "charging-port": { "min": 200000, "max": 400000, "turnaround": "45 - 90 phút", "warrantyMonths": 3 },
+        "mainboard": { "min": 400000, "max": 950000, "turnaround": "1 - 2 ngày", "warrantyMonths": 3 },
+        "thermal": { "min": 120000, "max": 200000, "turnaround": "30 - 45 phút", "warrantyMonths": 1 },
+        "ssd-upgrade": { "min": 450000, "max": 1100000, "turnaround": "30 - 45 phút", "warrantyMonths": 24 },
+        "ram-upgrade": { "min": 350000, "max": 850000, "turnaround": "20 - 30 phút", "warrantyMonths": 24 },
+        "software": { "min": 120000, "max": 200000, "turnaround": "30 - 60 phút", "warrantyMonths": 1 },
+        "data-recovery": { "min": 500000, "max": 1500000, "turnaround": "1 - 3 ngày", "warrantyMonths": 0 },
+        "diagnostic": { "min": 0, "max": 0, "turnaround": "15 - 30 phút", "warrantyMonths": 0 }
+      }
+    },
+    "D2": {
+      "name": "PC Gaming Tầm trung / Máy bộ AIO Tiêu chuẩn",
+      "description": "Dàn máy tính gaming quốc dân hoặc máy tính liền màn hình All-in-One (i5/Ryzen 5 + RTX 3060/4060, iMac 24 M1/M3, Dell AIO). (Giá là công kỹ thuật & linh kiện sửa chữa).",
+      "faults": {
+        "screen": { "min": 1500000, "max": 3500000, "turnaround": "1 - 2 ngày", "warrantyMonths": 6 },
+        "vga-gpu": { "min": 650000, "max": 1600000, "turnaround": "1 - 3 ngày", "warrantyMonths": 3 },
+        "psu-repair": { "min": 350000, "max": 750000, "turnaround": "1 - 2 giờ", "warrantyMonths": 6 },
+        "charging-port": { "min": 250000, "max": 500000, "turnaround": "45 - 90 phút", "warrantyMonths": 3 },
+        "mainboard": { "min": 650000, "max": 1600000, "turnaround": "1 - 3 ngày", "warrantyMonths": 3 },
+        "aio-liquid-cooler": { "min": 350000, "max": 750000, "turnaround": "2 - 4 giờ", "warrantyMonths": 3 },
+        "thermal": { "min": 200000, "max": 350000, "turnaround": "45 - 60 phút", "warrantyMonths": 1 },
+        "ssd-upgrade": { "min": 650000, "max": 1600000, "turnaround": "30 - 45 phút", "warrantyMonths": 24 },
+        "ram-upgrade": { "min": 500000, "max": 1200000, "turnaround": "20 - 30 phút", "warrantyMonths": 24 },
+        "software": { "min": 150000, "max": 300000, "turnaround": "30 - 60 phút", "warrantyMonths": 1 },
+        "water-damage": { "min": 600000, "max": 1500000, "turnaround": "1 - 3 ngày", "warrantyMonths": 1 },
+        "data-recovery": { "min": 650000, "max": 2000000, "turnaround": "1 - 4 ngày", "warrantyMonths": 0 },
+        "diagnostic": { "min": 0, "max": 0, "turnaround": "20 - 40 phút", "warrantyMonths": 0 }
+      }
+    },
+    "D3": {
+      "name": "Workstation Chuyên nghiệp / PC Gaming High-End / Apple Desktop",
+      "description": "Máy trạm đồ họa 3D render, PC High-End tản nước Custom, Apple iMac 27 5K, Mac Mini, Mac Studio. (Giá là công dịch vụ kiểm tra, sửa lỗi chip-level).",
+      "faults": {
+        "screen": { "min": 2800000, "max": 6500000, "turnaround": "1 - 3 ngày", "warrantyMonths": 6 },
+        "vga-gpu": { "min": 1200000, "max": 3200000, "turnaround": "2 - 5 ngày", "warrantyMonths": 3 },
+        "psu-repair": { "min": 550000, "max": 1200000, "turnaround": "2 - 4 giờ", "warrantyMonths": 6 },
+        "charging-port": { "min": 400000, "max": 800000, "turnaround": "1 - 2 giờ", "warrantyMonths": 3 },
+        "mainboard": { "min": 1200000, "max": 3500000, "turnaround": "2 - 5 ngày", "warrantyMonths": 3 },
+        "aio-liquid-cooler": { "min": 600000, "max": 1400000, "turnaround": "3 - 6 giờ", "warrantyMonths": 3 },
+        "thermal": { "min": 350000, "max": 650000, "turnaround": "1 - 2 giờ", "warrantyMonths": 1 },
+        "ssd-upgrade": { "min": 950000, "max": 2500000, "turnaround": "30 - 60 phút", "warrantyMonths": 24 },
+        "ram-upgrade": { "min": 750000, "max": 2200000, "turnaround": "20 - 40 phút", "warrantyMonths": 24 },
+        "software": { "min": 200000, "max": 450000, "turnaround": "45 - 90 phút", "warrantyMonths": 1 },
+        "water-damage": { "min": 950000, "max": 2500000, "turnaround": "2 - 4 ngày", "warrantyMonths": 1 },
+        "data-recovery": { "min": 950000, "max": 3500000, "turnaround": "2 - 5 ngày", "warrantyMonths": 0 },
+        "diagnostic": { "min": 0, "max": 0, "turnaround": "30 - 60 phút", "warrantyMonths": 0 }
+      }
+    }
+  },
+  "smartwatch": {
+    "W1": {
+      "name": "Đồng hồ Thông minh Cơ bản / Thế hệ cũ",
+      "description": "Smartwatch phân khúc cơ bản hoặc đời trước (Galaxy Watch 4, Apple Watch S4/SE 1, Amazfit GTR, Xiaomi Watch S3).",
+      "faults": {
+        "screen": { "min": 450000, "max": 950000, "turnaround": "1 - 2 giờ", "warrantyMonths": 6 },
+        "glass-press": { "min": 250000, "max": 450000, "turnaround": "2 - 3 giờ", "warrantyMonths": 6 },
+        "battery": { "min": 250000, "max": 450000, "turnaround": "45 - 60 phút", "warrantyMonths": 6 },
+        "digital-crown": { "min": 200000, "max": 400000, "turnaround": "45 - 60 phút", "warrantyMonths": 3 },
+        "taptic-engine": { "min": 250000, "max": 450000, "turnaround": "45 - 90 phút", "warrantyMonths": 3 },
+        "charging-port": { "min": 200000, "max": 400000, "turnaround": "45 - 60 phút", "warrantyMonths": 3 },
+        "speaker": { "min": 200000, "max": 350000, "turnaround": "45 - 60 phút", "warrantyMonths": 3 },
+        "mic": { "min": 200000, "max": 350000, "turnaround": "45 - 60 phút", "warrantyMonths": 3 },
+        "mainboard": { "min": 450000, "max": 950000, "turnaround": "1 - 3 ngày", "warrantyMonths": 3 },
+        "water-damage": { "min": 350000, "max": 700000, "turnaround": "1 - 2 ngày", "warrantyMonths": 1 },
+        "software": { "min": 100000, "max": 200000, "turnaround": "20 - 40 phút", "warrantyMonths": 1 },
+        "diagnostic": { "min": 0, "max": 0, "turnaround": "15 - 30 phút", "warrantyMonths": 0 }
+      }
+    },
+    "W2": {
+      "name": "Đồng hồ Thông minh Tiêu chuẩn / Thép",
+      "description": "Smartwatch phổ biến màn hình AMOLED viền siêu mỏng, vỏ nhôm hoặc thép không gỉ (Apple Watch S5/6/7/8/9, Galaxy Watch 5/6 Classic, Garmin Forerunner/Venu).",
+      "faults": {
+        "screen": { "min": 950000, "max": 2200000, "turnaround": "1 - 2 giờ", "warrantyMonths": 6 },
+        "glass-press": { "min": 450000, "max": 850000, "turnaround": "2 - 4 giờ", "warrantyMonths": 6 },
+        "battery": { "min": 400000, "max": 750000, "turnaround": "45 - 60 phút", "warrantyMonths": 6 },
+        "digital-crown": { "min": 300000, "max": 600000, "turnaround": "1 - 2 giờ", "warrantyMonths": 3 },
+        "taptic-engine": { "min": 350000, "max": 650000, "turnaround": "1 - 2 giờ", "warrantyMonths": 3 },
+        "charging-port": { "min": 300000, "max": 550000, "turnaround": "45 - 60 phút", "warrantyMonths": 3 },
+        "speaker": { "min": 250000, "max": 500000, "turnaround": "45 - 60 phút", "warrantyMonths": 3 },
+        "mic": { "min": 250000, "max": 500000, "turnaround": "45 - 60 phút", "warrantyMonths": 3 },
+        "mainboard": { "min": 700000, "max": 1600000, "turnaround": "1 - 3 ngày", "warrantyMonths": 3 },
+        "water-damage": { "min": 500000, "max": 1100000, "turnaround": "1 - 2 ngày", "warrantyMonths": 1 },
+        "software": { "min": 150000, "max": 250000, "turnaround": "30 - 45 phút", "warrantyMonths": 1 },
+        "diagnostic": { "min": 0, "max": 0, "turnaround": "20 - 30 phút", "warrantyMonths": 0 }
+      }
+    },
+    "W3": {
+      "name": "Đồng hồ Thể thao Mạo hiểm / Titan / Sapphire",
+      "description": "Smartwatch cao cấp chuyên dụng lặn biển, leo núi, vỏ Titanium cấp độ hàng không, kính Sapphire (Apple Watch Ultra 1/2, Garmin Fenix 7 Pro, Epix Pro).",
+      "faults": {
+        "screen": { "min": 2200000, "max": 4500000, "turnaround": "1 - 2 ngày", "warrantyMonths": 6 },
+        "glass-press": { "min": 950000, "max": 1800000, "turnaround": "3 - 5 giờ", "warrantyMonths": 6 },
+        "battery": { "min": 650000, "max": 1200000, "turnaround": "1 - 2 giờ", "warrantyMonths": 6 },
+        "digital-crown": { "min": 500000, "max": 950000, "turnaround": "1 - 2 giờ", "warrantyMonths": 3 },
+        "taptic-engine": { "min": 550000, "max": 950000, "turnaround": "1 - 2 giờ", "warrantyMonths": 3 },
+        "charging-port": { "min": 450000, "max": 850000, "turnaround": "1 - 2 giờ", "warrantyMonths": 3 },
+        "speaker": { "min": 400000, "max": 750000, "turnaround": "45 - 90 phút", "warrantyMonths": 3 },
+        "mic": { "min": 400000, "max": 750000, "turnaround": "45 - 90 phút", "warrantyMonths": 3 },
+        "mainboard": { "min": 1200000, "max": 2800000, "turnaround": "2 - 4 ngày", "warrantyMonths": 3 },
+        "water-damage": { "min": 800000, "max": 1800000, "turnaround": "2 - 3 ngày", "warrantyMonths": 1 },
+        "software": { "min": 180000, "max": 350000, "turnaround": "30 - 45 phút", "warrantyMonths": 1 },
+        "diagnostic": { "min": 0, "max": 0, "turnaround": "20 - 40 phút", "warrantyMonths": 0 }
+      }
+    }
+  }
+}

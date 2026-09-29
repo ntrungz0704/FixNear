@@ -1,0 +1,119 @@
+[
+  {
+    "id": "ws-pro-render-dual-xeon-threadripper",
+    "name": "Workstation Render 3D / AI Deep Learning (Threadripper / Dual Xeon)",
+    "brand": "workstation",
+    "deviceType": "pc_desktop",
+    "tier": "D3",
+    "releaseYear": 2023,
+    "specs": {
+      "cpu": "AMD Threadripper Pro 7985WX 64 nhân / Dual Intel Xeon Platinum",
+      "gpu": "Dual Nvidia RTX A6000 48GB / RTX 4090",
+      "cooling": "Tản nước Custom hoặc AIO công nghiệp",
+      "psu": "1600W - 2000W Titanium",
+      "ram": "128GB - 512GB ECC Registered DDR5"
+    },
+    "supportedFaults": [
+      "mainboard",
+      "psu-repair",
+      "vga-gpu",
+      "thermal",
+      "aio-liquid-cooler",
+      "ssd-upgrade",
+      "ram-upgrade",
+      "software",
+      "data-recovery",
+      "diagnostic"
+    ],
+    "knownIssues": [
+      {
+        "id": "ecc-ram-socket-corrosion",
+        "title": "Chân cắm RAM ECC nhiều kênh (8-Channel) oxy hóa gây dump xanh BSOD",
+        "severity": "high",
+        "confidence": "high",
+        "symptoms": "Máy đang render 3D dở bỗng hiện màn hình xanh thông báo WHEA_UNCORRECTABLE_ERROR.",
+        "solution": "Vệ sinh đo áp socket CPU TR5/LGA4677 và làm sạch 8 kênh khe cắm RAM ECC."
+      },
+      {
+        "id": "vrm-overheat-multi-gpu",
+        "title": "Dàn pha nguồn VRM bo mạch chủ quá nhiệt do tải CPU/GPU 1500W liên tục",
+        "severity": "high",
+        "confidence": "high",
+        "symptoms": "Mainboard tự bóp xung nhịp CPU từ 4.5GHz xuống 2.0GHz để tự bảo vệ.",
+        "solution": "Độ thêm quạt tản nhiệt cưỡng bức cho dàn heatsink VRM và thay thermal pad dẫn nhiệt 12.8W/mK."
+      }
+    ]
+  },
+  {
+    "id": "ws-architecture-cad-i9-rtxa4000",
+    "name": "Workstation Kiến Trúc / CAD / Revit (i9 14900K / RTX 4000 Ada)",
+    "brand": "workstation",
+    "deviceType": "pc_desktop",
+    "tier": "D3",
+    "releaseYear": 2024,
+    "specs": {
+      "cpu": "Intel Core i9-14900K",
+      "gpu": "Nvidia RTX 4000 SFF Ada Generation 20GB",
+      "ram": "64GB DDR5",
+      "psu": "850W Platinum"
+    },
+    "supportedFaults": [
+      "mainboard",
+      "psu-repair",
+      "vga-gpu",
+      "thermal",
+      "aio-liquid-cooler",
+      "ssd-upgrade",
+      "ram-upgrade",
+      "software",
+      "data-recovery",
+      "diagnostic"
+    ],
+    "knownIssues": [
+      {
+        "id": "bios-microcode-instability",
+        "title": "Lỗi mất ổn định vi mã Microcode CPU Intel thế hệ 13/14 (Lỗi Vmin Shift)",
+        "severity": "critical",
+        "confidence": "high",
+        "symptoms": "Văng phần mềm 3Ds Max, Unreal Engine hoặc lỗi 'Out of video memory' khi compile shader.",
+        "solution": "Cập nhật BIOS bản vá vi mã 0x129/0x12B mới nhất và cân chỉnh giới hạn điện áp an toàn."
+      }
+    ]
+  },
+  {
+    "id": "ws-creator-video-i7-rtx4070",
+    "name": "Workstation Dựng Phim 4K / Đồ Họa 2D (i7 13700K / RTX 4070)",
+    "brand": "workstation",
+    "deviceType": "pc_desktop",
+    "tier": "D2",
+    "releaseYear": 2023,
+    "specs": {
+      "cpu": "Core i7-13700K",
+      "gpu": "RTX 4070 12GB",
+      "ram": "32GB/64GB DDR5",
+      "psu": "750W Gold"
+    },
+    "supportedFaults": [
+      "mainboard",
+      "psu-repair",
+      "vga-gpu",
+      "thermal",
+      "aio-liquid-cooler",
+      "ssd-upgrade",
+      "ram-upgrade",
+      "software",
+      "data-recovery",
+      "diagnostic"
+    ],
+    "knownIssues": [
+      {
+        "id": "nvme-ssd-thermal-throttle",
+        "title": "Ổ cứng SSD NVMe PCIe 4.0 quá nóng >75°C tự giảm tốc độ xuất file video",
+        "severity": "medium",
+        "confidence": "high",
+        "symptoms": "Export video Premiere Pro lúc đầu rất nhanh về sau bị khựng đơ máy.",
+        "solution": "Lắp thanh tản nhiệt nhôm khối dày kèm ống đồng cho ổ cứng SSD NVMe."
+      }
+    ]
+  }
+]

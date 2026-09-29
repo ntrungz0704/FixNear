@@ -1,0 +1,579 @@
+[
+  {
+    "id": "hp-victus-16",
+    "name": "HP Victus 16",
+    "brand": "hp",
+    "deviceType": "win_laptop",
+    "tier": "L3",
+    "releaseYear": 2023,
+    "specs": {
+      "cpu": "Core i5-13500H / Ryzen 7 7840HS",
+      "gpu": "RTX 4050 / RTX 4060",
+      "screen": "16.1 inch FHD/QHD 165Hz",
+      "ram": "16GB DDR5 2 khe rời",
+      "chassis": "Vỏ nhựa logo V chữ nổi"
+    },
+    "supportedFaults": [
+      "screen",
+      "battery",
+      "keyboard",
+      "trackpad",
+      "charging-port",
+      "hinge-body",
+      "mainboard",
+      "speaker",
+      "mic",
+      "camera",
+      "thermal",
+      "ssd-upgrade",
+      "ram-upgrade",
+      "software",
+      "water-damage",
+      "data-recovery",
+      "diagnostic",
+      "vga-gpu"
+    ],
+    "knownIssues": [
+      {
+        "id": "screen-wobble-victus",
+        "title": "Màn hình rung lắc mạnh khi gõ phím (Screen Wobble)",
+        "severity": "medium",
+        "confidence": "high",
+        "symptoms": "Màn hình 16.1 inch bị rung bần bật khi để trước quạt gió hoặc gõ phím mạnh.",
+        "solution": "Siết ốc trục hãm bản lề hai bên và gia cố thanh nẹp màn hình."
+      },
+      {
+        "id": "sleep-black-screen-hall",
+        "title": "Lỗi cảm biến Hall Sensor gập màn hình: Mở máy lên màn hình vẫn tối đen",
+        "severity": "high",
+        "confidence": "high",
+        "symptoms": "Máy vẫn chạy đèn nguồn sáng nhưng màn hình không lên hình sau khi gập mở nắp.",
+        "solution": "Xử lý thay thế cảm biến từ trường Hall Sensor trên vi mạch màn hình."
+      }
+    ]
+  },
+  {
+    "id": "hp-victus-15",
+    "name": "HP Victus 15",
+    "brand": "hp",
+    "deviceType": "win_laptop",
+    "tier": "L3",
+    "releaseYear": 2023,
+    "specs": {
+      "cpu": "Core i5-12450H / i5-13420H",
+      "gpu": "GTX 1650 / RTX 3050 / RTX 4050",
+      "screen": "15.6 inch FHD 144Hz",
+      "ram": "8GB/16GB DDR4 rời",
+      "chassis": "Vỏ nhựa"
+    },
+    "supportedFaults": [
+      "screen",
+      "battery",
+      "keyboard",
+      "trackpad",
+      "charging-port",
+      "hinge-body",
+      "mainboard",
+      "speaker",
+      "mic",
+      "camera",
+      "thermal",
+      "ssd-upgrade",
+      "ram-upgrade",
+      "software",
+      "water-damage",
+      "data-recovery",
+      "diagnostic",
+      "vga-gpu"
+    ],
+    "knownIssues": [
+      {
+        "id": "dc-charging-pin-loose",
+        "title": "Chân cắm sạc tròn kim loại bị lỏng đứt chân hàn bo mạch",
+        "severity": "high",
+        "confidence": "high",
+        "symptoms": "Cắm củ sạc 200W xoay góc mới vào điện.",
+        "solution": "Hàn thay thế Jack cắm nguồn DC-in chịu nhiệt."
+      }
+    ]
+  },
+  {
+    "id": "hp-omen-16",
+    "name": "HP Omen 16",
+    "brand": "hp",
+    "deviceType": "win_laptop",
+    "tier": "L4",
+    "releaseYear": 2023,
+    "specs": {
+      "cpu": "Core i7-13700HX / Ryzen 7 7840HS",
+      "gpu": "RTX 4070 / RTX 4080",
+      "screen": "16.1 inch QHD 240Hz",
+      "ram": "16GB/32GB DDR5",
+      "chassis": "Vỏ nhôm Shadow Black"
+    },
+    "supportedFaults": [
+      "screen",
+      "battery",
+      "keyboard",
+      "trackpad",
+      "charging-port",
+      "hinge-body",
+      "mainboard",
+      "speaker",
+      "mic",
+      "camera",
+      "thermal",
+      "ssd-upgrade",
+      "ram-upgrade",
+      "software",
+      "water-damage",
+      "data-recovery",
+      "diagnostic",
+      "vga-gpu"
+    ],
+    "knownIssues": [
+      {
+        "id": "black-screen-hall-sensor-omen",
+        "title": "Lỗi cảm biến gập Hall Sensor màn hình đen thui (Lỗi chập cáp Omen 2023)",
+        "severity": "critical",
+        "confidence": "high",
+        "symptoms": "Sau vài tháng sử dụng, bật máy quạt quay đèn phím sáng nhưng màn hình đen hoàn toàn không hiển thị.",
+        "solution": "Kỹ thuật viên cách ly cảm biến Hall Sensor chập mạch hoặc thay thế cụm cáp tín hiệu màn hình chính hãng."
+      }
+    ]
+  },
+  {
+    "id": "hp-omen-transcend-14",
+    "name": "HP Omen Transcend 14",
+    "brand": "hp",
+    "deviceType": "win_laptop",
+    "tier": "L4",
+    "releaseYear": 2024,
+    "specs": {
+      "cpu": "Core Ultra 7 155H / Ultra 9 185H",
+      "gpu": "RTX 4060 / RTX 4070",
+      "screen": "14.0 inch 2.8K OLED 120Hz",
+      "ram": "16GB/32GB LPDDR5x Soldered",
+      "chassis": "Nhôm nguyên khối mỏng 1.63kg"
+    },
+    "supportedFaults": [
+      "screen",
+      "battery",
+      "keyboard",
+      "trackpad",
+      "charging-port",
+      "hinge-body",
+      "mainboard",
+      "speaker",
+      "mic",
+      "camera",
+      "thermal",
+      "ssd-upgrade",
+      "software",
+      "water-damage",
+      "data-recovery",
+      "diagnostic",
+      "vga-gpu"
+    ],
+    "knownIssues": [
+      {
+        "id": "vapor-chamber-hot",
+        "title": "Thân máy ấm lan tỏa toàn bộ chiếu nghỉ tay",
+        "severity": "low",
+        "confidence": "high",
+        "symptoms": "Do khung nhôm siêu mỏng truyền nhiệt buồng hơi.",
+        "solution": "Vệ sinh quạt gió tản nhiệt và bôi keo dẫn nhiệt cao cấp."
+      }
+    ]
+  },
+  {
+    "id": "hp-pavilion-15",
+    "name": "HP Pavilion 15",
+    "brand": "hp",
+    "deviceType": "win_laptop",
+    "tier": "L2",
+    "releaseYear": 2023,
+    "specs": {
+      "cpu": "Core i5-1235U / i5-1335U",
+      "screen": "15.6 inch FHD IPS",
+      "ram": "8GB/16GB DDR4 rời",
+      "storage": "512GB SSD",
+      "chassis": "Nắp nhôm thân nhựa"
+    },
+    "supportedFaults": [
+      "screen",
+      "battery",
+      "keyboard",
+      "trackpad",
+      "charging-port",
+      "hinge-body",
+      "mainboard",
+      "speaker",
+      "mic",
+      "camera",
+      "thermal",
+      "ssd-upgrade",
+      "ram-upgrade",
+      "software",
+      "water-damage",
+      "data-recovery",
+      "diagnostic"
+    ],
+    "knownIssues": [
+      {
+        "id": "pavilion-hinge-crack",
+        "title": "Bung gãy chân ốc bản lề góc trái mặt C (Bệnh rất phổ biến trên Pavilion)",
+        "severity": "critical",
+        "confidence": "high",
+        "symptoms": "Vỏ máy góc bản lề bị banh hở khi mở nắp, cấn đè vào panel màn hình.",
+        "solution": "Hàn đúc lại chân ốc đồng kim loại và nới lỏng trục xoay bản lề."
+      }
+    ]
+  },
+  {
+    "id": "hp-pavilion-14",
+    "name": "HP Pavilion 14",
+    "brand": "hp",
+    "deviceType": "win_laptop",
+    "tier": "L2",
+    "releaseYear": 2023,
+    "specs": {
+      "cpu": "Core i5-1335U / i7-1355U",
+      "screen": "14.0 inch FHD IPS",
+      "ram": "DDR4 nâng cấp được",
+      "storage": "512GB SSD",
+      "chassis": "Nhôm bạc nắp máy"
+    },
+    "supportedFaults": [
+      "screen",
+      "battery",
+      "keyboard",
+      "trackpad",
+      "charging-port",
+      "hinge-body",
+      "mainboard",
+      "speaker",
+      "mic",
+      "camera",
+      "thermal",
+      "ssd-upgrade",
+      "ram-upgrade",
+      "software",
+      "water-damage",
+      "data-recovery",
+      "diagnostic"
+    ],
+    "knownIssues": [
+      {
+        "id": "keyboard-enter-broken",
+        "title": "Phím Enter và phím Backspace chập liệt",
+        "severity": "medium",
+        "confidence": "high",
+        "symptoms": "Nhấn phím không phản hồi.",
+        "solution": "Thay thế bàn phím Pavilion mới."
+      }
+    ]
+  },
+  {
+    "id": "hp-pavilion-plus-14",
+    "name": "HP Pavilion Plus 14",
+    "brand": "hp",
+    "deviceType": "win_laptop",
+    "tier": "L2",
+    "releaseYear": 2023,
+    "specs": {
+      "cpu": "Core i5-13500H / Ryzen 7 7840U",
+      "screen": "14.0 inch 2.8K OLED 120Hz",
+      "ram": "16GB Soldered",
+      "chassis": "Nhôm nguyên khối"
+    },
+    "supportedFaults": [
+      "screen",
+      "battery",
+      "keyboard",
+      "trackpad",
+      "charging-port",
+      "hinge-body",
+      "mainboard",
+      "speaker",
+      "mic",
+      "camera",
+      "thermal",
+      "ssd-upgrade",
+      "software",
+      "water-damage",
+      "data-recovery",
+      "diagnostic"
+    ],
+    "knownIssues": [
+      {
+        "id": "battery-short-oled",
+        "title": "Màn hình OLED 2.8K tiêu hao pin nhanh",
+        "severity": "medium",
+        "confidence": "high",
+        "symptoms": "Pin dùng được khoảng 4 tiếng.",
+        "solution": "Thay pin dung lượng cao hoặc tối ưu độ sáng màn hình."
+      }
+    ]
+  },
+  {
+    "id": "hp-pavilion-x360-14",
+    "name": "HP Pavilion x360 14",
+    "brand": "hp",
+    "deviceType": "win_laptop",
+    "tier": "L2",
+    "releaseYear": 2023,
+    "specs": {
+      "cpu": "Core i3-1315U / i5-1335U",
+      "screen": "14.0 inch FHD Cảm ứng xoay 360",
+      "ram": "8GB/16GB DDR4",
+      "chassis": "Vỏ kim loại xoay gập"
+    },
+    "supportedFaults": [
+      "screen",
+      "battery",
+      "keyboard",
+      "trackpad",
+      "charging-port",
+      "hinge-body",
+      "mainboard",
+      "speaker",
+      "mic",
+      "camera",
+      "thermal",
+      "ssd-upgrade",
+      "ram-upgrade",
+      "software",
+      "water-damage",
+      "data-recovery",
+      "diagnostic"
+    ],
+    "knownIssues": [
+      {
+        "id": "touch-ghost-x360",
+        "title": "Loạn cảm ứng góc trên màn hình khi cắm sạc",
+        "severity": "medium",
+        "confidence": "high",
+        "symptoms": "Màn hình tự click lung tung.",
+        "solution": "Cân chỉnh cảm ứng hoặc thay củ sạc chuẩn chống rò điện."
+      }
+    ]
+  },
+  {
+    "id": "hp-envy-16",
+    "name": "HP Envy 16",
+    "brand": "hp",
+    "deviceType": "win_laptop",
+    "tier": "L3",
+    "releaseYear": 2023,
+    "specs": {
+      "cpu": "Core i7-13700H",
+      "gpu": "RTX 4060",
+      "screen": "16.0 inch WQXGA 120Hz",
+      "ram": "16GB/32GB DDR5 rời",
+      "chassis": "Nhôm nguyên khối Natural Silver"
+    },
+    "supportedFaults": [
+      "screen",
+      "battery",
+      "keyboard",
+      "trackpad",
+      "charging-port",
+      "hinge-body",
+      "mainboard",
+      "speaker",
+      "mic",
+      "camera",
+      "thermal",
+      "ssd-upgrade",
+      "ram-upgrade",
+      "software",
+      "water-damage",
+      "data-recovery",
+      "diagnostic",
+      "vga-gpu"
+    ],
+    "knownIssues": [
+      {
+        "id": "speaker-crackle-bang",
+        "title": "Loa Bang & Olufsen rè màng âm thanh",
+        "severity": "low",
+        "confidence": "high",
+        "symptoms": "Nghe nhạc âm trầm bị rè xẹt.",
+        "solution": "Vệ sinh màng loa hoặc thay cụm loa kép B&O."
+      }
+    ]
+  },
+  {
+    "id": "hp-envy-x360-14",
+    "name": "HP Envy x360 14",
+    "brand": "hp",
+    "deviceType": "win_laptop",
+    "tier": "L3",
+    "releaseYear": 2024,
+    "specs": {
+      "cpu": "Core Ultra 5 125U / Ultra 7 155U",
+      "screen": "14.0 inch 2.8K OLED Cảm ứng 120Hz xoay 360",
+      "ram": "16GB/32GB LPDDR5 Soldered",
+      "chassis": "Nhôm CNC mỏng nhẹ"
+    },
+    "supportedFaults": [
+      "screen",
+      "battery",
+      "keyboard",
+      "trackpad",
+      "charging-port",
+      "hinge-body",
+      "mainboard",
+      "speaker",
+      "mic",
+      "camera",
+      "thermal",
+      "ssd-upgrade",
+      "software",
+      "water-damage",
+      "data-recovery",
+      "diagnostic"
+    ],
+    "knownIssues": [
+      {
+        "id": "pen-disconnect-envy",
+        "title": "Mất nhận bút cảm ứng HP Rechargeable MPP2.0",
+        "severity": "low",
+        "confidence": "high",
+        "symptoms": "Vẽ viết không ăn nét.",
+        "solution": "Thay ngòi bút hoặc cân chỉnh lớp số hóa Digitizer."
+      }
+    ]
+  },
+  {
+    "id": "hp-spectre-x360-14",
+    "name": "HP Spectre x360 14 (2024)",
+    "brand": "hp",
+    "deviceType": "win_laptop",
+    "tier": "L4",
+    "releaseYear": 2024,
+    "specs": {
+      "cpu": "Intel Core Ultra 7 155H",
+      "screen": "14.0 inch 2.8K OLED 120Hz IMAX Enhanced xoay 360",
+      "ram": "16GB/32GB LPDDR5x Soldered",
+      "chassis": "Nhôm CNC cắt vát kim cương Nightfall Black"
+    },
+    "supportedFaults": [
+      "screen",
+      "battery",
+      "keyboard",
+      "trackpad",
+      "charging-port",
+      "hinge-body",
+      "mainboard",
+      "speaker",
+      "mic",
+      "camera",
+      "thermal",
+      "ssd-upgrade",
+      "software",
+      "water-damage",
+      "data-recovery",
+      "diagnostic"
+    ],
+    "knownIssues": [
+      {
+        "id": "haptic-pad-spectre",
+        "title": "Bàn rê chuột xúc giác Haptic Touchpad bị trễ nhịp",
+        "severity": "low",
+        "confidence": "high",
+        "symptoms": "Bấm con trỏ chuột phản hồi hơi chậm.",
+        "solution": "Cập nhật firmware Synaptics Haptic Driver."
+      }
+    ]
+  },
+  {
+    "id": "hp-probook-450-g10",
+    "name": "HP ProBook 450 G10",
+    "brand": "hp",
+    "deviceType": "win_laptop",
+    "tier": "L2",
+    "releaseYear": 2023,
+    "specs": {
+      "cpu": "Core i5-1335U / i7-1355U",
+      "screen": "15.6 inch FHD IPS",
+      "ram": "2 khe DDR4 nâng tối đa 64GB",
+      "storage": "512GB SSD",
+      "chassis": "Khung nhôm nắp A&C"
+    },
+    "supportedFaults": [
+      "screen",
+      "battery",
+      "keyboard",
+      "trackpad",
+      "charging-port",
+      "hinge-body",
+      "mainboard",
+      "speaker",
+      "mic",
+      "camera",
+      "thermal",
+      "ssd-upgrade",
+      "ram-upgrade",
+      "software",
+      "water-damage",
+      "data-recovery",
+      "diagnostic"
+    ],
+    "knownIssues": [
+      {
+        "id": "battery-swelling-pb450",
+        "title": "Pin phồng đội nhẹ mặt bàn phím",
+        "severity": "high",
+        "confidence": "high",
+        "symptoms": "Bàn phím nhô cao ở giữa.",
+        "solution": "Thay pin HP chính hãng bảo hành 12 tháng."
+      }
+    ]
+  },
+  {
+    "id": "hp-elitebook-840-g10",
+    "name": "HP EliteBook 840 G10",
+    "brand": "hp",
+    "deviceType": "win_laptop",
+    "tier": "L3",
+    "releaseYear": 2023,
+    "specs": {
+      "cpu": "Core i5-1345U / i7-1365U vPro",
+      "screen": "14.0 inch WUXGA 16:10 400 nits chống nhìn trộm Sure View",
+      "ram": "2 khe DDR5 rời nâng tối đa 64GB",
+      "storage": "512GB/1TB SSD",
+      "chassis": "Hợp kim Magie Nhôm cao cấp"
+    },
+    "supportedFaults": [
+      "screen",
+      "battery",
+      "keyboard",
+      "trackpad",
+      "charging-port",
+      "hinge-body",
+      "mainboard",
+      "speaker",
+      "mic",
+      "camera",
+      "thermal",
+      "ssd-upgrade",
+      "ram-upgrade",
+      "software",
+      "water-damage",
+      "data-recovery",
+      "diagnostic"
+    ],
+    "knownIssues": [
+      {
+        "id": "sureview-dim",
+        "title": "Màn hình chống nhìn trộm Sure View hơi tối và góc nhìn hẹp",
+        "severity": "low",
+        "confidence": "high",
+        "symptoms": "Độ sáng cảm giác tối hơn màn thường.",
+        "solution": "Tắt phím F2 Sure View hoặc thay màn hình IPS chuẩn sRGB."
+      }
+    ]
+  }
+]

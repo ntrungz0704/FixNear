@@ -1,0 +1,17 @@
+# Temporary locks and logs
+data/*.lock
+*.log
+.DS_Store
+Thumbs.db
+desktop.ini
+
+# Python cache
+__pycache__/
+*.py[cod]
+*$py.class
+
+# Local configuration overrides
+config/local.php
+.env
+.env.*
+!.env.example

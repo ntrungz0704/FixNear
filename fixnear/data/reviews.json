@@ -1,0 +1,92 @@
+[
+  {
+    "id": 1,
+    "shop_id": 1,
+    "user_id": 2,
+    "user_name": "Nguyễn Văn Nam",
+    "rating": 5,
+    "device_name": "Laptop Asus TUF F15",
+    "service_repaired": "Thay pin laptop",
+    "comment": "Mình đi thay pin ở Điện Thoại Vui 136 Nguyễn Thái Học, thợ mở máy cho mình xem tận mắt, pin mới nguyên seal. Thay xong test phần mềm BatteryReport báo pin 100% dung lượng. Nhân viên tư vấn nhiệt tình, có phiếu bảo hành 6 tháng.",
+    "is_hidden": false,
+    "created_at": "2026-09-15 10:30:00",
+    "admin_reply": "FixNear chân thành cảm ơn bạn Nam đã chia sẻ trải nghiệm thực tế! Tiêu chuẩn cho khách ngồi xem trực tiếp và kiểm tra dung lượng pin trước khi bàn giao là quy định bắt buộc đối với tất cả đối tác được công bố trên nền tảng FixNear.",
+    "admin_reply_at": "2026-09-15 14:15:00"
+  },
+  {
+    "id": 2,
+    "shop_id": 2,
+    "user_id": 3,
+    "user_name": "Trần Minh Hoàng",
+    "rating": 5,
+    "device_name": "iPhone 12 Pro",
+    "service_repaired": "Thay pin điện thoại",
+    "comment": "Bên Viện Di Động 73 Trần Quang Khải làm việc cực kỳ chuyên nghiệp. Báo giá trên web bao nhiêu tới nơi thu đúng bấy nhiêu, không vẽ thêm tiền công. Có phiếu bảo hành điện tử qua SĐT, lấy máy sau 30 phút.",
+    "is_hidden": false,
+    "created_at": "2026-09-16 15:45:00",
+    "admin_reply": "Cảm ơn bạn Hoàng đã phản hồi tích cực! FixNear luôn giám sát chặt chẽ tính chuẩn xác của bảng giá niêm yết để bảo đảm khách hàng không bao giờ bị phát sinh phụ phí ẩn.",
+    "admin_reply_at": "2026-09-16 18:20:00"
+  },
+  {
+    "id": 3,
+    "shop_id": 3,
+    "user_id": 4,
+    "user_name": "Lê Thị Lan Anh",
+    "rating": 5,
+    "device_name": "MacBook Pro M1",
+    "service_repaired": "Vệ sinh máy & Tra keo tản nhiệt",
+    "comment": "Tiệm Bảo Hành One 195 Nguyễn Thái Học vệ sinh rất kỹ, thợ tháo từng cánh quạt ra lau sạch bụi rồi tra keo gấu xịn. Máy mình từ 85 độ C lúc render video giảm còn 65 độ. Được xuất trình thẻ sinh viên giảm 10% phí dịch vụ rất hài lòng!",
+    "is_hidden": false,
+    "created_at": "2026-09-17 17:20:00",
+    "admin_reply": "Cảm ơn bạn Lan Anh đã tin tưởng sử dụng dịch vụ tại đối tác của FixNear!",
+    "admin_reply_at": "2026-09-17 19:00:00"
+  },
+  {
+    "id": 4,
+    "shop_id": 4,
+    "user_id": 2,
+    "user_name": "Nguyễn Văn Nam",
+    "rating": 5,
+    "device_name": "Samsung Galaxy A53",
+    "service_repaired": "Thay mặt kính / Ép kính",
+    "comment": "Bệnh Viện Điện Thoại Laptop 24h Tân Định làm việc rất chuẩn mực, cho ký tên lên mainboard và màn hình trước khi ép kính. Lấy máy sau 40 phút, cảm ứng mượt mà và màn hình trong veo.",
+    "is_hidden": false,
+    "created_at": "2026-09-18 11:15:00"
+  },
+  {
+    "id": 5,
+    "shop_id": 15,
+    "user_id": 3,
+    "user_name": "Trần Minh Hoàng",
+    "rating": 5,
+    "device_name": "Laptop Lenovo ThinkPad",
+    "service_repaired": "Cài Windows & Phần mềm văn phòng",
+    "comment": "iCare Center Hùng Vương hỗ trợ rất nhanh nhẹn và am hiểu kỹ thuật! Cài Win sạch chuẩn UEFI, kích hoạt bản quyền, cài đầy đủ phần mềm văn phòng, đồ họa và tối ưu tốc độ khởi động chỉ 15 giây. 10 sao cho độ nhiệt tình!",
+    "is_hidden": false,
+    "created_at": "2026-09-19 19:10:00"
+  },
+  {
+    "id": 6,
+    "shop_id": 38,
+    "user_id": 4,
+    "user_name": "Lê Thị Lan Anh",
+    "rating": 5,
+    "device_name": "Laptop Dell Inspiron 5515",
+    "service_repaired": "Thay pin laptop",
+    "comment": "Chi nhánh FASTCARE Tô Ký gần trường FPT Polytechnic, thợ mở máy cho mình xem tận mắt, pin mới nguyên seal. Thay xong test phần mềm BatteryReport báo pin 100% dung lượng. Sinh viên được hỗ trợ nhiệt tình!",
+    "is_hidden": false,
+    "created_at": "2026-09-20 14:00:00"
+  },
+  {
+    "id": 7,
+    "shop_id": 39,
+    "user_id": 2,
+    "user_name": "Nguyễn Văn Nam",
+    "rating": 5,
+    "device_name": "Laptop Asus ROG",
+    "service_repaired": "Bàn phím liệt / Kẹt nút bấm",
+    "comment": "Bệnh viện Laptop ZIN Tô Ký thay phím zin gõ cực êm, thợ thao tác nhanh trong 30 phút, giá chuẩn theo khung tham khảo trên FixNear không phát sinh thêm chi phí.",
+    "is_hidden": false,
+    "created_at": "2026-09-21 09:30:00"
+  }
+]

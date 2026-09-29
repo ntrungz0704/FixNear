@@ -1,0 +1,205 @@
+[
+  {
+    "id": "xiaomi-pad-6-pro",
+    "name": "Xiaomi Pad 6 Pro",
+    "brand": "xiaomi",
+    "deviceType": "tablet",
+    "tier": "T2",
+    "releaseYear": 2023,
+    "specs": {
+      "screen": "11.0 inch IPS LCD 2.8K 144Hz 10-bit",
+      "chip": "Snapdragon 8+ Gen 1",
+      "battery": "8600 mAh",
+      "charging": "67W"
+    },
+    "supportedFaults": [
+      "screen",
+      "glass-press",
+      "battery",
+      "charging-port",
+      "mainboard",
+      "camera",
+      "speaker",
+      "mic",
+      "hinge-body",
+      "thermal",
+      "software",
+      "water-damage",
+      "data-recovery",
+      "diagnostic",
+      "pencil-charging"
+    ],
+    "knownIssues": [
+      {
+        "id": "smart-pen-charging-drop",
+        "title": "Mất nhận sạc nam châm bút cảm ứng Xiaomi Smart Pen 2",
+        "severity": "medium",
+        "confidence": "high",
+        "symptoms": "Bút không kết nối bluetooth.",
+        "solution": "Thay cuộn cảm biến từ tính hông máy."
+      }
+    ]
+  },
+  {
+    "id": "xiaomi-pad-6",
+    "name": "Xiaomi Pad 6",
+    "brand": "xiaomi",
+    "deviceType": "tablet",
+    "tier": "T2",
+    "releaseYear": 2023,
+    "specs": {
+      "screen": "11.0 inch IPS LCD 2.8K 144Hz",
+      "chip": "Snapdragon 870",
+      "battery": "8840 mAh",
+      "charging": "33W"
+    },
+    "supportedFaults": [
+      "screen",
+      "glass-press",
+      "battery",
+      "charging-port",
+      "mainboard",
+      "camera",
+      "speaker",
+      "mic",
+      "hinge-body",
+      "thermal",
+      "software",
+      "water-damage",
+      "data-recovery",
+      "diagnostic",
+      "pencil-charging"
+    ],
+    "knownIssues": [
+      {
+        "id": "battery-aged-pad6",
+        "title": "Pin sụt nhanh sau thời gian dài cày phim học tập",
+        "severity": "medium",
+        "confidence": "high",
+        "symptoms": "Dung lượng pin giảm.",
+        "solution": "Thay pin mới bảo hành 6 tháng."
+      }
+    ]
+  },
+  {
+    "id": "xiaomi-pad-5",
+    "name": "Xiaomi Pad 5",
+    "brand": "xiaomi",
+    "deviceType": "tablet",
+    "tier": "T2",
+    "releaseYear": 2021,
+    "specs": {
+      "screen": "11.0 inch IPS LCD 2.5K 120Hz",
+      "chip": "Snapdragon 860",
+      "battery": "8720 mAh",
+      "charging": "33W"
+    },
+    "supportedFaults": [
+      "screen",
+      "glass-press",
+      "battery",
+      "charging-port",
+      "mainboard",
+      "camera",
+      "speaker",
+      "mic",
+      "hinge-body",
+      "thermal",
+      "software",
+      "water-damage",
+      "data-recovery",
+      "diagnostic",
+      "pencil-charging"
+    ],
+    "knownIssues": [
+      {
+        "id": "touch-jitter-pad5",
+        "title": "Cảm ứng hơi loạn khi cắm sạc củ sạc lạ",
+        "severity": "medium",
+        "confidence": "high",
+        "symptoms": "Màn hình tự nhảy cảm ứng khi sạc pin.",
+        "solution": "Thay củ sạc chuẩn dòng hoặc thay màn hình mới."
+      }
+    ]
+  },
+  {
+    "id": "xiaomi-redmi-pad-pro",
+    "name": "Redmi Pad Pro",
+    "brand": "xiaomi",
+    "deviceType": "tablet",
+    "tier": "T1",
+    "releaseYear": 2024,
+    "specs": {
+      "screen": "12.1 inch IPS LCD 2.5K 120Hz",
+      "chip": "Snapdragon 7s Gen 2",
+      "battery": "10.000 mAh",
+      "charging": "33W"
+    },
+    "supportedFaults": [
+      "screen",
+      "glass-press",
+      "battery",
+      "charging-port",
+      "mainboard",
+      "camera",
+      "speaker",
+      "mic",
+      "hinge-body",
+      "thermal",
+      "software",
+      "water-damage",
+      "data-recovery",
+      "diagnostic"
+    ],
+    "knownIssues": [
+      {
+        "id": "glass-crack-rpad-pro",
+        "title": "Mặt kính màn hình 12.1 inch nứt vỡ",
+        "severity": "medium",
+        "confidence": "high",
+        "symptoms": "Kính rạn ngoài, cảm ứng còn dùng tốt.",
+        "solution": "Ép mặt kính màn hình mới."
+      }
+    ]
+  },
+  {
+    "id": "xiaomi-redmi-pad-se",
+    "name": "Redmi Pad SE",
+    "brand": "xiaomi",
+    "deviceType": "tablet",
+    "tier": "T1",
+    "releaseYear": 2023,
+    "specs": {
+      "screen": "11.0 inch IPS LCD 90Hz",
+      "chip": "Snapdragon 680",
+      "battery": "8000 mAh",
+      "charging": "10W / 18W"
+    },
+    "supportedFaults": [
+      "screen",
+      "glass-press",
+      "battery",
+      "charging-port",
+      "mainboard",
+      "camera",
+      "speaker",
+      "mic",
+      "hinge-body",
+      "thermal",
+      "software",
+      "water-damage",
+      "data-recovery",
+      "diagnostic"
+    ],
+    "knownIssues": [
+      {
+        "id": "charging-slow-se",
+        "title": "Thời gian sạc pin lâu",
+        "severity": "low",
+        "confidence": "high",
+        "symptoms": "Sạc đầy mất hơn 3 tiếng.",
+        "solution": "Kiểm tra củ cáp sạc nhanh tương thích."
+      }
+    ]
+  }
+]

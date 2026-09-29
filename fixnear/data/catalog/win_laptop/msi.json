@@ -1,0 +1,413 @@
+[
+  {
+    "id": "msi-titan-18-hx",
+    "name": "MSI Titan 18 HX",
+    "brand": "msi",
+    "deviceType": "win_laptop",
+    "tier": "L4",
+    "releaseYear": 2024,
+    "specs": {
+      "cpu": "Core i9-14900HX",
+      "gpu": "RTX 4090 175W",
+      "screen": "18.0 inch 4K Mini-LED 120Hz, bàn phím cơ Cherry MX",
+      "ram": "64GB/128GB DDR5 4 khe",
+      "chassis": "Quái vật tản nhiệt buồng hơi Vapor Chamber nặng 3.6kg"
+    },
+    "supportedFaults": [
+      "screen",
+      "battery",
+      "keyboard",
+      "trackpad",
+      "charging-port",
+      "hinge-body",
+      "mainboard",
+      "speaker",
+      "mic",
+      "camera",
+      "thermal",
+      "ssd-upgrade",
+      "ram-upgrade",
+      "software",
+      "water-damage",
+      "data-recovery",
+      "diagnostic",
+      "vga-gpu"
+    ],
+    "knownIssues": [
+      {
+        "id": "heavy-chassis-hinge",
+        "title": "Bản lề chịu tải màn hình khổng lồ 18 inch bị căng lực sau 1 năm",
+        "severity": "high",
+        "confidence": "high",
+        "symptoms": "Màn hình 18 inch nặng mở ra hơi cập kênh.",
+        "solution": "Cân chỉnh siết ốc lò xo trợ lực bản lề kép."
+      }
+    ]
+  },
+  {
+    "id": "msi-raider-ge78-hx",
+    "name": "MSI Raider GE78 HX",
+    "brand": "msi",
+    "deviceType": "win_laptop",
+    "tier": "L4",
+    "releaseYear": 2023,
+    "specs": {
+      "cpu": "Core i9-13980HX",
+      "gpu": "RTX 4080 / RTX 4090",
+      "screen": "17.0 inch QHD+ 240Hz, dải đèn Matrix RGB Mystic Light",
+      "ram": "32GB DDR5 rời",
+      "chassis": "Vỏ kim loại dải LED ma trận"
+    },
+    "supportedFaults": [
+      "screen",
+      "battery",
+      "keyboard",
+      "trackpad",
+      "charging-port",
+      "hinge-body",
+      "mainboard",
+      "speaker",
+      "mic",
+      "camera",
+      "thermal",
+      "ssd-upgrade",
+      "ram-upgrade",
+      "software",
+      "water-damage",
+      "data-recovery",
+      "diagnostic",
+      "vga-gpu"
+    ],
+    "knownIssues": [
+      {
+        "id": "mystic-led-bar-dead",
+        "title": "Dải đèn LED Matrix phía trước chiếu nghỉ bị tắt một đoạn",
+        "severity": "low",
+        "confidence": "high",
+        "symptoms": "Dải đèn cầu vồng bị tối vài hạt LED.",
+        "solution": "Thay dải cáp LED Mystic Light chính hãng."
+      }
+    ]
+  },
+  {
+    "id": "msi-katana-15",
+    "name": "MSI Katana 15",
+    "brand": "msi",
+    "deviceType": "win_laptop",
+    "tier": "L3",
+    "releaseYear": 2023,
+    "specs": {
+      "cpu": "Core i7-13620H",
+      "gpu": "RTX 4050 / RTX 4060",
+      "screen": "15.6 inch FHD 144Hz",
+      "ram": "16GB DDR5 rời",
+      "chassis": "Vỏ nhựa đen phong cách kiếm thủ Katana"
+    },
+    "supportedFaults": [
+      "screen",
+      "battery",
+      "keyboard",
+      "trackpad",
+      "charging-port",
+      "hinge-body",
+      "mainboard",
+      "speaker",
+      "mic",
+      "camera",
+      "thermal",
+      "ssd-upgrade",
+      "ram-upgrade",
+      "software",
+      "water-damage",
+      "data-recovery",
+      "diagnostic",
+      "vga-gpu"
+    ],
+    "knownIssues": [
+      {
+        "id": "msi-hinge-shatter",
+        "title": "Gãy bản lề vỏ nhựa bên trái/phải (Bệnh kinh điển của MSI Katana / GF Series)",
+        "severity": "critical",
+        "confidence": "high",
+        "symptoms": "Mở màn hình thấy vỏ góc bung toạc, kêu tách gãy chân ốc nhựa, cấn đè nứt góc màn hình.",
+        "solution": "Hàn gia cố cấy chân ốc đồng, xả nhẹ độ nặng bản lề hai bên, bao gãy trọn đời máy."
+      },
+      {
+        "id": "hot-cpu-temps-katana",
+        "title": "Nhiệt độ CPU chạm ngưỡng 96°C quạt hú to khi chơi game",
+        "severity": "high",
+        "confidence": "high",
+        "symptoms": "Máy nóng ran vùng phím, giật khung hình.",
+        "solution": "Vệ sinh lưới tản nhiệt Cooler Boost 5 và thay keo tản nhiệt gốm MX-6."
+      }
+    ]
+  },
+  {
+    "id": "msi-katana-17",
+    "name": "MSI Katana 17",
+    "brand": "msi",
+    "deviceType": "win_laptop",
+    "tier": "L3",
+    "releaseYear": 2023,
+    "specs": {
+      "cpu": "Core i7-13620H",
+      "gpu": "RTX 4060",
+      "screen": "17.3 inch FHD 144Hz",
+      "ram": "16GB DDR5 rời",
+      "chassis": "Vỏ nhựa"
+    },
+    "supportedFaults": [
+      "screen",
+      "battery",
+      "keyboard",
+      "trackpad",
+      "charging-port",
+      "hinge-body",
+      "mainboard",
+      "speaker",
+      "mic",
+      "camera",
+      "thermal",
+      "ssd-upgrade",
+      "ram-upgrade",
+      "software",
+      "water-damage",
+      "data-recovery",
+      "diagnostic",
+      "vga-gpu"
+    ],
+    "knownIssues": [
+      {
+        "id": "hinge-crack-17inch",
+        "title": "Gãy chân ốc bản lề màn hình 17.3 inch to nặng",
+        "severity": "critical",
+        "confidence": "high",
+        "symptoms": "Bung nắp góc viền màn hình.",
+        "solution": "Hàn cấy chân ốc kim loại chịu lực cao."
+      }
+    ]
+  },
+  {
+    "id": "msi-cyborg-15",
+    "name": "MSI Cyborg 15",
+    "brand": "msi",
+    "deviceType": "win_laptop",
+    "tier": "L2",
+    "releaseYear": 2023,
+    "specs": {
+      "cpu": "Core i5-12450H / i7-12650H",
+      "gpu": "RTX 4050 / RTX 4060 45W",
+      "screen": "15.6 inch FHD 144Hz, vỏ bán trong suốt",
+      "ram": "16GB DDR5 rời",
+      "chassis": "Vỏ nhựa trong suốt Cyberpunk mỏng nhẹ 1.98kg"
+    },
+    "supportedFaults": [
+      "screen",
+      "battery",
+      "keyboard",
+      "trackpad",
+      "charging-port",
+      "hinge-body",
+      "mainboard",
+      "speaker",
+      "mic",
+      "camera",
+      "thermal",
+      "ssd-upgrade",
+      "ram-upgrade",
+      "software",
+      "water-damage",
+      "data-recovery",
+      "diagnostic",
+      "vga-gpu"
+    ],
+    "knownIssues": [
+      {
+        "id": "single-fan-hot",
+        "title": "Thiết kế chỉ có 1 quạt tản nhiệt nên máy ấm nhanh khi chơi game nặng",
+        "severity": "medium",
+        "confidence": "high",
+        "symptoms": "Nhiệt độ nóng tập trung ở cạnh bên trái máy.",
+        "solution": "Vệ sinh làm sạch bụi quạt đơn định kỳ và bôi keo tản nhiệt cao cấp."
+      }
+    ]
+  },
+  {
+    "id": "msi-thin-gf63",
+    "name": "MSI Thin GF63",
+    "brand": "msi",
+    "deviceType": "win_laptop",
+    "tier": "L2",
+    "releaseYear": 2023,
+    "specs": {
+      "cpu": "Core i5-12450H",
+      "gpu": "RTX 2050 / RTX 3050 / RTX 4050 45W",
+      "screen": "15.6 inch FHD 144Hz",
+      "ram": "8GB/16GB DDR4 rời",
+      "chassis": "Nắp nhôm phay xước, thân nhựa mỏng 1.86kg"
+    },
+    "supportedFaults": [
+      "screen",
+      "battery",
+      "keyboard",
+      "trackpad",
+      "charging-port",
+      "hinge-body",
+      "mainboard",
+      "speaker",
+      "mic",
+      "camera",
+      "thermal",
+      "ssd-upgrade",
+      "ram-upgrade",
+      "software",
+      "water-damage",
+      "data-recovery",
+      "diagnostic",
+      "vga-gpu"
+    ],
+    "knownIssues": [
+      {
+        "id": "gf63-hinge-broken",
+        "title": "Bung gãy chân ốc bản lề hai bên góc (Lỗi rất phổ biến dòng GF63)",
+        "severity": "critical",
+        "confidence": "high",
+        "symptoms": "Bung nắp viền B và gãy chân ngàm mặt C.",
+        "solution": "Hàn đúc lại chân ốc kim loại gia cố keo chịu lực."
+      }
+    ]
+  },
+  {
+    "id": "msi-modern-14",
+    "name": "MSI Modern 14",
+    "brand": "msi",
+    "deviceType": "win_laptop",
+    "tier": "L1",
+    "releaseYear": 2023,
+    "specs": {
+      "cpu": "Core i3-1215U / i5-1235U / Ryzen 5 7530U",
+      "screen": "14.0 inch FHD IPS",
+      "ram": "8GB/16GB DDR4 nâng cấp được",
+      "storage": "512GB SSD",
+      "chassis": "Vỏ nhôm đen mỏng nhẹ 1.4kg"
+    },
+    "supportedFaults": [
+      "screen",
+      "battery",
+      "keyboard",
+      "trackpad",
+      "charging-port",
+      "hinge-body",
+      "mainboard",
+      "speaker",
+      "mic",
+      "camera",
+      "thermal",
+      "ssd-upgrade",
+      "ram-upgrade",
+      "software",
+      "water-damage",
+      "data-recovery",
+      "diagnostic"
+    ],
+    "knownIssues": [
+      {
+        "id": "modern14-dc-loose",
+        "title": "Chân cắm sạc nguồn DC nhỏ dễ lỏng lẻo sau 1 năm",
+        "severity": "medium",
+        "confidence": "high",
+        "symptoms": "Cắm dây sạc xoay qua lại mới nhận pin.",
+        "solution": "Hàn thay chân Jack nguồn DC trên bo mạch."
+      }
+    ]
+  },
+  {
+    "id": "msi-modern-15",
+    "name": "MSI Modern 15",
+    "brand": "msi",
+    "deviceType": "win_laptop",
+    "tier": "L1",
+    "releaseYear": 2023,
+    "specs": {
+      "cpu": "Core i5-1335U / Ryzen 7 7730U",
+      "screen": "15.6 inch FHD IPS",
+      "ram": "DDR4 nâng cấp được",
+      "storage": "512GB SSD",
+      "chassis": "Vỏ nhôm đen"
+    },
+    "supportedFaults": [
+      "screen",
+      "battery",
+      "keyboard",
+      "trackpad",
+      "charging-port",
+      "hinge-body",
+      "mainboard",
+      "speaker",
+      "mic",
+      "camera",
+      "thermal",
+      "ssd-upgrade",
+      "ram-upgrade",
+      "software",
+      "water-damage",
+      "data-recovery",
+      "diagnostic"
+    ],
+    "knownIssues": [
+      {
+        "id": "keyboard-space-modern",
+        "title": "Phím cách Spacebar bị kẹt một bên mép",
+        "severity": "low",
+        "confidence": "high",
+        "symptoms": "Nhấn phím cách không nảy.",
+        "solution": "Cân chỉnh thanh cân bằng lò xo phím Spacebar."
+      }
+    ]
+  },
+  {
+    "id": "msi-stealth-16-studio",
+    "name": "MSI Stealth 16 Studio",
+    "brand": "msi",
+    "deviceType": "win_laptop",
+    "tier": "L4",
+    "releaseYear": 2023,
+    "specs": {
+      "cpu": "Core i7-13700H / i9-13900H",
+      "gpu": "RTX 4070 / RTX 4080",
+      "screen": "16.0 inch QHD+ 240Hz / 4K 120Hz Mini-LED",
+      "ram": "32GB DDR5 rời",
+      "chassis": "Hợp kim Magie Nhôm siêu nhẹ 1.99kg"
+    },
+    "supportedFaults": [
+      "screen",
+      "battery",
+      "keyboard",
+      "trackpad",
+      "charging-port",
+      "hinge-body",
+      "mainboard",
+      "speaker",
+      "mic",
+      "camera",
+      "thermal",
+      "ssd-upgrade",
+      "ram-upgrade",
+      "software",
+      "water-damage",
+      "data-recovery",
+      "diagnostic",
+      "vga-gpu"
+    ],
+    "knownIssues": [
+      {
+        "id": "audio-dynaudio-speaker",
+        "title": "Hệ thống 6 loa Dynaudio rè nhẹ âm bass khi mở max volume",
+        "severity": "low",
+        "confidence": "high",
+        "symptoms": "Tiếng rè màng loa ở âm trầm.",
+        "solution": "Vệ sinh màng loa hoặc thay loa trầm subwoofer."
+      }
+    ]
+  }
+]

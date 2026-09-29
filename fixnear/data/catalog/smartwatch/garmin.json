@@ -1,0 +1,197 @@
+[
+  {
+    "id": "garmin-fenix-7-pro-solar",
+    "name": "Garmin Fenix 7 Pro Sapphire Solar",
+    "brand": "garmin",
+    "deviceType": "smartwatch",
+    "tier": "W3",
+    "releaseYear": 2023,
+    "specs": {
+      "case": "47mm / 51mm Viền Titanium, nắp lưng thép/titan, đèn pin LED tích hợp",
+      "screen": "1.3 inch MIP phản xạ ánh sáng mặt trời sạc Solar",
+      "battery": "Pin lên đến 22 ngày ở chế độ Smartwatch",
+      "water": "Kháng nước 10 ATM 100 mét"
+    },
+    "supportedFaults": [
+      "screen",
+      "glass-press",
+      "battery",
+      "digital-crown",
+      "taptic-engine",
+      "charging-port",
+      "speaker",
+      "mic",
+      "mainboard",
+      "water-damage",
+      "software",
+      "diagnostic"
+    ],
+    "knownIssues": [
+      {
+        "id": "solar-ring-charging-fade",
+        "title": "Vòng thấu kính hấp thụ năng lượng mặt trời Power Sapphire bị ố mờ",
+        "severity": "low",
+        "confidence": "high",
+        "symptoms": "Cường độ nạp năng lượng Solar Lux giảm sút sau khi tắm bùn lầy.",
+        "solution": "Vệ sinh làm sạch bề mặt quang học kính Sapphire."
+      },
+      {
+        "id": "button-double-click-fail",
+        "title": "5 phím cơ học bấm bị sượng cát sau khi chạy địa hình Trail",
+        "severity": "medium",
+        "confidence": "high",
+        "symptoms": "Nút Start/Stop bị dính phím hoặc mất tiếng click cơ học.",
+        "solution": "Vệ sinh màng lò xo đệm cao su kín nước 5 nút bấm cơ."
+      }
+    ]
+  },
+  {
+    "id": "garmin-epix-pro-gen-2",
+    "name": "Garmin Epix Pro (Gen 2) Sapphire",
+    "brand": "garmin",
+    "deviceType": "smartwatch",
+    "tier": "W3",
+    "releaseYear": 2023,
+    "specs": {
+      "case": "42/47/51mm Viền Titanium",
+      "screen": "1.4 inch AMOLED sắc nét, kính Sapphire",
+      "sensor": "Cảm biến tim Elevate V5 có ECG",
+      "battery": "Lên đến 31 ngày"
+    },
+    "supportedFaults": [
+      "screen",
+      "glass-press",
+      "battery",
+      "digital-crown",
+      "taptic-engine",
+      "charging-port",
+      "speaker",
+      "mic",
+      "mainboard",
+      "water-damage",
+      "software",
+      "diagnostic"
+    ],
+    "knownIssues": [
+      {
+        "id": "led-flashlight-burnt",
+        "title": "Bóng đèn pin LED chiếu sáng tích hợp cạnh trên không sáng",
+        "severity": "low",
+        "confidence": "high",
+        "symptoms": "Bấm kích hoạt đèn pin đôi không sáng.",
+        "solution": "Thay module bóng LED chiếu sáng mini chính hãng Garmin."
+      }
+    ]
+  },
+  {
+    "id": "garmin-forerunner-965",
+    "name": "Garmin Forerunner 965",
+    "brand": "garmin",
+    "deviceType": "smartwatch",
+    "tier": "W2",
+    "releaseYear": 2023,
+    "specs": {
+      "case": "47mm Viền Titanium siêu nhẹ, thân polymer",
+      "screen": "1.4 inch AMOLED cảm ứng sắc nét",
+      "battery": "23 ngày Smartwatch, 31 giờ GPS"
+    },
+    "supportedFaults": [
+      "screen",
+      "glass-press",
+      "battery",
+      "digital-crown",
+      "taptic-engine",
+      "charging-port",
+      "speaker",
+      "mic",
+      "mainboard",
+      "water-damage",
+      "software",
+      "diagnostic"
+    ],
+    "knownIssues": [
+      {
+        "id": "charging-contact-pins-corrosion",
+        "title": "4 chân tiếp xúc đồng cắm sạc mặt lưng bị rỉ xanh (Lỗi kinh điển của Garmin)",
+        "severity": "high",
+        "confidence": "high",
+        "symptoms": "Cắm dây sạc kẹp hoặc dây tròn Garmin không nhận điện do mồ hôi ăn mòn chân đồng.",
+        "solution": "Cạo sạch lớp oxy hóa mạ lại tiếp điểm đồng hoặc thay cụm nắp lưng cảm biến mới."
+      }
+    ]
+  },
+  {
+    "id": "garmin-forerunner-265",
+    "name": "Garmin Forerunner 265",
+    "brand": "garmin",
+    "deviceType": "smartwatch",
+    "tier": "W2",
+    "releaseYear": 2023,
+    "specs": {
+      "case": "42mm / 46mm Vỏ polymer gia cố sợi",
+      "screen": "1.1 / 1.3 inch AMOLED",
+      "battery": "13 ngày Smartwatch"
+    },
+    "supportedFaults": [
+      "screen",
+      "glass-press",
+      "battery",
+      "digital-crown",
+      "taptic-engine",
+      "charging-port",
+      "speaker",
+      "mic",
+      "mainboard",
+      "water-damage",
+      "software",
+      "diagnostic"
+    ],
+    "knownIssues": [
+      {
+        "id": "garmin-pin-rust-265",
+        "title": "Oxy hóa chân sạc 4 chấu mặt lưng sau khi chạy bộ trời mưa",
+        "severity": "high",
+        "confidence": "high",
+        "symptoms": "Sạc không vào điện.",
+        "solution": "Làm sạch chân sạc tiếp xúc hoặc dùng nút bịt silicon bảo vệ."
+      }
+    ]
+  },
+  {
+    "id": "garmin-venu-3",
+    "name": "Garmin Venu 3",
+    "brand": "garmin",
+    "deviceType": "smartwatch",
+    "tier": "W2",
+    "releaseYear": 2023,
+    "specs": {
+      "case": "45mm Viền thép không gỉ, tích hợp loa & micro đàm thoại",
+      "screen": "1.4 inch AMOLED",
+      "battery": "14 ngày Smartwatch"
+    },
+    "supportedFaults": [
+      "screen",
+      "glass-press",
+      "battery",
+      "digital-crown",
+      "taptic-engine",
+      "charging-port",
+      "speaker",
+      "mic",
+      "mainboard",
+      "water-damage",
+      "software",
+      "diagnostic"
+    ],
+    "knownIssues": [
+      {
+        "id": "speaker-muffled-water",
+        "title": "Loa ngoài bị nghẹt nước sau khi bơi hồ",
+        "severity": "low",
+        "confidence": "high",
+        "symptoms": "Nghe gọi âm lượng nhỏ và rè.",
+        "solution": "Dùng tính năng rung đẩy nước hoặc vệ sinh màng loa chống nước."
+      }
+    ]
+  }
+]

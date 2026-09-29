@@ -1,0 +1,23 @@
+{
+  "standard": {
+    "name": "Linh kiện Tiêu chuẩn (Standard / Loại 1)",
+    "factor": 1.0,
+    "warrantyMultiplier": 1.0,
+    "badge": "Tiết kiệm",
+    "description": "Linh kiện thay thế loại 1 đạt tiêu chuẩn kiểm định FixNear, tương thích 90-95% so với ban đầu, chi phí tối ưu."
+  },
+  "oem": {
+    "name": "Linh kiện OEM Cao cấp (High-Grade / Foxconn / Pisen)",
+    "factor": 1.3,
+    "warrantyMultiplier": 1.5,
+    "badge": "Khuyên dùng",
+    "description": "Linh kiện từ chuỗi cung ứng OEM cấp 1, chất lượng đạt 98% chuẩn gốc, độ bền cao và bảo hành mở rộng."
+  },
+  "genuine": {
+    "name": "Linh kiện Chính hãng / Bóc máy Zin (Original Genuine)",
+    "factor": 1.8,
+    "warrantyMultiplier": 2.0,
+    "badge": "Chính hãng",
+    "description": "Linh kiện chính hãng nguyên bản hoặc bóc máy chuẩn 100%, giữ nguyên mọi tính năng độc quyền và độ bền tối đa."
+  }
+}

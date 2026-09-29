@@ -1,0 +1,4 @@
+﻿model_id,fault_id,grade,min_price,max_price,turnaround,warranty_months,note
+apple-iphone-13-pro-max,screen,genuine,6500000,7800000,1 - 2 ngày,12,"Màn zin bóc máy chính hãng Apple 100%, fix TrueTone"
+apple-iphone-13-pro-max,face-id,standard,850000,1200000,2 - 4 giờ,6,Hàn cáp Dot Projector cứu Face ID
+samsung-galaxy-z-fold-5,foldable-cable,standard,1800000,2400000,3 - 5 giờ,6,Hàn nối câu cáp bản lề gập mất âm thanh

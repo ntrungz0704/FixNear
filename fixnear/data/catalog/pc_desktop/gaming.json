@@ -1,0 +1,192 @@
+[
+  {
+    "id": "pc-gaming-ultra-i9-rtx4090",
+    "name": "PC Gaming Ultra High-End (i9 14900K / RTX 4090)",
+    "brand": "gaming",
+    "deviceType": "pc_desktop",
+    "tier": "D3",
+    "releaseYear": 2024,
+    "specs": {
+      "cpu": "Intel Core i9-14900K / AMD Ryzen 9 7950X3D",
+      "gpu": "Nvidia GeForce RTX 4090 24GB GDDR6X",
+      "cooling": "Tản nhiệt nước AIO 360mm ARGB",
+      "psu": "Nguồn 1000W - 1200W chuẩn ATX 3.0 PCIe 5.0",
+      "ram": "64GB DDR5 RGB",
+      "chassis": "Vỏ bể cá 2 mặt kính cường lực"
+    },
+    "supportedFaults": [
+      "mainboard",
+      "psu-repair",
+      "vga-gpu",
+      "thermal",
+      "aio-liquid-cooler",
+      "ssd-upgrade",
+      "ram-upgrade",
+      "software",
+      "data-recovery",
+      "diagnostic"
+    ],
+    "knownIssues": [
+      {
+        "id": "12vhpwr-melting-connector",
+        "title": "Cháy sém đầu cắm nguồn 12VHPWR (16-pin) cấp cho card RTX 4090",
+        "severity": "critical",
+        "confidence": "high",
+        "symptoms": "Đầu cắm nguồn 16 chân bị nóng chảy nhựa, có mùi khét, máy sập nguồn không kích được.",
+        "solution": "Thay thế giắc cắm 12V-2x6 thế hệ mới, hàn lại chân tiếp xúc nguồn trên bo mạch VGA và thay cáp nguồn modul chính hãng."
+      },
+      {
+        "id": "aio-pump-failure-100c",
+        "title": "Hỏng bơm tản nhiệt nước AIO khiến CPU nhảy vọt 100°C tắt máy ngay",
+        "severity": "critical",
+        "confidence": "high",
+        "symptoms": "Vừa bật máy lên vài phút CPU báo 100°C và tự tắt ngắt điện, sờ 2 ống tản 1 ống rất nóng 1 ống nguội ngắt.",
+        "solution": "Thay bơm tản AIO mới hoặc phục hồi cánh quạt bơm, châm lại dung dịch làm mát coolant chống đóng cặn."
+      }
+    ]
+  },
+  {
+    "id": "pc-gaming-high-i7-rtx4070ti",
+    "name": "PC Gaming High-End (i7 14700K / RTX 4070 Ti)",
+    "brand": "gaming",
+    "deviceType": "pc_desktop",
+    "tier": "D3",
+    "releaseYear": 2023,
+    "specs": {
+      "cpu": "Core i7-13700K / i7-14700K / Ryzen 7 7800X3D",
+      "gpu": "RTX 4070 Ti / 4070 Ti Super 16GB",
+      "cooling": "Tản nhiệt nước AIO 240/360mm",
+      "psu": "850W Gold",
+      "ram": "32GB DDR5"
+    },
+    "supportedFaults": [
+      "mainboard",
+      "psu-repair",
+      "vga-gpu",
+      "thermal",
+      "aio-liquid-cooler",
+      "ssd-upgrade",
+      "ram-upgrade",
+      "software",
+      "data-recovery",
+      "diagnostic"
+    ],
+    "knownIssues": [
+      {
+        "id": "vram-thermal-pad-leak",
+        "title": "Miếng tản nhiệt pad VRAM chảy dầu và nhiệt độ bộ nhớ GPU nóng >90°C",
+        "severity": "medium",
+        "confidence": "high",
+        "symptoms": "Card đồ họa rỉ dầu ẩm quanh chip nhớ VRAM, quạt tản nhiệt quay 100% ồn ào.",
+        "solution": "Vệ sinh tẩy sạch dầu silicon và thay thế thermal pad dẫn nhiệt cao cấp Gelid/Thermalright."
+      }
+    ]
+  },
+  {
+    "id": "pc-gaming-mid-i5-rtx4060",
+    "name": "PC Gaming Quốc Dân (i5 13400F / RTX 4060)",
+    "brand": "gaming",
+    "deviceType": "pc_desktop",
+    "tier": "D2",
+    "releaseYear": 2023,
+    "specs": {
+      "cpu": "Intel Core i5-13400F / Ryzen 5 7600",
+      "gpu": "GeForce RTX 4060 8GB / RTX 3060 12GB",
+      "cooling": "Tản nhiệt khí tháp đôi 4 ống đồng",
+      "psu": "650W Bronze",
+      "ram": "16GB/32GB DDR4/DDR5"
+    },
+    "supportedFaults": [
+      "mainboard",
+      "psu-repair",
+      "vga-gpu",
+      "thermal",
+      "ssd-upgrade",
+      "ram-upgrade",
+      "software",
+      "data-recovery",
+      "diagnostic"
+    ],
+    "knownIssues": [
+      {
+        "id": "ram-slot-dust-boot",
+        "title": "Bụi bám khe RAM khiến máy bật quạt quay nhưng không lên hình (No POST)",
+        "severity": "medium",
+        "confidence": "high",
+        "symptoms": "Bấm nút nguồn đèn LED cây sáng quạt quay tít mù nhưng màn hình đen thui, đèn báo EZ Debug Mainboard dừng ở đèn DRAM vàng.",
+        "solution": "Vệ sinh chân đồng thanh RAM bằng cồn chuyên dụng và xịt sạch bụi khe cắm RAM."
+      }
+    ]
+  },
+  {
+    "id": "pc-gaming-esport-i5-gtx1660s",
+    "name": "PC Gaming eSports (i5 10400F / GTX 1660 Super)",
+    "brand": "gaming",
+    "deviceType": "pc_desktop",
+    "tier": "D2",
+    "releaseYear": 2021,
+    "specs": {
+      "cpu": "Core i5-10400F / i5-12400F",
+      "gpu": "GTX 1660 Super 6GB / RTX 2060",
+      "cooling": "Tản khí tháp đơn",
+      "psu": "550W",
+      "ram": "16GB DDR4"
+    },
+    "supportedFaults": [
+      "mainboard",
+      "psu-repair",
+      "vga-gpu",
+      "thermal",
+      "ssd-upgrade",
+      "ram-upgrade",
+      "software",
+      "data-recovery",
+      "diagnostic"
+    ],
+    "knownIssues": [
+      {
+        "id": "gpu-fan-rattle-gtx",
+        "title": "Quạt card màn hình kêu rè rè hoặc ngừng quay 1 bên quạt",
+        "severity": "low",
+        "confidence": "high",
+        "symptoms": "Card đồ họa nóng nhanh khi vào game.",
+        "solution": "Thay thế cặp cánh quạt tản nhiệt card VGA mới."
+      }
+    ]
+  },
+  {
+    "id": "pc-gaming-entry-i3-gtx1650",
+    "name": "PC Gaming Phổ Thông (i3 12100F / GTX 1650)",
+    "brand": "gaming",
+    "deviceType": "pc_desktop",
+    "tier": "D2",
+    "releaseYear": 2022,
+    "specs": {
+      "cpu": "Core i3-12100F",
+      "gpu": "GTX 1650 4GB / RX 6600",
+      "psu": "500W",
+      "ram": "16GB DDR4"
+    },
+    "supportedFaults": [
+      "mainboard",
+      "psu-repair",
+      "vga-gpu",
+      "thermal",
+      "ssd-upgrade",
+      "ram-upgrade",
+      "software",
+      "data-recovery",
+      "diagnostic"
+    ],
+    "knownIssues": [
+      {
+        "id": "thermal-paste-dry-cpu",
+        "title": "Keo tản nhiệt CPU bị khô cứng sau 2 năm",
+        "severity": "low",
+        "confidence": "high",
+        "symptoms": "Quạt CPU kêu to, máy đơ nhẹ.",
+        "solution": "Vệ sinh tra keo tản nhiệt gốm mới."
+      }
+    ]
+  }
+]

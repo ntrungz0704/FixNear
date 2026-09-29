@@ -1,0 +1,609 @@
+[
+  {
+    "id": "apple-ipad-pro-13-m4-2024",
+    "name": "iPad Pro 13 inch (M4 2024)",
+    "brand": "apple",
+    "deviceType": "tablet",
+    "tier": "T3",
+    "releaseYear": 2024,
+    "specs": {
+      "chip": "Apple M4 (3nm)",
+      "screen": "13.0 inch Ultra Retina XDR Tandem OLED 120Hz (OLED 2 lớp xếp chồng), mỏng 5.1mm",
+      "ram": "8GB/16GB",
+      "storage": "256GB - 2TB",
+      "pencil": "Hỗ trợ Apple Pencil Pro & Apple Pencil USB-C"
+    },
+    "supportedFaults": [
+      "screen",
+      "glass-press",
+      "battery",
+      "charging-port",
+      "mainboard",
+      "camera",
+      "speaker",
+      "mic",
+      "hinge-body",
+      "thermal",
+      "software",
+      "water-damage",
+      "data-recovery",
+      "diagnostic",
+      "pencil-charging",
+      "face-id"
+    ],
+    "knownIssues": [
+      {
+        "id": "tandem-oled-delicate",
+        "title": "Màn hình OLED 2 lớp Tandem OLED siêu mỏng 5.1mm cực kỳ nhạy cảm với lực tì đè",
+        "severity": "critical",
+        "confidence": "high",
+        "symptoms": "Tì đè mạnh hoặc bỏ balo bị cấn làm màn hình sọc kẻ hoặc nứt kính hiển thị.",
+        "solution": "Thay thế cụm màn hình Ultra Retina XDR Tandem OLED nguyên bản bóc máy."
+      },
+      {
+        "id": "pencil-pro-barrel-roll",
+        "title": "Mất nhận diện cử chỉ bóp Squeeze và xoay Barrel Roll trên Apple Pencil Pro",
+        "severity": "medium",
+        "confidence": "high",
+        "symptoms": "Hít sạc bên hông vẫn nhận pin nhưng không phản hồi cử chỉ rung xúc giác Haptic.",
+        "solution": "Thay cáp từ tính sạc nam châm hông máy chuyên dụng cho Apple Pencil Pro."
+      }
+    ]
+  },
+  {
+    "id": "apple-ipad-pro-11-m4-2024",
+    "name": "iPad Pro 11 inch (M4 2024)",
+    "brand": "apple",
+    "deviceType": "tablet",
+    "tier": "T3",
+    "releaseYear": 2024,
+    "specs": {
+      "chip": "Apple M4",
+      "screen": "11.1 inch Ultra Retina XDR Tandem OLED 120Hz",
+      "ram": "8GB/16GB",
+      "storage": "256GB - 2TB"
+    },
+    "supportedFaults": [
+      "screen",
+      "glass-press",
+      "battery",
+      "charging-port",
+      "mainboard",
+      "camera",
+      "speaker",
+      "mic",
+      "hinge-body",
+      "thermal",
+      "software",
+      "water-damage",
+      "data-recovery",
+      "diagnostic",
+      "pencil-charging",
+      "face-id"
+    ],
+    "knownIssues": [
+      {
+        "id": "ultra-thin-chassis-bend",
+        "title": "Thân máy siêu mỏng 5.3mm dễ cong nhẹ góc loa khi chịu lực uốn",
+        "severity": "high",
+        "confidence": "high",
+        "symptoms": "Đặt trên mặt phẳng máy bị bập bênh.",
+        "solution": "Nắn chỉnh phục hồi khung nhôm unibody chuẩn cân bằng lực."
+      }
+    ]
+  },
+  {
+    "id": "apple-ipad-pro-12-9-m2-2022",
+    "name": "iPad Pro 12.9 inch (M2 2022)",
+    "brand": "apple",
+    "deviceType": "tablet",
+    "tier": "T3",
+    "releaseYear": 2022,
+    "specs": {
+      "chip": "Apple M2",
+      "screen": "12.9 inch Liquid Retina XDR Mini-LED 120Hz 1600 nits",
+      "ram": "8GB/16GB",
+      "ports": "Thunderbolt / USB 4"
+    },
+    "supportedFaults": [
+      "screen",
+      "glass-press",
+      "battery",
+      "charging-port",
+      "mainboard",
+      "camera",
+      "speaker",
+      "mic",
+      "hinge-body",
+      "thermal",
+      "software",
+      "water-damage",
+      "data-recovery",
+      "diagnostic",
+      "pencil-charging",
+      "face-id"
+    ],
+    "knownIssues": [
+      {
+        "id": "pencil-hover-lag",
+        "title": "Tính năng di chuột không chạm Apple Pencil Hover bị chập chờn",
+        "severity": "medium",
+        "confidence": "high",
+        "symptoms": "Bút đưa cách màn hình 12mm không hiện con trỏ xem trước.",
+        "solution": "Cân chỉnh lại cuộn cảm biến điện từ số hóa Digitizer."
+      }
+    ]
+  },
+  {
+    "id": "apple-ipad-pro-11-m2-2022",
+    "name": "iPad Pro 11 inch (M2 2022)",
+    "brand": "apple",
+    "deviceType": "tablet",
+    "tier": "T3",
+    "releaseYear": 2022,
+    "specs": {
+      "chip": "Apple M2",
+      "screen": "11.0 inch Liquid Retina IPS 120Hz ProMotion",
+      "ram": "8GB/16GB"
+    },
+    "supportedFaults": [
+      "screen",
+      "glass-press",
+      "battery",
+      "charging-port",
+      "mainboard",
+      "camera",
+      "speaker",
+      "mic",
+      "hinge-body",
+      "thermal",
+      "software",
+      "water-damage",
+      "data-recovery",
+      "diagnostic",
+      "pencil-charging",
+      "face-id"
+    ],
+    "knownIssues": [
+      {
+        "id": "face-id-horizontal-error",
+        "title": "Lỗi Face ID bị che khuất khi cầm ngang máy",
+        "severity": "low",
+        "confidence": "high",
+        "symptoms": "Máy báo tay đang che camera TrueDepth.",
+        "solution": "Vệ sinh màng kính camera hoặc cân chỉnh Dot Projector."
+      }
+    ]
+  },
+  {
+    "id": "apple-ipad-pro-12-9-m1-2021",
+    "name": "iPad Pro 12.9 inch (M1 2021)",
+    "brand": "apple",
+    "deviceType": "tablet",
+    "tier": "T3",
+    "releaseYear": 2021,
+    "specs": {
+      "chip": "Apple M1",
+      "screen": "12.9 inch Liquid Retina XDR Mini-LED 10.000 bóng LED",
+      "ram": "8GB/16GB"
+    },
+    "supportedFaults": [
+      "screen",
+      "glass-press",
+      "battery",
+      "charging-port",
+      "mainboard",
+      "camera",
+      "speaker",
+      "mic",
+      "hinge-body",
+      "thermal",
+      "software",
+      "water-damage",
+      "data-recovery",
+      "diagnostic",
+      "pencil-charging",
+      "face-id"
+    ],
+    "knownIssues": [
+      {
+        "id": "mini-led-blooming-dark",
+        "title": "Hiện tượng quầng sáng nở hoa Blooming quanh chữ trắng trong đêm",
+        "severity": "low",
+        "confidence": "high",
+        "symptoms": "Vệt mờ ánh sáng bao quanh phụ đề trên nền đen.",
+        "solution": "Cân chỉnh độ tương phản màn hình hoặc cập nhật iPadOS."
+      }
+    ]
+  },
+  {
+    "id": "apple-ipad-pro-11-m1-2021",
+    "name": "iPad Pro 11 inch (M1 2021)",
+    "brand": "apple",
+    "deviceType": "tablet",
+    "tier": "T3",
+    "releaseYear": 2021,
+    "specs": {
+      "chip": "Apple M1",
+      "screen": "11.0 inch Liquid Retina 120Hz",
+      "ram": "8GB/16GB"
+    },
+    "supportedFaults": [
+      "screen",
+      "glass-press",
+      "battery",
+      "charging-port",
+      "mainboard",
+      "camera",
+      "speaker",
+      "mic",
+      "hinge-body",
+      "thermal",
+      "software",
+      "water-damage",
+      "data-recovery",
+      "diagnostic",
+      "pencil-charging",
+      "face-id"
+    ],
+    "knownIssues": [
+      {
+        "id": "battery-aged-ipad-m1",
+        "title": "Pin chai dung lượng dưới 80% sau 3 năm cày game vẽ đồ họa",
+        "severity": "medium",
+        "confidence": "high",
+        "symptoms": "Pin dùng được hơn 3 tiếng, sạc lâu đầy.",
+        "solution": "Thay pin iPad Pro chính hãng dung lượng chuẩn."
+      }
+    ]
+  },
+  {
+    "id": "apple-ipad-air-13-m2-2024",
+    "name": "iPad Air 13 inch (M2 2024)",
+    "brand": "apple",
+    "deviceType": "tablet",
+    "tier": "T2",
+    "releaseYear": 2024,
+    "specs": {
+      "chip": "Apple M2",
+      "screen": "13.0 inch Liquid Retina IPS 60Hz (2732x2048)",
+      "ram": "8GB",
+      "ports": "USB-C, Smart Connector"
+    },
+    "supportedFaults": [
+      "screen",
+      "glass-press",
+      "battery",
+      "charging-port",
+      "mainboard",
+      "camera",
+      "speaker",
+      "mic",
+      "hinge-body",
+      "thermal",
+      "software",
+      "water-damage",
+      "data-recovery",
+      "diagnostic",
+      "pencil-charging"
+    ],
+    "knownIssues": [
+      {
+        "id": "large-screen-crack-air13",
+        "title": "Màn hình 13 inch kích thước lớn dễ nứt góc khi rơi",
+        "severity": "high",
+        "confidence": "high",
+        "symptoms": "Mặt kính rạn nứt góc nhưng cảm ứng vẫn nhận.",
+        "solution": "Ép mặt kính màn hình Retina lớn bằng máy hút chân không chuyên nghiệp."
+      }
+    ]
+  },
+  {
+    "id": "apple-ipad-air-11-m2-2024",
+    "name": "iPad Air 11 inch (M2 2024)",
+    "brand": "apple",
+    "deviceType": "tablet",
+    "tier": "T2",
+    "releaseYear": 2024,
+    "specs": {
+      "chip": "Apple M2",
+      "screen": "11.0 inch Liquid Retina IPS 60Hz",
+      "ram": "8GB",
+      "ports": "USB-C"
+    },
+    "supportedFaults": [
+      "screen",
+      "glass-press",
+      "battery",
+      "charging-port",
+      "mainboard",
+      "camera",
+      "speaker",
+      "mic",
+      "hinge-body",
+      "thermal",
+      "software",
+      "water-damage",
+      "data-recovery",
+      "diagnostic",
+      "pencil-charging"
+    ],
+    "knownIssues": [
+      {
+        "id": "touch-id-top-button-stiff",
+        "title": "Phím nguồn tích hợp Touch ID phía trên bấm bị nặng sượng",
+        "severity": "low",
+        "confidence": "high",
+        "symptoms": "Nút nguồn mất độ nảy, quét vân tay khó khăn.",
+        "solution": "Vệ sinh lò xo phím nguồn hoặc thay cáp nút nguồn Touch ID."
+      }
+    ]
+  },
+  {
+    "id": "apple-ipad-air-5-m1-2022",
+    "name": "iPad Air 5 (M1 2022)",
+    "brand": "apple",
+    "deviceType": "tablet",
+    "tier": "T2",
+    "releaseYear": 2022,
+    "specs": {
+      "chip": "Apple M1",
+      "screen": "10.9 inch Liquid Retina IPS 60Hz",
+      "ram": "8GB",
+      "ports": "USB-C 10Gbps"
+    },
+    "supportedFaults": [
+      "screen",
+      "glass-press",
+      "battery",
+      "charging-port",
+      "mainboard",
+      "camera",
+      "speaker",
+      "mic",
+      "hinge-body",
+      "thermal",
+      "software",
+      "water-damage",
+      "data-recovery",
+      "diagnostic",
+      "pencil-charging"
+    ],
+    "knownIssues": [
+      {
+        "id": "chassis-creak-press",
+        "title": "Thân nhôm sau lưng bị kêu ọp ẹp khi ấn tay (Vấn đề gia công vỏ mỏng)",
+        "severity": "low",
+        "confidence": "high",
+        "symptoms": "Cầm một tay ấn vào giữa nắp lưng nghe tiếng cọt kẹt nhẹ.",
+        "solution": "Đệm thêm lớp foam chống rung bên trong nắp lưng máy."
+      },
+      {
+        "id": "pencil-2-charging-fail",
+        "title": "Hít sạc Apple Pencil 2 bên hông không vào điện hoặc ngắt kết nối",
+        "severity": "high",
+        "confidence": "high",
+        "symptoms": "Gắn bút Apple Pencil 2 lên cạnh phải không hiện popup pin kết nối.",
+        "solution": "Thay cuộn cảm ứng sạc không dây nam châm hông iPad."
+      }
+    ]
+  },
+  {
+    "id": "apple-ipad-air-4-2020",
+    "name": "iPad Air 4 (2020)",
+    "brand": "apple",
+    "deviceType": "tablet",
+    "tier": "T2",
+    "releaseYear": 2020,
+    "specs": {
+      "chip": "Apple A14 Bionic",
+      "screen": "10.9 inch Liquid Retina IPS 60Hz",
+      "ram": "4GB",
+      "ports": "USB-C"
+    },
+    "supportedFaults": [
+      "screen",
+      "glass-press",
+      "battery",
+      "charging-port",
+      "mainboard",
+      "camera",
+      "speaker",
+      "mic",
+      "hinge-body",
+      "thermal",
+      "software",
+      "water-damage",
+      "data-recovery",
+      "diagnostic",
+      "pencil-charging"
+    ],
+    "knownIssues": [
+      {
+        "id": "usbc-port-wear-air4",
+        "title": "Cổng sạc Type-C cắm lỏng lẻo chập chờn sau 3 năm",
+        "severity": "medium",
+        "confidence": "high",
+        "symptoms": "Cắm dây sạc nhận rồi ngắt liên tục.",
+        "solution": "Hàn thay thế cụm chân sạc USB-C mới."
+      }
+    ]
+  },
+  {
+    "id": "apple-ipad-gen-10-2022",
+    "name": "iPad Gen 10 10.9 inch (2022)",
+    "brand": "apple",
+    "deviceType": "tablet",
+    "tier": "T1",
+    "releaseYear": 2022,
+    "specs": {
+      "chip": "Apple A14 Bionic",
+      "screen": "10.9 inch Liquid Retina IPS (Màn ép liền cảm ứng)",
+      "ram": "4GB",
+      "ports": "USB-C 2.0"
+    },
+    "supportedFaults": [
+      "screen",
+      "glass-press",
+      "battery",
+      "charging-port",
+      "mainboard",
+      "camera",
+      "speaker",
+      "mic",
+      "hinge-body",
+      "thermal",
+      "software",
+      "water-damage",
+      "data-recovery",
+      "diagnostic"
+    ],
+    "knownIssues": [
+      {
+        "id": "screen-gap-air-dust",
+        "title": "Màn hình không có lớp phủ kháng phản chiếu dễ bám vân tay",
+        "severity": "low",
+        "confidence": "high",
+        "symptoms": "Lóa bóng đèn khi dùng phòng học.",
+        "solution": "Dán kính cường lực phủ nhám Paperlike chuyên dụng."
+      }
+    ]
+  },
+  {
+    "id": "apple-ipad-gen-9-2021",
+    "name": "iPad Gen 9 10.2 inch (2021)",
+    "brand": "apple",
+    "deviceType": "tablet",
+    "tier": "T1",
+    "releaseYear": 2021,
+    "specs": {
+      "chip": "Apple A13 Bionic",
+      "screen": "10.2 inch Retina IPS (Kính cảm ứng ngoài và màn LCD hiển thị rời nhau)",
+      "ram": "3GB",
+      "ports": "Lightning, Touch ID nút Home"
+    },
+    "supportedFaults": [
+      "screen",
+      "glass-press",
+      "battery",
+      "charging-port",
+      "mainboard",
+      "camera",
+      "speaker",
+      "mic",
+      "hinge-body",
+      "thermal",
+      "software",
+      "water-damage",
+      "data-recovery",
+      "diagnostic"
+    ],
+    "knownIssues": [
+      {
+        "id": "glass-touch-crack-separate",
+        "title": "Vỡ mặt kính cảm ứng ngoài (Ép kính riêng rất tiết kiệm chi phí)",
+        "severity": "medium",
+        "confidence": "high",
+        "symptoms": "Mặt kính vỡ nứt ngoài, màn hình LCD bên trong vẫn hiển thị sáng đẹp.",
+        "solution": "Thay riêng kính cảm ứng ngoài (Digitizer Glass) giá cực rẻ, không cần thay nguyên bộ màn hình."
+      },
+      {
+        "id": "lightning-dust-lint",
+        "title": "Cổng Lightning kẹt xơ vải bụi bẩn cắm sạc không ăn",
+        "severity": "low",
+        "confidence": "high",
+        "symptoms": "Đầu cắm sạc không thể cắm sát ngập vào máy.",
+        "solution": "Vệ sinh chuyên sâu chân cắm Lightning."
+      }
+    ]
+  },
+  {
+    "id": "apple-ipad-gen-8-2020",
+    "name": "iPad Gen 8 10.2 inch (2020)",
+    "brand": "apple",
+    "deviceType": "tablet",
+    "tier": "T1",
+    "releaseYear": 2020,
+    "specs": {
+      "chip": "Apple A12 Bionic",
+      "screen": "10.2 inch Retina IPS",
+      "ram": "3GB",
+      "ports": "Lightning"
+    },
+    "supportedFaults": [
+      "screen",
+      "glass-press",
+      "battery",
+      "charging-port",
+      "mainboard",
+      "camera",
+      "speaker",
+      "mic",
+      "hinge-body",
+      "thermal",
+      "software",
+      "water-damage",
+      "data-recovery",
+      "diagnostic"
+    ],
+    "knownIssues": [
+      {
+        "id": "home-button-stuck-g8",
+        "title": "Phím Home Touch ID bị kẹt bụi bấm cứng ngắc",
+        "severity": "medium",
+        "confidence": "high",
+        "symptoms": "Ấn phím Home rất nặng tay.",
+        "solution": "Vệ sinh màng đệm cao su nút Home."
+      }
+    ]
+  },
+  {
+    "id": "apple-ipad-mini-6-2021",
+    "name": "iPad Mini 6 8.3 inch (2021)",
+    "brand": "apple",
+    "deviceType": "tablet",
+    "tier": "T2",
+    "releaseYear": 2021,
+    "specs": {
+      "chip": "Apple A15 Bionic",
+      "screen": "8.3 inch Liquid Retina IPS viền mỏng",
+      "ram": "4GB",
+      "ports": "USB-C, sạc nam châm Pencil 2"
+    },
+    "supportedFaults": [
+      "screen",
+      "glass-press",
+      "battery",
+      "charging-port",
+      "mainboard",
+      "camera",
+      "speaker",
+      "mic",
+      "hinge-body",
+      "thermal",
+      "software",
+      "water-damage",
+      "data-recovery",
+      "diagnostic",
+      "pencil-charging"
+    ],
+    "knownIssues": [
+      {
+        "id": "jelly-scrolling-vertical",
+        "title": "Hiện tượng cuộn trang gợn sóng (Jelly Scrolling) khi lướt web theo chiều dọc",
+        "severity": "low",
+        "confidence": "high",
+        "symptoms": "Một bên màn hình cuộn nhanh hơn bên còn lại tạo cảm giác gợn sóng thị giác.",
+        "solution": "Đặc tính quét tần số của controller màn hình LCD, dùng theo chiều ngang để triệt tiêu."
+      },
+      {
+        "id": "battery-small-mini6",
+        "title": "Pin chai sau thời gian dài chơi game Liên Quân / PUBG",
+        "severity": "medium",
+        "confidence": "high",
+        "symptoms": "Dung lượng pin 5124 mAh tiêu hao nhanh sau 2 tiếng chơi game.",
+        "solution": "Thay pin mới chất lượng cao bảo hành 6 tháng."
+      }
+    ]
+  }
+]

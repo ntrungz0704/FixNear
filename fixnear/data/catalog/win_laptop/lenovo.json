@@ -1,0 +1,592 @@
+[
+  {
+    "id": "lenovo-legion-pro-5-16",
+    "name": "Lenovo Legion Pro 5 16",
+    "brand": "lenovo",
+    "deviceType": "win_laptop",
+    "tier": "L3",
+    "releaseYear": 2023,
+    "specs": {
+      "cpu": "Core i7-13700HX / Ryzen 7 7745HX",
+      "gpu": "RTX 4060 / RTX 4070 140W",
+      "screen": "16.0 inch WQXGA 2.5K 16:10 240Hz 500 nits",
+      "ram": "16GB/32GB DDR5 rời",
+      "chassis": "Vỏ kim loại nắp máy tản nhiệt Legion Coldfront 5.0"
+    },
+    "supportedFaults": [
+      "screen",
+      "battery",
+      "keyboard",
+      "trackpad",
+      "charging-port",
+      "hinge-body",
+      "mainboard",
+      "speaker",
+      "mic",
+      "camera",
+      "thermal",
+      "ssd-upgrade",
+      "ram-upgrade",
+      "software",
+      "water-damage",
+      "data-recovery",
+      "diagnostic",
+      "vga-gpu"
+    ],
+    "knownIssues": [
+      {
+        "id": "legion-power-brick-burnt",
+        "title": "Đầu cắm sạc hình chữ nhật Slim Tip 300W nóng chảy chân nhựa",
+        "severity": "high",
+        "confidence": "high",
+        "symptoms": "Đầu sạc vàng hình chữ nhật bị xỉn màu ám đen, cắm sạc máy báo sạc chậm.",
+        "solution": "Thay dây cắm Jack nguồn Slim Tip chịu dòng 15A chuyên dụng."
+      },
+      {
+        "id": "thermal-paste-dry-legion",
+        "title": "Keo tản nhiệt PTM7950 thoái hóa sau 2 năm cày game nặng",
+        "severity": "medium",
+        "confidence": "high",
+        "symptoms": "Nhiệt độ CPU chạm 98°C, quạt gió hú hết công suất liên tục.",
+        "solution": "Vệ sinh làm sạch lưới tản nhiệt tản nhiệt đồng và dán lại màng Honeywell PTM7950 chuẩn gốc."
+      }
+    ]
+  },
+  {
+    "id": "lenovo-legion-pro-7-16",
+    "name": "Lenovo Legion Pro 7 16",
+    "brand": "lenovo",
+    "deviceType": "win_laptop",
+    "tier": "L4",
+    "releaseYear": 2024,
+    "specs": {
+      "cpu": "Core i9-14900HX",
+      "gpu": "RTX 4080 / RTX 4090 175W",
+      "screen": "16.0 inch 2.5K 240Hz",
+      "ram": "32GB DDR5",
+      "chassis": "Khung nhôm Magie cao cấp"
+    },
+    "supportedFaults": [
+      "screen",
+      "battery",
+      "keyboard",
+      "trackpad",
+      "charging-port",
+      "hinge-body",
+      "mainboard",
+      "speaker",
+      "mic",
+      "camera",
+      "thermal",
+      "ssd-upgrade",
+      "ram-upgrade",
+      "software",
+      "water-damage",
+      "data-recovery",
+      "diagnostic",
+      "vga-gpu"
+    ],
+    "knownIssues": [
+      {
+        "id": "vapor-chamber-leak",
+        "title": "Hiệu suất tản nhiệt buồng hơi Vapor Chamber sụt giảm",
+        "severity": "high",
+        "confidence": "high",
+        "symptoms": "Nhiệt độ GPU nhảy vọt lên 86°C nhanh chóng.",
+        "solution": "Bảo dưỡng thay thế cụm tản nhiệt buồng hơi nguyên khối."
+      }
+    ]
+  },
+  {
+    "id": "lenovo-legion-slim-5-16",
+    "name": "Lenovo Legion Slim 5 16",
+    "brand": "lenovo",
+    "deviceType": "win_laptop",
+    "tier": "L3",
+    "releaseYear": 2023,
+    "specs": {
+      "cpu": "Ryzen 7 7840HS",
+      "gpu": "RTX 4060",
+      "screen": "16.0 inch 2.5K 165Hz",
+      "ram": "16GB DDR5 rời",
+      "chassis": "Vỏ nhôm xám Storm Grey"
+    },
+    "supportedFaults": [
+      "screen",
+      "battery",
+      "keyboard",
+      "trackpad",
+      "charging-port",
+      "hinge-body",
+      "mainboard",
+      "speaker",
+      "mic",
+      "camera",
+      "thermal",
+      "ssd-upgrade",
+      "ram-upgrade",
+      "software",
+      "water-damage",
+      "data-recovery",
+      "diagnostic",
+      "vga-gpu"
+    ],
+    "knownIssues": [
+      {
+        "id": "sleep-drain-legion",
+        "title": "Máy tự bật quạt nóng máy trong balo khi để chế độ Sleep",
+        "severity": "medium",
+        "confidence": "high",
+        "symptoms": "Lấy máy ra khỏi balo thân máy nóng ran và pin cạn kiệt.",
+        "solution": "Tắt Modern Standby chuyển sang Hibernate trong Windows."
+      }
+    ]
+  },
+  {
+    "id": "lenovo-loq-15irh8",
+    "name": "Lenovo LOQ 15IRH8",
+    "brand": "lenovo",
+    "deviceType": "win_laptop",
+    "tier": "L3",
+    "releaseYear": 2023,
+    "specs": {
+      "cpu": "Core i5-13420H / i7-13620H",
+      "gpu": "RTX 3050 / RTX 4050 / RTX 4060",
+      "screen": "15.6 inch FHD/WQHD 144Hz/165Hz",
+      "ram": "16GB DDR5 rời",
+      "chassis": "Vỏ nhựa cao cấp phong cách Legion"
+    },
+    "supportedFaults": [
+      "screen",
+      "battery",
+      "keyboard",
+      "trackpad",
+      "charging-port",
+      "hinge-body",
+      "mainboard",
+      "speaker",
+      "mic",
+      "camera",
+      "thermal",
+      "ssd-upgrade",
+      "ram-upgrade",
+      "software",
+      "water-damage",
+      "data-recovery",
+      "diagnostic",
+      "vga-gpu"
+    ],
+    "knownIssues": [
+      {
+        "id": "motherboard-dead-loq",
+        "title": "Lỗi chết nguồn sụt áp bo mạch chủ Mainboard (Lỗi phổ biến dòng LOQ 2023-2024)",
+        "severity": "critical",
+        "confidence": "high",
+        "symptoms": "Đang dùng máy bỗng sập nguồn tối om, cắm sạc đèn nguồn không sáng, kích nguồn không có phản hồi.",
+        "solution": "Đo đạc thay IC quản lý nguồn, sửa chập tụ tầng công suất 19V hoặc bảo hành mainboard."
+      }
+    ]
+  },
+  {
+    "id": "lenovo-loq-15iax9",
+    "name": "Lenovo LOQ 15IAX9",
+    "brand": "lenovo",
+    "deviceType": "win_laptop",
+    "tier": "L3",
+    "releaseYear": 2024,
+    "specs": {
+      "cpu": "Core i5-12450HX / i7-13650HX",
+      "gpu": "RTX 3050 / RTX 4050",
+      "screen": "15.6 inch FHD 144Hz 100% sRGB",
+      "ram": "16GB DDR5 rời",
+      "chassis": "Vỏ nhựa Luna Grey"
+    },
+    "supportedFaults": [
+      "screen",
+      "battery",
+      "keyboard",
+      "trackpad",
+      "charging-port",
+      "hinge-body",
+      "mainboard",
+      "speaker",
+      "mic",
+      "camera",
+      "thermal",
+      "ssd-upgrade",
+      "ram-upgrade",
+      "software",
+      "water-damage",
+      "data-recovery",
+      "diagnostic",
+      "vga-gpu"
+    ],
+    "knownIssues": [
+      {
+        "id": "battery-drop-gaming-loq",
+        "title": "Tụt pin khi cắm củ sạc 170W chơi game nặng",
+        "severity": "medium",
+        "confidence": "high",
+        "symptoms": "Pin tụt 5-10% sau 1 tiếng chơi game dù có cắm sạc.",
+        "solution": "Nâng cấp lên củ sạc chính hãng Lenovo 230W Slim Tip."
+      }
+    ]
+  },
+  {
+    "id": "lenovo-thinkpad-x1-carbon-gen-11",
+    "name": "Lenovo ThinkPad X1 Carbon Gen 11",
+    "brand": "lenovo",
+    "deviceType": "win_laptop",
+    "tier": "L4",
+    "releaseYear": 2023,
+    "specs": {
+      "cpu": "Core i7-1355U / i7-1365U vPro",
+      "screen": "14.0 inch 2.8K OLED / WUXGA chống lóa",
+      "ram": "16GB/32GB LPDDR5 Soldered",
+      "storage": "512GB/1TB SSD",
+      "weight": "1.12 kg",
+      "chassis": "Sợi Carbon dệt nắp A, hợp kim Magie mặt đáy"
+    },
+    "supportedFaults": [
+      "screen",
+      "battery",
+      "keyboard",
+      "trackpad",
+      "charging-port",
+      "hinge-body",
+      "mainboard",
+      "speaker",
+      "mic",
+      "camera",
+      "thermal",
+      "ssd-upgrade",
+      "software",
+      "water-damage",
+      "data-recovery",
+      "diagnostic"
+    ],
+    "knownIssues": [
+      {
+        "id": "trackpoint-red-drift",
+        "title": "Con trỏ chuột núm đỏ TrackPoint tự động trôi từ từ sang một bên",
+        "severity": "medium",
+        "confidence": "high",
+        "symptoms": "Chuột tự dịch chuyển trên màn hình mà không ai chạm vào núm đỏ.",
+        "solution": "Cân chỉnh lại cảm biến biến dạng lực TrackPoint hoặc thay núm cao su mới."
+      },
+      {
+        "id": "rubber-coating-peel",
+        "title": "Bong tróc lớp phủ nhung mờ cao cấp sau vài năm dùng",
+        "severity": "low",
+        "confidence": "high",
+        "symptoms": "Lớp phủ nhung mặt lưng bị bóng mỡ mồ hôi tay hoặc tróc góc viền.",
+        "solution": "Dán skin dán bảo vệ 3M chuyên dụng hoặc thay vỏ nắp máy."
+      }
+    ]
+  },
+  {
+    "id": "lenovo-thinkpad-t14-gen-4",
+    "name": "Lenovo ThinkPad T14 Gen 4",
+    "brand": "lenovo",
+    "deviceType": "win_laptop",
+    "tier": "L3",
+    "releaseYear": 2023,
+    "specs": {
+      "cpu": "Core i5-1335U / Ryzen 7 Pro 7840U",
+      "screen": "14.0 inch WUXGA 16:10",
+      "ram": "DDR5 nâng cấp được",
+      "storage": "512GB SSD",
+      "chassis": "Vỏ nhựa PPS sợi thủy tinh"
+    },
+    "supportedFaults": [
+      "screen",
+      "battery",
+      "keyboard",
+      "trackpad",
+      "charging-port",
+      "hinge-body",
+      "mainboard",
+      "speaker",
+      "mic",
+      "camera",
+      "thermal",
+      "ssd-upgrade",
+      "ram-upgrade",
+      "software",
+      "water-damage",
+      "data-recovery",
+      "diagnostic"
+    ],
+    "knownIssues": [
+      {
+        "id": "thunderbolt-firmware-loop",
+        "title": "Cổng sạc Type-C không nhận sạc sau khi cập nhật Windows",
+        "severity": "high",
+        "confidence": "high",
+        "symptoms": "Cắm dây Type-C không có đèn báo nguồn.",
+        "solution": "Nạp lại chip ROM BIOS/Thunderbolt bằng máy nạp chuyên dụng."
+      }
+    ]
+  },
+  {
+    "id": "lenovo-thinkpad-e14-gen-5",
+    "name": "Lenovo ThinkPad E14 Gen 5",
+    "brand": "lenovo",
+    "deviceType": "win_laptop",
+    "tier": "L2",
+    "releaseYear": 2023,
+    "specs": {
+      "cpu": "Core i5-1335U / Ryzen 5 7530U",
+      "screen": "14.0 inch WUXGA 16:10",
+      "ram": "8GB hàn + 1 khe rời",
+      "storage": "512GB SSD",
+      "chassis": "Vỏ nhôm nắp A"
+    },
+    "supportedFaults": [
+      "screen",
+      "battery",
+      "keyboard",
+      "trackpad",
+      "charging-port",
+      "hinge-body",
+      "mainboard",
+      "speaker",
+      "mic",
+      "camera",
+      "thermal",
+      "ssd-upgrade",
+      "ram-upgrade",
+      "software",
+      "water-damage",
+      "data-recovery",
+      "diagnostic"
+    ],
+    "knownIssues": [
+      {
+        "id": "keyboard-e14-water",
+        "title": "Bàn phím chập do đổ nước vào khe",
+        "severity": "high",
+        "confidence": "high",
+        "symptoms": "Phím bấm nhảy chữ hoặc liệt cụm phím chữ cái.",
+        "solution": "Thay bàn phím ThinkPad mới nguyên bảng."
+      }
+    ]
+  },
+  {
+    "id": "lenovo-thinkpad-p16s-gen-2",
+    "name": "Lenovo ThinkPad P16s Gen 2",
+    "brand": "lenovo",
+    "deviceType": "win_laptop",
+    "tier": "L3",
+    "releaseYear": 2023,
+    "specs": {
+      "cpu": "Core i7-1370P / Ryzen 7 Pro 7840U",
+      "gpu": "RTX A500 4GB chuyên đồ họa",
+      "screen": "16.0 inch WUXGA 16:10",
+      "ram": "32GB/64GB LPDDR5x",
+      "chassis": "Máy trạm di động mỏng nhẹ"
+    },
+    "supportedFaults": [
+      "screen",
+      "battery",
+      "keyboard",
+      "trackpad",
+      "charging-port",
+      "hinge-body",
+      "mainboard",
+      "speaker",
+      "mic",
+      "camera",
+      "thermal",
+      "ssd-upgrade",
+      "software",
+      "water-damage",
+      "data-recovery",
+      "diagnostic"
+    ],
+    "knownIssues": [
+      {
+        "id": "cad-driver-crash",
+        "title": "Card đồ họa RTX A500 bị văng khi vẽ AutoCAD/Revit nặng",
+        "severity": "medium",
+        "confidence": "high",
+        "symptoms": "Đang xoay mô hình 3D phần mềm báo lỗi driver card màn hình.",
+        "solution": "Cài đặt Driver ISV Certified chính hãng Nvidia Studio."
+      }
+    ]
+  },
+  {
+    "id": "lenovo-ideapad-slim-5-14",
+    "name": "Lenovo IdeaPad Slim 5 14",
+    "brand": "lenovo",
+    "deviceType": "win_laptop",
+    "tier": "L2",
+    "releaseYear": 2023,
+    "specs": {
+      "cpu": "Core i5-13500H / Ryzen 5 7530U",
+      "screen": "14.0 inch WUXGA 16:10 IPS / OLED",
+      "ram": "16GB LPDDR5 Soldered",
+      "storage": "512GB SSD",
+      "chassis": "Vỏ nhôm nắp A&D"
+    },
+    "supportedFaults": [
+      "screen",
+      "battery",
+      "keyboard",
+      "trackpad",
+      "charging-port",
+      "hinge-body",
+      "mainboard",
+      "speaker",
+      "mic",
+      "camera",
+      "thermal",
+      "ssd-upgrade",
+      "software",
+      "water-damage",
+      "data-recovery",
+      "diagnostic"
+    ],
+    "knownIssues": [
+      {
+        "id": "hinge-plastic-ideapad",
+        "title": "Bản lề hơi cứng gây cấn mép màn hình",
+        "severity": "medium",
+        "confidence": "high",
+        "symptoms": "Mở máy nghe tiếng kêu cọt kẹt.",
+        "solution": "Xả nhẹ ốc bản lề và tra mỡ bôi trơn chuyên dụng."
+      }
+    ]
+  },
+  {
+    "id": "lenovo-ideapad-3-15",
+    "name": "Lenovo IdeaPad 3 15",
+    "brand": "lenovo",
+    "deviceType": "win_laptop",
+    "tier": "L1",
+    "releaseYear": 2022,
+    "specs": {
+      "cpu": "Core i3-1215U / Ryzen 5 5625U",
+      "screen": "15.6 inch FHD TN/IPS",
+      "ram": "8GB nâng cấp được",
+      "storage": "256GB/512GB SSD",
+      "chassis": "Vỏ nhựa"
+    },
+    "supportedFaults": [
+      "screen",
+      "battery",
+      "keyboard",
+      "trackpad",
+      "charging-port",
+      "hinge-body",
+      "mainboard",
+      "speaker",
+      "mic",
+      "camera",
+      "thermal",
+      "ssd-upgrade",
+      "ram-upgrade",
+      "software",
+      "water-damage",
+      "data-recovery",
+      "diagnostic"
+    ],
+    "knownIssues": [
+      {
+        "id": "hinge-break-ideapad3",
+        "title": "Bung gãy chân ốc bản lề vỏ nhựa bên trái",
+        "severity": "critical",
+        "confidence": "high",
+        "symptoms": "Vỏ mép dưới màn hình bung toác chân ốc đồng.",
+        "solution": "Hàn cấy chân ốc kim loại chịu lực cao."
+      }
+    ]
+  },
+  {
+    "id": "lenovo-ideapad-gaming-3",
+    "name": "Lenovo IdeaPad Gaming 3",
+    "brand": "lenovo",
+    "deviceType": "win_laptop",
+    "tier": "L2",
+    "releaseYear": 2022,
+    "specs": {
+      "cpu": "Core i5-12500H / Ryzen 5 6600H",
+      "gpu": "RTX 3050",
+      "screen": "15.6 inch FHD 120Hz",
+      "ram": "16GB DDR4 rời",
+      "chassis": "Vỏ nhựa màu xanh Onyx Grey"
+    },
+    "supportedFaults": [
+      "screen",
+      "battery",
+      "keyboard",
+      "trackpad",
+      "charging-port",
+      "hinge-body",
+      "mainboard",
+      "speaker",
+      "mic",
+      "camera",
+      "thermal",
+      "ssd-upgrade",
+      "ram-upgrade",
+      "software",
+      "water-damage",
+      "data-recovery",
+      "diagnostic",
+      "vga-gpu"
+    ],
+    "knownIssues": [
+      {
+        "id": "fan-bearing-grind",
+        "title": "Quạt tản nhiệt kêu rè rè cọ xát cánh quạt",
+        "severity": "medium",
+        "confidence": "high",
+        "symptoms": "Tiếng kêu lạo xạo phát ra từ quạt tản nhiệt bên phải.",
+        "solution": "Vệ sinh bôi trơn hoặc thay quạt tản nhiệt mới."
+      }
+    ]
+  },
+  {
+    "id": "lenovo-yoga-slim-7-pro",
+    "name": "Lenovo Yoga Slim 7 Pro",
+    "brand": "lenovo",
+    "deviceType": "win_laptop",
+    "tier": "L3",
+    "releaseYear": 2023,
+    "specs": {
+      "cpu": "Ryzen 7 7735HS / Core i7-13700H",
+      "screen": "14.5 inch 2.8K 3K 120Hz PureSight OLED",
+      "ram": "16GB/32GB Soldered",
+      "chassis": "Nhôm nguyên khối bo cong"
+    },
+    "supportedFaults": [
+      "screen",
+      "battery",
+      "keyboard",
+      "trackpad",
+      "charging-port",
+      "hinge-body",
+      "mainboard",
+      "speaker",
+      "mic",
+      "camera",
+      "thermal",
+      "ssd-upgrade",
+      "software",
+      "water-damage",
+      "data-recovery",
+      "diagnostic"
+    ],
+    "knownIssues": [
+      {
+        "id": "battery-aged-yoga",
+        "title": "Pin sụt nhanh do màn hình độ phân giải cao 2.8K 120Hz",
+        "severity": "medium",
+        "confidence": "high",
+        "symptoms": "Thời lượng pin giảm chỉ còn hơn 3 tiếng.",
+        "solution": "Thay pin dung lượng cao mới bảo hành 6 tháng."
+      }
+    ]
+  }
+]

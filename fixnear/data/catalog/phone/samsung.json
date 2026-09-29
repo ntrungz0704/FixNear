@@ -1,0 +1,1131 @@
+[
+  {
+    "id": "samsung-galaxy-s24-ultra",
+    "name": "Galaxy S24 Ultra",
+    "brand": "samsung",
+    "deviceType": "phone",
+    "tier": "P4",
+    "releaseYear": 2024,
+    "specs": {
+      "screen": "6.8 inch Dynamic AMOLED 2X 120Hz phẳng, kính Gorilla Armor chống chói",
+      "chip": "Snapdragon 8 Gen 3 for Galaxy (4nm)",
+      "battery": "5000 mAh",
+      "charging": "45W Super Fast Charging 2.0"
+    },
+    "supportedFaults": [
+      "screen",
+      "glass-press",
+      "battery",
+      "charging-port",
+      "water-damage",
+      "mainboard",
+      "camera",
+      "speaker",
+      "mic",
+      "hinge-body",
+      "back-glass",
+      "thermal",
+      "software",
+      "data-recovery",
+      "diagnostic"
+    ],
+    "knownIssues": [
+      {
+        "id": "grainy-display",
+        "title": "Hiện tượng hạt cát sần màn hình (Grainy / Mura Screen) ở độ sáng thấp",
+        "severity": "medium",
+        "confidence": "high",
+        "symptoms": "Trong phòng tối khi giảm độ sáng dưới 20%, nền xám xuất hiện các hạt lấm tấm không đồng đều.",
+        "solution": "Cân chỉnh gamma phần mềm hoặc thay cụm màn hình Dynamic AMOLED 2X mới."
+      },
+      {
+        "id": "spen-scratches",
+        "title": "Bút S-Pen bị kẹt khe cắm hoặc mất nhận cảm ứng không chạm Air Actions",
+        "severity": "low",
+        "confidence": "high",
+        "symptoms": "Bút S-Pen không kết nối bluetooth hoặc kẹt ngàm lò xo trong thân máy.",
+        "solution": "Vệ sinh khe bút, thay ngòi bút hoặc thay tụ điện kết nối trên thân bút S-Pen."
+      }
+    ]
+  },
+  {
+    "id": "samsung-galaxy-s24-plus",
+    "name": "Galaxy S24+",
+    "brand": "samsung",
+    "deviceType": "phone",
+    "tier": "P4",
+    "releaseYear": 2024,
+    "specs": {
+      "screen": "6.7 inch Dynamic AMOLED 2X QHD+ 120Hz",
+      "chip": "Exynos 2400 / Snapdragon 8 Gen 3",
+      "battery": "4900 mAh",
+      "charging": "45W"
+    },
+    "supportedFaults": [
+      "screen",
+      "glass-press",
+      "battery",
+      "charging-port",
+      "water-damage",
+      "mainboard",
+      "camera",
+      "speaker",
+      "mic",
+      "hinge-body",
+      "back-glass",
+      "thermal",
+      "software",
+      "data-recovery",
+      "diagnostic"
+    ],
+    "knownIssues": [
+      {
+        "id": "charging-thermal-drop",
+        "title": "Sạc nhanh 45W tự giảm tốc độ khi thân máy ấm",
+        "severity": "low",
+        "confidence": "medium",
+        "symptoms": "Công suất sạc sụt từ 45W xuống 15W sau 10 phút sạc đầu.",
+        "solution": "Vệ sinh chân tiếp xúc cổng Type-C và bôi keo tản nhiệt hỗ trợ vi mạch nguồn."
+      }
+    ]
+  },
+  {
+    "id": "samsung-galaxy-s24",
+    "name": "Galaxy S24",
+    "brand": "samsung",
+    "deviceType": "phone",
+    "tier": "P3",
+    "releaseYear": 2024,
+    "specs": {
+      "screen": "6.2 inch Dynamic AMOLED 2X FHD+ 120Hz",
+      "chip": "Exynos 2400 / Snapdragon 8 Gen 3",
+      "battery": "4000 mAh",
+      "charging": "25W"
+    },
+    "supportedFaults": [
+      "screen",
+      "glass-press",
+      "battery",
+      "charging-port",
+      "water-damage",
+      "mainboard",
+      "camera",
+      "speaker",
+      "mic",
+      "hinge-body",
+      "back-glass",
+      "thermal",
+      "software",
+      "data-recovery",
+      "diagnostic"
+    ],
+    "knownIssues": [
+      {
+        "id": "battery-small-s24",
+        "title": "Dung lượng pin 4000mAh tiêu hao nhanh khi dùng mạng 5G",
+        "severity": "medium",
+        "confidence": "high",
+        "symptoms": "Máy ấm nhẹ vùng cạnh viền kim loại và pin tụt khá nhanh khi dùng ngoài trời nắng.",
+        "solution": "Kiểm tra chu kỳ sạc và tối ưu hóa ứng dụng nền One UI."
+      }
+    ]
+  },
+  {
+    "id": "samsung-galaxy-s23-ultra",
+    "name": "Galaxy S23 Ultra",
+    "brand": "samsung",
+    "deviceType": "phone",
+    "tier": "P4",
+    "releaseYear": 2023,
+    "specs": {
+      "screen": "6.8 inch Dynamic AMOLED 2X cong nhẹ 120Hz",
+      "chip": "Snapdragon 8 Gen 2 for Galaxy",
+      "battery": "5000 mAh",
+      "charging": "45W"
+    },
+    "supportedFaults": [
+      "screen",
+      "glass-press",
+      "battery",
+      "charging-port",
+      "water-damage",
+      "mainboard",
+      "camera",
+      "speaker",
+      "mic",
+      "hinge-body",
+      "back-glass",
+      "thermal",
+      "software",
+      "data-recovery",
+      "diagnostic"
+    ],
+    "knownIssues": [
+      {
+        "id": "corner-glass-bubble",
+        "title": "Bọt khí hoặc nhăn góc dưới màn hình cong",
+        "severity": "low",
+        "confidence": "high",
+        "symptoms": "Góc dưới cùng bên phải màn hình xuất hiện nếp nhăn nhỏ cấu trúc kính ép.",
+        "solution": "Kiểm tra cấu trúc quang học, ép lại kính hoặc dán film UV gia cố lực."
+      }
+    ]
+  },
+  {
+    "id": "samsung-galaxy-s23-plus",
+    "name": "Galaxy S23+",
+    "brand": "samsung",
+    "deviceType": "phone",
+    "tier": "P4",
+    "releaseYear": 2023,
+    "specs": {
+      "screen": "6.6 inch Dynamic AMOLED 2X 120Hz",
+      "chip": "Snapdragon 8 Gen 2",
+      "battery": "4700 mAh",
+      "charging": "45W"
+    },
+    "supportedFaults": [
+      "screen",
+      "glass-press",
+      "battery",
+      "charging-port",
+      "water-damage",
+      "mainboard",
+      "camera",
+      "speaker",
+      "mic",
+      "hinge-body",
+      "back-glass",
+      "thermal",
+      "software",
+      "data-recovery",
+      "diagnostic"
+    ],
+    "knownIssues": [
+      {
+        "id": "banana-blur-camera",
+        "title": "Hiện tượng mờ viền hình chuối (Banana Blur) khi chụp văn bản gần",
+        "severity": "medium",
+        "confidence": "high",
+        "symptoms": "Chụp tài liệu cự ly gần bị mất nét hình vòng cung ở các góc trang sách.",
+        "solution": "Căn chỉnh cụm thấu kính khẩu độ lớn hoặc lùi xa dùng zoom 2x."
+      }
+    ]
+  },
+  {
+    "id": "samsung-galaxy-s23",
+    "name": "Galaxy S23",
+    "brand": "samsung",
+    "deviceType": "phone",
+    "tier": "P3",
+    "releaseYear": 2023,
+    "specs": {
+      "screen": "6.1 inch Dynamic AMOLED 2X 120Hz",
+      "chip": "Snapdragon 8 Gen 2",
+      "battery": "3900 mAh",
+      "charging": "25W"
+    },
+    "supportedFaults": [
+      "screen",
+      "glass-press",
+      "battery",
+      "charging-port",
+      "water-damage",
+      "mainboard",
+      "camera",
+      "speaker",
+      "mic",
+      "hinge-body",
+      "back-glass",
+      "thermal",
+      "software",
+      "data-recovery",
+      "diagnostic"
+    ],
+    "knownIssues": [
+      {
+        "id": "type-c-moisture",
+        "title": "Báo phát hiện độ ẩm cổng sạc Moisture Detected liên tục",
+        "severity": "medium",
+        "confidence": "high",
+        "symptoms": "Máy không bị rơi nước nhưng liên tục kêu bíp báo ẩm và khóa không cho sạc có dây.",
+        "solution": "Vệ sinh sấy khô cảm biến độ ẩm chân sạc Type-C hoặc thay cụm bo sạc dưới."
+      }
+    ]
+  },
+  {
+    "id": "samsung-galaxy-s22-ultra",
+    "name": "Galaxy S22 Ultra",
+    "brand": "samsung",
+    "deviceType": "phone",
+    "tier": "P4",
+    "releaseYear": 2022,
+    "specs": {
+      "screen": "6.8 inch Edge QHD+ AMOLED 120Hz",
+      "chip": "Snapdragon 8 Gen 1",
+      "battery": "5000 mAh",
+      "charging": "45W"
+    },
+    "supportedFaults": [
+      "screen",
+      "glass-press",
+      "battery",
+      "charging-port",
+      "water-damage",
+      "mainboard",
+      "camera",
+      "speaker",
+      "mic",
+      "hinge-body",
+      "back-glass",
+      "thermal",
+      "software",
+      "data-recovery",
+      "diagnostic"
+    ],
+    "knownIssues": [
+      {
+        "id": "green-line-update",
+        "title": "Xuất hiện sọc xanh lá / hồng dọc màn hình sau khi cập nhật phần mềm",
+        "severity": "critical",
+        "confidence": "high",
+        "symptoms": "Màn hình tự phát sinh một hoặc nhiều đường chỉ sọc dọc màu xanh lá hoặc tím chói mắt.",
+        "solution": "Hàn laser vi mạch cổ cáp màn hình chuyên dụng (Laser Bonding) hoặc thay màn hình zin."
+      },
+      {
+        "id": "hot-battery-drain",
+        "title": "Nhiệt độ nóng và tụt pin do chip Snapdragon 8 Gen 1",
+        "severity": "high",
+        "confidence": "high",
+        "symptoms": "Lưng máy nóng nhanh trên 42 độ C dù chỉ lướt Facebook hoặc xem Youtube.",
+        "solution": "Thay pin mới dung lượng cao và bôi lại keo tản nhiệt graphene cho vi mạch."
+      }
+    ]
+  },
+  {
+    "id": "samsung-galaxy-s22-plus",
+    "name": "Galaxy S22+",
+    "brand": "samsung",
+    "deviceType": "phone",
+    "tier": "P3",
+    "releaseYear": 2022,
+    "specs": {
+      "screen": "6.6 inch Dynamic AMOLED 120Hz",
+      "chip": "Snapdragon 8 Gen 1",
+      "battery": "4500 mAh",
+      "charging": "45W"
+    },
+    "supportedFaults": [
+      "screen",
+      "glass-press",
+      "battery",
+      "charging-port",
+      "water-damage",
+      "mainboard",
+      "camera",
+      "speaker",
+      "mic",
+      "hinge-body",
+      "back-glass",
+      "thermal",
+      "software",
+      "data-recovery",
+      "diagnostic"
+    ],
+    "knownIssues": [
+      {
+        "id": "green-line-s22p",
+        "title": "Sọc màn hình AMOLED dọc mép camera",
+        "severity": "critical",
+        "confidence": "high",
+        "symptoms": "Sọc xanh lá hoặc sọc trắng chạy dọc từ camera trước xuống.",
+        "solution": "Bắn laser phục hồi đường mạch AMOLED hoặc thay màn hình nguyên bộ."
+      }
+    ]
+  },
+  {
+    "id": "samsung-galaxy-s22",
+    "name": "Galaxy S22",
+    "brand": "samsung",
+    "deviceType": "phone",
+    "tier": "P3",
+    "releaseYear": 2022,
+    "specs": {
+      "screen": "6.1 inch Dynamic AMOLED 120Hz",
+      "chip": "Snapdragon 8 Gen 1",
+      "battery": "3700 mAh",
+      "charging": "25W"
+    },
+    "supportedFaults": [
+      "screen",
+      "glass-press",
+      "battery",
+      "charging-port",
+      "water-damage",
+      "mainboard",
+      "camera",
+      "speaker",
+      "mic",
+      "hinge-body",
+      "back-glass",
+      "thermal",
+      "software",
+      "data-recovery",
+      "diagnostic"
+    ],
+    "knownIssues": [
+      {
+        "id": "battery-short-s22",
+        "title": "Pin chai nhanh sau 2 năm onscreen chỉ còn 3 tiếng",
+        "severity": "high",
+        "confidence": "high",
+        "symptoms": "Pin yếu nhanh, sập nguồn bất ngờ khi pin báo dưới 15%.",
+        "solution": "Thay pin zin chính hãng Samsung bảo hành 6-12 tháng."
+      }
+    ]
+  },
+  {
+    "id": "samsung-galaxy-s21-ultra",
+    "name": "Galaxy S21 Ultra",
+    "brand": "samsung",
+    "deviceType": "phone",
+    "tier": "P3",
+    "releaseYear": 2021,
+    "specs": {
+      "screen": "6.8 inch Dynamic AMOLED 2X WQHD+ 120Hz",
+      "chip": "Exynos 2100 / Snapdragon 888",
+      "battery": "5000 mAh",
+      "charging": "25W"
+    },
+    "supportedFaults": [
+      "screen",
+      "glass-press",
+      "battery",
+      "charging-port",
+      "water-damage",
+      "mainboard",
+      "camera",
+      "speaker",
+      "mic",
+      "hinge-body",
+      "back-glass",
+      "thermal",
+      "software",
+      "data-recovery",
+      "diagnostic"
+    ],
+    "knownIssues": [
+      {
+        "id": "black-screen-death-s21u",
+        "title": "Màn hình đen thui (Black Screen of Death) nhưng máy vẫn rung chuông",
+        "severity": "critical",
+        "confidence": "high",
+        "symptoms": "Màn hình tối hoàn toàn không hiển thị, gọi đến vẫn đổ chuông và nhận vân tay.",
+        "solution": "Kiểm tra áp cấp màn hình hiển thị, hàn câu vi cáp hoặc thay màn hình nguyên bộ."
+      }
+    ]
+  },
+  {
+    "id": "samsung-galaxy-s21-plus",
+    "name": "Galaxy S21+",
+    "brand": "samsung",
+    "deviceType": "phone",
+    "tier": "P3",
+    "releaseYear": 2021,
+    "specs": {
+      "screen": "6.7 inch AMOLED 120Hz phẳng",
+      "chip": "Exynos 2100",
+      "battery": "4800 mAh",
+      "charging": "25W"
+    },
+    "supportedFaults": [
+      "screen",
+      "glass-press",
+      "battery",
+      "charging-port",
+      "water-damage",
+      "mainboard",
+      "camera",
+      "speaker",
+      "mic",
+      "hinge-body",
+      "back-glass",
+      "thermal",
+      "software",
+      "data-recovery",
+      "diagnostic"
+    ],
+    "knownIssues": [
+      {
+        "id": "green-line-s21p",
+        "title": "Sọc màn hình xanh lá cây sau khi máy quá nóng",
+        "severity": "critical",
+        "confidence": "high",
+        "symptoms": "Màn hình xuất hiện đường kẻ thẳng đứng màu xanh.",
+        "solution": "Bắn laser nối mạch màn hình hoặc thay màn hình mới."
+      }
+    ]
+  },
+  {
+    "id": "samsung-galaxy-s21",
+    "name": "Galaxy S21",
+    "brand": "samsung",
+    "deviceType": "phone",
+    "tier": "P2",
+    "releaseYear": 2021,
+    "specs": {
+      "screen": "6.2 inch AMOLED 120Hz, lưng nhựa Glasstic",
+      "chip": "Exynos 2100",
+      "battery": "4000 mAh",
+      "charging": "25W"
+    },
+    "supportedFaults": [
+      "screen",
+      "glass-press",
+      "battery",
+      "charging-port",
+      "water-damage",
+      "mainboard",
+      "camera",
+      "speaker",
+      "mic",
+      "hinge-body",
+      "back-glass",
+      "thermal",
+      "software",
+      "data-recovery",
+      "diagnostic"
+    ],
+    "knownIssues": [
+      {
+        "id": "plastic-back-peel",
+        "title": "Bong tróc keo dán nắp lưng nhựa Glasstic",
+        "severity": "low",
+        "confidence": "high",
+        "symptoms": "Nắp lưng sau bị hở mép viền do keo lão hóa vì nhiệt độ nóng.",
+        "solution": "Vệ sinh keo cũ và dán lại keo chống nước chuyên dụng chuẩn nhà máy."
+      }
+    ]
+  },
+  {
+    "id": "samsung-galaxy-s20-fe",
+    "name": "Galaxy S20 FE",
+    "brand": "samsung",
+    "deviceType": "phone",
+    "tier": "P2",
+    "releaseYear": 2020,
+    "specs": {
+      "screen": "6.5 inch Super AMOLED 120Hz phẳng",
+      "chip": "Snapdragon 865",
+      "battery": "4500 mAh",
+      "charging": "25W"
+    },
+    "supportedFaults": [
+      "screen",
+      "glass-press",
+      "battery",
+      "charging-port",
+      "water-damage",
+      "mainboard",
+      "camera",
+      "speaker",
+      "mic",
+      "hinge-body",
+      "back-glass",
+      "thermal",
+      "software",
+      "data-recovery",
+      "diagnostic"
+    ],
+    "knownIssues": [
+      {
+        "id": "touch-jitter-s20fe",
+        "title": "Cảm ứng bị loạn nhấp nháy khi zoom 2 ngón tay",
+        "severity": "medium",
+        "confidence": "high",
+        "symptoms": "Cảm ứng đa điểm chập chờn khi chơi game PUBG hoặc zoom ảnh.",
+        "solution": "Cập nhật firmware cảm ứng hoặc thay màn hình Super AMOLED nguyên bộ."
+      }
+    ]
+  },
+  {
+    "id": "samsung-galaxy-z-fold-6",
+    "name": "Galaxy Z Fold 6",
+    "brand": "samsung",
+    "deviceType": "phone",
+    "tier": "P5",
+    "releaseYear": 2024,
+    "specs": {
+      "screen": "Màn trong 7.6 inch gập LTPO 120Hz, màn ngoài 6.3 inch 120Hz",
+      "chip": "Snapdragon 8 Gen 3 for Galaxy",
+      "battery": "4400 mAh",
+      "charging": "25W"
+    },
+    "supportedFaults": [
+      "screen",
+      "glass-press",
+      "battery",
+      "charging-port",
+      "water-damage",
+      "mainboard",
+      "camera",
+      "speaker",
+      "mic",
+      "hinge-body",
+      "back-glass",
+      "thermal",
+      "software",
+      "data-recovery",
+      "diagnostic",
+      "foldable-cable"
+    ],
+    "knownIssues": [
+      {
+        "id": "inner-screen-protector-bubble",
+        "title": "Bong tróc miếng dán màn hình trong tại vị trí nếp gấp bản lề",
+        "severity": "medium",
+        "confidence": "high",
+        "symptoms": "Miếng dán bảo vệ gốc bắt đầu xuất hiện vệt bọt khí chạy dọc theo nếp gấp giữa.",
+        "solution": "Bóc dán lại film bảo vệ chuyên dụng cho màn gập bằng máy hút chân không chuyên nghiệp."
+      }
+    ]
+  },
+  {
+    "id": "samsung-galaxy-z-fold-5",
+    "name": "Galaxy Z Fold 5",
+    "brand": "samsung",
+    "deviceType": "phone",
+    "tier": "P5",
+    "releaseYear": 2023,
+    "specs": {
+      "screen": "Màn trong 7.6 inch gập giọt nước không khe hở, màn ngoài 6.2 inch",
+      "chip": "Snapdragon 8 Gen 2",
+      "battery": "4400 mAh",
+      "charging": "25W"
+    },
+    "supportedFaults": [
+      "screen",
+      "glass-press",
+      "battery",
+      "charging-port",
+      "water-damage",
+      "mainboard",
+      "camera",
+      "speaker",
+      "mic",
+      "hinge-body",
+      "back-glass",
+      "thermal",
+      "software",
+      "data-recovery",
+      "diagnostic",
+      "foldable-cable"
+    ],
+    "knownIssues": [
+      {
+        "id": "hinge-cable-wifi",
+        "title": "Đứt cáp bản lề gập gây mất âm thanh loa và chập chờn Wi-Fi",
+        "severity": "critical",
+        "confidence": "high",
+        "symptoms": "Mở thẳng màn hình lớn ra thì loa ngoài mất tiếng hoặc Wi-Fi tự tắt, gập lại nửa chừng lại nghe được.",
+        "solution": "Hàn nối câu cáp bản lề đôi Z Fold hoặc thay cụm cáp bản lề chính hãng."
+      }
+    ]
+  },
+  {
+    "id": "samsung-galaxy-z-fold-4",
+    "name": "Galaxy Z Fold 4",
+    "brand": "samsung",
+    "deviceType": "phone",
+    "tier": "P5",
+    "releaseYear": 2022,
+    "specs": {
+      "screen": "Màn trong 7.6 inch gập 120Hz, màn ngoài 6.2 inch",
+      "chip": "Snapdragon 8+ Gen 1",
+      "battery": "4400 mAh",
+      "charging": "25W"
+    },
+    "supportedFaults": [
+      "screen",
+      "glass-press",
+      "battery",
+      "charging-port",
+      "water-damage",
+      "mainboard",
+      "camera",
+      "speaker",
+      "mic",
+      "hinge-body",
+      "back-glass",
+      "thermal",
+      "software",
+      "data-recovery",
+      "diagnostic",
+      "foldable-cable"
+    ],
+    "knownIssues": [
+      {
+        "id": "hinge-not-flat",
+        "title": "Bản lề không mở thẳng được 180 độ (kẹt góc 170 độ)",
+        "severity": "high",
+        "confidence": "high",
+        "symptoms": "Mở máy ra bị cứng, màn hình gập không thể mở phẳng hoàn toàn như ban đầu do bụi kẹt chổi quét bản lề.",
+        "solution": "Tháo vệ sinh cấu trúc bánh răng bản lề, tẩy bụi xơ vải hoặc thay cụm xương bản lề."
+      }
+    ]
+  },
+  {
+    "id": "samsung-galaxy-z-flip-6",
+    "name": "Galaxy Z Flip 6",
+    "brand": "samsung",
+    "deviceType": "phone",
+    "tier": "P5",
+    "releaseYear": 2024,
+    "specs": {
+      "screen": "Màn trong 6.7 inch gập 120Hz, màn phụ ngoài 3.4 inch",
+      "chip": "Snapdragon 8 Gen 3",
+      "battery": "4000 mAh, tản nhiệt buồng hơi",
+      "charging": "25W"
+    },
+    "supportedFaults": [
+      "screen",
+      "glass-press",
+      "battery",
+      "charging-port",
+      "water-damage",
+      "mainboard",
+      "camera",
+      "speaker",
+      "mic",
+      "hinge-body",
+      "back-glass",
+      "thermal",
+      "software",
+      "data-recovery",
+      "diagnostic",
+      "foldable-cable"
+    ],
+    "knownIssues": [
+      {
+        "id": "flip-hinge-click",
+        "title": "Tiếng kêu lách cách nhẹ khi gập mở màn hình",
+        "severity": "low",
+        "confidence": "medium",
+        "symptoms": "Khi gập mở bản lề phát ra âm thanh cơ học nhỏ.",
+        "solution": "Kiểm tra lò xo trợ lực và bơm dung dịch bôi trơn bản lề chuyên dụng."
+      }
+    ]
+  },
+  {
+    "id": "samsung-galaxy-z-flip-5",
+    "name": "Galaxy Z Flip 5",
+    "brand": "samsung",
+    "deviceType": "phone",
+    "tier": "P5",
+    "releaseYear": 2023,
+    "specs": {
+      "screen": "Màn trong 6.7 inch gập 120Hz, màn ngoài Flex Window 3.4 inch",
+      "chip": "Snapdragon 8 Gen 2",
+      "battery": "3700 mAh",
+      "charging": "25W"
+    },
+    "supportedFaults": [
+      "screen",
+      "glass-press",
+      "battery",
+      "charging-port",
+      "water-damage",
+      "mainboard",
+      "camera",
+      "speaker",
+      "mic",
+      "hinge-body",
+      "back-glass",
+      "thermal",
+      "software",
+      "data-recovery",
+      "diagnostic",
+      "foldable-cable"
+    ],
+    "knownIssues": [
+      {
+        "id": "screen-crease-blackline",
+        "title": "Nứt đen chảy mực ngay nếp gấp giữa sau va đập",
+        "severity": "critical",
+        "confidence": "high",
+        "symptoms": "Màn hình trong xuất hiện đốm đen hoặc đường sọc ngang ngay nếp gập đôi.",
+        "solution": "Thay cụm màn hình trong dẻo chính hãng Samsung kèm khung sườn."
+      }
+    ]
+  },
+  {
+    "id": "samsung-galaxy-z-flip-4",
+    "name": "Galaxy Z Flip 4",
+    "brand": "samsung",
+    "deviceType": "phone",
+    "tier": "P5",
+    "releaseYear": 2022,
+    "specs": {
+      "screen": "Màn trong 6.7 inch gập 120Hz",
+      "chip": "Snapdragon 8+ Gen 1",
+      "battery": "3700 mAh",
+      "charging": "25W"
+    },
+    "supportedFaults": [
+      "screen",
+      "glass-press",
+      "battery",
+      "charging-port",
+      "water-damage",
+      "mainboard",
+      "camera",
+      "speaker",
+      "mic",
+      "hinge-body",
+      "back-glass",
+      "thermal",
+      "software",
+      "data-recovery",
+      "diagnostic",
+      "foldable-cable"
+    ],
+    "knownIssues": [
+      {
+        "id": "hinge-dislocated",
+        "title": "Bản lề bị lệch gập kêu cọt kẹt sau rơi rớt",
+        "severity": "high",
+        "confidence": "high",
+        "symptoms": "Hai nửa thân máy bị xô lệch, gập lại không khít mép.",
+        "solution": "Nắn chỉnh cơ cấu bản lề trục đôi hoặc thay khung sườn mới."
+      }
+    ]
+  },
+  {
+    "id": "samsung-galaxy-note-20-ultra",
+    "name": "Galaxy Note 20 Ultra",
+    "brand": "samsung",
+    "deviceType": "phone",
+    "tier": "P3",
+    "releaseYear": 2020,
+    "specs": {
+      "screen": "6.9 inch Dynamic AMOLED 2X WQHD+ 120Hz cong viền",
+      "chip": "Exynos 990 / Snapdragon 865+",
+      "battery": "4500 mAh",
+      "charging": "25W"
+    },
+    "supportedFaults": [
+      "screen",
+      "glass-press",
+      "battery",
+      "charging-port",
+      "water-damage",
+      "mainboard",
+      "camera",
+      "speaker",
+      "mic",
+      "hinge-body",
+      "back-glass",
+      "thermal",
+      "software",
+      "data-recovery",
+      "diagnostic"
+    ],
+    "knownIssues": [
+      {
+        "id": "green-white-screen-note20u",
+        "title": "Màn hình trắng xóa hoặc sọc xanh lá (Lỗi kinh điển Note 20 Ultra)",
+        "severity": "critical",
+        "confidence": "high",
+        "symptoms": "Đang dùng bình thường màn hình chuyển sang màu xanh lá cây hoặc trắng đục chớp giật.",
+        "solution": "Ép cổ cáp vi mạch màn hình công nghệ laser không cần thay màn zin đắt tiền."
+      }
+    ]
+  },
+  {
+    "id": "samsung-galaxy-note-20",
+    "name": "Galaxy Note 20",
+    "brand": "samsung",
+    "deviceType": "phone",
+    "tier": "P2",
+    "releaseYear": 2020,
+    "specs": {
+      "screen": "6.7 inch Super AMOLED Plus 60Hz phẳng, lưng nhựa",
+      "chip": "Exynos 990",
+      "battery": "4300 mAh",
+      "charging": "25W"
+    },
+    "supportedFaults": [
+      "screen",
+      "glass-press",
+      "battery",
+      "charging-port",
+      "water-damage",
+      "mainboard",
+      "camera",
+      "speaker",
+      "mic",
+      "hinge-body",
+      "back-glass",
+      "thermal",
+      "software",
+      "data-recovery",
+      "diagnostic"
+    ],
+    "knownIssues": [
+      {
+        "id": "battery-aged-note20",
+        "title": "Pin chai phồng hở mép lưng nhựa",
+        "severity": "medium",
+        "confidence": "high",
+        "symptoms": "Pin nhanh hết, lưng nhựa phồng kênh.",
+        "solution": "Thay pin mới bảo hành 6 tháng."
+      }
+    ]
+  },
+  {
+    "id": "samsung-galaxy-note-10-plus",
+    "name": "Galaxy Note 10+",
+    "brand": "samsung",
+    "deviceType": "phone",
+    "tier": "P2",
+    "releaseYear": 2019,
+    "specs": {
+      "screen": "6.8 inch Dynamic AMOLED cong",
+      "chip": "Exynos 9825",
+      "battery": "4300 mAh",
+      "charging": "45W"
+    },
+    "supportedFaults": [
+      "screen",
+      "glass-press",
+      "battery",
+      "charging-port",
+      "water-damage",
+      "mainboard",
+      "camera",
+      "speaker",
+      "mic",
+      "hinge-body",
+      "back-glass",
+      "thermal",
+      "software",
+      "data-recovery",
+      "diagnostic"
+    ],
+    "knownIssues": [
+      {
+        "id": "curved-glass-shatter",
+        "title": "Nứt vỡ mặt kính mép cong viền",
+        "severity": "medium",
+        "confidence": "high",
+        "symptoms": "Kính vỡ góc cong nhưng hiển thị và cảm ứng Spen vẫn tốt.",
+        "solution": "Ép kính cong màn hình nguyên bản bằng khuôn ép nhiệt chuẩn."
+      }
+    ]
+  },
+  {
+    "id": "samsung-galaxy-a55-5g",
+    "name": "Galaxy A55 5G",
+    "brand": "samsung",
+    "deviceType": "phone",
+    "tier": "P2",
+    "releaseYear": 2024,
+    "specs": {
+      "screen": "6.6 inch Super AMOLED 120Hz viền kim loại",
+      "chip": "Exynos 1480 (4nm)",
+      "battery": "5000 mAh",
+      "charging": "25W"
+    },
+    "supportedFaults": [
+      "screen",
+      "glass-press",
+      "battery",
+      "charging-port",
+      "water-damage",
+      "mainboard",
+      "camera",
+      "speaker",
+      "mic",
+      "hinge-body",
+      "back-glass",
+      "thermal",
+      "software",
+      "data-recovery",
+      "diagnostic"
+    ],
+    "knownIssues": [
+      {
+        "id": "fingerprint-optical-slow",
+        "title": "Cảm biến vân tay quang học dưới màn hình nhận diện chậm",
+        "severity": "low",
+        "confidence": "high",
+        "symptoms": "Đặt ngón tay quét mở khóa mất hơn 1 giây hoặc thất bại khi dán kính cường lực dày.",
+        "solution": "Cân chỉnh lại cảm biến vân tay quang học và sử dụng kính cường lực chuẩn tương thích."
+      }
+    ]
+  },
+  {
+    "id": "samsung-galaxy-a54-5g",
+    "name": "Galaxy A54 5G",
+    "brand": "samsung",
+    "deviceType": "phone",
+    "tier": "P2",
+    "releaseYear": 2023,
+    "specs": {
+      "screen": "6.4 inch Super AMOLED 120Hz lưng kính",
+      "chip": "Exynos 1380",
+      "battery": "5000 mAh",
+      "charging": "25W"
+    },
+    "supportedFaults": [
+      "screen",
+      "glass-press",
+      "battery",
+      "charging-port",
+      "water-damage",
+      "mainboard",
+      "camera",
+      "speaker",
+      "mic",
+      "hinge-body",
+      "back-glass",
+      "thermal",
+      "software",
+      "data-recovery",
+      "diagnostic"
+    ],
+    "knownIssues": [
+      {
+        "id": "warm-frame-camera",
+        "title": "Khung máy ấm khi quay video ngoài trời",
+        "severity": "low",
+        "confidence": "high",
+        "symptoms": "Quay video nắng lâu làm máy nóng và hạ độ sáng màn hình.",
+        "solution": "Kiểm tra tản nhiệt và vệ sinh chân tiếp xúc bo mạch."
+      }
+    ]
+  },
+  {
+    "id": "samsung-galaxy-a35-5g",
+    "name": "Galaxy A35 5G",
+    "brand": "samsung",
+    "deviceType": "phone",
+    "tier": "P2",
+    "releaseYear": 2024,
+    "specs": {
+      "screen": "6.6 inch Super AMOLED 120Hz",
+      "chip": "Exynos 1380",
+      "battery": "5000 mAh",
+      "charging": "25W"
+    },
+    "supportedFaults": [
+      "screen",
+      "glass-press",
+      "battery",
+      "charging-port",
+      "water-damage",
+      "mainboard",
+      "camera",
+      "speaker",
+      "mic",
+      "hinge-body",
+      "back-glass",
+      "thermal",
+      "software",
+      "data-recovery",
+      "diagnostic"
+    ],
+    "knownIssues": [
+      {
+        "id": "glass-corner-crack-a35",
+        "title": "Nứt kính bảo vệ góc sau rơi",
+        "severity": "medium",
+        "confidence": "high",
+        "symptoms": "Mặt kính vỡ ngoài, cảm ứng và màn hình trong còn nguyên.",
+        "solution": "Ép mặt kính màn hình mới bằng keo OCA."
+      }
+    ]
+  },
+  {
+    "id": "samsung-galaxy-a15",
+    "name": "Galaxy A15 4G/5G",
+    "brand": "samsung",
+    "deviceType": "phone",
+    "tier": "P1",
+    "releaseYear": 2023,
+    "specs": {
+      "screen": "6.5 inch Super AMOLED 90Hz",
+      "chip": "Helio G99 / Dimensity 6100+",
+      "battery": "5000 mAh",
+      "charging": "25W"
+    },
+    "supportedFaults": [
+      "screen",
+      "glass-press",
+      "battery",
+      "charging-port",
+      "water-damage",
+      "mainboard",
+      "camera",
+      "speaker",
+      "mic",
+      "hinge-body",
+      "back-glass",
+      "thermal",
+      "software",
+      "data-recovery",
+      "diagnostic"
+    ],
+    "knownIssues": [
+      {
+        "id": "speaker-lower-dirt",
+        "title": "Loa ngoài rè do bụi mạt sắt bám màng loa",
+        "severity": "low",
+        "confidence": "high",
+        "symptoms": "Nghe nhạc hoặc chuông báo thức bị rè chói tai.",
+        "solution": "Vệ sinh màng loa hoặc thay module cụm loa ngoài zin."
+      }
+    ]
+  },
+  {
+    "id": "samsung-galaxy-a05s",
+    "name": "Galaxy A05s",
+    "brand": "samsung",
+    "deviceType": "phone",
+    "tier": "P1",
+    "releaseYear": 2023,
+    "specs": {
+      "screen": "6.7 inch PLS LCD 90Hz",
+      "chip": "Snapdragon 680",
+      "battery": "5000 mAh",
+      "charging": "25W"
+    },
+    "supportedFaults": [
+      "screen",
+      "glass-press",
+      "battery",
+      "charging-port",
+      "water-damage",
+      "mainboard",
+      "camera",
+      "speaker",
+      "mic",
+      "hinge-body",
+      "back-glass",
+      "thermal",
+      "software",
+      "data-recovery",
+      "diagnostic"
+    ],
+    "knownIssues": [
+      {
+        "id": "charging-board-loose",
+        "title": "Cổng sạc Type-C chập chờn sau thời gian cắm sạc",
+        "severity": "medium",
+        "confidence": "high",
+        "symptoms": "Cắm dây sạc nhận rồi ngắt liên tục.",
+        "solution": "Thay bo mạch phụ chân sạc (Sub-board) nguyên cụm."
+      }
+    ]
+  }
+]

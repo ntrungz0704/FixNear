@@ -1,0 +1,146 @@
+[
+  {
+    "id": 1,
+    "name": "Thay màn hình hiển thị",
+    "device_type": "all",
+    "devices": ["phone", "tablet", "laptop", "mac", "smartwatch"],
+    "icon": "monitor",
+    "description": "Thay cụm màn hình nguyên bộ khi bị sọc màn, chảy mực, liệt cảm ứng hoặc tối đen."
+  },
+  {
+    "id": 2,
+    "name": "Ép mặt kính / Kính cảm ứng",
+    "device_type": "phone",
+    "devices": ["phone", "tablet", "smartwatch"],
+    "icon": "copy",
+    "description": "Màn hình cảm ứng và hiển thị bình thường, chỉ bị nứt vỡ lớp kính bảo vệ bên ngoài."
+  },
+  {
+    "id": 3,
+    "name": "Thay pin dung lượng cao / Pin Zin",
+    "device_type": "all",
+    "devices": ["phone", "tablet", "laptop", "mac", "smartwatch"],
+    "icon": "battery-charging",
+    "description": "Khắc phục pin chai dưới 80%, phồng pin bung nắp lưng, sạc không vào hoặc sập nguồn."
+  },
+  {
+    "id": 4,
+    "name": "Sửa chân sạc / Cổng kết nối",
+    "device_type": "all",
+    "devices": ["phone", "tablet", "laptop", "mac", "smartwatch", "pc"],
+    "icon": "zap",
+    "description": "Khắc phục lỏng chân Type-C, Lightning, DC Jack, cắm sạc chập chờn hoặc không nhận điện."
+  },
+  {
+    "id": 5,
+    "name": "Cấp cứu máy vô nước / Rớt nước",
+    "device_type": "all",
+    "devices": ["phone", "tablet", "laptop", "mac", "smartwatch"],
+    "icon": "droplet",
+    "description": "Sấy khô bằng sóng siêu âm chuyên dụng, tẩy rỉ sét chân IC và tiếp xúc bo mạch khi máy rớt nước."
+  },
+  {
+    "id": 6,
+    "name": "Sửa mất nguồn / Lỗi Mainboard",
+    "device_type": "all",
+    "devices": ["phone", "tablet", "laptop", "mac", "smartwatch", "pc"],
+    "icon": "power",
+    "description": "Khắc phục chết IC nguồn, chập tụ, kích nguồn không chạy, đèn nhấp nháy hoặc treo logo."
+  },
+  {
+    "id": 7,
+    "name": "Thay camera trước / sau",
+    "device_type": "phone",
+    "devices": ["phone", "tablet", "laptop", "mac"],
+    "icon": "camera",
+    "description": "Camera bị đục mờ, rung giật chống rung OIS, đốm tím, vỡ kính camera ngoài."
+  },
+  {
+    "id": 8,
+    "name": "Loa trong / Loa ngoài rè",
+    "device_type": "all",
+    "devices": ["phone", "tablet", "laptop", "mac", "smartwatch"],
+    "icon": "volume-x",
+    "description": "Loa thoại nhỏ xíu, loa chuông rè chói tai khi nghe nhạc, xem phim hoặc đàm thoại."
+  },
+  {
+    "id": 9,
+    "name": "Hỏng Micro (Nói không nghe)",
+    "device_type": "all",
+    "devices": ["phone", "tablet", "laptop", "mac", "smartwatch"],
+    "icon": "mic-off",
+    "description": "Gọi điện thoại, quay video hoặc gửi tin nhắn thoại đối phương không nghe được tiếng."
+  },
+  {
+    "id": 10,
+    "name": "Bàn phím liệt / Kẹt nút bấm",
+    "device_type": "laptop",
+    "devices": ["laptop", "mac", "pc"],
+    "icon": "keyboard",
+    "description": "Thay bàn phím laptop mới chính hãng, xử lý liệt phím, kẹt phím, chập nhảy chữ liên tục."
+  },
+  {
+    "id": 11,
+    "name": "Chuột cảm ứng / Trackpad",
+    "device_type": "laptop",
+    "devices": ["laptop", "mac"],
+    "icon": "mouse-pointer",
+    "description": "Thay bàn rê chuột cảm ứng Trackpad bị đơ, loạn cảm ứng hoặc kẹt cứng không bấm được."
+  },
+  {
+    "id": 12,
+    "name": "Sửa gãy bản lề / Vỏ khung sườn",
+    "device_type": "all",
+    "devices": ["laptop", "mac", "phone", "tablet"],
+    "icon": "tool",
+    "description": "Hàn gia cố chân ốc bản lề laptop, thay vỏ mặt A/B/C/D, thay sườn máy điện thoại cấn móp."
+  },
+  {
+    "id": 13,
+    "name": "Nâng cấp ổ cứng SSD siêu tốc",
+    "device_type": "laptop",
+    "devices": ["laptop", "mac", "pc"],
+    "icon": "hard-drive",
+    "description": "Nâng cấp SSD NVMe / SATA 256GB/512GB/1TB/2TB giúp khởi động máy chỉ trong 5 giây."
+  },
+  {
+    "id": 14,
+    "name": "Nâng cấp bộ nhớ RAM",
+    "device_type": "laptop",
+    "devices": ["laptop", "mac", "pc"],
+    "icon": "cpu",
+    "description": "Nâng thêm RAM DDR4/DDR5 8GB, 16GB, 32GB giúp máy chạy mượt đa nhiệm, mở nhiều tab Chrome & code."
+  },
+  {
+    "id": 15,
+    "name": "Vệ sinh máy & Tra keo tản nhiệt",
+    "device_type": "laptop",
+    "devices": ["laptop", "mac", "pc"],
+    "icon": "wind",
+    "description": "Làm sạch bụi bẩn, tra keo tản nhiệt gấu MX-4/Kryonaut làm mát chip, xử lý quạt kêu to."
+  },
+  {
+    "id": 16,
+    "name": "Cài Hệ điều hành & Phần mềm",
+    "device_type": "laptop",
+    "devices": ["laptop", "mac", "pc", "phone"],
+    "icon": "monitor",
+    "description": "Cài Win 10/11 sạch, cài macOS Sonoma/Sequoia, cài trọn bộ Office, Photoshop, VS Code, đồ họa."
+  },
+  {
+    "id": 17,
+    "name": "Cứu dữ liệu ổ cứng & Bo mạch",
+    "device_type": "all",
+    "devices": ["laptop", "mac", "pc", "phone", "tablet"],
+    "icon": "database",
+    "description": "Phục hồi dữ liệu cá nhân, đồ án, tài liệu quan trọng từ máy chết nguồn, vô nước, ổ cứng bad."
+  },
+  {
+    "id": 18,
+    "name": "Kiểm tra chẩn đoán toàn diện",
+    "device_type": "all",
+    "devices": ["phone", "tablet", "laptop", "mac", "smartwatch", "pc"],
+    "icon": "search",
+    "description": "Kỹ thuật viên đo đạc linh kiện, test chuyên sâu mọi chức năng & báo giá công khai miễn phí."
+  }
+]

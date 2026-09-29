@@ -1,0 +1,8 @@
+<?php
+// Sao chép thành config/local.php trên host. Không commit local.php.
+return [
+    'environment' => 'production',
+    'timezone' => 'Asia/Ho_Chi_Minh',
+    // Nên đặt ngoài public_html, ví dụ: /home/ACCOUNT/fixnear-data
+    'data_dir' => '/home/ACCOUNT/fixnear-data',
+];

@@ -1,0 +1,289 @@
+[
+  {
+    "id": "realme-gt-5-pro",
+    "name": "Realme GT 5 Pro",
+    "brand": "realme",
+    "deviceType": "phone",
+    "tier": "P4",
+    "releaseYear": 2023,
+    "specs": {
+      "screen": "6.78 inch AMOLED 144Hz 4500 nits 1.5K cong",
+      "chip": "Snapdragon 8 Gen 3",
+      "battery": "5400 mAh",
+      "charging": "100W, 50W Wireless"
+    },
+    "supportedFaults": [
+      "screen",
+      "glass-press",
+      "battery",
+      "charging-port",
+      "water-damage",
+      "mainboard",
+      "camera",
+      "speaker",
+      "mic",
+      "hinge-body",
+      "back-glass",
+      "thermal",
+      "software",
+      "data-recovery",
+      "diagnostic"
+    ],
+    "knownIssues": [
+      {
+        "id": "periscope-ois-heat",
+        "title": "Camera tiềm vọng rung giật nhẹ khi máy đang nóng",
+        "severity": "medium",
+        "confidence": "high",
+        "symptoms": "Ống kính tiềm vọng zoom 3x bị rung khi chụp liên tục.",
+        "solution": "Cân chỉnh module chống rung OIS hoặc vệ sinh buồng tản nhiệt."
+      }
+    ]
+  },
+  {
+    "id": "realme-gt-neo-5",
+    "name": "Realme GT Neo 5 (240W / 150W)",
+    "brand": "realme",
+    "deviceType": "phone",
+    "tier": "P3",
+    "releaseYear": 2023,
+    "specs": {
+      "screen": "6.74 inch AMOLED 144Hz 1.5K, đèn Halo RGB",
+      "chip": "Snapdragon 8+ Gen 1",
+      "battery": "4600 mAh / 5000 mAh",
+      "charging": "240W / 150W Ultra Fast"
+    },
+    "supportedFaults": [
+      "screen",
+      "glass-press",
+      "battery",
+      "charging-port",
+      "water-damage",
+      "mainboard",
+      "camera",
+      "speaker",
+      "mic",
+      "hinge-body",
+      "back-glass",
+      "thermal",
+      "software",
+      "data-recovery",
+      "diagnostic"
+    ],
+    "knownIssues": [
+      {
+        "id": "240w-port-burn",
+        "title": "Chân sạc Type-C quá tải nhiệt do công suất cực lớn 240W",
+        "severity": "high",
+        "confidence": "high",
+        "symptoms": "Chân sạc có vết ám đen hoặc không nhận dòng sạc tối đa.",
+        "solution": "Thay cụm bo chân sạc chịu tải dòng cao 12A chuyên dụng."
+      }
+    ]
+  },
+  {
+    "id": "realme-12-pro-plus",
+    "name": "Realme 12 Pro+",
+    "brand": "realme",
+    "deviceType": "phone",
+    "tier": "P3",
+    "releaseYear": 2024,
+    "specs": {
+      "screen": "6.7 inch AMOLED 120Hz cong viền, lưng da sinh thái",
+      "chip": "Snapdragon 7s Gen 2",
+      "battery": "5000 mAh",
+      "charging": "67W"
+    },
+    "supportedFaults": [
+      "screen",
+      "glass-press",
+      "battery",
+      "charging-port",
+      "water-damage",
+      "mainboard",
+      "camera",
+      "speaker",
+      "mic",
+      "hinge-body",
+      "back-glass",
+      "thermal",
+      "software",
+      "data-recovery",
+      "diagnostic"
+    ],
+    "knownIssues": [
+      {
+        "id": "leather-scratch-r12pp",
+        "title": "Trầy xước da sinh thái mặt lưng quanh gờ đồng hồ",
+        "severity": "low",
+        "confidence": "high",
+        "symptoms": "Chất liệu da sau lưng sờn mép gờ viền.",
+        "solution": "Thay nắp lưng da sinh thái chính hãng."
+      }
+    ]
+  },
+  {
+    "id": "realme-12-plus",
+    "name": "Realme 12+",
+    "brand": "realme",
+    "deviceType": "phone",
+    "tier": "P2",
+    "releaseYear": 2024,
+    "specs": {
+      "screen": "6.67 inch AMOLED 120Hz phẳng",
+      "chip": "Dimensity 7050",
+      "battery": "5000 mAh",
+      "charging": "67W"
+    },
+    "supportedFaults": [
+      "screen",
+      "glass-press",
+      "battery",
+      "charging-port",
+      "water-damage",
+      "mainboard",
+      "camera",
+      "speaker",
+      "mic",
+      "hinge-body",
+      "back-glass",
+      "thermal",
+      "software",
+      "data-recovery",
+      "diagnostic"
+    ],
+    "knownIssues": [
+      {
+        "id": "touch-rainwater",
+        "title": "Cảm ứng Rainwater Smart Touch nhận chập chờn khi tay ướt nhiều",
+        "severity": "low",
+        "confidence": "high",
+        "symptoms": "Lau tay khô vuốt mới nhận chuẩn.",
+        "solution": "Cập nhật phần mềm và kiểm tra tấm dán bảo vệ."
+      }
+    ]
+  },
+  {
+    "id": "realme-11-pro",
+    "name": "Realme 11 Pro",
+    "brand": "realme",
+    "deviceType": "phone",
+    "tier": "P2",
+    "releaseYear": 2023,
+    "specs": {
+      "screen": "6.7 inch AMOLED 120Hz cong",
+      "chip": "Dimensity 7050",
+      "battery": "5000 mAh",
+      "charging": "67W"
+    },
+    "supportedFaults": [
+      "screen",
+      "glass-press",
+      "battery",
+      "charging-port",
+      "water-damage",
+      "mainboard",
+      "camera",
+      "speaker",
+      "mic",
+      "hinge-body",
+      "back-glass",
+      "thermal",
+      "software",
+      "data-recovery",
+      "diagnostic"
+    ],
+    "knownIssues": [
+      {
+        "id": "curved-glass-crack-r11p",
+        "title": "Nứt kính mép cong sau rơi",
+        "severity": "medium",
+        "confidence": "high",
+        "symptoms": "Mặt kính rạn mép ngoài.",
+        "solution": "Ép kính cong màn hình AMOLED."
+      }
+    ]
+  },
+  {
+    "id": "realme-c67",
+    "name": "Realme C67",
+    "brand": "realme",
+    "deviceType": "phone",
+    "tier": "P1",
+    "releaseYear": 2023,
+    "specs": {
+      "screen": "6.72 inch IPS LCD 90Hz",
+      "chip": "Snapdragon 685",
+      "battery": "5000 mAh",
+      "charging": "33W"
+    },
+    "supportedFaults": [
+      "screen",
+      "glass-press",
+      "battery",
+      "charging-port",
+      "water-damage",
+      "mainboard",
+      "camera",
+      "speaker",
+      "mic",
+      "hinge-body",
+      "back-glass",
+      "thermal",
+      "software",
+      "data-recovery",
+      "diagnostic"
+    ],
+    "knownIssues": [
+      {
+        "id": "screen-crack-c67",
+        "title": "Màn hình nứt vỡ LCD",
+        "severity": "high",
+        "confidence": "high",
+        "symptoms": "Màn hình đen góc hoặc sọc dọc.",
+        "solution": "Thay cụm màn hình IPS LCD mới."
+      }
+    ]
+  },
+  {
+    "id": "realme-c55",
+    "name": "Realme C55",
+    "brand": "realme",
+    "deviceType": "phone",
+    "tier": "P1",
+    "releaseYear": 2023,
+    "specs": {
+      "screen": "6.72 inch IPS LCD 90Hz",
+      "chip": "Helio G88",
+      "battery": "5000 mAh",
+      "charging": "33W"
+    },
+    "supportedFaults": [
+      "screen",
+      "glass-press",
+      "battery",
+      "charging-port",
+      "water-damage",
+      "mainboard",
+      "camera",
+      "speaker",
+      "mic",
+      "hinge-body",
+      "back-glass",
+      "thermal",
+      "software",
+      "data-recovery",
+      "diagnostic"
+    ],
+    "knownIssues": [
+      {
+        "id": "charging-loose-c55",
+        "title": "Chân sạc Type-C cắm lỏng lẻo",
+        "severity": "medium",
+        "confidence": "high",
+        "symptoms": "Cắm dây sạc nhận chập chờn.",
+        "solution": "Thay cụm bo sạc phụ."
+      }
+    ]
+  }
+]

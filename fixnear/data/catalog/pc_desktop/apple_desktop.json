@@ -1,0 +1,185 @@
+[
+  {
+    "id": "apple-imac-24-m3-2023",
+    "name": "Apple iMac 24 inch (M3 2023)",
+    "brand": "apple_desktop",
+    "deviceType": "pc_desktop",
+    "tier": "D2",
+    "releaseYear": 2023,
+    "specs": {
+      "chip": "Apple M3 (8-core CPU, 8/10-core GPU)",
+      "screen": "23.5 inch 4.5K Retina (4480x2520) 500 nits, mỏng 11.5mm",
+      "ram": "8GB/16GB/24GB Unified Memory Soldered",
+      "power": "Bộ nguồn adapter gắn ngoài kèm cổng mạng LAN"
+    },
+    "supportedFaults": [
+      "screen",
+      "mainboard",
+      "psu-repair",
+      "thermal",
+      "software",
+      "data-recovery",
+      "diagnostic"
+    ],
+    "knownIssues": [
+      {
+        "id": "imac-m3-screen-line",
+        "title": "Sọc màn hình 4.5K Retina do va đập hoặc cấn góc",
+        "severity": "critical",
+        "confidence": "high",
+        "symptoms": "Màn hình xuất hiện đường kẻ chỉ sọc dọc hoặc chảy mực đốm đen.",
+        "solution": "Thay nguyên cụm màn hình hiển thị iMac 24 inch 4.5K Retina chuẩn Apple bóc máy."
+      },
+      {
+        "id": "magnetic-power-cord-loose",
+        "title": "Dây nguồn nam châm tròn phía sau lưng máy cắm lỏng chập chờn",
+        "severity": "medium",
+        "confidence": "high",
+        "symptoms": "Chạm vào dây nguồn máy tự tắt ngắt điện đột ngột.",
+        "solution": "Vệ sinh chân tiếp xúc nam châm hoặc thay dây nguồn dệt iMac."
+      }
+    ]
+  },
+  {
+    "id": "apple-imac-24-m1-2021",
+    "name": "Apple iMac 24 inch (M1 2021)",
+    "brand": "apple_desktop",
+    "deviceType": "pc_desktop",
+    "tier": "D2",
+    "releaseYear": 2021,
+    "specs": {
+      "chip": "Apple M1",
+      "screen": "23.5 inch 4.5K Retina",
+      "ram": "8GB/16GB Soldered",
+      "power": "Nguồn Adapter ngoài 143W"
+    },
+    "supportedFaults": [
+      "screen",
+      "mainboard",
+      "psu-repair",
+      "thermal",
+      "software",
+      "data-recovery",
+      "diagnostic"
+    ],
+    "knownIssues": [
+      {
+        "id": "imac-stand-crooked",
+        "title": "Chân đế nhôm nguyên khối bị lệch nghiêng nhẹ 2-3mm",
+        "severity": "low",
+        "confidence": "high",
+        "symptoms": "Màn hình một bên cao hơn bên kia khi đo thước thủy.",
+        "solution": "Cân chỉnh siết ốc trục hãm chân đế nhôm bên trong thân máy."
+      }
+    ]
+  },
+  {
+    "id": "apple-imac-27-5k-retina-2020",
+    "name": "Apple iMac 27 inch 5K Retina (Intel 2020 A2115)",
+    "brand": "apple_desktop",
+    "deviceType": "pc_desktop",
+    "tier": "D3",
+    "releaseYear": 2020,
+    "specs": {
+      "cpu": "Core i5 / i7 / i9 thế hệ 10",
+      "gpu": "AMD Radeon Pro 5300 / 5500 XT / 5700 XT",
+      "screen": "27.0 inch 5K Retina (5120x2880) TrueTone",
+      "ram": "4 khe cắm RAM SODIMM tháo lắp nhanh nắp sau nâng tối đa 128GB",
+      "power": "Bộ nguồn gắn trong thân máy"
+    },
+    "supportedFaults": [
+      "screen",
+      "mainboard",
+      "psu-repair",
+      "thermal",
+      "vga-gpu",
+      "ssd-upgrade",
+      "ram-upgrade",
+      "software",
+      "data-recovery",
+      "diagnostic"
+    ],
+    "knownIssues": [
+      {
+        "id": "imac-5k-pink-edge",
+        "title": "Viền màn hình 5K Retina bị ố hồng (Pink / Red Hue Edge)",
+        "severity": "high",
+        "confidence": "high",
+        "symptoms": "4 cạnh viền màn hình xuất hiện viền đỏ hoặc hồng nhạt khi hiển thị nền xám trắng.",
+        "solution": "Tẩy ẩm khử từ tấm nền hoặc thay cụm panel màn hình 5K Retina chính hãng LG Display."
+      },
+      {
+        "id": "imac-internal-psu-blow",
+        "title": "Nổ tụ bộ nguồn gắn trong (Internal Power Supply) khiến máy không kích nguồn được",
+        "severity": "critical",
+        "confidence": "high",
+        "symptoms": "Cắm dây nguồn không có phản hồi, bấm nút nguồn không quay quạt.",
+        "solution": "Sửa chữa thay thế tụ lọc nguồn hoặc thay bo nguồn công suất cao gắn trong của iMac 27."
+      }
+    ]
+  },
+  {
+    "id": "apple-mac-mini-m2-pro-2023",
+    "name": "Apple Mac Mini (M2 / M2 Pro 2023)",
+    "brand": "apple_desktop",
+    "deviceType": "pc_desktop",
+    "tier": "D2",
+    "releaseYear": 2023,
+    "specs": {
+      "chip": "Apple M2 (8C/10C) / M2 Pro (10C/12C)",
+      "ram": "8GB/16GB/32GB Unified Memory Soldered",
+      "storage": "256GB - 8TB",
+      "form": "Hộp nhôm vuông nguyên khối 19.7 x 19.7 cm"
+    },
+    "supportedFaults": [
+      "mainboard",
+      "psu-repair",
+      "thermal",
+      "software",
+      "data-recovery",
+      "diagnostic"
+    ],
+    "knownIssues": [
+      {
+        "id": "mac-mini-wifi-bluetooth-interference",
+        "title": "Nhiễu sóng Wi-Fi và Bluetooth khi cắm nhiều thiết bị USB 3.0 phía sau",
+        "severity": "medium",
+        "confidence": "high",
+        "symptoms": "Chuột Magic Mouse hoặc bàn phím Magic Keyboard bị giật lag ngắt kết nối.",
+        "solution": "Bọc băng keo đồng chống nhiễu EMF cho cổng USB và ăng-ten đáy máy."
+      }
+    ]
+  },
+  {
+    "id": "apple-mac-studio-m2-ultra-2023",
+    "name": "Apple Mac Studio (M2 Max / M2 Ultra 2023)",
+    "brand": "apple_desktop",
+    "deviceType": "pc_desktop",
+    "tier": "D3",
+    "releaseYear": 2023,
+    "specs": {
+      "chip": "Apple M2 Max / M2 Ultra 24-core CPU, 76-core GPU",
+      "ram": "64GB/128GB/192GB Unified Memory Soldered",
+      "cooling": "Khối tản nhiệt đồng nguyên chất 2 quạt đôi",
+      "weight": "3.6 kg"
+    },
+    "supportedFaults": [
+      "mainboard",
+      "psu-repair",
+      "thermal",
+      "software",
+      "data-recovery",
+      "diagnostic"
+    ],
+    "knownIssues": [
+      {
+        "id": "mac-studio-fan-whine",
+        "title": "Tiếng rít gió the thé (High-pitched Whine) ở tốc độ quạt mặc định 1300 RPM",
+        "severity": "low",
+        "confidence": "high",
+        "symptoms": "Phát ra âm thanh rít nhỏ trong phòng thu âm cách âm tuyệt đối.",
+        "solution": "Vệ sinh làm sạch bụi lưới tổ ong đáy máy và căn chỉnh tốc độ quạt qua Macs Fan Control."
+      }
+    ]
+  }
+]

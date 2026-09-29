@@ -1,0 +1,11 @@
+[
+    {
+        "id": 1,
+        "name": "Quản Trị Viên FixNear",
+        "email": "admin@fixnear.vn",
+        "password": "$2y$12$9iwWqbDT9A15xcs8luxLn.u8l97\/AEePh0Ac8SGFkWmWy.X.3cHLe",
+        "role": "admin",
+        "phone": "0988888888",
+        "created_at": "2026-09-01 08:00:00"
+    }
+]

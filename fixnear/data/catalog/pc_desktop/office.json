@@ -1,0 +1,113 @@
+[
+  {
+    "id": "pc-office-standard-i5",
+    "name": "PC Văn Phòng Đa Nhiệm (Core i5 12400 / 16GB RAM)",
+    "brand": "office",
+    "deviceType": "pc_desktop",
+    "tier": "D1",
+    "releaseYear": 2022,
+    "specs": {
+      "cpu": "Intel Core i5-12400 / i5-13400 (Intel UHD Graphics 730)",
+      "ram": "16GB DDR4",
+      "storage": "512GB NVMe SSD",
+      "psu": "450W",
+      "chassis": "Vỏ case văn phòng gọn gàng"
+    },
+    "supportedFaults": [
+      "mainboard",
+      "psu-repair",
+      "thermal",
+      "ssd-upgrade",
+      "ram-upgrade",
+      "software",
+      "data-recovery",
+      "diagnostic"
+    ],
+    "knownIssues": [
+      {
+        "id": "cmos-battery-dead",
+        "title": "Hết pin CMOS CR2032 máy tự nhảy sai giờ và bắt ấn F1 để khởi động",
+        "severity": "low",
+        "confidence": "high",
+        "symptoms": "Mỗi lần rút nguồn cắm lại máy báo CMOS Checksum Error và sai ngày giờ hệ thống.",
+        "solution": "Thay pin cúc áo CMOS CR2032 Maxell/Panasonic chính hãng lấy ngay 5 phút."
+      },
+      {
+        "id": "psu-capacitor-leak",
+        "title": "Nguồn văn phòng nổ tụ sụt áp khiến máy tự tắt khi cắm nhiều USB",
+        "severity": "high",
+        "confidence": "high",
+        "symptoms": "Máy chập chờn, cắm máy in hoặc ổ cứng di động vào là tự sập nguồn khởi động lại.",
+        "solution": "Thay thế bộ nguồn máy tính công suất thực đạt chuẩn 80 Plus."
+      }
+    ]
+  },
+  {
+    "id": "pc-office-basic-i3",
+    "name": "PC Văn Phòng Cơ Bản (Core i3 10100 / 8GB RAM)",
+    "brand": "office",
+    "deviceType": "pc_desktop",
+    "tier": "D1",
+    "releaseYear": 2020,
+    "specs": {
+      "cpu": "Core i3-10100 / i3-12100",
+      "ram": "8GB DDR4",
+      "storage": "256GB SSD",
+      "psu": "400W"
+    },
+    "supportedFaults": [
+      "mainboard",
+      "psu-repair",
+      "thermal",
+      "ssd-upgrade",
+      "ram-upgrade",
+      "software",
+      "data-recovery",
+      "diagnostic"
+    ],
+    "knownIssues": [
+      {
+        "id": "windows-slow-junk",
+        "title": "Hệ điều hành Windows bị đầy file rác và nhiễm mã độc quảng cáo",
+        "severity": "medium",
+        "confidence": "high",
+        "symptoms": "Mở file Excel nặng bị đơ xoay vòng tròn liên tục.",
+        "solution": "Cài lại Windows 10/11 sạch, cài full Office, font chữ và diệt virus chuyên sâu."
+      }
+    ]
+  },
+  {
+    "id": "pc-office-mini-itx",
+    "name": "PC Mini ITX Để Bàn Siêu Nhỏ Gọn",
+    "brand": "office",
+    "deviceType": "pc_desktop",
+    "tier": "D1",
+    "releaseYear": 2023,
+    "specs": {
+      "cpu": "Intel N100 / Core i3-1215U Mini PC",
+      "ram": "8GB/16GB DDR4",
+      "storage": "512GB SSD",
+      "adapter": "Nguồn Adapter 12V/19V ngoài"
+    },
+    "supportedFaults": [
+      "mainboard",
+      "psu-repair",
+      "thermal",
+      "ssd-upgrade",
+      "ram-upgrade",
+      "software",
+      "data-recovery",
+      "diagnostic"
+    ],
+    "knownIssues": [
+      {
+        "id": "mini-fan-dusty",
+        "title": "Quạt tản nhiệt lồng sóc siêu nhỏ bị kẹt bụi",
+        "severity": "medium",
+        "confidence": "high",
+        "symptoms": "Thân máy nóng ran và quạt thổi ồn.",
+        "solution": "Vệ sinh làm sạch bụi quạt lồng sóc."
+      }
+    ]
+  }
+]

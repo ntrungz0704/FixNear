@@ -1,0 +1,182 @@
+[
+  {
+    "id": "dell-optiplex-small-form-factor",
+    "name": "Dell OptiPlex Small Form Factor (SFF 7010 / 5090)",
+    "brand": "oem_brand",
+    "deviceType": "pc_desktop",
+    "tier": "D1",
+    "releaseYear": 2023,
+    "specs": {
+      "cpu": "Core i5-13500 / i7-13700",
+      "form": "Thùng máy nằm siêu nhỏ SFF đồng bộ Dell",
+      "psu": "Nguồn độc quyền Dell 180W / 260W 8-pin",
+      "ram": "16GB DDR4/DDR5"
+    },
+    "supportedFaults": [
+      "mainboard",
+      "psu-repair",
+      "thermal",
+      "ssd-upgrade",
+      "ram-upgrade",
+      "software",
+      "data-recovery",
+      "diagnostic"
+    ],
+    "knownIssues": [
+      {
+        "id": "dell-proprietary-psu-fail",
+        "title": "Chết nguồn đồng bộ độc quyền Dell chân cắm 6-pin/8-pin",
+        "severity": "critical",
+        "confidence": "high",
+        "symptoms": "Đèn led nút nguồn chớp nháy màu cam 2 lần vàng 1 lần trắng báo mã lỗi nguồn.",
+        "solution": "Sửa chữa bo nguồn đồng bộ Dell hoặc thay thế nguồn zin bóc máy chuẩn theo case."
+      }
+    ]
+  },
+  {
+    "id": "hp-prodesk-elitedesk-g9",
+    "name": "HP ProDesk / EliteDesk 800 G9 Mini Desktop",
+    "brand": "oem_brand",
+    "deviceType": "pc_desktop",
+    "tier": "D1",
+    "releaseYear": 2023,
+    "specs": {
+      "cpu": "Core i5-13500T / i7-13700T",
+      "form": "Máy mini bé bằng cuốn sổ tay (1 Lít)",
+      "ram": "16GB SODIMM nâng cấp được",
+      "storage": "512GB NVMe SSD"
+    },
+    "supportedFaults": [
+      "mainboard",
+      "psu-repair",
+      "thermal",
+      "ssd-upgrade",
+      "ram-upgrade",
+      "software",
+      "data-recovery",
+      "diagnostic"
+    ],
+    "knownIssues": [
+      {
+        "id": "hp-power-brick-lost",
+        "title": "Lỏng chân cắm sạc nguồn kim nhỏ HP Smart AC",
+        "severity": "medium",
+        "confidence": "high",
+        "symptoms": "Cắm củ sạc máy báo nguồn không tương thích.",
+        "solution": "Hàn lại chân Jack sạc DC-in hoặc thay nguồn adapter 90W HP chuẩn."
+      }
+    ]
+  },
+  {
+    "id": "asus-expertcenter-d7-tower",
+    "name": "Asus ExpertCenter D7 Tower",
+    "brand": "oem_brand",
+    "deviceType": "pc_desktop",
+    "tier": "D1",
+    "releaseYear": 2023,
+    "specs": {
+      "cpu": "Core i5-13400 / i7-13700",
+      "ram": "16GB DDR4",
+      "psu": "500W 80 Plus Platinum",
+      "form": "Thùng case đứng doanh nghiệp"
+    },
+    "supportedFaults": [
+      "mainboard",
+      "psu-repair",
+      "thermal",
+      "ssd-upgrade",
+      "ram-upgrade",
+      "software",
+      "data-recovery",
+      "diagnostic"
+    ],
+    "knownIssues": [
+      {
+        "id": "front-audio-jack-broken",
+        "title": "Gãy chân cắm tai nghe 3.5mm mặt trước case",
+        "severity": "low",
+        "confidence": "high",
+        "symptoms": "Cắm tai nghe chỉ nghe được 1 bên tai.",
+        "solution": "Thay cụm bo mạch âm thanh mặt trước (Front I/O Board)."
+      }
+    ]
+  },
+  {
+    "id": "dell-inspiron-aio-24-5420",
+    "name": "Dell Inspiron All-in-One 24 inch 5420 (Máy liền màn)",
+    "brand": "oem_brand",
+    "deviceType": "pc_desktop",
+    "tier": "D2",
+    "releaseYear": 2023,
+    "specs": {
+      "cpu": "Core i5-1335U / i7-1355U",
+      "screen": "23.8 inch FHD IPS viền siêu mỏng, loa thanh tích hợp",
+      "ram": "16GB DDR4 nâng cấp được",
+      "storage": "512GB SSD"
+    },
+    "supportedFaults": [
+      "screen",
+      "mainboard",
+      "psu-repair",
+      "thermal",
+      "ssd-upgrade",
+      "ram-upgrade",
+      "software",
+      "data-recovery",
+      "diagnostic"
+    ],
+    "knownIssues": [
+      {
+        "id": "aio-screen-lines",
+        "title": "Sọc màn hình hiển thị hoặc đốm sáng tấm nền All-in-One 24 inch",
+        "severity": "critical",
+        "confidence": "high",
+        "symptoms": "Màn hình xuất hiện đường kẻ chỉ ngang hoặc sọc dọc.",
+        "solution": "Thay tấm nền panel màn hình hiển thị All-in-One 24 inch chuẩn Dell."
+      },
+      {
+        "id": "pop-up-camera-stuck",
+        "title": "Camera thò thụt (Pop-up Webcam) bị kẹt không bật lên được",
+        "severity": "low",
+        "confidence": "high",
+        "symptoms": "Nhấn vào đỉnh máy camera không nảy lên.",
+        "solution": "Sửa cơ cấu lẫy lò xo cụm webcam thò thụt."
+      }
+    ]
+  },
+  {
+    "id": "hp-envy-aio-34-curved",
+    "name": "HP Envy All-in-One 34 inch Màn Cong 5K",
+    "brand": "oem_brand",
+    "deviceType": "pc_desktop",
+    "tier": "D3",
+    "releaseYear": 2022,
+    "specs": {
+      "cpu": "Core i7-12700 / i9-12900",
+      "gpu": "RTX 3060 / RTX 3080 Max-Q",
+      "screen": "34.0 inch WUHD 5K2K (5120x2160) IPS Cong 21:9",
+      "ram": "32GB/64GB DDR5 rời"
+    },
+    "supportedFaults": [
+      "screen",
+      "mainboard",
+      "psu-repair",
+      "thermal",
+      "ssd-upgrade",
+      "ram-upgrade",
+      "software",
+      "data-recovery",
+      "diagnostic"
+    ],
+    "knownIssues": [
+      {
+        "id": "5k-curved-screen-crack",
+        "title": "Nứt vỡ màn hình cong 34 inch 5K sau va chạm",
+        "severity": "critical",
+        "confidence": "high",
+        "symptoms": "Chảy mực góc màn hình cong siêu rộng.",
+        "solution": "Thay tấm nền panel màn hình cong 34 inch 5K chính hãng HP."
+      }
+    ]
+  }
+]

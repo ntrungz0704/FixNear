@@ -1,0 +1,77 @@
+{
+  "models": {
+    "apple-iphone-13-pro-max": {
+      "screen": {
+        "standard": {
+          "min": 2500000,
+          "max": 3200000,
+          "turnaround": "45 - 90 phút",
+          "warrantyMonths": 6,
+          "note": "Màn hình OLED linh kiện GX/JK hiển thị 90-95%"
+        },
+        "oem": {
+          "min": 3800000,
+          "max": 4800000,
+          "turnaround": "60 - 90 phút",
+          "warrantyMonths": 12,
+          "note": "Màn hình OEM Daison/Foxconn 120Hz ProMotion mượt mà"
+        },
+        "genuine": {
+          "min": 6500000,
+          "max": 7800000,
+          "turnaround": "1 - 2 ngày",
+          "warrantyMonths": 12,
+          "note": "Màn hình Zin bóc máy chính hãng Apple 100%, fix TrueTone & báo màn chính hãng"
+        }
+      },
+      "face-id": {
+        "standard": {
+          "min": 850000,
+          "max": 1200000,
+          "turnaround": "2 - 4 giờ",
+          "warrantyMonths": 6,
+          "note": "Hàn cáp Dot Projector cứu Face ID không cần đổi cụm"
+        },
+        "oem": {
+          "min": 1300000,
+          "max": 1650000,
+          "turnaround": "2 - 4 giờ",
+          "warrantyMonths": 9,
+          "note": "Thay cáp cảm biến tiệm cận + cứu Face ID"
+        },
+        "genuine": {
+          "min": 1900000,
+          "max": 2400000,
+          "turnaround": "1 ngày",
+          "warrantyMonths": 12,
+          "note": "Thay cụm TrueDepth chính hãng Apple ghép serial"
+        }
+      }
+    },
+    "samsung-galaxy-z-fold-5": {
+      "foldable-cable": {
+        "standard": {
+          "min": 1800000,
+          "max": 2400000,
+          "turnaround": "3 - 5 giờ",
+          "warrantyMonths": 6,
+          "note": "Hàn nối câu cáp bản lề gập mất âm thanh và Wi-Fi"
+        },
+        "oem": {
+          "min": 2500000,
+          "max": 3200000,
+          "turnaround": "1 ngày",
+          "warrantyMonths": 9,
+          "note": "Thay bộ cáp bản lề đôi Z Fold nguyên vẹn"
+        },
+        "genuine": {
+          "min": 3800000,
+          "max": 4600000,
+          "turnaround": "1 - 2 ngày",
+          "warrantyMonths": 12,
+          "note": "Thay nguyên cụm khung sườn + bản lề chính hãng Samsung"
+        }
+      }
+    }
+  }
+}

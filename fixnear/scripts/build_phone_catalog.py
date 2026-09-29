@@ -1,0 +1,506 @@
+#!/usr/bin/env python3
+# -*- coding: utf-8 -*-
+"""
+FixNear RepairAtlas — Phone Catalog Builder
+Xây dựng danh mục Điện Thoại (~140 models) tại data/catalog/phone/
+"""
+
+import sys
+import json
+from pathlib import Path
+
+# Force UTF-8 output on Windows
+if sys.platform == "win32":
+    sys.stdout.reconfigure(encoding="utf-8")
+
+ROOT_DIR = Path(__file__).resolve().parent.parent
+PHONE_DIR = ROOT_DIR / "data" / "catalog" / "phone"
+PHONE_DIR.mkdir(parents=True, exist_ok=True)
+
+DEFAULT_PHONE_FAULTS = [
+    "screen", "glass-press", "battery", "charging-port", "water-damage",
+    "mainboard", "camera", "speaker", "mic", "hinge-body", "back-glass",
+    "thermal", "software", "data-recovery", "diagnostic"
+]
+
+DEFAULT_IPHONE_FAULTS = DEFAULT_PHONE_FAULTS + ["face-id"]
+DEFAULT_FOLDABLE_FAULTS = DEFAULT_PHONE_FAULTS + ["foldable-cable"]
+
+def save_json(brand_name, models):
+    target = PHONE_DIR / f"{brand_name}.json"
+    with open(target, "w", encoding="utf-8") as f:
+        json.dump(models, f, ensure_ascii=False, indent=2)
+    print(f"  ✅ Đã lưu {brand_name}.json: {len(models)} models")
+
+# --- 1. APPLE (35 models) ---
+apple_models = [
+    # iPhone 16 Series
+    {
+        "id": "apple-iphone-16-pro-max",
+        "name": "iPhone 16 Pro Max",
+        "brand": "apple",
+        "deviceType": "phone",
+        "tier": "P4",
+        "releaseYear": 2024,
+        "specs": {"screen": "6.9 inch Super Retina XDR OLED 120Hz LTPO", "chip": "Apple A18 Pro (3nm)", "battery": "4685 mAh", "charging": "USB-C 3.2 45W, MagSafe 25W"},
+        "supportedFaults": DEFAULT_IPHONE_FAULTS,
+        "knownIssues": [
+            {"id": "camera-control-stiff", "title": "Nút điều khiển Camera Control bị kẹt hoặc đơ cảm ứng", "severity": "medium", "confidence": "high", "symptoms": "Phím điện dung Camera Control bên cạnh phải bấm không phản hồi hoặc trượt zoom không ăn.", "solution": "Thay cụm cáp cảm biến Camera Control hoặc vệ sinh khung tiếp xúc cơ học."},
+            {"id": "titan-frame-scratch", "title": "Trầy xước móp cạnh khung Titanium cấp 5", "severity": "low", "confidence": "medium", "symptoms": "Cạnh viền máy bị xước dăm lớp phủ PVD titan sau thời gian dùng ốp cứng.", "solution": "Đánh bóng phục hồi viền hoặc nắn viền khung sườn kim loại chuẩn phom."}
+        ]
+    },
+    {
+        "id": "apple-iphone-16-pro",
+        "name": "iPhone 16 Pro",
+        "brand": "apple",
+        "deviceType": "phone",
+        "tier": "P4",
+        "releaseYear": 2024,
+        "specs": {"screen": "6.3 inch Super Retina XDR OLED 120Hz LTPO", "chip": "Apple A18 Pro (3nm)", "battery": "3582 mAh", "charging": "USB-C 3.2 45W, MagSafe 25W"},
+        "supportedFaults": DEFAULT_IPHONE_FAULTS,
+        "knownIssues": [
+            {"id": "camera-control-flex", "title": "Cáp nút Camera Control chập chờn sau rơi rớt", "severity": "medium", "confidence": "high", "symptoms": "Rơi cấn góc làm nút bấm Camera Control bị lún, không vuốt trượt được khẩu độ.", "solution": "Thay cáp linh kiện Camera Control và ép lại ron cao su chống nước."}
+        ]
+    },
+    {
+        "id": "apple-iphone-16-plus",
+        "name": "iPhone 16 Plus",
+        "brand": "apple",
+        "deviceType": "phone",
+        "tier": "P3",
+        "releaseYear": 2024,
+        "specs": {"screen": "6.7 inch Super Retina XDR OLED 60Hz", "chip": "Apple A18 (3nm)", "battery": "4674 mAh", "charging": "USB-C 2.0, MagSafe 25W"},
+        "supportedFaults": DEFAULT_IPHONE_FAULTS,
+        "knownIssues": [
+            {"id": "thermal-hotspot", "title": "Ấm nhanh vùng nút Action Button và camera khi quay 4K", "severity": "low", "confidence": "medium", "symptoms": "Quay video 4K liên tục trên 15 phút máy báo nhiệt độ cao và giảm độ sáng màn hình.", "solution": "Vệ sinh tản nhiệt graphene, kiểm tra chu kỳ sạc pin và cập nhật phiên bản iOS tối ưu."}
+        ]
+    },
+    {
+        "id": "apple-iphone-16",
+        "name": "iPhone 16",
+        "brand": "apple",
+        "deviceType": "phone",
+        "tier": "P3",
+        "releaseYear": 2024,
+        "specs": {"screen": "6.1 inch Super Retina XDR OLED 60Hz", "chip": "Apple A18 (3nm)", "battery": "3561 mAh", "charging": "USB-C 2.0, MagSafe 25W"},
+        "supportedFaults": DEFAULT_IPHONE_FAULTS,
+        "knownIssues": [
+            {"id": "action-button-wear", "title": "Nút Action Button kẹt bụi bấm nặng tay", "severity": "low", "confidence": "high", "symptoms": "Nút bấm tác vụ bị kẹt cát bụi, ấn kêu lạch cạch hoặc mất độ nảy.", "solution": "Vệ sinh sóng siêu âm viền nút hoặc thay ron đệm phím Action Button."}
+        ]
+    },
+    # iPhone 15 Series
+    {
+        "id": "apple-iphone-15-pro-max",
+        "name": "iPhone 15 Pro Max",
+        "brand": "apple",
+        "deviceType": "phone",
+        "tier": "P4",
+        "releaseYear": 2023,
+        "specs": {"screen": "6.7 inch Super Retina XDR OLED 120Hz", "chip": "Apple A17 Pro (3nm)", "battery": "4422 mAh", "charging": "USB-C 3.2 27W, MagSafe 15W"},
+        "supportedFaults": DEFAULT_IPHONE_FAULTS,
+        "knownIssues": [
+            {"id": "back-glass-crack", "title": "Mặt kính lưng dễ nứt vỡ khi chịu lực tì đè", "severity": "medium", "confidence": "high", "symptoms": "Cấu trúc kính lưng rời giúp dễ thay thế nhưng dễ nứt mẻ mép góc khi rơi không có ốp.", "solution": "Bóc tách thay kính lưng Zin bằng máy laser chuyên dụng không cần tháo toàn bộ máy."},
+            {"id": "periscope-ois-lag", "title": "Camera tiềm vọng Tetraprism 5x bị mờ lấy nét xa", "severity": "high", "confidence": "high", "symptoms": "Chụp zoom 5x bị rung hoặc mờ out nét liên tục sau khi va đập mạnh.", "solution": "Thay module ống kính lăng kính gập Tetraprism 5x chính hãng Apple."}
+        ]
+    },
+    {
+        "id": "apple-iphone-15-pro",
+        "name": "iPhone 15 Pro",
+        "brand": "apple",
+        "deviceType": "phone",
+        "tier": "P4",
+        "releaseYear": 2023,
+        "specs": {"screen": "6.1 inch Super Retina XDR OLED 120Hz", "chip": "Apple A17 Pro (3nm)", "battery": "3274 mAh", "charging": "USB-C 3.2 27W, MagSafe 15W"},
+        "supportedFaults": DEFAULT_IPHONE_FAULTS,
+        "knownIssues": [
+            {"id": "usbc-burn-pin", "title": "Chân sạc USB-C lỏng hoặc chập do dùng cáp trôi nổi", "severity": "high", "confidence": "high", "symptoms": "Cổng sạc Type-C cắm lỏng lẻo, chỉ nhận sạc 1 mặt hoặc không nhận truyền dữ liệu máy tính.", "solution": "Hàn thay cụm chân sạc USB-C và kiểm tra IC sạc điều hướng Type-C."}
+        ]
+    },
+    {
+        "id": "apple-iphone-15-plus",
+        "name": "iPhone 15 Plus",
+        "brand": "apple",
+        "deviceType": "phone",
+        "tier": "P3",
+        "releaseYear": 2023,
+        "specs": {"screen": "6.7 inch Super Retina XDR OLED 60Hz Dynamic Island", "chip": "Apple A16 Bionic (4nm)", "battery": "4383 mAh", "charging": "USB-C 2.0 27W"},
+        "supportedFaults": DEFAULT_IPHONE_FAULTS,
+        "knownIssues": [
+            {"id": "island-speaker-dust", "title": "Loa thoại màng Dynamic Island bị bám bụi nghe nhỏ", "severity": "low", "confidence": "high", "symptoms": "Nghe gọi điện thoại âm lượng rất bé mặc dù đã bật max volume.", "solution": "Vệ sinh màng loa thoại chuyên sâu bằng hóa chất tẩy cặn không làm hỏng ron."}
+        ]
+    },
+    {
+        "id": "apple-iphone-15",
+        "name": "iPhone 15",
+        "brand": "apple",
+        "deviceType": "phone",
+        "tier": "P3",
+        "releaseYear": 2023,
+        "specs": {"screen": "6.1 inch Super Retina XDR OLED 60Hz Dynamic Island", "chip": "Apple A16 Bionic (4nm)", "battery": "3349 mAh", "charging": "USB-C 2.0 27W"},
+        "supportedFaults": DEFAULT_IPHONE_FAULTS,
+        "knownIssues": [
+            {"id": "battery-drain", "title": "Pin tụt nhanh xuống dưới 80% sau 500 chu kỳ sạc", "severity": "medium", "confidence": "high", "symptoms": "Dung lượng tối đa pin báo bảo trì, thời lượng sử dụng sụt giảm chỉ còn 4 tiếng onscreen.", "solution": "Thay pin dung lượng chuẩn hoặc cell pin niken cao cấp kèm sàng cáp báo % pin."}
+        ]
+    },
+    # iPhone 14 Series
+    {
+        "id": "apple-iphone-14-pro-max",
+        "name": "iPhone 14 Pro Max",
+        "brand": "apple",
+        "deviceType": "phone",
+        "tier": "P4",
+        "releaseYear": 2022,
+        "specs": {"screen": "6.7 inch Dynamic Island OLED 120Hz", "chip": "Apple A16 Bionic", "battery": "4323 mAh", "charging": "Lightning 27W"},
+        "supportedFaults": DEFAULT_IPHONE_FAULTS,
+        "knownIssues": [
+            {"id": "aod-burn-in", "title": "Bóng mờ lưu ảnh Always-On Display (Burn-in)", "severity": "medium", "confidence": "medium", "symptoms": "Xuất hiện vệt mờ đồng hồ và widget khi hiển thị trên nền xám hoặc trắng.", "solution": "Cân chỉnh tấm nền OLED hoặc thay màn hình OLED chuẩn zin bóc máy."}
+        ]
+    },
+    {
+        "id": "apple-iphone-14-pro",
+        "name": "iPhone 14 Pro",
+        "brand": "apple",
+        "deviceType": "phone",
+        "tier": "P4",
+        "releaseYear": 2022,
+        "specs": {"screen": "6.1 inch Dynamic Island OLED 120Hz", "chip": "Apple A16 Bionic", "battery": "3200 mAh", "charging": "Lightning 27W"},
+        "supportedFaults": DEFAULT_IPHONE_FAULTS,
+        "knownIssues": [
+            {"id": "camera-vibrate-tiktok", "title": "Camera rung rè giật liên tục trên Instagram/TikTok", "severity": "high", "confidence": "high", "symptoms": "Mở camera quay bên thứ 3 phát ra tiếng rè cơ học và rung lắc khung hình.", "solution": "Thay thế cụm camera chính góc rộng 48MP chính hãng."}
+        ]
+    },
+    {
+        "id": "apple-iphone-14-plus",
+        "name": "iPhone 14 Plus",
+        "brand": "apple",
+        "deviceType": "phone",
+        "tier": "P3",
+        "releaseYear": 2022,
+        "specs": {"screen": "6.7 inch OLED 60Hz", "chip": "Apple A15 Bionic", "battery": "4325 mAh", "charging": "Lightning 20W"},
+        "supportedFaults": DEFAULT_IPHONE_FAULTS,
+        "knownIssues": [
+            {"id": "glass-break-corner", "title": "Nứt kính bảo vệ màn hình góc bo tròn", "severity": "medium", "confidence": "high", "symptoms": "Kính nứt chân chim góc nhưng hiển thị và cảm ứng bên trong vẫn bình thường.", "solution": "Ép mặt kính màn hình chân không công nghệ OCA."}
+        ]
+    },
+    {
+        "id": "apple-iphone-14",
+        "name": "iPhone 14",
+        "brand": "apple",
+        "deviceType": "phone",
+        "tier": "P3",
+        "releaseYear": 2022,
+        "specs": {"screen": "6.1 inch OLED 60Hz", "chip": "Apple A15 Bionic", "battery": "3279 mAh", "charging": "Lightning 20W"},
+        "supportedFaults": DEFAULT_IPHONE_FAULTS,
+        "knownIssues": [
+            {"id": "lightning-loose", "title": "Cổng Lightning oxy hóa chân tiếp xúc số 4", "severity": "low", "confidence": "high", "symptoms": "Cắm cáp sạc nhận chập chờn, phải đè nghiêng cáp mới vào điện.", "solution": "Cạo sạch chân gỉ sét hoặc thay dây cụm cáp sạc Lightning zin."}
+        ]
+    },
+    # iPhone 13 Series
+    {
+        "id": "apple-iphone-13-pro-max",
+        "name": "iPhone 13 Pro Max",
+        "brand": "apple",
+        "deviceType": "phone",
+        "tier": "P4",
+        "releaseYear": 2021,
+        "specs": {"screen": "6.7 inch Super Retina XDR OLED 120Hz ProMotion", "chip": "Apple A15 Bionic", "battery": "4352 mAh", "charging": "Lightning 27W"},
+        "supportedFaults": DEFAULT_IPHONE_FAULTS,
+        "knownIssues": [
+            {"id": "wsod-screen", "title": "Màn hình trắng / xanh lá toàn phần (White / Green Screen of Death)", "severity": "critical", "confidence": "high", "symptoms": "Máy đang dùng bình thường hoặc sau cập nhật iOS bỗng nhiên chớp nháy rồi trắng xóa/xanh toàn bộ màn hình.", "solution": "Kỹ thuật viên câu dây đồng vi mạch cấp áp màn hình (Fix WSOD 13PM) giữ nguyên màn zin, tiết kiệm 70% chi phí."},
+            {"id": "camera-ois-jitter", "title": "Camera rung rè do chấn động gắn giá đỡ xe máy", "severity": "high", "confidence": "high", "symptoms": "Bật máy ảnh camera sau giật lag, kêu rù rù, hình ảnh nhòe mờ không thể chụp rõ nét.", "solution": "Thay module chống rung cảm biến Sensor-Shift hoặc thay camera góc rộng chính hãng."}
+        ]
+    },
+    {
+        "id": "apple-iphone-13-pro",
+        "name": "iPhone 13 Pro",
+        "brand": "apple",
+        "deviceType": "phone",
+        "tier": "P4",
+        "releaseYear": 2021,
+        "specs": {"screen": "6.1 inch OLED 120Hz ProMotion", "chip": "Apple A15 Bionic", "battery": "3095 mAh", "charging": "Lightning 23W"},
+        "supportedFaults": DEFAULT_IPHONE_FAULTS,
+        "knownIssues": [
+            {"id": "wsod-13p", "title": "Màn hình trắng hoặc sọc chớp nháy 120Hz", "severity": "critical", "confidence": "high", "symptoms": "Màn hình đột ngột mất hiển thị, chỉ sáng một màu trắng hoặc tím nhạt.", "solution": "Xử lý câu cáp vi mạch màn hình hoặc thay thế màn hình zin bóc máy."}
+        ]
+    },
+    {
+        "id": "apple-iphone-13",
+        "name": "iPhone 13",
+        "brand": "apple",
+        "deviceType": "phone",
+        "tier": "P3",
+        "releaseYear": 2021,
+        "specs": {"screen": "6.1 inch OLED 60Hz", "chip": "Apple A15 Bionic", "battery": "3227 mAh", "charging": "Lightning 20W"},
+        "supportedFaults": DEFAULT_IPHONE_FAULTS,
+        "knownIssues": [
+            {"id": "battery-aged", "title": "Pin chai phồng đội nắp lưng sau 3 năm sử dụng", "severity": "medium", "confidence": "high", "symptoms": "Máy mau hết pin, sạc nhanh đầy nhưng dùng tụt dốc, nắp lưng hở nhẹ viền.", "solution": "Thay pin chính hãng hoặc pin dung lượng cao dung lượng chuẩn bảo hành 12 tháng."}
+        ]
+    },
+    {
+        "id": "apple-iphone-13-mini",
+        "name": "iPhone 13 mini",
+        "brand": "apple",
+        "deviceType": "phone",
+        "tier": "P3",
+        "releaseYear": 2021,
+        "specs": {"screen": "5.4 inch OLED 60Hz", "chip": "Apple A15 Bionic", "battery": "2406 mAh", "charging": "Lightning 18W"},
+        "supportedFaults": DEFAULT_IPHONE_FAULTS,
+        "knownIssues": [
+            {"id": "mini-battery-life", "title": "Thời lượng pin sụt giảm nhanh chóng", "severity": "medium", "confidence": "high", "symptoms": "Dung lượng pin thiết kế nhỏ nên sau thời gian dài pin chai chỉ dùng được 2.5 - 3 tiếng.", "solution": "Thay cell pin dung lượng cao tương thích chuẩn."}
+        ]
+    },
+    # iPhone 12 Series
+    {
+        "id": "apple-iphone-12-pro-max",
+        "name": "iPhone 12 Pro Max",
+        "brand": "apple",
+        "deviceType": "phone",
+        "tier": "P3",
+        "releaseYear": 2020,
+        "specs": {"screen": "6.7 inch OLED 60Hz", "chip": "Apple A14 Bionic", "battery": "3687 mAh", "charging": "Lightning 20W"},
+        "supportedFaults": DEFAULT_IPHONE_FAULTS,
+        "knownIssues": [
+            {"id": "speaker-earpiece-silent", "title": "Loa thoại mất hoàn toàn âm thanh (Chương trình thu hồi Apple)", "severity": "high", "confidence": "high", "symptoms": "Gọi điện thoại áp tai không nghe thấy bất kỳ âm thanh nào của người gọi.", "solution": "Thay màng loa thoại và hàn nối lại dây cảm biến tiệm cận giữ Face ID."}
+        ]
+    },
+    {
+        "id": "apple-iphone-12-pro",
+        "name": "iPhone 12 Pro",
+        "brand": "apple",
+        "deviceType": "phone",
+        "tier": "P3",
+        "releaseYear": 2020,
+        "specs": {"screen": "6.1 inch OLED 60Hz", "chip": "Apple A14 Bionic", "battery": "2815 mAh", "charging": "Lightning 20W"},
+        "supportedFaults": DEFAULT_IPHONE_FAULTS,
+        "knownIssues": [
+            {"id": "steel-frame-scratches", "title": "Viền thép bóng xước dăm và ố màu mồ hôi tay", "severity": "low", "confidence": "high", "symptoms": "Viền thép không gỉ xuất hiện vô số vết xước lông mèo.", "solution": "Đánh bóng viền kim loại sáng bóng như mới."}
+        ]
+    },
+    {
+        "id": "apple-iphone-12",
+        "name": "iPhone 12",
+        "brand": "apple",
+        "deviceType": "phone",
+        "tier": "P3",
+        "releaseYear": 2020,
+        "specs": {"screen": "6.1 inch OLED 60Hz", "chip": "Apple A14 Bionic", "battery": "2815 mAh", "charging": "Lightning 20W"},
+        "supportedFaults": DEFAULT_IPHONE_FAULTS,
+        "knownIssues": [
+            {"id": "aluminum-paint-chip", "title": "Tróc sơn viền nhôm vuông góc", "severity": "low", "confidence": "high", "symptoms": "Màu sơn viền nhôm bị nổ lấm tấm hạt trắng quanh mép viền.", "solution": "Bọc dán bảo vệ PPF hoặc thay vỏ khung sườn mới."}
+        ]
+    },
+    {
+        "id": "apple-iphone-12-mini",
+        "name": "iPhone 12 mini",
+        "brand": "apple",
+        "deviceType": "phone",
+        "tier": "P2",
+        "releaseYear": 2020,
+        "specs": {"screen": "5.4 inch OLED 60Hz", "chip": "Apple A14 Bionic", "battery": "2227 mAh", "charging": "Lightning 15W"},
+        "supportedFaults": DEFAULT_IPHONE_FAULTS,
+        "knownIssues": [
+            {"id": "touch-lockscreen-lag", "title": "Đơ cảm ứng màn hình khóa khi dùng ốp lưng", "severity": "medium", "confidence": "high", "symptoms": "Vuốt mở khóa màn hình không ăn khi cầm một tay.", "solution": "Cập nhật iOS và kiểm tra tiếp địa vỏ máy."}
+        ]
+    },
+    # iPhone 11 Series
+    {
+        "id": "apple-iphone-11-pro-max",
+        "name": "iPhone 11 Pro Max",
+        "brand": "apple",
+        "deviceType": "phone",
+        "tier": "P2",
+        "releaseYear": 2019,
+        "specs": {"screen": "6.5 inch Super Retina XDR OLED", "chip": "Apple A13 Bionic", "battery": "3969 mAh", "charging": "Lightning 18W"},
+        "supportedFaults": DEFAULT_IPHONE_FAULTS,
+        "knownIssues": [
+            {"id": "face-id-water-chập", "title": "Mất Face ID do hơi ẩm vô màng loa trên", "severity": "high", "confidence": "high", "symptoms": "Báo 'Face ID không khả dụng' sau khi đi mưa hoặc lau máy bằng khăn ướt.", "solution": "Cứu cáp Dot Projector và cảm biến hồng ngoại trên máy khò chuyên dụng."}
+        ]
+    },
+    {
+        "id": "apple-iphone-11-pro",
+        "name": "iPhone 11 Pro",
+        "brand": "apple",
+        "deviceType": "phone",
+        "tier": "P2",
+        "releaseYear": 2019,
+        "specs": {"screen": "5.8 inch Super Retina XDR OLED", "chip": "Apple A13 Bionic", "battery": "3046 mAh", "charging": "Lightning 18W"},
+        "supportedFaults": DEFAULT_IPHONE_FAULTS,
+        "knownIssues": [
+            {"id": "battery-service-11p", "title": "Báo bảo trì pin Service Battery", "severity": "medium", "confidence": "high", "symptoms": "Thời lượng pin sụt dưới 75%, máy giật lag khi pin yếu.", "solution": "Thay pin dung lượng chuẩn kèm sàng cáp gốc để không báo lỗi linh kiện không xác định."}
+        ]
+    },
+    {
+        "id": "apple-iphone-11",
+        "name": "iPhone 11",
+        "brand": "apple",
+        "deviceType": "phone",
+        "tier": "P2",
+        "releaseYear": 2019,
+        "specs": {"screen": "6.1 inch Liquid Retina IPS LCD", "chip": "Apple A13 Bionic", "battery": "3110 mAh", "charging": "Lightning 18W"},
+        "supportedFaults": DEFAULT_IPHONE_FAULTS,
+        "knownIssues": [
+            {"id": "touch-ghost-ghosting", "title": "Loạn cảm ứng hoặc liệt thanh gõ bàn phím", "severity": "high", "confidence": "high", "symptoms": "Màn hình tự nhảy cảm ứng (Ghost touch) hoặc liệt 1 hàng phím chữ cái.", "solution": "Thay mặt kính cảm ứng hoặc thay nguyên bộ màn hình IPS chất lượng cao."}
+        ]
+    },
+    # iPhone X / XR / XS Series
+    {
+        "id": "apple-iphone-xs-max",
+        "name": "iPhone XS Max",
+        "brand": "apple",
+        "deviceType": "phone",
+        "tier": "P2",
+        "releaseYear": 2018,
+        "specs": {"screen": "6.5 inch OLED Super Retina", "chip": "Apple A12 Bionic", "battery": "3174 mAh", "charging": "Lightning 15W"},
+        "supportedFaults": DEFAULT_IPHONE_FAULTS,
+        "knownIssues": [
+            {"id": "green-vertical-line", "title": "Sọc xanh lá cây chỉ đứng dọc màn hình", "severity": "high", "confidence": "high", "symptoms": "Sau khi va đập xuất hiện 1 đường sọc kẻ xanh lá sáng chói từ đỉnh xuống đáy màn hình.", "solution": "Ép cổ cáp màn hình OLED hoặc thay cụm màn hình mới."}
+        ]
+    },
+    {
+        "id": "apple-iphone-xs",
+        "name": "iPhone XS",
+        "brand": "apple",
+        "deviceType": "phone",
+        "tier": "P2",
+        "releaseYear": 2018,
+        "specs": {"screen": "5.8 inch OLED Super Retina", "chip": "Apple A12 Bionic", "battery": "2658 mAh", "charging": "Lightning 15W"},
+        "supportedFaults": DEFAULT_IPHONE_FAULTS,
+        "knownIssues": [
+            {"id": "face-id-truedepth", "title": "Lỗi cụm cảm biến TrueDepth di chuyển iPhone cao hơn/thấp hơn", "severity": "high", "confidence": "high", "symptoms": "Không quét được gương mặt khi cài đặt Face ID.", "solution": "Cứu cáp chiếu điểm Dot Projector bằng box chuyên dụng."}
+        ]
+    },
+    {
+        "id": "apple-iphone-xr",
+        "name": "iPhone XR",
+        "brand": "apple",
+        "deviceType": "phone",
+        "tier": "P2",
+        "releaseYear": 2018,
+        "specs": {"screen": "6.1 inch Liquid Retina IPS LCD", "chip": "Apple A12 Bionic", "battery": "2942 mAh", "charging": "Lightning 15W"},
+        "supportedFaults": DEFAULT_IPHONE_FAULTS,
+        "knownIssues": [
+            {"id": "lcd-corner-blackspot", "title": "Chảy mực góc màn hình sau rơi cấn", "severity": "high", "confidence": "high", "symptoms": "Đốm đen mực loang rộng dần từ góc màn hình che khuất nội dung.", "solution": "Thay cụm màn hình hiển thị LCD mới."}
+        ]
+    },
+    {
+        "id": "apple-iphone-x",
+        "name": "iPhone X",
+        "brand": "apple",
+        "deviceType": "phone",
+        "tier": "P2",
+        "releaseYear": 2017,
+        "specs": {"screen": "5.8 inch Super Retina OLED", "chip": "Apple A11 Bionic", "battery": "2716 mAh", "charging": "Lightning 15W"},
+        "supportedFaults": DEFAULT_IPHONE_FAULTS,
+        "knownIssues": [
+            {"id": "touch-ic-lag", "title": "Liệt cảm ứng một nửa hoặc toàn bộ màn hình", "severity": "critical", "confidence": "high", "symptoms": "Không thể vuốt nhận cuộc gọi hoặc mở khóa dù màn hình hiển thị đẹp.", "solution": "Thay màn hình nguyên bộ hoặc đóng lại chân IC cảm ứng trên bo mạch kép."}
+        ]
+    },
+    # iPhone 8 / 8 Plus / 7 / 7 Plus / SE
+    {
+        "id": "apple-iphone-8-plus",
+        "name": "iPhone 8 Plus",
+        "brand": "apple",
+        "deviceType": "phone",
+        "tier": "P1",
+        "releaseYear": 2017,
+        "specs": {"screen": "5.5 inch Retina IPS LCD", "chip": "Apple A11 Bionic", "battery": "2691 mAh", "charging": "Lightning 15W"},
+        "supportedFaults": DEFAULT_PHONE_FAULTS,
+        "knownIssues": [
+            {"id": "touch-id-home-crack", "title": "Nứt phím Home Touch ID mất cảm biến vân tay", "severity": "high", "confidence": "high", "symptoms": "Phím Home vỡ mặt sứ không phản hồi rung Taptic và không quét vân tay.", "solution": "Thay phím Home vật lý thay thế (Lưu ý: Vân tay không thể khôi phục do bảo mật bo mạch)."}
+        ]
+    },
+    {
+        "id": "apple-iphone-8",
+        "name": "iPhone 8",
+        "brand": "apple",
+        "deviceType": "phone",
+        "tier": "P1",
+        "releaseYear": 2017,
+        "specs": {"screen": "4.7 inch Retina IPS LCD", "chip": "Apple A11 Bionic", "battery": "1821 mAh", "charging": "Lightning 15W"},
+        "supportedFaults": DEFAULT_PHONE_FAULTS,
+        "knownIssues": [
+            {"id": "battery-swelling", "title": "Pin chai phồng đội cong màn hình", "severity": "high", "confidence": "high", "symptoms": "Màn hình bị hở viền bên trái do thỏi pin phồng chèn ép.", "solution": "Thay pin mới gấp tránh nguy cơ cháy nổ chập vi mạch."}
+        ]
+    },
+    {
+        "id": "apple-iphone-7-plus",
+        "name": "iPhone 7 Plus",
+        "brand": "apple",
+        "deviceType": "phone",
+        "tier": "P1",
+        "releaseYear": 2016,
+        "specs": {"screen": "5.5 inch Retina IPS LCD", "chip": "Apple A10 Fusion", "battery": "2900 mAh", "charging": "Lightning 10W"},
+        "supportedFaults": DEFAULT_PHONE_FAULTS,
+        "knownIssues": [
+            {"id": "audio-ic-loop", "title": "Lỗi IC âm thanh Audio IC (Loop Disease)", "severity": "critical", "confidence": "high", "symptoms": "Khởi động máy treo logo rất lâu, gọi điện thoại bị ẩn nút loa ngoài, ghi âm không nghe tiếng.", "solution": "Đóng chân câu dây đệm vi mạch Audio IC trên bo mạch chủ."}
+        ]
+    },
+    {
+        "id": "apple-iphone-7",
+        "name": "iPhone 7",
+        "brand": "apple",
+        "deviceType": "phone",
+        "tier": "P1",
+        "releaseYear": 2016,
+        "specs": {"screen": "4.7 inch Retina IPS LCD", "chip": "Apple A10 Fusion", "battery": "1960 mAh", "charging": "Lightning 10W"},
+        "supportedFaults": DEFAULT_PHONE_FAULTS,
+        "knownIssues": [
+            {"id": "no-service-baseband", "title": "Lỗi mất sóng Không có dịch vụ (Searching / No Service)", "severity": "critical", "confidence": "high", "symptoms": "Máy cắm SIM nhưng báo Đang tìm kiếm hoặc Không có dịch vụ liên tục do lỗi Baseband vi mạch sóng.", "solution": "Làm lại chân IC vi xử lý sóng Baseband hoặc thay cuộn cảm cấp áp sóng."}
+        ]
+    },
+    {
+        "id": "apple-iphone-se-2022",
+        "name": "iPhone SE 2022 (3rd Gen)",
+        "brand": "apple",
+        "deviceType": "phone",
+        "tier": "P2",
+        "releaseYear": 2022,
+        "specs": {"screen": "4.7 inch Retina IPS LCD", "chip": "Apple A15 Bionic", "battery": "2018 mAh", "charging": "Lightning 20W"},
+        "supportedFaults": DEFAULT_PHONE_FAULTS,
+        "knownIssues": [
+            {"id": "battery-small", "title": "Pin sụt nhanh khi dùng mạng 5G", "severity": "medium", "confidence": "high", "symptoms": "Bật dữ liệu di động 5G máy ấm và pin tụt khoảng 20-30% mỗi giờ.", "solution": "Thay pin dung lượng cao tương thích."}
+        ]
+    },
+    {
+        "id": "apple-iphone-se-2020",
+        "name": "iPhone SE 2020 (2nd Gen)",
+        "brand": "apple",
+        "deviceType": "phone",
+        "tier": "P1",
+        "releaseYear": 2020,
+        "specs": {"screen": "4.7 inch Retina IPS LCD", "chip": "Apple A13 Bionic", "battery": "1821 mAh", "charging": "Lightning 18W"},
+        "supportedFaults": DEFAULT_PHONE_FAULTS,
+        "knownIssues": [
+            {"id": "battery-aged-se2", "title": "Pin chai cần bảo trì", "severity": "medium", "confidence": "high", "symptoms": "Sập nguồn khi pin còn 10-15%.", "solution": "Thay pin mới chất lượng cao."}
+        ]
+    },
+    {
+        "id": "apple-iphone-6s-plus",
+        "name": "iPhone 6s Plus",
+        "brand": "apple",
+        "deviceType": "phone",
+        "tier": "P1",
+        "releaseYear": 2015,
+        "specs": {"screen": "5.5 inch Retina IPS LCD", "chip": "Apple A9", "battery": "2750 mAh", "charging": "Lightning 5W"},
+        "supportedFaults": DEFAULT_PHONE_FAULTS,
+        "knownIssues": [
+            {"id": "battery-cold-shutdown", "title": "Sập nguồn đột ngột khi thời tiết lạnh", "severity": "medium", "confidence": "high", "symptoms": "Máy tự tắt nguồn khởi động lại.", "solution": "Thay pin mới chuẩn dung lượng."}
+        ]
+    },
+    {
+        "id": "apple-iphone-16e",
+        "name": "iPhone 16e (Air / Slim dự kiến)",
+        "brand": "apple",
+        "deviceType": "phone",
+        "tier": "P3",
+        "releaseYear": 2025,
+        "specs": {"screen": "6.1 inch OLED 60Hz", "chip": "Apple A18 (3nm)", "battery": "3200 mAh", "charging": "USB-C 20W"},
+        "supportedFaults": DEFAULT_IPHONE_FAULTS,
+        "knownIssues": [
+            {"id": "slim-chassis-bend", "title": "Khung nhôm siêu mỏng cần lưu ý lực tì đè túi quần", "severity": "low", "confidence": "verify", "symptoms": "Cấn móp viền mỏng khi bị ép mạnh.", "solution": "Nắn chỉnh khung vỏ nhôm chính xác bằng máy ép định hình."}
+        ]
+    }
+]
+
+save_json("apple", apple_models)
+print("Xong Apple Phone!")

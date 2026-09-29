@@ -1,0 +1,719 @@
+[
+  {
+    "id": "asus-tuf-gaming-a15",
+    "name": "ASUS TUF Gaming A15",
+    "brand": "asus",
+    "deviceType": "win_laptop",
+    "tier": "L3",
+    "releaseYear": 2023,
+    "specs": {
+      "cpu": "Ryzen 7 7735HS / Ryzen 9 7940HS",
+      "gpu": "RTX 4050 / RTX 4060",
+      "screen": "15.6 inch FHD 144Hz 100% sRGB",
+      "ram": "16GB DDR5 rời",
+      "chassis": "Vỏ kim loại Jaeger Gray"
+    },
+    "supportedFaults": [
+      "screen",
+      "battery",
+      "keyboard",
+      "trackpad",
+      "charging-port",
+      "hinge-body",
+      "mainboard",
+      "speaker",
+      "mic",
+      "camera",
+      "thermal",
+      "ssd-upgrade",
+      "ram-upgrade",
+      "software",
+      "water-damage",
+      "data-recovery",
+      "diagnostic",
+      "vga-gpu"
+    ],
+    "knownIssues": [
+      {
+        "id": "tuf-fan-dust-noise",
+        "title": "Quạt Arc Flow nghẹt bụi gây nhiệt độ CPU >95°C và hú to",
+        "severity": "high",
+        "confidence": "high",
+        "symptoms": "Nhiệt độ nóng vùng phím WASD, quạt rú ồn ào.",
+        "solution": "Vệ sinh lưới quạt chống bụi Anti-Dust Tunnels và thay keo gốm dẫn nhiệt."
+      },
+      {
+        "id": "tuf-wifi-disconnect",
+        "title": "Card mạng Wi-Fi MediaTek MT7921 chập chờn rớt mạng khi chơi game",
+        "severity": "medium",
+        "confidence": "high",
+        "symptoms": "Đang chơi game online bỗng mất Wi-Fi, không tìm thấy danh sách mạng.",
+        "solution": "Thay card Wi-Fi Intel AX210 chuẩn WiFi 6E ổn định tuyệt đối."
+      }
+    ]
+  },
+  {
+    "id": "asus-tuf-gaming-f15",
+    "name": "ASUS TUF Gaming F15",
+    "brand": "asus",
+    "deviceType": "win_laptop",
+    "tier": "L3",
+    "releaseYear": 2023,
+    "specs": {
+      "cpu": "Core i7-12700H / i7-13620H",
+      "gpu": "RTX 4050 / RTX 4060",
+      "screen": "15.6 inch FHD 144Hz",
+      "ram": "16GB DDR4/DDR5 rời",
+      "chassis": "Khung chuẩn quân đội MIL-STD-810H"
+    },
+    "supportedFaults": [
+      "screen",
+      "battery",
+      "keyboard",
+      "trackpad",
+      "charging-port",
+      "hinge-body",
+      "mainboard",
+      "speaker",
+      "mic",
+      "camera",
+      "thermal",
+      "ssd-upgrade",
+      "ram-upgrade",
+      "software",
+      "water-damage",
+      "data-recovery",
+      "diagnostic",
+      "vga-gpu"
+    ],
+    "knownIssues": [
+      {
+        "id": "tuf-hinge-creak",
+        "title": "Bản lề kêu cót két và nặng tay sau 1 năm",
+        "severity": "low",
+        "confidence": "high",
+        "symptoms": "Mở máy nghe tiếng lách cách ở hai góc bản lề.",
+        "solution": "Xả ốc hãm lực bản lề và tra dầu bôi trơn chuyên dụng."
+      }
+    ]
+  },
+  {
+    "id": "asus-tuf-dash-f15",
+    "name": "ASUS TUF Dash F15",
+    "brand": "asus",
+    "deviceType": "win_laptop",
+    "tier": "L3",
+    "releaseYear": 2022,
+    "specs": {
+      "cpu": "Core i7-12650H",
+      "gpu": "RTX 3060",
+      "screen": "15.6 inch FHD 144Hz mỏng nhẹ",
+      "ram": "16GB DDR5 (1 khe hàn + 1 khe rời)",
+      "chassis": "Vỏ nhôm trắng Moonlight White"
+    },
+    "supportedFaults": [
+      "screen",
+      "battery",
+      "keyboard",
+      "trackpad",
+      "charging-port",
+      "hinge-body",
+      "mainboard",
+      "speaker",
+      "mic",
+      "camera",
+      "thermal",
+      "ssd-upgrade",
+      "ram-upgrade",
+      "software",
+      "water-damage",
+      "data-recovery",
+      "diagnostic",
+      "vga-gpu"
+    ],
+    "knownIssues": [
+      {
+        "id": "power-drop-gaming",
+        "title": "Sụt nguồn đột ngột khi GPU boost công suất 105W",
+        "severity": "high",
+        "confidence": "high",
+        "symptoms": "Chơi game nặng máy tự sập nguồn khởi động lại.",
+        "solution": "Kiểm tra dàn tụ lọc MOSFET nguồn GPU và củ sạc 200W."
+      }
+    ]
+  },
+  {
+    "id": "asus-rog-strix-g16",
+    "name": "ASUS ROG Strix G16",
+    "brand": "asus",
+    "deviceType": "win_laptop",
+    "tier": "L4",
+    "releaseYear": 2024,
+    "specs": {
+      "cpu": "Intel Core i9-14900HX",
+      "gpu": "RTX 4060 / RTX 4070 / RTX 4080",
+      "screen": "16.0 inch QHD+ 240Hz Nebula Display",
+      "ram": "16GB/32GB DDR5 5600MHz",
+      "chassis": "Vỏ kim loại dải LED RGB quanh thân"
+    },
+    "supportedFaults": [
+      "screen",
+      "battery",
+      "keyboard",
+      "trackpad",
+      "charging-port",
+      "hinge-body",
+      "mainboard",
+      "speaker",
+      "mic",
+      "camera",
+      "thermal",
+      "ssd-upgrade",
+      "ram-upgrade",
+      "software",
+      "water-damage",
+      "data-recovery",
+      "diagnostic",
+      "vga-gpu"
+    ],
+    "knownIssues": [
+      {
+        "id": "liquid-metal-spill-prevention",
+        "title": "Kim loại lỏng tản nhiệt Thermal Grizzly Conductonaut bị lệch pha tản",
+        "severity": "high",
+        "confidence": "high",
+        "symptoms": "Nhiệt độ giữa các nhân chênh lệch quá cao, máy bóp xung tụt fps.",
+        "solution": "Dàn đều lại lớp kim loại lỏng nguyên bản hoặc thay bằng miếng pad Honeywell PTM7950 an toàn tuyệt đối."
+      },
+      {
+        "id": "coil-whine-gpu",
+        "title": "Tiếng rít cuộn cảm biến dòng (Coil Whine) khi GPU hoạt động tải nặng",
+        "severity": "medium",
+        "confidence": "high",
+        "symptoms": "Khu vực bàn phím phát ra tiếng vo ve the thé khi bật game 3D.",
+        "solution": "Đổ keo silicone cách âm chân cuộn cảm hoặc chỉnh giới hạn khung hình FPS."
+      }
+    ]
+  },
+  {
+    "id": "asus-rog-strix-scar-16",
+    "name": "ASUS ROG Strix SCAR 16",
+    "brand": "asus",
+    "deviceType": "win_laptop",
+    "tier": "L4",
+    "releaseYear": 2024,
+    "specs": {
+      "cpu": "Core i9-14900HX",
+      "gpu": "RTX 4080 / RTX 4090 175W",
+      "screen": "16.0 inch Mini-LED 2.5K 240Hz 1100 nits",
+      "ram": "32GB/64GB DDR5",
+      "chassis": "Vỏ bán trong suốt Semi-translucent"
+    },
+    "supportedFaults": [
+      "screen",
+      "battery",
+      "keyboard",
+      "trackpad",
+      "charging-port",
+      "hinge-body",
+      "mainboard",
+      "speaker",
+      "mic",
+      "camera",
+      "thermal",
+      "ssd-upgrade",
+      "ram-upgrade",
+      "software",
+      "water-damage",
+      "data-recovery",
+      "diagnostic",
+      "vga-gpu"
+    ],
+    "knownIssues": [
+      {
+        "id": "mini-led-blooming",
+        "title": "Quầng sáng mờ quanh con trỏ chuột trên nền đen (Blooming Effect)",
+        "severity": "low",
+        "confidence": "high",
+        "symptoms": "Hiệu ứng quang học tự nhiên của công nghệ Mini-LED 2048 vùng làm mờ.",
+        "solution": "Cân chỉnh chế độ Single-Zone / Multi-Zone trong Armoury Crate."
+      }
+    ]
+  },
+  {
+    "id": "asus-rog-zephyrus-g14",
+    "name": "ASUS ROG Zephyrus G14 (2024)",
+    "brand": "asus",
+    "deviceType": "win_laptop",
+    "tier": "L4",
+    "releaseYear": 2024,
+    "specs": {
+      "cpu": "Ryzen 9 8945HS",
+      "gpu": "RTX 4060 / RTX 4070",
+      "screen": "14.0 inch 3K OLED 120Hz ROG Nebula, dải đèn Slash Lighting",
+      "ram": "16GB/32GB LPDDR5X Soldered",
+      "chassis": "Nhôm CNC nguyên khối siêu sang chỉ 1.5kg"
+    },
+    "supportedFaults": [
+      "screen",
+      "battery",
+      "keyboard",
+      "trackpad",
+      "charging-port",
+      "hinge-body",
+      "mainboard",
+      "speaker",
+      "mic",
+      "camera",
+      "thermal",
+      "ssd-upgrade",
+      "software",
+      "water-damage",
+      "data-recovery",
+      "diagnostic",
+      "vga-gpu"
+    ],
+    "knownIssues": [
+      {
+        "id": "slash-lighting-burn",
+        "title": "Dải đèn LED Slash Lighting chéo nắp A không sáng",
+        "severity": "low",
+        "confidence": "high",
+        "symptoms": "Dải đèn LED chéo mặt lưng mất tín hiệu sáng.",
+        "solution": "Thay cáp dải LED nắp lưng hoặc cập nhật firmware Aura Sync."
+      }
+    ]
+  },
+  {
+    "id": "asus-rog-zephyrus-g16",
+    "name": "ASUS ROG Zephyrus G16 (2024)",
+    "brand": "asus",
+    "deviceType": "win_laptop",
+    "tier": "L4",
+    "releaseYear": 2024,
+    "specs": {
+      "cpu": "Intel Core Ultra 9 185H",
+      "gpu": "RTX 4070 / RTX 4080",
+      "screen": "16.0 inch 2.5K OLED 240Hz",
+      "ram": "32GB LPDDR5X Soldered",
+      "chassis": "Nhôm CNC mỏng 1.49cm"
+    },
+    "supportedFaults": [
+      "screen",
+      "battery",
+      "keyboard",
+      "trackpad",
+      "charging-port",
+      "hinge-body",
+      "mainboard",
+      "speaker",
+      "mic",
+      "camera",
+      "thermal",
+      "ssd-upgrade",
+      "software",
+      "water-damage",
+      "data-recovery",
+      "diagnostic",
+      "vga-gpu"
+    ],
+    "knownIssues": [
+      {
+        "id": "oled-flicker-low",
+        "title": "Màn hình OLED chớp nhẹ ở tần số làm mờ thấp",
+        "severity": "low",
+        "confidence": "medium",
+        "symptoms": "Nháy mắt mỏi khi làm việc phòng tối.",
+        "solution": "Bật tính năng DC Dimming giảm chớp OLED trong phần mềm."
+      }
+    ]
+  },
+  {
+    "id": "asus-rog-flow-z13",
+    "name": "ASUS ROG Flow Z13",
+    "brand": "asus",
+    "deviceType": "win_laptop",
+    "tier": "L4",
+    "releaseYear": 2023,
+    "specs": {
+      "cpu": "Core i9-13900H",
+      "gpu": "RTX 4060 / RTX 4070 trong thân máy tính bảng 13.4 inch",
+      "screen": "13.4 inch QHD+ 165Hz Touch",
+      "ram": "16GB LPDDR5 Soldered",
+      "chassis": "Máy tính bảng gaming kèm bàn phím tháo rời"
+    },
+    "supportedFaults": [
+      "screen",
+      "battery",
+      "keyboard",
+      "trackpad",
+      "charging-port",
+      "hinge-body",
+      "mainboard",
+      "speaker",
+      "mic",
+      "camera",
+      "thermal",
+      "ssd-upgrade",
+      "software",
+      "water-damage",
+      "data-recovery",
+      "diagnostic",
+      "vga-gpu"
+    ],
+    "knownIssues": [
+      {
+        "id": "keyboard-folio-detach",
+        "title": "Bàn phím Folio rời kết nối nam châm chập chờn",
+        "severity": "medium",
+        "confidence": "high",
+        "symptoms": "Gõ phím lúc nhận lúc không khi nhấc máy nghiêng.",
+        "solution": "Vệ sinh chân tiếp xúc vàng Pogo Pin hoặc thay bàn phím Folio mới."
+      }
+    ]
+  },
+  {
+    "id": "asus-zenbook-14-oled-ux3405",
+    "name": "ASUS Zenbook 14 OLED UX3405",
+    "brand": "asus",
+    "deviceType": "win_laptop",
+    "tier": "L3",
+    "releaseYear": 2024,
+    "specs": {
+      "cpu": "Intel Core Ultra 5 125H / Ultra 7 155H",
+      "screen": "14.0 inch 3K 120Hz Lumina OLED",
+      "ram": "16GB/32GB LPDDR5X Soldered",
+      "battery": "75 Wh",
+      "chassis": "Vỏ nhôm xanh Ponder Blue 1.2kg"
+    },
+    "supportedFaults": [
+      "screen",
+      "battery",
+      "keyboard",
+      "trackpad",
+      "charging-port",
+      "hinge-body",
+      "mainboard",
+      "speaker",
+      "mic",
+      "camera",
+      "thermal",
+      "ssd-upgrade",
+      "software",
+      "water-damage",
+      "data-recovery",
+      "diagnostic"
+    ],
+    "knownIssues": [
+      {
+        "id": "oled-static-burnin",
+        "title": "Bóng mờ lưu ảnh thanh Taskbar trên tấm nền Lumina OLED",
+        "severity": "medium",
+        "confidence": "medium",
+        "symptoms": "Xuất hiện vệt mờ các icon ứng dụng khi mở nền trắng toàn màn hình.",
+        "solution": "Chạy chu trình làm mới pixel Pixel Refresh hoặc thay màn hình OLED 3K."
+      }
+    ]
+  },
+  {
+    "id": "asus-zenbook-14-flip-oled",
+    "name": "ASUS Zenbook 14 Flip OLED",
+    "brand": "asus",
+    "deviceType": "win_laptop",
+    "tier": "L3",
+    "releaseYear": 2023,
+    "specs": {
+      "cpu": "Core i7-1360P",
+      "screen": "14.0 inch 2.8K OLED Cảm ứng xoay gập 360",
+      "ram": "16GB Soldered",
+      "chassis": "Nhôm nguyên khối"
+    },
+    "supportedFaults": [
+      "screen",
+      "battery",
+      "keyboard",
+      "trackpad",
+      "charging-port",
+      "hinge-body",
+      "mainboard",
+      "speaker",
+      "mic",
+      "camera",
+      "thermal",
+      "ssd-upgrade",
+      "software",
+      "water-damage",
+      "data-recovery",
+      "diagnostic"
+    ],
+    "knownIssues": [
+      {
+        "id": "360-hinge-sensor",
+        "title": "Cảm biến xoay màn hình tự xoay lộn ngược",
+        "severity": "low",
+        "confidence": "high",
+        "symptoms": "Đặt nằm ngang nhưng màn hình tự khóa hướng dọc.",
+        "solution": "Cân chỉnh lại con quay hồi chuyển trên bo mạch."
+      }
+    ]
+  },
+  {
+    "id": "asus-zenbook-duo-2024",
+    "name": "ASUS Zenbook Duo (2024)",
+    "brand": "asus",
+    "deviceType": "win_laptop",
+    "tier": "L4",
+    "releaseYear": 2024,
+    "specs": {
+      "cpu": "Core Ultra 9 185H",
+      "screen": "2 Màn hình đôi 14.0 inch 3K OLED 120Hz",
+      "ram": "32GB LPDDR5X Soldered",
+      "chassis": "Thiết kế màn hình kép độc bản kèm bàn phím Bluetooth"
+    },
+    "supportedFaults": [
+      "screen",
+      "battery",
+      "keyboard",
+      "trackpad",
+      "charging-port",
+      "hinge-body",
+      "mainboard",
+      "speaker",
+      "mic",
+      "camera",
+      "thermal",
+      "ssd-upgrade",
+      "software",
+      "water-damage",
+      "data-recovery",
+      "diagnostic"
+    ],
+    "knownIssues": [
+      {
+        "id": "dual-screen-cable-flex",
+        "title": "Cáp nối màn hình phụ bên dưới bị lỏng chập chờn",
+        "severity": "high",
+        "confidence": "high",
+        "symptoms": "Màn hình thứ 2 dưới đáy chớp nháy hoặc không nhận cảm ứng.",
+        "solution": "Hàn thay cụm cáp truyền tín hiệu eDP màn hình kép."
+      }
+    ]
+  },
+  {
+    "id": "asus-vivobook-15-oled",
+    "name": "ASUS Vivobook 15 OLED",
+    "brand": "asus",
+    "deviceType": "win_laptop",
+    "tier": "L2",
+    "releaseYear": 2023,
+    "specs": {
+      "cpu": "Core i5-13500H / Ryzen 5 7530U",
+      "screen": "15.6 inch FHD OLED 60Hz 600 nits",
+      "ram": "8GB hàn + 1 khe rời nâng cấp",
+      "chassis": "Vỏ nhựa nắp kim loại"
+    },
+    "supportedFaults": [
+      "screen",
+      "battery",
+      "keyboard",
+      "trackpad",
+      "charging-port",
+      "hinge-body",
+      "mainboard",
+      "speaker",
+      "mic",
+      "camera",
+      "thermal",
+      "ssd-upgrade",
+      "ram-upgrade",
+      "software",
+      "water-damage",
+      "data-recovery",
+      "diagnostic"
+    ],
+    "knownIssues": [
+      {
+        "id": "plastic-hinge-broken-vivo",
+        "title": "Gãy chân ốc bản lề vỏ nhựa bên phải (Lỗi rất phổ biến trên Vivobook)",
+        "severity": "critical",
+        "confidence": "high",
+        "symptoms": "Gập máy nghe tiếng 'tách', nắp viền màn hình bung ra hở chân ốc đồng gãy.",
+        "solution": "Hàn đúc lại chân ốc composite, gia cố lực bản lề không lo gãy lại."
+      }
+    ]
+  },
+  {
+    "id": "asus-vivobook-14",
+    "name": "ASUS Vivobook 14",
+    "brand": "asus",
+    "deviceType": "win_laptop",
+    "tier": "L1",
+    "releaseYear": 2023,
+    "specs": {
+      "cpu": "Core i3-1215U / i5-1235U",
+      "screen": "14.0 inch FHD IPS",
+      "ram": "8GB nâng cấp được",
+      "storage": "512GB SSD",
+      "chassis": "Vỏ nhựa bạc"
+    },
+    "supportedFaults": [
+      "screen",
+      "battery",
+      "keyboard",
+      "trackpad",
+      "charging-port",
+      "hinge-body",
+      "mainboard",
+      "speaker",
+      "mic",
+      "camera",
+      "thermal",
+      "ssd-upgrade",
+      "ram-upgrade",
+      "software",
+      "water-damage",
+      "data-recovery",
+      "diagnostic"
+    ],
+    "knownIssues": [
+      {
+        "id": "keyboard-chattering-vivo",
+        "title": "Bàn phím chập nhảy chữ hoặc liệt hàng phím số",
+        "severity": "medium",
+        "confidence": "high",
+        "symptoms": "Nhấn phím không ăn hoặc tự động gõ chữ liên tục.",
+        "solution": "Thay bàn phím laptop mới nguyên bảng."
+      }
+    ]
+  },
+  {
+    "id": "asus-vivobook-pro-15-oled",
+    "name": "ASUS Vivobook Pro 15 OLED",
+    "brand": "asus",
+    "deviceType": "win_laptop",
+    "tier": "L3",
+    "releaseYear": 2023,
+    "specs": {
+      "cpu": "Ryzen 7 6800H / Core i7-13700H",
+      "gpu": "RTX 3050 / RTX 4050",
+      "screen": "15.6 inch 2.8K OLED 120Hz",
+      "ram": "16GB rời",
+      "chassis": "Vỏ nhôm nắp A"
+    },
+    "supportedFaults": [
+      "screen",
+      "battery",
+      "keyboard",
+      "trackpad",
+      "charging-port",
+      "hinge-body",
+      "mainboard",
+      "speaker",
+      "mic",
+      "camera",
+      "thermal",
+      "ssd-upgrade",
+      "ram-upgrade",
+      "software",
+      "water-damage",
+      "data-recovery",
+      "diagnostic",
+      "vga-gpu"
+    ],
+    "knownIssues": [
+      {
+        "id": "hot-battery-drain-pro",
+        "title": "Nhiệt độ nóng và pin tụt nhanh khi render đồ họa",
+        "severity": "medium",
+        "confidence": "high",
+        "symptoms": "Quạt thổi hơi nóng mạnh, pin dùng được hơn 2 tiếng.",
+        "solution": "Vệ sinh tản nhiệt ống đồng kép và thay pin mới."
+      }
+    ]
+  },
+  {
+    "id": "asus-vivobook-go-15",
+    "name": "ASUS Vivobook Go 15",
+    "brand": "asus",
+    "deviceType": "win_laptop",
+    "tier": "L1",
+    "releaseYear": 2023,
+    "specs": {
+      "cpu": "Ryzen 5 7520U",
+      "screen": "15.6 inch FHD 60Hz",
+      "ram": "8GB/16GB LPDDR5 Soldered",
+      "chassis": "Vỏ nhựa siêu tiết kiệm"
+    },
+    "supportedFaults": [
+      "screen",
+      "battery",
+      "keyboard",
+      "trackpad",
+      "charging-port",
+      "hinge-body",
+      "mainboard",
+      "speaker",
+      "mic",
+      "camera",
+      "thermal",
+      "ssd-upgrade",
+      "software",
+      "water-damage",
+      "data-recovery",
+      "diagnostic"
+    ],
+    "knownIssues": [
+      {
+        "id": "trackpad-click-hard",
+        "title": "Bàn rê chuột bị lún nặng tay",
+        "severity": "low",
+        "confidence": "high",
+        "symptoms": "Bấm click chuột trái phải cấn bụi sượng tay.",
+        "solution": "Vệ sinh cơ cấu phím bấm bàn rê chuột."
+      }
+    ]
+  },
+  {
+    "id": "asus-expertbook-b9-oled",
+    "name": "ASUS ExpertBook B9 OLED",
+    "brand": "asus",
+    "deviceType": "win_laptop",
+    "tier": "L4",
+    "releaseYear": 2023,
+    "specs": {
+      "cpu": "Core i7-1355U vPro",
+      "screen": "14.0 inch 2.8K OLED 16:10",
+      "ram": "32GB LPDDR5 Soldered",
+      "weight": "0.99 kg",
+      "chassis": "Hợp kim Magie - Liti siêu nhẹ"
+    },
+    "supportedFaults": [
+      "screen",
+      "battery",
+      "keyboard",
+      "trackpad",
+      "charging-port",
+      "hinge-body",
+      "mainboard",
+      "speaker",
+      "mic",
+      "camera",
+      "thermal",
+      "ssd-upgrade",
+      "software",
+      "water-damage",
+      "data-recovery",
+      "diagnostic"
+    ],
+    "knownIssues": [
+      {
+        "id": "mag-lithium-paint-scratch",
+        "title": "Trầy xước cạnh hợp kim Magie - Liti",
+        "severity": "low",
+        "confidence": "high",
+        "symptoms": "Màu đen sao băng bị cấn xước góc.",
+        "solution": "Sơn tĩnh điện phục hồi viền hoặc dán bảo vệ."
+      }
+    ]
+  }
+]
