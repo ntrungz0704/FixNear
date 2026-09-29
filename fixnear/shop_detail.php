@@ -163,7 +163,7 @@ $msg = $_GET['msg'] ?? '';
                                         <?= htmlspecialchars($srv['service_name']) ?>
                                     </div>
                                     <div style="font-size: 12px; color: var(--fn-text-light); margin-top: 2px;">
-                                        <?= htmlspecialchars($srv['description']) ?>
+                                        <?= htmlspecialchars($srv['description'] ?? $srv['service_desc'] ?? $srv['note'] ?? '') ?>
                                     </div>
                                 </td>
                                 <td>

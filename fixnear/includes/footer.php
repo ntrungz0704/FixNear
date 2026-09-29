@@ -17,7 +17,7 @@
         <form action="<?= $assetPrefix ?>api/add_report.php" method="POST">
             <?= csrfField() ?>
             <input type="hidden" name="shop_id" id="fn-report-shop-id">
-            <input type="hidden" name="redirect_url" value="<?= htmlspecialchars($_SERVER['REQUEST_URI']) ?>">
+            <input type="hidden" name="redirect_url" value="<?= htmlspecialchars($_SERVER['REQUEST_URI'] ?? 'index.php') ?>">
 
             <div class="fn-form-group">
                 <label class="fn-label">Lý do báo cáo:</label>

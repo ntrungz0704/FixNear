@@ -541,7 +541,7 @@ class FixNearDB {
     public function getServicesByShop($shop_id) {
         if ($this->isUsingMySQL()) {
             $stmt = $this->pdo->prepare("
-                SELECT ss.*, s.name as service_name, s.device_type, s.icon, s.description as service_desc 
+                SELECT ss.*, s.name as service_name, s.device_type, s.icon, s.description as service_desc, s.description 
                 FROM shop_services ss 
                 JOIN services s ON ss.service_id = s.id 
                 WHERE ss.shop_id = :shop_id 
@@ -563,7 +563,8 @@ class FixNearDB {
                             'service_name' => $s['name'],
                             'device_type' => $s['device_type'],
                             'icon' => $s['icon'],
-                            'service_desc' => $s['description']
+                            'service_desc' => $s['description'] ?? '',
+                            'description' => $s['description'] ?? ''
                         ]);
                         break;
                     }
