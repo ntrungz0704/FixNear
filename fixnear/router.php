@@ -13,11 +13,15 @@ if ($blocked) {
 }
 
 $candidate = __DIR__ . $normalized;
-if ($normalized !== '/' && is_file($candidate)) {
+if ($normalized === '/' || is_file($candidate)) {
     return false;
 }
 
-if ($normalized === '/' || is_file($candidate)) {
+if (is_dir($candidate) && is_file(rtrim($candidate, '/') . '/index.php')) {
+    if (!str_ends_with($requestPath, '/')) {
+        header('Location: ' . $requestPath . '/', true, 301);
+        exit;
+    }
     return false;
 }
 
