@@ -66,16 +66,32 @@ require_once __DIR__ . '/../includes/navbar.php';
     <div class="fn-admin-content">
         <div style="display: flex; justify-content: space-between; align-items: center; margin-bottom: 24px;">
             <div>
-                <h1 style="font-family: var(--fn-font-heading); font-size: 24px; font-weight: 900; color: var(--fn-dark);">
-                    Bảng Điều Khiển FixNear
-                </h1>
-                <p style="font-size: 13.5px; color: var(--fn-dark-muted);">
+                <div style="display: flex; align-items: center; gap: 10px;">
+                    <h1 style="font-family: var(--fn-font-heading); font-size: 24px; font-weight: 900; color: var(--fn-dark); margin: 0;">
+                        Bảng Điều Khiển FixNear
+                    </h1>
+                    <?php if (db()->isUsingMySQL()): ?>
+                        <span style="display: inline-flex; align-items: center; gap: 6px; padding: 4px 10px; border-radius: 999px; font-size: 11px; font-weight: 800; background: #dcfce7; color: #166534; border: 1px solid #86efac;">
+                            🟢 MySQL PDO (fixnear_db)
+                        </span>
+                    <?php else: ?>
+                        <span style="display: inline-flex; align-items: center; gap: 6px; padding: 4px 10px; border-radius: 999px; font-size: 11px; font-weight: 800; background: #fef3c7; color: #92400e; border: 1px solid #fde68a;">
+                            🟡 Dữ liệu Dự Phòng JSON (Bật MySQL XAMPP để nạp SQL)
+                        </span>
+                    <?php endif; ?>
+                </div>
+                <p style="font-size: 13.5px; color: var(--fn-dark-muted); margin-top: 4px;">
                     Hệ thống hiện lưu <?= (int)$stats['total_shops'] ?> bản ghi cửa hàng thuộc <?= (int)$stats['total_districts'] ?> khu vực TP.HCM.
                 </p>
             </div>
-            <a href="shop_edit.php" class="fn-btn fn-btn-primary fn-btn-sm">
-                + Thêm Cửa Hàng Mới
-            </a>
+            <div style="display: flex; gap: 10px;">
+                <a href="../install.php" class="fn-btn fn-btn-secondary fn-btn-sm" title="Khởi tạo hoặc kiểm tra CSDL MySQL">
+                    ⚙️ Quản Lý CSDL MySQL
+                </a>
+                <a href="shop_edit.php" class="fn-btn fn-btn-primary fn-btn-sm">
+                    + Thêm Cửa Hàng Mới
+                </a>
+            </div>
         </div>
 
         <!-- 4 Thẻ KPI thống kê -->

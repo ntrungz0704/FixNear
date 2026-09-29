@@ -16,6 +16,21 @@ $assetPrefix = str_contains(str_replace('\\', '/', $_SERVER['PHP_SELF'] ?? ''), 
     <!-- Leaflet CSS for Map -->
     <link rel="stylesheet" href="https://unpkg.com/leaflet@1.9.4/dist/leaflet.css" integrity="sha256-p4NxAoJBhIIN+hmNHrzRCf9tD/miZyoHS5obTRR9BMY=" crossorigin="" />
     
+    <!-- Tailwind CSS (HTML5, CSS3 Utility Stack) -->
+    <script src="https://cdn.tailwindcss.com"></script>
+    <script>
+        tailwind.config = {
+            theme: {
+                extend: {
+                    colors: {
+                        fnblue: '#2563eb',
+                        fndark: '#0f172a'
+                    }
+                }
+            }
+        }
+    </script>
+    
     <!-- Custom Style -->
     <link rel="stylesheet" href="<?= $assetPrefix ?>assets/css/style.css?v=<?= filemtime(__DIR__ . '/../assets/css/style.css') ?>">
 </head>

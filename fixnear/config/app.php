@@ -28,6 +28,13 @@ define('FIXNEAR_ENV', strtolower((string) fixnearConfig('FIXNEAR_ENV', 'environm
 define('FIXNEAR_IS_PRODUCTION', FIXNEAR_ENV === 'production');
 define('FIXNEAR_DATA_DIR', rtrim((string) fixnearConfig('FIXNEAR_DATA_DIR', 'data_dir', dirname(__DIR__) . '/data'), "/\\") . DIRECTORY_SEPARATOR);
 
+// Cấu hình kết nối Cơ sở dữ liệu MySQL (Chuẩn XAMPP / Laragon)
+define('DB_HOST', (string) fixnearConfig('DB_HOST', 'db_host', '127.0.0.1'));
+define('DB_PORT', (int) fixnearConfig('DB_PORT', 'db_port', 3306));
+define('DB_NAME', (string) fixnearConfig('DB_NAME', 'db_name', 'fixnear_db'));
+define('DB_USER', (string) fixnearConfig('DB_USER', 'db_user', 'root'));
+define('DB_PASS', (string) fixnearConfig('DB_PASS', 'db_pass', ''));
+
 date_default_timezone_set((string) fixnearConfig('FIXNEAR_TIMEZONE', 'timezone', 'Asia/Ho_Chi_Minh'));
 error_reporting(E_ALL);
 ini_set('display_errors', FIXNEAR_IS_PRODUCTION ? '0' : '1');

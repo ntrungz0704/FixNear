@@ -1,0 +1,44 @@
+#!/bin/sh
+# FixNear Git Hook: Ngăn chặn push trực tiếp vào nhánh 'main'
+# Mọi thành viên phải push vào nhánh cá nhân và tạo Pull Request để Trưởng nhóm duyệt!
+
+remote="$1"
+url="$2"
+
+zero="0000000000000000000000000000000000000000"
+
+while read local_ref local_sha remote_ref remote_sha
+do
+    if [ "$remote_ref" = "refs/heads/main" ]; then
+        if [ "$ALLOW_MAIN_PUSH" = "1" ]; then
+            exit 0
+        fi
+        
+        echo ""
+        echo "=========================================================================="
+        echo " ⛔ [CHẶN PUSH TRỰC TIẾP VÀO NHÁNH MAIN - FIXNEAR TEAM WORKFLOW]"
+        echo "=========================================================================="
+        echo " Bạn đang cố gắng push trực tiếp vào nhánh: 'main'."
+        echo " Theo quy định của dự án FixNear, không thành viên nào được push thẳng vào main."
+        echo ""
+        echo " 👉 Vui lòng thực hiện các bước sau:"
+        echo "    1. Chuyển sang nhánh cá nhân của bạn:"
+        echo "       - member/minh-hieu  (Nguyễn Minh Hiếu)"
+        echo "       - member/xuan-dinh  (Trần Ngọc Xuân Đình)"
+        echo "       - member/hong-phuc  (Lê Bùi Hồng Phúc)"
+        echo "       - member/tien-kim   (Bàn Tiến Kim)"
+        echo ""
+        echo "    2. Push vào nhánh cá nhân của bạn:"
+        echo "       git push origin <tên-nhánh-của-bạn>"
+        echo ""
+        echo "    3. Truy cập GitHub và bấm 'Compare & pull request' để Trưởng nhóm"
+        echo "       (Nguyễn Phạm Thành Trung) kiểm tra và merge code vào main."
+        echo ""
+        echo " (Nếu bạn là Trưởng nhóm cần cập nhật khẩn cấp: git push origin main --no-verify)"
+        echo "=========================================================================="
+        echo ""
+        exit 1
+    fi
+done
+
+exit 0
