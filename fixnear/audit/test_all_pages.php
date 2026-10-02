@@ -12,6 +12,7 @@ $files = [
     'admin/reviews.php',
     'admin/requests.php',
     'admin/reports.php',
+    'admin/contacts.php',
     'admin/shop_edit.php'
 ];
 

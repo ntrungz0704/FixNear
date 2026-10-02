@@ -7,14 +7,20 @@ require_once __DIR__ . '/includes/navbar.php';
 // Nhận tham số lọc
 $deviceFilter = $_GET['device'] ?? '';
 $districtFilter = $_GET['district'] ?? '';
-$expertFilter = $_GET['expert'] ?? '';
 $studentOnly = isset($_GET['student']) ? true : false;
+$favoriteFilter = !empty($_GET['favorite']);
 $searchKw = $_GET['q'] ?? '';
+
+$currentUserId = isLoggedIn() ? (int)($_SESSION['user']['id'] ?? 0) : 0;
+$userFavorites = $currentUserId > 0 ? db()->getFavorites($currentUserId) : [];
 
 $allShops = db()->getShops();
 
 // Lọc dữ liệu
-$filteredShops = array_filter($allShops, function($shop) use ($deviceFilter, $districtFilter, $expertFilter, $studentOnly, $searchKw) {
+$filteredShops = array_filter($allShops, function($shop) use ($deviceFilter, $districtFilter, $studentOnly, $favoriteFilter, $userFavorites, $searchKw) {
+    if ($favoriteFilter && !in_array((int)$shop['id'], array_map('intval', $userFavorites), true)) {
+        return false;
+    }
     if ($deviceFilter) {
         $devs = $shop['devices'] ?? [];
         if (is_array($devs)) {
@@ -141,11 +147,18 @@ usort($filteredShops, function($a, $b) {
                 Ưu đãi sinh viên
             </label>
 
+            <?php if (isLoggedIn()): ?>
+                <label style="display: flex; align-items: center; gap: 6px; font-size: 13.5px; font-weight: 700; color: #dc2626; cursor: pointer; white-space: nowrap;">
+                    <input type="checkbox" name="favorite" value="1" <?= $favoriteFilter ? 'checked' : '' ?> style="accent-color: #dc2626; width: 16px; height: 16px;">
+                    ❤️ Đã lưu (<?= count($userFavorites) ?>)
+                </label>
+            <?php endif; ?>
+
             <button type="submit" class="fn-btn fn-btn-primary" style="padding: 10px 20px; font-size: 14px; font-weight: 800;">
                 Lọc Tiệm
             </button>
 
-            <?php if ($deviceFilter || $districtFilter || $studentOnly || $searchKw): ?>
+            <?php if ($deviceFilter || $districtFilter || $studentOnly || $favoriteFilter || $searchKw): ?>
                 <a href="shops.php" class="fn-btn fn-btn-secondary" style="font-size: 13px; text-decoration: none;">
                     ✕ Xóa lọc
                 </a>
@@ -182,6 +195,12 @@ usort($filteredShops, function($a, $b) {
                         📋 Dữ liệu tham khảo
                     </span>
                     <?php endif; ?>
+
+                    <!-- Nút Lưu Yêu Thích -->
+                    <?php $isFav = in_array((int)$shop['id'], array_map('intval', $userFavorites), true); ?>
+                    <button type="button" class="fn-fav-btn" data-shop-id="<?= $shop['id'] ?>" data-favorited="<?= $isFav ? '1' : '0' ?>" onclick="toggleFavorite(event, <?= $shop['id'] ?>)" title="<?= $isFav ? 'Xóa khỏi yêu thích' : 'Lưu cửa hàng yêu thích' ?>" aria-label="Lưu cửa hàng yêu thích" style="position: absolute; bottom: 10px; right: 10px; width: 34px; height: 34px; border-radius: 50%; background: rgba(255,255,255,0.92); backdrop-filter: blur(4px); border: 1px solid rgba(0,0,0,0.08); cursor: pointer; display: flex; align-items: center; justify-content: center; font-size: 16px; box-shadow: 0 2px 8px rgba(0,0,0,0.15); transition: transform 0.15s, background-color 0.15s; z-index: 2;">
+                        <span class="fn-fav-icon" id="fav-icon-<?= $shop['id'] ?>"><?= $isFav ? '❤️' : '🤍' ?></span>
+                    </button>
                 </div>
 
                 <!-- Body -->

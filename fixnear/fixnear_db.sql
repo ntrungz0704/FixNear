@@ -1439,6 +1439,25 @@ CREATE TABLE `contact_messages` (
   `phone` VARCHAR(50) DEFAULT NULL,
   `subject` VARCHAR(255) NOT NULL,
   `message` TEXT NOT NULL,
+  `status` VARCHAR(20) DEFAULT 'pending',
   `created_at` DATETIME DEFAULT CURRENT_TIMESTAMP
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci;
+
+-- 9. BẢNG FAVORITES (Cửa Hàng Yêu Thích Của Người Dùng)
+DROP TABLE IF EXISTS `favorites`;
+CREATE TABLE `favorites` (
+  `id` INT AUTO_INCREMENT PRIMARY KEY,
+  `user_id` INT NOT NULL,
+  `shop_id` INT NOT NULL,
+  `created_at` DATETIME DEFAULT CURRENT_TIMESTAMP,
+  UNIQUE KEY `idx_user_shop` (`user_id`, `shop_id`),
+  FOREIGN KEY (`user_id`) REFERENCES `users`(`id`) ON DELETE CASCADE,
+  FOREIGN KEY (`shop_id`) REFERENCES `shops`(`id`) ON DELETE CASCADE
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci;
+
+INSERT INTO `favorites` (`user_id`, `shop_id`) VALUES
+(2, 1),
+(2, 15),
+(3, 2);
+
 

@@ -21,8 +21,17 @@ function csrfField() {
 }
 
 function verifyCsrfToken() {
-    $submitted = $_POST['csrf_token'] ?? '';
-    return is_string($submitted) && hash_equals(csrfToken(), $submitted);
+    $submitted = $_POST['csrf_token'] ?? ($_SERVER['HTTP_X_CSRF_TOKEN'] ?? '');
+    if (!$submitted) {
+        $raw = file_get_contents('php://input');
+        if ($raw) {
+            $decoded = json_decode($raw, true);
+            if (is_array($decoded) && !empty($decoded['csrf_token'])) {
+                $submitted = $decoded['csrf_token'];
+            }
+        }
+    }
+    return is_string($submitted) && $submitted !== '' && hash_equals(csrfToken(), $submitted);
 }
 
 function requireValidCsrf() {
@@ -58,17 +67,27 @@ class FixNearDB {
     }
 
     private function initMySQL() {
-        if (!extension_loaded('pdo_mysql')) {
+        if (!extension_loaded('pdo_mysql') || (defined('ENABLE_MYSQL') && !ENABLE_MYSQL) || getenv('FIXNEAR_DISABLE_MYSQL') === '1') {
             $this->is_mysql = false;
             return;
         }
 
+        // Kiểm tra nhanh cổng kết nối MySQL (0.15s) tránh độ trễ TCP timeout khi MySQL chưa bật
+        $probe = @fsockopen(DB_HOST, DB_PORT, $errno, $errstr, 0.15);
+        if (!$probe) {
+            $this->is_mysql = false;
+            return;
+        }
+        fclose($probe);
+
         try {
+            $timeout = defined('DB_TIMEOUT') ? (int)DB_TIMEOUT : 1;
             $dsn = "mysql:host=" . DB_HOST . ";port=" . DB_PORT . ";dbname=" . DB_NAME . ";charset=utf8mb4";
             $this->pdo = new PDO($dsn, DB_USER, DB_PASS, [
                 PDO::ATTR_ERRMODE => PDO::ERRMODE_EXCEPTION,
                 PDO::ATTR_DEFAULT_FETCH_MODE => PDO::FETCH_ASSOC,
-                PDO::ATTR_EMULATE_PREPARES => false
+                PDO::ATTR_EMULATE_PREPARES => false,
+                PDO::ATTR_TIMEOUT => $timeout
             ]);
             $this->is_mysql = true;
             $this->ensureTablesExist();
@@ -884,27 +903,203 @@ class FixNearDB {
     }
 
     public function addContactMessage($data) {
+        $subject = $data['subject'] ?? ($data['type'] ?? '');
+        $name = $data['name'] ?? '';
+        $email = $data['email'] ?? '';
+        $phone = $data['phone'] ?? null;
+        $message = $data['message'] ?? '';
+        $status = $data['status'] ?? 'pending';
+
         if ($this->isUsingMySQL()) {
-            $stmt = $this->pdo->prepare("
-                INSERT INTO contact_messages (name, email, phone, subject, message, created_at)
-                VALUES (:name, :email, :phone, :subject, :message, NOW())
-            ");
-            return $stmt->execute([
-                ':name' => $data['name'] ?? '',
-                ':email' => $data['email'] ?? '',
-                ':phone' => $data['phone'] ?? null,
-                ':subject' => $data['subject'] ?? '',
-                ':message' => $data['message'] ?? ''
-            ]);
+            try {
+                $stmt = $this->pdo->prepare("
+                    INSERT INTO contact_messages (name, email, phone, subject, message, created_at)
+                    VALUES (:name, :email, :phone, :subject, :message, NOW())
+                ");
+                $ok = $stmt->execute([
+                    ':name' => $name,
+                    ':email' => $email,
+                    ':phone' => $phone,
+                    ':subject' => $subject,
+                    ':message' => $message
+                ]);
+                if ($ok) {
+                    $data['id'] = (int)$this->pdo->lastInsertId();
+                    $data['subject'] = $subject;
+                    $data['status'] = $status;
+                    return $data;
+                }
+                return false;
+            } catch (Exception $e) {
+                error_log("addContactMessage MySQL error: " . $e->getMessage());
+                return false;
+            }
         }
 
-        return $this->withJsonLock('contact_messages.json', function() use ($data) {
+        return $this->withJsonLock('contact_messages.json', function() use ($name, $email, $phone, $subject, $message, $status) {
             $msgs = $this->readJson('contact_messages.json');
-            $data['id'] = count($msgs) + 1;
-            $data['created_at'] = date('Y-m-d H:i:s');
-            $msgs[] = $data;
-            return $this->writeJson('contact_messages.json', $msgs);
+            if (!is_array($msgs)) $msgs = [];
+            $maxId = 0;
+            foreach ($msgs as $m) $maxId = max($maxId, (int)($m['id'] ?? 0));
+            $newItem = [
+                'id' => $maxId + 1,
+                'name' => $name,
+                'email' => $email,
+                'phone' => $phone,
+                'subject' => $subject,
+                'type' => $subject,
+                'message' => $message,
+                'status' => $status,
+                'created_at' => date('Y-m-d H:i:s')
+            ];
+            $msgs[] = $newItem;
+            return $this->writeJson('contact_messages.json', $msgs) ? $newItem : false;
         });
+    }
+
+    public function getContactMessages() {
+        if ($this->isUsingMySQL()) {
+            try {
+                $stmt = $this->pdo->query("SELECT * FROM contact_messages ORDER BY created_at DESC");
+                return $stmt->fetchAll(PDO::FETCH_ASSOC);
+            } catch (Exception $e) {
+                error_log("getContactMessages MySQL error: " . $e->getMessage());
+            }
+        }
+
+        $msgs = $this->readJson('contact_messages.json');
+        if (!is_array($msgs)) return [];
+        usort($msgs, fn($a, $b) => strtotime($b['created_at'] ?? 0) - strtotime($a['created_at'] ?? 0));
+        return $msgs;
+    }
+
+    public function updateContactMessageStatus($id, $status) {
+        $allowed = ['pending', 'read', 'replied'];
+        if (!in_array($status, $allowed, true)) return false;
+
+        if ($this->isUsingMySQL()) {
+            try {
+                $stmt = $this->pdo->prepare("UPDATE contact_messages SET status = :status WHERE id = :id");
+                return $stmt->execute([':status' => $status, ':id' => (int)$id]);
+            } catch (Exception $e) {
+                return true;
+            }
+        }
+
+        return $this->withJsonLock('contact_messages.json', function() use ($id, $status) {
+            $msgs = $this->readJson('contact_messages.json');
+            if (!is_array($msgs)) return false;
+            foreach ($msgs as &$m) {
+                if (((int)($m['id'] ?? 0)) === (int)$id) {
+                    $m['status'] = $status;
+                    return $this->writeJson('contact_messages.json', $msgs);
+                }
+            }
+            return false;
+        });
+    }
+
+    public function deleteContactMessage($id) {
+        if ($this->isUsingMySQL()) {
+            try {
+                $stmt = $this->pdo->prepare("DELETE FROM contact_messages WHERE id = :id");
+                return $stmt->execute([':id' => (int)$id]);
+            } catch (Exception $e) {
+                error_log("deleteContactMessage MySQL error: " . $e->getMessage());
+                return false;
+            }
+        }
+
+        return $this->withJsonLock('contact_messages.json', function() use ($id) {
+            $msgs = $this->readJson('contact_messages.json');
+            if (!is_array($msgs)) return false;
+            $newMsgs = array_filter($msgs, fn($m) => ((int)($m['id'] ?? 0)) !== (int)$id);
+            return $this->writeJson('contact_messages.json', array_values($newMsgs));
+        });
+    }
+
+    // ================= YÊU THÍCH CỬA HÀNG (FAVORITES) =================
+    public function getFavorites($userId) {
+        $userId = (int)$userId;
+        if ($userId <= 0) return [];
+
+        if ($this->isUsingMySQL()) {
+            try {
+                $stmt = $this->pdo->prepare("SELECT shop_id FROM favorites WHERE user_id = :user_id");
+                $stmt->execute([':user_id' => $userId]);
+                return $stmt->fetchAll(PDO::FETCH_COLUMN) ?: [];
+            } catch (Exception $e) {
+                // Nếu bảng favorites chưa có trong MySQL, tiếp tục fallback JSON
+            }
+        }
+
+        $favs = $this->readJson('favorites.json');
+        if (!is_array($favs)) return [];
+        $shopIds = [];
+        foreach ($favs as $f) {
+            if ((int)($f['user_id'] ?? 0) === $userId && !empty($f['shop_id'])) {
+                $shopIds[] = (int)$f['shop_id'];
+            }
+        }
+        return array_values(array_unique($shopIds));
+    }
+
+    public function isFavorite($userId, $shopId) {
+        $favorites = $this->getFavorites($userId);
+        return in_array((int)$shopId, array_map('intval', $favorites), true);
+    }
+
+    public function toggleFavorite($userId, $shopId) {
+        $userId = (int)$userId;
+        $shopId = (int)$shopId;
+        if ($userId <= 0 || $shopId <= 0) return false;
+
+        $isFav = $this->isFavorite($userId, $shopId);
+        $newFavorited = !$isFav;
+
+        if ($this->isUsingMySQL()) {
+            try {
+                if ($newFavorited) {
+                    $stmt = $this->pdo->prepare("INSERT IGNORE INTO favorites (user_id, shop_id, created_at) VALUES (:u, :s, NOW())");
+                    $stmt->execute([':u' => $userId, ':s' => $shopId]);
+                } else {
+                    $stmt = $this->pdo->prepare("DELETE FROM favorites WHERE user_id = :u AND shop_id = :s");
+                    $stmt->execute([':u' => $userId, ':s' => $shopId]);
+                }
+                return ['favorited' => $newFavorited];
+            } catch (Exception $e) {
+                // Fallback qua JSON nếu bảng MySQL chưa được tạo
+            }
+        }
+
+        return $this->withJsonLock('favorites.json', function() use ($userId, $shopId, $newFavorited) {
+            $favs = $this->readJson('favorites.json');
+            if (!is_array($favs)) $favs = [];
+            if ($newFavorited) {
+                $favs[] = [
+                    'user_id' => $userId,
+                    'shop_id' => $shopId,
+                    'created_at' => date('Y-m-d H:i:s')
+                ];
+            } else {
+                $favs = array_values(array_filter($favs, function($f) use ($userId, $shopId) {
+                    return !((int)($f['user_id'] ?? 0) === $userId && (int)($f['shop_id'] ?? 0) === $shopId);
+                }));
+            }
+            $this->writeJson('favorites.json', $favs);
+            return ['favorited' => $newFavorited];
+        });
+    }
+
+    public function getUserFavoriteShops($userId) {
+        $shopIds = $this->getFavorites($userId);
+        if (empty($shopIds)) return [];
+        $result = [];
+        foreach ($shopIds as $sid) {
+            $s = $this->getShopById($sid);
+            if ($s) $result[] = $s;
+        }
+        return $result;
     }
 
     public function getReports() {
@@ -1013,6 +1208,14 @@ class FixNearDB {
                 $pendingReports = (int)$this->pdo->query("SELECT COUNT(*) FROM wrong_info_reports WHERE status = 'pending'")->fetchColumn();
                 $totalRequests = (int)$this->pdo->query("SELECT COUNT(*) FROM repair_requests")->fetchColumn();
                 $pendingRequests = (int)$this->pdo->query("SELECT COUNT(*) FROM repair_requests WHERE status = 'pending'")->fetchColumn();
+                $totalContacts = 0;
+                $pendingContacts = 0;
+                try {
+                    $totalContacts = (int)$this->pdo->query("SELECT COUNT(*) FROM contact_messages")->fetchColumn();
+                    $pendingContacts = (int)$this->pdo->query("SELECT COUNT(*) FROM contact_messages WHERE status = 'pending'")->fetchColumn();
+                } catch (Exception $e) {
+                    // Cột status có thể chưa tồn tại nếu dùng CSDL cũ
+                }
 
                 return [
                     'total_shops' => $totalShops,
@@ -1023,7 +1226,9 @@ class FixNearDB {
                     'total_reviews' => $totalReviews,
                     'pending_reports' => $pendingReports,
                     'total_requests' => $totalRequests,
-                    'pending_requests' => $pendingRequests
+                    'pending_requests' => $pendingRequests,
+                    'total_contacts' => $totalContacts,
+                    'pending_contacts' => $pendingContacts
                 ];
             } catch (Exception $e) {
                 // Nếu bảng chưa sẵn sàng, tiếp tục dùng JSON
@@ -1036,6 +1241,8 @@ class FixNearDB {
         $reports = $this->readJson('reports.json');
         $requests = $this->readJson('repair_requests.json');
         if (!is_array($requests)) $requests = [];
+        $contacts = $this->readJson('contact_messages.json');
+        if (!is_array($contacts)) $contacts = [];
 
         $pending_reports = 0;
         foreach ($reports as $rp) {
@@ -1048,6 +1255,13 @@ class FixNearDB {
         foreach ($requests as $rq) {
             if (($rq['status'] ?? 'pending') === 'pending') {
                 $pending_requests++;
+            }
+        }
+
+        $pending_contacts = 0;
+        foreach ($contacts as $c) {
+            if (($c['status'] ?? 'pending') === 'pending') {
+                $pending_contacts++;
             }
         }
 
@@ -1074,7 +1288,9 @@ class FixNearDB {
             'total_reviews' => count($reviews),
             'pending_reports' => $pending_reports,
             'total_requests' => count($requests),
-            'pending_requests' => $pending_requests
+            'pending_requests' => $pending_requests,
+            'total_contacts' => count($contacts),
+            'pending_contacts' => $pending_contacts
         ];
     }
 

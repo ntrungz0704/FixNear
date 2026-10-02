@@ -1338,3 +1338,134 @@ function initPromoBanner3s() {
         }
     }, 2000);
 }
+
+// ================= 7. QUẢN LÝ CỬA HÀNG YÊU THÍCH (FAVORITES) =================
+function getLocalFavorites() {
+    try {
+        const stored = localStorage.getItem('fixnear_favorites');
+        return stored ? JSON.parse(stored) : [];
+    } catch (e) {
+        return [];
+    }
+}
+
+function setLocalFavorites(favs) {
+    try {
+        localStorage.setItem('fixnear_favorites', JSON.stringify(favs));
+    } catch (e) {}
+}
+
+function syncFavoritesUI() {
+    const localFavs = getLocalFavorites();
+    document.querySelectorAll('.fn-fav-btn').forEach(btn => {
+        const shopId = parseInt(btn.getAttribute('data-shop-id'), 10);
+        const icon = btn.querySelector('.fn-fav-icon') || document.getElementById(`fav-icon-${shopId}`);
+        const text = document.getElementById(`fav-text-${shopId}`);
+        const isServerFav = btn.getAttribute('data-favorited') === '1';
+        const isFav = isServerFav || localFavs.includes(shopId);
+
+        if (icon) icon.textContent = isFav ? '❤️' : '🤍';
+        if (text) text.textContent = isFav ? 'Đã lưu yêu thích' : 'Lưu yêu thích';
+        if (isFav) btn.classList.add('active');
+        else btn.classList.remove('active');
+    });
+}
+
+async function toggleFavorite(event, shopId) {
+    if (event) {
+        event.preventDefault();
+        event.stopPropagation();
+    }
+    shopId = parseInt(shopId, 10);
+    if (!shopId) return;
+
+    const icon = document.getElementById(`fav-icon-${shopId}`);
+    const text = document.getElementById(`fav-text-${shopId}`);
+    const btn = document.querySelector(`.fn-fav-btn[data-shop-id="${shopId}"]`) || document.getElementById('btn-fav-detail');
+
+    // Lấy csrf token nếu có
+    const csrfInput = document.querySelector('input[name="csrf_token"]');
+    const csrfToken = csrfInput ? csrfInput.value : '';
+
+    try {
+        const res = await fetch('api/toggle_favorite.php', {
+            method: 'POST',
+            headers: {
+                'Content-Type': 'application/x-www-form-urlencoded',
+                'X-CSRF-Token': csrfToken
+            },
+            body: `shop_id=${shopId}&csrf_token=${encodeURIComponent(csrfToken)}`
+        });
+        const data = await res.json();
+        
+        let localFavs = getLocalFavorites();
+        let isNowFav = false;
+
+        if (data.logged_in) {
+            isNowFav = Boolean(data.favorited);
+            if (isNowFav) {
+                if (!localFavs.includes(shopId)) localFavs.push(shopId);
+            } else {
+                localFavs = localFavs.filter(id => id !== shopId);
+            }
+            setLocalFavorites(localFavs);
+        } else {
+            // Khách vãng lai: toggle localStorage
+            if (localFavs.includes(shopId)) {
+                localFavs = localFavs.filter(id => id !== shopId);
+                isNowFav = false;
+            } else {
+                localFavs.push(shopId);
+                isNowFav = true;
+            }
+            setLocalFavorites(localFavs);
+        }
+
+        if (btn) btn.setAttribute('data-favorited', isNowFav ? '1' : '0');
+        if (icon) icon.textContent = isNowFav ? '❤️' : '🤍';
+        if (text) text.textContent = isNowFav ? 'Đã lưu yêu thích' : 'Lưu yêu thích';
+        
+        // Hiệu ứng nảy nhẹ khi bấm
+        if (btn) {
+            btn.style.transform = 'scale(1.25)';
+            setTimeout(() => { btn.style.transform = ''; }, 200);
+        }
+
+        // Thông báo nhẹ toast nếu chưa đăng nhập
+        if (!data.logged_in && isNowFav) {
+            showSimpleToast('❤️ Đã lưu vào mục yêu thích trình duyệt!');
+        }
+    } catch (e) {
+        // Fallback offline / network error
+        let localFavs = getLocalFavorites();
+        let isNowFav = false;
+        if (localFavs.includes(shopId)) {
+            localFavs = localFavs.filter(id => id !== shopId);
+            isNowFav = false;
+        } else {
+            localFavs.push(shopId);
+            isNowFav = true;
+        }
+        setLocalFavorites(localFavs);
+        if (icon) icon.textContent = isNowFav ? '❤️' : '🤍';
+        if (text) text.textContent = isNowFav ? 'Đã lưu yêu thích' : 'Lưu yêu thích';
+    }
+}
+
+function showSimpleToast(msg) {
+    let toast = document.getElementById('fn-simple-toast');
+    if (!toast) {
+        toast = document.createElement('div');
+        toast.id = 'fn-simple-toast';
+        toast.style.cssText = 'position:fixed;bottom:24px;left:50%;transform:translateX(-50%);background:#0f172a;color:#fff;padding:10px 18px;border-radius:24px;font-size:13px;font-weight:700;z-index:9999;box-shadow:0 4px 16px rgba(0,0,0,0.25);transition:opacity 0.3s;opacity:0;pointer-events:none;';
+        document.body.appendChild(toast);
+    }
+    toast.textContent = msg;
+    toast.style.opacity = '1';
+    setTimeout(() => { toast.style.opacity = '0'; }, 2200);
+}
+
+document.addEventListener('DOMContentLoaded', () => {
+    syncFavoritesUI();
+});
+

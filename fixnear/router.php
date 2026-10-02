@@ -2,9 +2,18 @@
 // Router an toàn cho PHP built-in server. Apache production dùng .htaccess.
 $requestPath = rawurldecode(parse_url($_SERVER['REQUEST_URI'] ?? '/', PHP_URL_PATH) ?: '/');
 $normalized = str_replace('\\', '/', $requestPath);
+$isLocalClient = in_array($_SERVER['REMOTE_ADDR'] ?? '', ['127.0.0.1', '::1', 'localhost'], true)
+    || (PHP_SAPI === 'cli-server' && in_array($_SERVER['REMOTE_ADDR'] ?? '', ['127.0.0.1', '::1', ''], true))
+    || (getenv('FIXNEAR_ENABLE_INSTALLER') === '1');
+
+$blockedFiles = ['/start_server.bat', '/pasted text.txt'];
+if (!$isLocalClient) {
+    $blockedFiles[] = '/install.php';
+}
+
 $blocked = preg_match('#^/(?:config|data|scripts|tools|outputs)(?:/|$)#i', $normalized)
     || preg_match('#/(?:\.|[^/]+\.(?:sql|log|ini|env|bak|dist|md))$#i', $normalized)
-    || in_array(strtolower($normalized), ['/install.php', '/start_server.bat', '/pasted text.txt'], true);
+    || in_array(strtolower($normalized), $blockedFiles, true);
 
 if ($blocked) {
     http_response_code(404);

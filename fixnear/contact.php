@@ -30,7 +30,8 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST' && isset($_POST['send_contact'])) {
     }
 
     if (($contactError ?? '') === '') {
-        $saved = db()->addContactMessage(compact('name', 'phone', 'email', 'type', 'message'));
+        $subject = $type;
+        $saved = db()->addContactMessage(compact('name', 'phone', 'email', 'subject', 'type', 'message'));
         $sentSuccess = $saved !== false;
         if (!$sentSuccess) $contactError = 'Không thể lưu tin nhắn lúc này. Vui lòng thử lại.';
     }

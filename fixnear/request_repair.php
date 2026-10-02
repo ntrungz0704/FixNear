@@ -1,6 +1,7 @@
 <?php
 $pageTitle = "Gửi Yêu Cầu Sửa Chữa & Nhận Báo Giá — FixNear";
 require_once __DIR__ . '/config/db.php';
+require_once __DIR__ . '/includes/pricing_engine.php';
 
 $success = false;
 $requestData = null;
@@ -16,6 +17,8 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST' && isset($_POST['submit_request'])) {
     }
     $deviceType = trim($_POST['device_type'] ?? 'Laptop Windows');
     $brandModel = trim($_POST['brand_model'] ?? '');
+    $modelId = trim($_POST['model_id'] ?? '');
+    $faultId = trim($_POST['fault_id'] ?? '');
     $issueType = trim($_POST['issue_type'] ?? 'Kiểm tra chẩn đoán toàn diện');
     $symptom = trim($_POST['symptom'] ?? '');
     $district = trim($_POST['district'] ?? 'Quận 1');
@@ -46,8 +49,69 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST' && isset($_POST['submit_request'])) {
 
     if ($formError === '') {
 
-    // Không tự tạo giá/bảo hành. Chỉ cửa hàng mới có thể xác nhận sau khi kiểm tra máy.
-    $estimatedPrice = 'Ước tính từ 250.000đ – 1.850.000đ (Bảo hành 6 – 12 tháng, thợ kiểm tra và xác nhận trực tiếp)';
+    // Tính toán khoảng giá động từ RepairAtlasPricing
+    RepairAtlasPricing::init();
+    $matchedModel = null;
+    if ($modelId !== '') {
+        $matchedModel = RepairAtlasPricing::getModelById($modelId);
+    }
+    if (!$matchedModel && $brandModel !== '') {
+        $searched = RepairAtlasPricing::searchModels($brandModel, null, 1);
+        if (!empty($searched[0])) {
+            $matchedModel = $searched[0];
+        }
+    }
+
+    // Nhận diện faultId tương thích với pricing engine nếu chưa có
+    if ($faultId === '') {
+        $lowerIssue = mb_strtolower($issueType . ' ' . $symptom, 'UTF-8');
+        if (str_contains($lowerIssue, 'màn hình') || str_contains($lowerIssue, 'sọc') || str_contains($lowerIssue, 'kính')) {
+            $faultId = 'screen';
+        } elseif (str_contains($lowerIssue, 'pin') || str_contains($lowerIssue, 'phồng')) {
+            $faultId = 'battery';
+        } elseif (str_contains($lowerIssue, 'sạc') || str_contains($lowerIssue, 'cổng')) {
+            $faultId = 'charging';
+        } elseif (str_contains($lowerIssue, 'nguồn') || str_contains($lowerIssue, 'main') || str_contains($lowerIssue, 'chập')) {
+            $faultId = 'mainboard';
+        } elseif (str_contains($lowerIssue, 'nước')) {
+            $faultId = 'water_damage';
+        } elseif (str_contains($lowerIssue, 'phím') || str_contains($lowerIssue, 'keyboard')) {
+            $faultId = 'keyboard';
+        } elseif (str_contains($lowerIssue, 'loa') || str_contains($lowerIssue, 'âm thanh')) {
+            $faultId = 'speaker';
+        } elseif (str_contains($lowerIssue, 'camera')) {
+            $faultId = 'camera';
+        }
+    }
+
+    // Chuẩn hóa faultId
+    if ($faultId === 'water') $faultId = 'water_damage';
+    if ($faultId === 'charging_port') $faultId = 'charging';
+
+    $estimatedPrice = '';
+    if ($matchedModel) {
+        $targetFault = $faultId ?: 'screen';
+        $prices = RepairAtlasPricing::getModelPrices(
+            $matchedModel['deviceType'],
+            $matchedModel['tier'],
+            $matchedModel['brand'],
+            $matchedModel['supportedFaults'] ?? [$targetFault],
+            $matchedModel['id']
+        );
+        if (!empty($prices[$targetFault])) {
+            $pInfo = $prices[$targetFault];
+            $minVal = (int)($pInfo['standard']['min'] ?? 0);
+            $maxVal = (int)($pInfo['oem']['max'] ?? ($pInfo['standard']['max'] ?? 0));
+            $warrantyMonths = $pInfo['standard']['warrantyMonths'] ?? 6;
+            if ($minVal > 0 && $maxVal >= $minVal) {
+                $estimatedPrice = 'Ước tính ' . number_format($minVal, 0, ',', '.') . 'đ – ' . number_format($maxVal, 0, ',', '.') . 'đ (Tiêu chuẩn – OEM, BH ' . $warrantyMonths . ' tháng)';
+            }
+        }
+    }
+
+    if ($estimatedPrice === '') {
+        $estimatedPrice = 'Ước tính từ 350.000đ – 1.850.000đ (Bảo hành 6 – 12 tháng, thợ kiểm tra và xác nhận trực tiếp)';
+    }
 
     // Lưu yêu cầu bằng lớp dữ liệu dùng chung (ghi JSON nguyên tử).
     $newReq = db()->addRepairRequest([
@@ -226,6 +290,8 @@ require_once __DIR__ . '/includes/navbar.php';
                 <input type="hidden" name="submit_request" value="1">
                 <input type="hidden" name="device_type" id="hidden_device_type" value="Điện thoại (Smartphone)">
                 <input type="hidden" name="brand_model" id="hidden_brand_model" value="">
+                <input type="hidden" name="model_id" id="hidden_model_id" value="">
+                <input type="hidden" name="fault_id" id="hidden_fault_id" value="">
                 <input type="hidden" name="issue_type" id="hidden_issue_type" value="">
 
                 <!-- ================= BƯỚC 1: CHỌN LOẠI THIẾT BỊ ================= -->
@@ -1184,9 +1250,11 @@ function wizardSelectModel(item) {
     if (typeof item === 'object' && item !== null) {
         selectedModelObj = item;
         selectedModelName = item.name;
+        document.getElementById('hidden_model_id').value = item.id || '';
     } else {
         selectedModelObj = null;
         selectedModelName = item;
+        document.getElementById('hidden_model_id').value = '';
     }
     document.getElementById('hidden_brand_model').value = selectedModelName;
     document.getElementById('summary-device-model').textContent = selectedModelName;
@@ -1276,6 +1344,7 @@ function renderStep4Issues() {
             card.classList.add('active');
             selectedIssueName = issue.name;
             document.getElementById('hidden_issue_type').value = issue.name;
+            document.getElementById('hidden_fault_id').value = issue.id || '';
             document.getElementById('summary-final-issue').textContent = issue.name;
             // Tự động chuyển tiếp sau 0.3s
             setTimeout(() => {

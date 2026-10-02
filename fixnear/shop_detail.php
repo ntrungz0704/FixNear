@@ -16,6 +16,9 @@ require_once __DIR__ . '/includes/navbar.php';
 $services = db()->getServicesByShop($shopId);
 $reviews = db()->getReviewsByShop($shopId);
 
+$currentUserId = isLoggedIn() ? (int)($_SESSION['user']['id'] ?? 0) : 0;
+$isFav = $currentUserId > 0 ? db()->isFavorite($currentUserId, $shopId) : false;
+
 // Thông báo thành công nếu vừa gửi review hoặc report
 $msg = $_GET['msg'] ?? '';
 ?>
@@ -116,6 +119,10 @@ $msg = $_GET['msg'] ?? '';
                     <a href="https://www.google.com/maps/dir/?api=1&destination=<?= urlencode($shop['latitude'] . ',' . $shop['longitude']) ?>" target="_blank" rel="noopener noreferrer" class="fn-btn fn-btn-secondary">
                         🗺️ Chỉ Đường
                     </a>
+                    <button type="button" id="btn-fav-detail" class="fn-btn fn-btn-secondary fn-fav-btn" data-shop-id="<?= $shopId ?>" data-favorited="<?= $isFav ? '1' : '0' ?>" onclick="toggleFavorite(event, <?= $shopId ?>)" style="background: <?= $isFav ? '#fef2f2' : '#ffffff' ?>; color: <?= $isFav ? '#dc2626' : '#1e293b' ?>; border-color: <?= $isFav ? '#fca5a5' : 'var(--fn-border)' ?>; font-weight: 700; display: inline-flex; align-items: center; gap: 6px;">
+                        <span id="fav-icon-<?= $shopId ?>"><?= $isFav ? '❤️' : '🤍' ?></span>
+                        <span id="fav-text-<?= $shopId ?>"><?= $isFav ? 'Đã lưu yêu thích' : 'Lưu yêu thích' ?></span>
+                    </button>
                     <button type="button" class="fn-btn fn-btn-secondary fn-open-report-btn" data-shop-id="<?= $shop['id'] ?>" data-shop-name="<?= htmlspecialchars($shop['name']) ?>">
                         🚩 Báo sai
                     </button>

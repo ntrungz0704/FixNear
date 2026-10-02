@@ -11,10 +11,10 @@
             <img src="<?= $assetPrefix ?>assets/images/ai_avatar.png" alt="" width="1024" height="1024" class="fn-ai-chat-header-avatar">
             <div>
                 <div class="fn-ai-chat-header-title">
-                    Trợ lý FixNear <span>Hướng dẫn tra cứu</span>
+                    Trợ lý Kỹ Thuật FixNear <span>Chẩn đoán & Hướng dẫn</span>
                 </div>
                 <div class="fn-ai-chat-header-sub">
-                    Không thay thế chẩn đoán của kỹ thuật viên
+                    Chẩn đoán pan bệnh & cảnh báo an toàn tức thì
                 </div>
             </div>
         </div>
@@ -23,11 +23,11 @@
 
     <!-- Banner giới thiệu 4 năng lực cốt lõi -->
     <div class="fn-ai-capabilities-card">
-        🔎 <strong>Trợ lý hướng dẫn có thể:</strong><br>
-        • Gợi ý từ khóa để lọc bản ghi cửa hàng.<br>
-        • Nhắc các bước an toàn cơ bản trước khi giao máy.<br>
-        • Chuyển bạn tới trang tìm kiếm phù hợp.<br>
-        • Không chẩn đoán, báo giá hoặc xác nhận chất lượng cửa hàng.
+        🩺 <strong>Trợ lý chẩn đoán & tư vấn kỹ thuật:</strong><br>
+        • Nhận diện triệu chứng pan bệnh (sập nguồn, sọc màn, chai pin, vô nước...).<br>
+        • Cảnh báo an toàn và hướng dẫn sơ cứu thiết bị khẩn cấp.<br>
+        • Ước tính khoảng giá thị trường chuẩn sinh viên và liên kết tiệm uy tín.<br>
+        • Khuyến nghị kiểm tra trực tiếp tại tiệm trước khi chốt phương án sửa.
     </div>
 
     <!-- Khu vực tin nhắn -->

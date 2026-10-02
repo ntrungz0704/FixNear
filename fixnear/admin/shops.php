@@ -46,6 +46,9 @@ require_once __DIR__ . '/../includes/navbar.php';
         <a href="reports.php" class="fn-admin-menu-item">
             🚩 Báo cáo sai sót
         </a>
+        <a href="contacts.php" class="fn-admin-menu-item">
+            💬 Tin nhắn liên hệ
+        </a>
         <div style="margin-top: auto; padding-top: 20px; border-top: 1px solid var(--fn-border);">
             <a href="../index.php" class="fn-btn fn-btn-secondary fn-btn-sm" style="width: 100%;">
                 &larr; Xem giao diện web

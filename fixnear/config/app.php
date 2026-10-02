@@ -29,11 +29,13 @@ define('FIXNEAR_IS_PRODUCTION', FIXNEAR_ENV === 'production');
 define('FIXNEAR_DATA_DIR', rtrim((string) fixnearConfig('FIXNEAR_DATA_DIR', 'data_dir', dirname(__DIR__) . '/data'), "/\\") . DIRECTORY_SEPARATOR);
 
 // Cấu hình kết nối Cơ sở dữ liệu MySQL (Chuẩn XAMPP / Laragon)
+define('ENABLE_MYSQL', (bool) fixnearConfig('ENABLE_MYSQL', 'enable_mysql', true));
 define('DB_HOST', (string) fixnearConfig('DB_HOST', 'db_host', '127.0.0.1'));
 define('DB_PORT', (int) fixnearConfig('DB_PORT', 'db_port', 3306));
 define('DB_NAME', (string) fixnearConfig('DB_NAME', 'db_name', 'fixnear_db'));
 define('DB_USER', (string) fixnearConfig('DB_USER', 'db_user', 'root'));
 define('DB_PASS', (string) fixnearConfig('DB_PASS', 'db_pass', ''));
+define('DB_TIMEOUT', (int) fixnearConfig('DB_TIMEOUT', 'db_timeout', 1));
 
 date_default_timezone_set((string) fixnearConfig('FIXNEAR_TIMEZONE', 'timezone', 'Asia/Ho_Chi_Minh'));
 error_reporting(E_ALL);
