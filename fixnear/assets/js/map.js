@@ -22,13 +22,14 @@ function safeMapUrl(value) {
     }
 }
 
-function initFixnearMap(shopsData, defaultCenter = [10.7769, 106.7009], userLocation = null) {
+function initFixnearMap(shopsData, defaultCenter = [10.7769, 106.7009], userLocation = null, defaultZoom = 12) {
     const mapContainer = document.getElementById('leaflet-map');
     if (!mapContainer) return;
 
-    // Khởi tạo bản đồ (mặc định tại Trung tâm TP.HCM)
-    const center = userLocation ? [userLocation.lat, userLocation.lng] : defaultCenter;
-    fixnearMap = L.map('leaflet-map').setView(center, 12);
+    // Ưu tiên defaultCenter nếu truyền vào, sau đó tới userLocation, cuối cùng là tâm TP.HCM
+    const center = defaultCenter || (userLocation ? [userLocation.lat, userLocation.lng] : [10.7769, 106.7009]);
+    const zoom = defaultZoom || 12;
+    fixnearMap = L.map('leaflet-map').setView(center, zoom);
 
     // Sử dụng lớp bản đồ OpenStreetMap miễn phí chất lượng cao
     L.tileLayer('https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png', {
@@ -52,8 +53,7 @@ function initFixnearMap(shopsData, defaultCenter = [10.7769, 106.7009], userLoca
         const locTitle = escapeMapText(userLocation.name || 'Vị trí của bạn');
         userMarker = L.marker([userLocation.lat, userLocation.lng], { icon: userIcon })
             .addTo(fixnearMap)
-            .bindPopup(`<b>📍 ${locTitle}</b><br>Đang tính khoảng cách từ đây.`)
-            .openPopup();
+            .bindPopup(`<b>📍 ${locTitle}</b><br>Đang tính khoảng cách từ đây.`);
     } else {
         // Đánh dấu mốc trung tâm TP.HCM
         const defaultPinIcon = L.divIcon({

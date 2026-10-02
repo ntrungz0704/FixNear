@@ -1095,6 +1095,27 @@ function renderRepairCards(devType) {
     `).join('');
 }
 
+const SERVICE_TO_FAULT_MAP = {
+    1: 'screen',
+    2: 'glass-press',
+    3: 'battery',
+    4: 'charging-port',
+    5: 'water-damage',
+    6: 'mainboard',
+    7: 'camera',
+    8: 'speaker',
+    9: 'mic',
+    10: 'keyboard',
+    11: 'trackpad',
+    12: 'hinge',
+    13: 'ssd-upgrade',
+    14: 'ram-upgrade',
+    15: 'thermal-cleaning',
+    16: 'software',
+    17: 'data-recovery',
+    18: 'general-check'
+};
+
 function selectRepairIssue(serviceId, issueTitle) {
     currentWizardState.serviceId = serviceId;
     currentWizardState.issueName = issueTitle;
@@ -1106,7 +1127,12 @@ function selectRepairIssue(serviceId, issueTitle) {
     if (serviceId && serviceId > 0) params.set('service_id', serviceId);
     if (issueTitle) params.set('issue_name', issueTitle);
 
-    window.location.href = 'search.php?' + params.toString();
+    const faultId = SERVICE_TO_FAULT_MAP[serviceId] || '';
+    if (faultId) params.set('fault_id', faultId);
+
+    // Điều hướng thẳng sang RESULT PAGE (shops.php - Danh sách cửa hàng trước),
+    // Tuyệt đối không mở bản đồ full-screen ngay sau khi chọn lỗi
+    window.location.href = 'shops.php?' + params.toString();
 }
 
 // ================= 2. LIVE TICKER SOCIAL PROOF =================
@@ -1200,47 +1226,49 @@ function openLocationModal() {
 }
 
 function selectCustomLocation(lat, lng, name) {
-    localStorage.setItem('fixnear_user_lat', lat);
-    localStorage.setItem('fixnear_user_lng', lng);
-    localStorage.setItem('fixnear_loc_name', name);
-    sessionStorage.setItem('fixnear_session_located', '1');
-    
-    // Lưu cookie để PHP backend tự động đọc
-    document.cookie = `fixnear_lat=${lat}; path=/; max-age=86400`;
-    document.cookie = `fixnear_lng=${lng}; path=/; max-age=86400`;
-    document.cookie = `fixnear_loc=${encodeURIComponent(name)}; path=/; max-age=86400`;
+    if (window.FixNearLocation) {
+        window.FixNearLocation.setDistrict(lat, lng, name);
+    } else {
+        localStorage.setItem('fixnear_user_lat', lat);
+        localStorage.setItem('fixnear_user_lng', lng);
+        localStorage.setItem('fixnear_loc_name', name);
+        document.cookie = `fixnear_lat=${lat}; path=/; max-age=86400`;
+        document.cookie = `fixnear_lng=${lng}; path=/; max-age=86400`;
+        document.cookie = `fixnear_loc=${encodeURIComponent(name)}; path=/; max-age=86400`;
+    }
 
     const locModal = document.getElementById('fn-location-modal');
-    if (locModal) locModal.classList.remove('active');
+    if (locModal) {
+        locModal.classList.remove('active');
+        document.body.style.overflow = '';
+    }
 
-    // Cập nhật tham số URL sạch sẽ và reload mà KHÔNG nhảy hash cuộn trang
-    let url = new URL(window.location.href);
-    url.searchParams.set('user_lat', lat);
-    url.searchParams.set('user_lng', lng);
-    url.searchParams.set('loc_name', name);
-    url.hash = ''; // Xóa triệt để hash, giữ người dùng ở nguyên vị trí xem trang
-    window.location.href = url.toString();
+    // Làm sạch URL và reload để server render lại kết quả với vị trí mới
+    if (window.FixNearLocation) {
+        window.FixNearLocation.cleanUrlGPS();
+    }
+    window.location.reload();
 }
 
 function toggleGPS() {
-    const lat = localStorage.getItem('fixnear_user_lat');
-    if (lat) {
-        // Reset GPS
-        localStorage.removeItem('fixnear_user_lat');
-        localStorage.removeItem('fixnear_user_lng');
-        localStorage.removeItem('fixnear_loc_name');
-        document.cookie = "fixnear_lat=; path=/; max-age=0";
-        document.cookie = "fixnear_lng=; path=/; max-age=0";
-        document.cookie = "fixnear_loc=; path=/; max-age=0";
-        
-        let url = new URL(window.location.href);
-        url.searchParams.delete('user_lat');
-        url.searchParams.delete('user_lng');
-        url.searchParams.delete('loc_name');
-        window.location.href = url.toString();
+    const hasLocation = window.FixNearLocation ? window.FixNearLocation.hasLocation() : !!localStorage.getItem('fixnear_user_lat');
+    if (hasLocation) {
+        // Tắt vị trí / Reset GPS
+        if (window.FixNearLocation) {
+            window.FixNearLocation.clear();
+            window.FixNearLocation.cleanUrlGPS();
+        } else {
+            localStorage.removeItem('fixnear_user_lat');
+            localStorage.removeItem('fixnear_user_lng');
+            localStorage.removeItem('fixnear_loc_name');
+            document.cookie = "fixnear_lat=; path=/; max-age=0";
+            document.cookie = "fixnear_lng=; path=/; max-age=0";
+            document.cookie = "fixnear_loc=; path=/; max-age=0";
+        }
+        window.location.reload();
     } else {
-        // Trigger GPS
-        triggerDeviceGPS(document.getElementById('fn-gps-toggle-btn'));
+        // Kích hoạt nhận vị trí
+        triggerDeviceGPS(document.getElementById('fn-gps-toggle-btn') || document.getElementById('fn-main-gps-btn'));
     }
 }
 
@@ -1255,50 +1283,80 @@ function triggerDeviceGPS(btn) {
         btn.style.opacity = '0.85';
     }
 
-    navigator.geolocation.getCurrentPosition(
-        (pos) => {
-            const lat = pos.coords.latitude;
-            const lng = pos.coords.longitude;
-            if (btn) {
-                btn.innerHTML = '✓ Đã nhận GPS! Đang cập nhật tiệm gần bạn...';
-                btn.style.background = '#16a34a';
+    if (window.FixNearLocation) {
+        window.FixNearLocation.requestGPS(
+            (locData) => {
+                if (btn) {
+                    btn.innerHTML = '✓ Đã nhận GPS! Đang cập nhật...';
+                    btn.style.background = '#16a34a';
+                }
+                setTimeout(() => {
+                    window.FixNearLocation.cleanUrlGPS();
+                    window.location.reload();
+                }, 400);
+            },
+            (err) => {
+                if (btn) {
+                    btn.innerHTML = '⚠️ Chưa nhận được GPS. Vui lòng bấm chọn 1 Quận bạn đang ở bên dưới ⬇';
+                    btn.style.background = '#dc2626';
+                    btn.style.opacity = '1';
+                }
             }
-            setTimeout(() => {
-                selectCustomLocation(lat, lng, 'Vị trí GPS của bạn');
-            }, 400);
-        },
-        (err) => {
-            if (btn) {
-                btn.innerHTML = '⚠️ Chưa nhận được GPS. Vui lòng bấm chọn 1 Quận bạn đang ở bên dưới ⬇';
-                btn.style.background = '#dc2626';
-            }
-        },
-        { timeout: 9000, enableHighAccuracy: true }
-    );
+        );
+    } else {
+        navigator.geolocation.getCurrentPosition(
+            (pos) => {
+                const lat = pos.coords.latitude;
+                const lng = pos.coords.longitude;
+                if (btn) {
+                    btn.innerHTML = '✓ Đã nhận GPS! Đang cập nhật tiệm gần bạn...';
+                    btn.style.background = '#16a34a';
+                }
+                setTimeout(() => {
+                    selectCustomLocation(lat, lng, 'Vị trí GPS của bạn');
+                }, 400);
+            },
+            (err) => {
+                if (btn) {
+                    btn.innerHTML = '⚠️ Chưa nhận được GPS. Vui lòng bấm chọn 1 Quận bạn đang ở bên dưới ⬇';
+                    btn.style.background = '#dc2626';
+                    btn.style.opacity = '1';
+                }
+            },
+            { timeout: 9000, enableHighAccuracy: true }
+        );
+    }
 }
 
-// ================= 5. KIỂM TRA ĐỊNH VỊ THÔNG MINH (CHƯA BẬT THÌ HỎI, BẬT RỒI THÌ KHÔNG HỎI) =================
+// ================= 5. KIỂM TRA ĐỊNH VỊ THÔNG MINH (CHƯA BẬT THÌ HỎI 1 LẦN DUY NHẤT, BẬT RỒI KHÔNG HỎI) =================
 function checkSmartLocationOnEntry() {
-    const hasStoredLat = localStorage.getItem('fixnear_user_lat') || 
-                        (document.cookie.includes('fixnear_lat=') && !document.cookie.includes('fixnear_lat=;'));
+    const hasLocation = window.FixNearLocation ? window.FixNearLocation.hasLocation() : (localStorage.getItem('fixnear_user_lat') || (document.cookie.includes('fixnear_lat=') && !document.cookie.includes('fixnear_lat=;')));
     
-    if (hasStoredLat) {
+    // Nếu đã có vị trí -> TUYỆT ĐỐI không bật modal
+    if (hasLocation) {
         return;
     }
 
+    // Không bật modal trên các trang admin, login, register, request_repair, contact
     const p = window.location.pathname;
-    if (p.includes('/admin') || p.includes('login.php') || p.includes('register.php')) {
+    if (p.includes('/admin') || p.includes('login.php') || p.includes('register.php') || p.includes('request_repair.php') || p.includes('contact.php')) {
         return;
     }
 
-    // Always ask if location not granted - no session dismissal
+    // Kiểm tra nếu trong phiên này người dùng đã bấm đóng modal hoặc từ chối thì không hỏi lại liên tục
+    if (sessionStorage.getItem('fixnear_loc_prompt_dismissed')) {
+        return;
+    }
+
+    // Chỉ gợi ý nhẹ sau khi người dùng vào trang chủ lần đầu
     setTimeout(() => {
         const locModal = document.getElementById('fn-location-modal');
-        if (locModal) {
+        if (locModal && !hasLocation) {
             locModal.classList.add('active');
             document.body.style.overflow = 'hidden';
+            sessionStorage.setItem('fixnear_loc_prompt_dismissed', '1');
         }
-    }, 1200);
+    }, 1500);
 }
 
 // ================= 6. BANNER QUẢNG CÁO XUẤT HIỆN SAU 3S =================

@@ -5,10 +5,11 @@ require_once __DIR__ . '/includes/navbar.php';
 
 $stats = db()->getStats();
 
-// Nhận diện tọa độ vị trí thực tế của người dùng từ GET hoặc Cookie
-$user_lat = $_GET['user_lat'] ?? ($_COOKIE['fixnear_lat'] ?? null);
-$user_lng = $_GET['user_lng'] ?? ($_COOKIE['fixnear_lng'] ?? null);
-$loc_name = $_GET['loc_name'] ?? ($_COOKIE['fixnear_loc'] ?? null);
+// Nhận diện tọa độ vị trí thực tế của người dùng từ Session, URL hoặc Cookie
+$userLoc = getUserLocation();
+$user_lat = $userLoc['lat'] ?? null;
+$user_lng = $userLoc['lng'] ?? null;
+$loc_name = $userLoc['name'] ?? null;
 
 if (!empty($user_lat) && !empty($user_lng)) {
     $featuredShops = db()->getShops(['user_lat' => (float)$user_lat, 'user_lng' => (float)$user_lng]);
@@ -34,17 +35,23 @@ $featuredShops = array_slice($featuredShops, 0, 6);
 
 <!-- Hero Section -->
 <section class="fn-hero">
-    <div class="fn-hero-badge" style="display: inline-flex; align-items: center; gap: 10px; flex-wrap: wrap; justify-content: center;">
+    <div class="fn-hero-badge" style="display: inline-flex; align-items: center; gap: 8px; flex-wrap: wrap; justify-content: center;">
         <span>⚡ Nền Tảng Tra Cứu Thông Tin Sửa Chữa Tại TP.HCM</span>
         <?php if ($isLocated): ?>
-        <button type="button" onclick="toggleGPS()" id="fn-gps-toggle-btn" style="display: inline-flex; align-items: center; gap: 6px; background: #dcfce7; border: 1px solid #16a34a; color: #16a34a; padding: 3px 12px; border-radius: 20px; font-size: 12px; font-weight: 700; cursor: pointer;" title="Nhấn để tắt GPS">
-            <span id="fn-gps-status-text">📍 GPS đã bật</span>
+        <button type="button" onclick="toggleGPS()" id="fn-gps-toggle-btn" style="display: inline-flex; align-items: center; gap: 6px; background: #dcfce7; border: 1px solid #16a34a; color: #16a34a; padding: 4px 12px; border-radius: 20px; font-size: 12px; font-weight: 700; cursor: pointer;" title="Nhấn để tắt GPS">
+            <span id="fn-gps-status-text">📍 <?= htmlspecialchars($locDisplay) ?></span>
             <span style="font-size: 11px; text-decoration: underline;">[Tắt ✕]</span>
         </button>
+        <button type="button" onclick="openLocationModal()" style="display: inline-flex; align-items: center; gap: 4px; background: #ffffff; border: 1px solid #cbd5e1; color: #334155; padding: 4px 10px; border-radius: 20px; font-size: 11.5px; font-weight: 700; cursor: pointer;" title="Đổi khu vực hoặc cập nhật tọa độ">
+            ⚙️ Đổi vị trí
+        </button>
         <?php else: ?>
-        <button type="button" onclick="toggleGPS()" id="fn-gps-toggle-btn" style="display: inline-flex; align-items: center; gap: 6px; background: #f3f4f6; border: 1px solid #d1d5db; color: #6b7280; padding: 3px 12px; border-radius: 20px; font-size: 12px; font-weight: 700; cursor: pointer;" title="Nhấn để bật GPS">
+        <button type="button" onclick="toggleGPS()" id="fn-gps-toggle-btn" style="display: inline-flex; align-items: center; gap: 6px; background: #f3f4f6; border: 1px solid #d1d5db; color: #6b7280; padding: 4px 12px; border-radius: 20px; font-size: 12px; font-weight: 700; cursor: pointer;" title="Nhấn để bật GPS">
             <span id="fn-gps-status-text">📍 Chưa bật GPS</span>
             <span style="font-size: 11px; text-decoration: underline;">[Bật ⚙️]</span>
+        </button>
+        <button type="button" onclick="openLocationModal()" style="display: inline-flex; align-items: center; gap: 4px; background: #fff7ed; border: 1px solid #fed7aa; color: #ea580c; padding: 4px 10px; border-radius: 20px; font-size: 11.5px; font-weight: 700; cursor: pointer;" title="Chọn nhanh quận bạn đang ở">
+            🏙️ Chọn quận
         </button>
         <?php endif; ?>
     </div>
@@ -268,9 +275,14 @@ $featuredShops = array_slice($featuredShops, 0, 6);
         </div>
         <h2 class="fn-section-title" style="margin: 4px 0 8px; text-align: center; font-size: 28px;">📍 <?= $isLocated ? 'Cửa Hàng Theo Khoảng Cách' : 'Cửa Hàng Trong Danh Mục' ?></h2>
         <p class="fn-section-desc" style="text-align: center; margin: 0 0 16px 0; max-width: 620px; font-size: 14.5px;"><?= $isLocated ? 'Khoảng cách được tính từ vị trí bạn đã cung cấp.' : 'Bật GPS hoặc chọn khu vực thủ công để xem khoảng cách phù hợp; danh sách hiện tại chưa được xếp theo vị trí của bạn.' ?></p>
-        <a href="search.php<?= !empty($user_lat) ? '?user_lat=' . $user_lat . '&user_lng=' . $user_lng . '&loc_name=' . urlencode($locDisplay) : '' ?>" class="fn-btn fn-btn-secondary fn-btn-sm" style="display: inline-flex; align-items: center; gap: 8px; padding: 9px 20px; font-weight: 800;">
-            <span>🗺️ Xem tất cả <?= (int)$stats['total_shops'] ?> cửa hàng trên bản đồ</span> <span>➔</span>
-        </a>
+        <div style="display: flex; gap: 12px; flex-wrap: wrap; justify-content: center;">
+            <a href="shops.php" class="fn-btn fn-btn-primary fn-btn-sm" style="display: inline-flex; align-items: center; gap: 8px; padding: 10px 22px; font-weight: 800;">
+                <span>📋 Xem danh sách <?= (int)$stats['total_shops'] ?> cửa hàng</span> <span>➔</span>
+            </a>
+            <a href="map.php" class="fn-btn fn-btn-secondary fn-btn-sm" style="display: inline-flex; align-items: center; gap: 8px; padding: 10px 20px; font-weight: 700;">
+                <span>🗺️ Xem trên bản đồ số</span>
+            </a>
+        </div>
     </div>
 
     <div class="fn-shops-grid">

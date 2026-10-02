@@ -26,6 +26,11 @@ if ($normalized === '/' || is_file($candidate)) {
     return false;
 }
 
+if (is_file($candidate . '.php')) {
+    require $candidate . '.php';
+    exit;
+}
+
 if (is_dir($candidate) && is_file(rtrim($candidate, '/') . '/index.php')) {
     if (!str_ends_with($requestPath, '/')) {
         header('Location: ' . $requestPath . '/', true, 301);

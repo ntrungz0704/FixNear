@@ -2,10 +2,13 @@
 require_once __DIR__ . '/config/db.php';
 
 $shopId = (int)($_GET['id'] ?? 0);
-$shop = db()->getShopById($shopId);
+$userLoc = getUserLocation();
+$user_lat = $userLoc['lat'] ?? null;
+$user_lng = $userLoc['lng'] ?? null;
+$shop = db()->getShopById($shopId, $user_lat, $user_lng);
 
 if (!$shop) {
-    header("Location: search.php");
+    header("Location: shops.php");
     exit;
 }
 
@@ -26,13 +29,13 @@ $msg = $_GET['msg'] ?? '';
 <div class="fn-container" style="padding-top: 20px;">
     <!-- Nút trở lại & Breadcrumbs -->
     <div style="display: flex; align-items: center; justify-content: space-between; margin-bottom: 20px; flex-wrap: wrap; gap: 12px;">
-        <a href="search.php" style="display: inline-flex; align-items: center; gap: 8px; color: #1e293b; font-size: 13.5px; font-weight: 800; text-decoration: none; padding: 8px 14px; background: #ffffff; border: 1.5px solid #cbd5e1; border-radius: 8px; transition: color 0.2s, background-color 0.2s, border-color 0.2s, box-shadow 0.2s, transform 0.2s, opacity 0.2s; box-shadow: 0 1px 4px rgba(0,0,0,0.04);">
+        <a href="shops.php" style="display: inline-flex; align-items: center; gap: 8px; color: #1e293b; font-size: 13.5px; font-weight: 800; text-decoration: none; padding: 8px 14px; background: #ffffff; border: 1.5px solid #cbd5e1; border-radius: 8px; transition: color 0.2s, background-color 0.2s, border-color 0.2s, box-shadow 0.2s, transform 0.2s, opacity 0.2s; box-shadow: 0 1px 4px rgba(0,0,0,0.04);">
             <span style="font-size: 16px; color: #ea580c; font-weight: 900;">←</span>
-            <span>Trở lại tìm kiếm</span>
+            <span>Trở lại danh sách cửa hàng</span>
         </a>
         <div style="font-size: 13px; color: var(--fn-text-light);">
             <a href="index.php" style="color: var(--fn-dark-muted);">Trang chủ</a> &rsaquo;
-            <a href="search.php" style="color: var(--fn-dark-muted);">Cửa hàng</a> &rsaquo;
+            <a href="shops.php" style="color: var(--fn-dark-muted);">Cửa hàng</a> &rsaquo;
             <span style="color: var(--fn-dark); font-weight: 700;"><?= htmlspecialchars($shop['name']) ?></span>
         </div>
     </div>
@@ -105,8 +108,11 @@ $msg = $_GET['msg'] ?? '';
                 </div>
 
                 <div style="display: flex; gap: 10px; flex-wrap: wrap; margin-top: 18px;">
-                    <a href="<?= htmlspecialchars($shop['map_url']) ?>" target="_blank" rel="noopener noreferrer" class="fn-btn fn-btn-primary" style="box-shadow: 0 4px 14px rgba(234, 88, 12, 0.3);">
-                        ⭐ Mở Google Maps để xem điểm hiện tại ↗
+                    <a href="map.php?shop_id=<?= $shop['id'] ?>" class="fn-btn fn-btn-primary" style="display: inline-flex; align-items: center; gap: 6px; box-shadow: 0 4px 14px rgba(234, 88, 12, 0.3);">
+                        🗺️ Xem trên bản đồ FixNear ➔
+                    </a>
+                    <a href="<?= htmlspecialchars($shop['map_url'] ?: ('https://www.google.com/maps/dir/?api=1&destination=' . urlencode($shop['latitude'] . ',' . $shop['longitude']))) ?>" target="_blank" rel="noopener noreferrer" class="fn-btn fn-btn-secondary" style="display: inline-flex; align-items: center; gap: 6px; font-weight: 700;">
+                        ⭐ Mở Google Maps ↗
                     </a>
                     <?php if (!empty($shop['website'])): ?>
                         <a href="<?= htmlspecialchars($shop['website']) ?>" target="_blank" rel="noopener noreferrer" class="fn-btn fn-btn-secondary" style="background: #eff6ff; color: #1d4ed8; border-color: #bfdbfe; font-weight: 700;">

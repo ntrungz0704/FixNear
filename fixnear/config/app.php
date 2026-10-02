@@ -102,3 +102,52 @@ function enforceRateLimit(string $key, int $limit, int $windowSeconds): bool
     $_SESSION[$bucketKey] = $attempts;
     return true;
 }
+
+/**
+ * Lấy trạng thái vị trí người dùng đã lưu từ Session hoặc URL/Cookie dự phòng
+ */
+function getUserLocation(): ?array
+{
+    if (!empty($_SESSION['fixnear_location']['lat']) && !empty($_SESSION['fixnear_location']['lng'])) {
+        return $_SESSION['fixnear_location'];
+    }
+
+    // Fallback 1: Nhận từ query parameter URL (chuyển tiếp context)
+    if (!empty($_GET['user_lat']) && !empty($_GET['user_lng']) && is_numeric($_GET['user_lat']) && is_numeric($_GET['user_lng'])) {
+        $lat = (float)$_GET['user_lat'];
+        $lng = (float)$_GET['user_lng'];
+        if ($lat >= -90.0 && $lat <= 90.0 && $lng >= -180.0 && $lng <= 180.0) {
+            $loc = [
+                'lat' => $lat,
+                'lng' => $lng,
+                'name' => trim((string)($_GET['loc_name'] ?? 'Vị trí GPS của bạn')),
+                'source' => 'url',
+                'status' => 'granted',
+                'timestamp' => time()
+            ];
+            $_SESSION['fixnear_location'] = $loc;
+            return $loc;
+        }
+    }
+
+    // Fallback 2: Nhận từ Cookie trình duyệt đã lưu trước đó
+    if (!empty($_COOKIE['fixnear_lat']) && !empty($_COOKIE['fixnear_lng']) && is_numeric($_COOKIE['fixnear_lat']) && is_numeric($_COOKIE['fixnear_lng'])) {
+        $lat = (float)$_COOKIE['fixnear_lat'];
+        $lng = (float)$_COOKIE['fixnear_lng'];
+        if ($lat >= -90.0 && $lat <= 90.0 && $lng >= -180.0 && $lng <= 180.0) {
+            $loc = [
+                'lat' => $lat,
+                'lng' => $lng,
+                'name' => trim((string)rawurldecode($_COOKIE['fixnear_loc'] ?? 'Vị trí đã lưu')),
+                'source' => 'cookie',
+                'status' => 'granted',
+                'timestamp' => time()
+            ];
+            $_SESSION['fixnear_location'] = $loc;
+            return $loc;
+        }
+    }
+
+    return null;
+}
+

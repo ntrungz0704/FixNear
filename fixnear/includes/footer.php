@@ -363,6 +363,7 @@ document.querySelectorAll('footer a[href], #fn-promo-modal a[href], #fn-verifica
 <script src="https://unpkg.com/leaflet@1.9.4/dist/leaflet.js" integrity="sha256-20nQCchB9co0qIjJZRGuk2/Z9VM+kNiyxNV1lvTlZBo=" crossorigin=""></script>
 
 <!-- Project Scripts -->
+<script src="<?= $assetPrefix ?>assets/js/location-manager.js?v=<?= filemtime(__DIR__ . '/../assets/js/location-manager.js') ?>"></script>
 <script src="<?= $assetPrefix ?>assets/js/main.js?v=<?= filemtime(__DIR__ . '/../assets/js/main.js') ?>"></script>
 <script src="<?= $assetPrefix ?>assets/js/map.js?v=<?= filemtime(__DIR__ . '/../assets/js/map.js') ?>"></script>
 <script src="<?= $assetPrefix ?>assets/js/chatbot.js?v=<?= filemtime(__DIR__ . '/../assets/js/chatbot.js') ?>"></script>

@@ -12,10 +12,11 @@ $issue_name = $_GET['issue_name'] ?? '';
 $district = $_GET['district'] ?? '';
 $ward = $_GET['ward'] ?? '';
 $keyword = $_GET['keyword'] ?? '';
-$user_lat = $_GET['user_lat'] ?? ($_COOKIE['fixnear_lat'] ?? '');
-$user_lng = $_GET['user_lng'] ?? ($_COOKIE['fixnear_lng'] ?? '');
+$userLoc = getUserLocation();
+$user_lat = $userLoc['lat'] ?? null;
+$user_lng = $userLoc['lng'] ?? null;
+$loc_name = $userLoc['name'] ?? null;
 $radius_km = $_GET['radius_km'] ?? '';
-$loc_name = $_GET['loc_name'] ?? ($_COOKIE['fixnear_loc'] ?? '');
 
 $currentService = null;
 if (!empty($service_id)) {
