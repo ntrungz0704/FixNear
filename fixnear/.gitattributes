@@ -1,0 +1,3 @@
+# Keep third-party logo bytes identical to the audited SHA-256 manifest.
+assets/images/brands/*.svg -text
+public/assets/images/brands/*.svg -text

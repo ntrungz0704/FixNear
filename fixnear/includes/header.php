@@ -1,5 +1,6 @@
 <?php
 require_once __DIR__ . '/../config/db.php';
+require_once __DIR__ . '/brand_assets.php';
 $currentUser = currentUser();
 $assetPrefix = str_contains(str_replace('\\', '/', $_SERVER['PHP_SELF'] ?? ''), '/admin/') ? '../' : '';
 ?>
@@ -33,6 +34,7 @@ $assetPrefix = str_contains(str_replace('\\', '/', $_SERVER['PHP_SELF'] ?? ''), 
     
     <!-- Custom Style -->
     <link rel="stylesheet" href="<?= $assetPrefix ?>assets/css/style.css?v=<?= filemtime(__DIR__ . '/../assets/css/style.css') ?>">
+    <script>window.FIXNEAR_BRAND_ASSETS = <?= json_encode(fixnearBrandAssetMap(), JSON_HEX_TAG | JSON_HEX_AMP | JSON_HEX_APOS | JSON_HEX_QUOT | JSON_UNESCAPED_SLASHES) ?>;</script>
     <?php foreach (($pageStyles ?? []) as $pageStyle): ?>
         <?php if (is_string($pageStyle) && preg_match('#^assets/css/[a-z0-9_-]+\.css$#', $pageStyle)): ?>
             <link rel="stylesheet" href="<?= $assetPrefix . htmlspecialchars($pageStyle) ?>?v=<?= filemtime(__DIR__ . '/../' . $pageStyle) ?>">

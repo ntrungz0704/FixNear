@@ -1384,6 +1384,22 @@ class FixNearDB {
         ];
     }
 
+    /** Counts shown to visitors must match the shops they can actually open. */
+    public function getPublicStats(): array {
+        $stats = $this->getStats();
+        $shops = $this->getShops();
+        $districts = [];
+        foreach ($shops as $shop) {
+            $district = trim((string)($shop['district'] ?? ''));
+            if ($district !== '') {
+                $districts[mb_strtolower($district, 'UTF-8')] = true;
+            }
+        }
+        $stats['total_shops'] = count($shops);
+        $stats['total_districts'] = count($districts);
+        return $stats;
+    }
+
     // Công thức tính khoảng cách Haversine (km)
     public function calculateDistance($lat1, $lon1, $lat2, $lon2) {
         $earth_radius = 6371; // km

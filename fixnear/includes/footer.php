@@ -1,5 +1,5 @@
 </div><!-- /#fn-main-content -->
-<?php $footerStats = db()->getStats(); ?>
+<?php $footerStats = db()->getPublicStats(); ?>
 <?php if (isAdmin() && str_starts_with(parse_url($_SERVER['REQUEST_URI'] ?? '', PHP_URL_PATH) ?: '', '/admin/')): ?>
     <div id="fn-admin-live-status" class="fn-admin-live-status" role="status" aria-live="polite">Đang kiểm tra cập nhật quản trị…</div>
     <script defer src="<?= $assetPrefix ?>assets/js/admin-live.js"></script>

@@ -21,282 +21,228 @@ const FIXNEAR_BRANDS = {
         {
             id: "apple",
             name: "Apple",
-            logo: `<div class="fn-brand-badge" style="background:#0f172a;"><svg viewBox="0 0 170 170" width="24" height="24" fill="#ffffff"><path d="M150.37 130.25c-2.45 5.66-5.35 10.87-8.71 15.66-4.58 6.53-8.33 11.05-11.22 13.56-4.48 4.12-9.28 6.23-14.42 6.35-3.69 0-8.14-1.05-13.32-3.18-5.19-2.12-9.97-3.17-14.34-3.17-4.58 0-9.49 1.05-14.75 3.17-5.26 2.13-9.5 3.24-12.74 3.35-4.35.13-9.16-1.9-14.42-6.08-3.69-3.04-7.67-7.81-11.96-14.34-5.67-8.6-10.15-18.49-13.43-29.68-3.28-11.18-4.92-21.84-4.92-31.97 0-14.35 3.63-26.06 10.88-35.13 7.25-9.08 16.32-13.73 27.22-13.97 5.1 0 10.63 1.48 16.6 4.44 5.97 2.95 10.05 4.49 12.23 4.62 1.95 0 6.24-1.63 12.87-4.9 6.63-3.26 12.37-4.66 17.21-4.18 13.06.98 23.41 5.75 31.06 14.32-11.53 6.96-17.18 16.64-16.94 29.04.24 9.9 4.13 18.23 11.66 24.99 7.53 6.75 16.51 10.62 26.94 11.6-2.52 7.62-5.46 15.02-8.81 22.21zM119.22 33.15c0-7.39 2.68-14.28 8.04-20.67 5.36-6.39 12.01-10.45 19.95-12.18.33 1.2.49 2.29.49 3.28 0 7.39-2.79 14.33-8.36 20.83-5.57 6.5-12.39 10.46-20.45 11.89-.11-1.09-.17-2.17-.17-3.15z"/></svg></div>`
         },
         {
             id: "samsung",
             name: "Samsung",
-            logo: `<div class="fn-brand-badge" style="background:#0057b8;"><svg viewBox="0 0 100 100" width="28" height="28"><path d="M35 63c3 4 8 7 15 7 9 0 14-5 14-11 0-7-5-10-14-12l-5-1c-6-1-10-4-10-9 0-6 5-11 13-11 6 0 11 3 14 6l-3 4c-3-3-7-5-11-5-6 0-9 3-9 7 0 4 3 7 10 8l5 1c7 2 14 5 14 13 0 7-6 13-18 13-8 0-14-4-18-9l3-4z" fill="#fff"/></svg></div>`
         },
         {
             id: "xiaomi",
             name: "Xiaomi",
-            logo: `<div class="fn-brand-badge" style="background:#ff6900;"><svg viewBox="0 0 100 100" width="26" height="26"><path d="M26 30v40h10V46l10 14 10-14v24h10V30H56l-8 12-8-12H26zm48 0v40h10V30H74z" fill="#fff"/></svg></div>`
         },
         {
             id: "oppo",
             name: "Oppo",
-            logo: `<div class="fn-brand-badge" style="background:#008a38;"><svg viewBox="0 0 100 100" width="32" height="32"><text x="50" y="58" font-family="Arial, sans-serif" font-weight="900" font-size="20" fill="#fff" text-anchor="middle" letter-spacing="1">OPPO</text></svg></div>`
         },
         {
             id: "redmi",
             name: "Redmi",
-            logo: `<div class="fn-brand-badge" style="background:#e02020;"><svg viewBox="0 0 100 100" width="30" height="30"><text x="50" y="58" font-family="Arial, sans-serif" font-weight="900" font-size="20" fill="#fff" text-anchor="middle">Redmi</text></svg></div>`
         },
         {
             id: "vivo",
             name: "Vivo",
-            logo: `<div class="fn-brand-badge" style="background:#007aff;"><svg viewBox="0 0 100 100" width="30" height="30"><text x="50" y="58" font-family="Arial, sans-serif" font-weight="900" font-size="22" fill="#fff" text-anchor="middle" letter-spacing="1">vivo</text></svg></div>`
         },
         {
             id: "realme",
             name: "Realme",
-            logo: `<div class="fn-brand-badge" style="background:#ffc915;"><svg viewBox="0 0 100 100" width="30" height="30"><text x="50" y="59" font-family="Arial, sans-serif" font-weight="900" font-size="18" fill="#000" text-anchor="middle">realme</text></svg></div>`
         },
         {
             id: "google",
             name: "Google Pixel",
-            logo: `<div class="fn-brand-badge" style="background:#ffffff; border:1.5px solid #e2e8f0; border-radius:50%;"><svg viewBox="0 0 100 100" width="24" height="24"><path d="M78 51c0-2-.2-4-.6-6H50v12h16c-.7 3.6-2.8 6.7-5.9 8.8v7.3h9.5C75.2 68 78 60 78 51z" fill="#4285f4"/><path d="M50 79c8 0 14.7-2.6 19.6-7.2l-9.5-7.3c-2.7 1.8-6.1 2.9-10.1 2.9-7.8 0-14.4-5.3-16.7-12.4H23.5v7.6C28.4 72.3 38.5 79 50 79z" fill="#34a853"/><path d="M33.3 55c-.6-1.8-.9-3.7-.9-5.7s.3-3.9.9-5.7V36H23.5C21.6 39.8 20.5 44 20.5 49.3s1.1 9.5 3 13.3L33.3 55z" fill="#fbbc05"/><path d="M50 34c4.3 0 8.2 1.5 11.3 4.4l8.5-8.5C64.6 25.2 57.9 22.5 50 22.5c-11.5 0-21.6 6.7-26.5 16.5l9.8 7.6C35.6 39.3 42.2 34 50 34z" fill="#ea4335"/></svg></div>`
         },
         {
             id: "sony",
             name: "Sony",
-            logo: `<div class="fn-brand-badge" style="background:#0f172a;"><svg viewBox="0 0 100 100" width="30" height="30"><text x="50" y="58" font-family="Arial, sans-serif" font-weight="900" font-size="19" fill="#fff" text-anchor="middle" letter-spacing="2">SONY</text></svg></div>`
         },
         {
             id: "huawei",
             name: "Huawei",
-            logo: `<div class="fn-brand-badge" style="background:#111827;"><svg viewBox="0 0 100 100" width="28" height="28"><path d="M50 22c-3 8-3 16 0 24 3-8 3-16 0-24zm14 5c-6 6-9 14-8 22 7-4 13-11 15-18-2-2-4-3-7-4zm-28 0c-3 1-5 2-7 4 2 7 8 14 15 18 1-8-2-16-8-22zm39 17c-8 3-14 9-16 17 8-1 16-5 21-11-1-3-3-5-5-6zm-50 0c-2 1-4 3-5 6 5 6 13 10 21 11-2-8-8-14-16-17zm46 17c-8 0-16 4-20 11 8 2 16 0 23-4 0-3-1-5-3-7zm-42 0c-2 2-3 4-3 7 7 4 15 6 23 4-4-7-12-11-20-11z" fill="#cf0a2c"/></svg></div>`
         },
         {
             id: "oneplus",
             name: "OnePlus",
-            logo: `<div class="fn-brand-badge" style="background:#eb0028;"><svg viewBox="0 0 100 100" width="26" height="26"><rect x="22" y="22" width="56" height="56" rx="8" fill="none" stroke="#fff" stroke-width="5"/><path d="M42 34v32m-8-24l8-8" stroke="#fff" stroke-width="6" stroke-linecap="round"/><path d="M60 45v14m-7-7h14" stroke="#fff" stroke-width="5" stroke-linecap="round"/></svg></div>`
         },
         {
             id: "poco",
             name: "Poco",
-            logo: `<div class="fn-brand-badge" style="background:#ffd200;"><svg viewBox="0 0 100 100" width="30" height="30"><text x="50" y="59" font-family="Arial, sans-serif" font-weight="900" font-size="20" fill="#000" text-anchor="middle" letter-spacing="1">POCO</text></svg></div>`
         },
         {
             id: "iqoo",
             name: "iQOO",
-            logo: `<div class="fn-brand-badge" style="background:#111827;"><svg viewBox="0 0 100 100" width="30" height="30"><text x="50" y="58" font-family="Arial, sans-serif" font-weight="900" font-size="22" fill="#f5a623" text-anchor="middle">iQOO</text></svg></div>`
         },
         {
             id: "honor",
             name: "Honor",
-            logo: `<div class="fn-brand-badge" style="background:#0071ce;"><svg viewBox="0 0 100 100" width="30" height="30"><text x="50" y="58" font-family="Arial, sans-serif" font-weight="900" font-size="18" fill="#fff" text-anchor="middle" letter-spacing="1">HONOR</text></svg></div>`
         },
         {
             id: "nothing",
             name: "Nothing",
-            logo: `<div class="fn-brand-badge" style="background:#0f172a;"><svg viewBox="0 0 100 100" width="30" height="30"><text x="50" y="58" font-family="monospace" font-weight="900" font-size="14" fill="#fff" text-anchor="middle" letter-spacing="2">NOTHING</text></svg></div>`
         },
         {
             id: "nokia",
             name: "Nokia",
-            logo: `<div class="fn-brand-badge" style="background:#124191;"><svg viewBox="0 0 100 100" width="30" height="30"><text x="50" y="58" font-family="Arial, sans-serif" font-weight="900" font-size="17" fill="#fff" text-anchor="middle" letter-spacing="1">NOKIA</text></svg></div>`
         },
         {
             id: "motorola",
             name: "Motorola",
-            logo: `<div class="fn-brand-badge" style="background:#00142e; border-radius:50%;"><svg viewBox="0 0 100 100" width="28" height="28"><circle cx="50" cy="50" r="44" fill="none" stroke="#fff" stroke-width="4"/><path d="M30 65l14-30 6 16 6-16 14 30" fill="none" stroke="#fff" stroke-width="6" stroke-linecap="round" stroke-linejoin="round"/></svg></div>`
         },
         {
             id: "infinix",
             name: "Infinix",
-            logo: `<div class="fn-brand-badge" style="background:#00c48c;"><svg viewBox="0 0 100 100" width="30" height="30"><text x="50" y="58" font-family="Arial, sans-serif" font-weight="900" font-size="17" fill="#fff" text-anchor="middle">Infinix</text></svg></div>`
         },
         {
             id: "tecno",
             name: "Tecno",
-            logo: `<div class="fn-brand-badge" style="background:#0046be;"><svg viewBox="0 0 100 100" width="30" height="30"><text x="50" y="58" font-family="Arial, sans-serif" font-weight="900" font-size="18" fill="#fff" text-anchor="middle">TECNO</text></svg></div>`
         },
         {
             id: "zte",
             name: "ZTE / Nubia",
-            logo: `<div class="fn-brand-badge" style="background:#005aaa;"><svg viewBox="0 0 100 100" width="30" height="30"><text x="50" y="58" font-family="Arial, sans-serif" font-weight="900" font-size="20" fill="#fff" text-anchor="middle">ZTE</text></svg></div>`
         }
     ],
     laptop: [
         {
             id: "dell",
             name: "Dell",
-            logo: `<div class="fn-brand-badge" style="background:#0076ce;"><svg viewBox="0 0 100 100" width="30" height="30"><circle cx="50" cy="50" r="42" fill="none" stroke="#fff" stroke-width="5"/><text x="50" y="58" font-family="'Arial Black', sans-serif" font-weight="900" font-size="16" fill="#fff" text-anchor="middle">DELL</text></svg></div>`
         },
         {
             id: "asus",
             name: "Asus",
-            logo: `<div class="fn-brand-badge" style="background:#00539b;"><svg viewBox="0 0 100 100" width="32" height="32"><text x="50" y="58" font-family="'Arial Black', Impact, sans-serif" font-weight="900" font-size="17" fill="#fff" text-anchor="middle" letter-spacing="1">ASUS</text></svg></div>`
         },
         {
             id: "hp",
             name: "HP",
-            logo: `<div class="fn-brand-badge" style="background:#0096d6; border-radius:50%;"><svg viewBox="0 0 100 100" width="30" height="30"><circle cx="50" cy="50" r="44" fill="#0096d6"/><path d="M41 24l-9 52h8l3-18h9c8 0 14-5 15-13 1-8-3-13-11-13H41zm11 8c4 0 6 2 5 6-.8 4-4 6-7 6h-6l2-12h7zM64 37l-7 39h8l2-11h8c8 0 13-5 15-13 1-7-3-13-10-13H64zm12 7c3 0 5 2 4 6-.8 4-3 6-7 6h-5l2-12h6z" fill="#fff"/></svg></div>`
         },
         {
             id: "lenovo",
             name: "Lenovo",
-            logo: `<div class="fn-brand-badge" style="background:#e2231a;"><svg viewBox="0 0 100 100" width="32" height="32"><text x="50" y="58" font-family="Arial, sans-serif" font-weight="900" font-size="15" fill="#fff" text-anchor="middle">lenovo</text></svg></div>`
         },
         {
             id: "acer",
             name: "Acer",
-            logo: `<div class="fn-brand-badge" style="background:#111827;"><svg viewBox="0 0 100 100" width="32" height="32"><text x="50" y="58" font-family="'Trebuchet MS', Arial, sans-serif" font-weight="900" font-size="22" fill="#83b81a" text-anchor="middle">acer</text></svg></div>`
         },
         {
             id: "msi",
             name: "MSI",
-            logo: `<div class="fn-brand-badge" style="background:#111827; border:1px solid #e11d48;"><svg viewBox="0 0 100 100" width="30" height="30"><path d="M50 18L26 28v26c0 18 10 30 24 36 14-6 24-18 24-36V28L50 18z" fill="#dc2626"/><text x="50" y="57" font-family="'Arial Black', sans-serif" font-weight="900" font-size="13" fill="#fff" text-anchor="middle">MSI</text></svg></div>`
         },
         {
             id: "lg",
             name: "LG (Gram)",
-            logo: `<div class="fn-brand-badge" style="background:#a50034; border-radius:50%;"><svg viewBox="0 0 100 100" width="28" height="28"><circle cx="50" cy="50" r="42" fill="none" stroke="#fff" stroke-width="5"/><circle cx="36" cy="40" r="4.5" fill="#fff"/><path d="M46 32v24h18" fill="none" stroke="#fff" stroke-width="5" stroke-linecap="round"/><path d="M68 62c-4 5-11 8-18 8-12 0-21-9-21-21 0-10 7-18 16-20" fill="none" stroke="#fff" stroke-width="5" stroke-linecap="round"/></svg></div>`
         },
         {
             id: "microsoft",
             name: "Microsoft (Surface)",
-            logo: `<div class="fn-brand-badge" style="background:#1e293b;"><svg viewBox="0 0 100 100" width="26" height="26"><rect x="25" y="25" width="22" height="22" fill="#f25022"/><rect x="53" y="25" width="22" height="22" fill="#7fba00"/><rect x="25" y="53" width="22" height="22" fill="#00a4ef"/><rect x="53" y="53" width="22" height="22" fill="#ffb900"/></svg></div>`
         },
         {
             id: "razer",
             name: "Razer",
-            logo: `<div class="fn-brand-badge" style="background:#000000;"><svg viewBox="0 0 100 100" width="28" height="28"><path d="M50 20c-5 5-8 12-7 19 1 7 7 12 14 13-4 5-10 8-16 8-4 0-8-1-11-4 4 7 12 11 20 11 11 0 20-8 21-19 1-11-6-21-16-24l-5-4zm-14 8c-7 2-12 8-13 15-1 8 4 15 11 18-2-5-1-11 2-15 4-4 9-6 15-5-2-4-6-8-11-11l-4-2zm28 0l-4 2c-5 3-9 7-11 11 6-1 11 1 15 5 3 4 4 10 2 15 7-3 12-10 11-18-1-7-6-13-13-15z" fill="#00ff00"/></svg></div>`
         },
         {
             id: "samsung_pc",
             name: "Samsung (Galaxy Book)",
-            logo: `<div class="fn-brand-badge" style="background:#0057b8;"><svg viewBox="0 0 100 100" width="28" height="28"><path d="M35 63c3 4 8 7 15 7 9 0 14-5 14-11 0-7-5-10-14-12l-5-1c-6-1-10-4-10-9 0-6 5-11 13-11 6 0 11 3 14 6l-3 4c-3-3-7-5-11-5-6 0-9 3-9 7 0 4 3 7 10 8l5 1c7 2 14 5 14 13 0 7-6 13-18 13-8 0-14-4-18-9l3-4z" fill="#fff"/></svg></div>`
         },
         {
             id: "huawei_pc",
             name: "Huawei (MateBook)",
-            logo: `<div class="fn-brand-badge" style="background:#111827;"><svg viewBox="0 0 100 100" width="28" height="28"><path d="M50 22c-3 8-3 16 0 24 3-8 3-16 0-24zm14 5c-6 6-9 14-8 22 7-4 13-11 15-18-2-2-4-3-7-4zm-28 0c-3 1-5 2-7 4 2 7 8 14 15 18 1-8-2-16-8-22zm39 17c-8 3-14 9-16 17 8-1 16-5 21-11-1-3-3-5-5-6zm-50 0c-2 1-4 3-5 6 5 6 13 10 21 11-2-8-8-14-16-17zm46 17c-8 0-16 4-20 11 8 2 16 0 23-4 0-3-1-5-3-7zm-42 0c-2 2-3 4-3 7 7 4 15 6 23 4-4-7-12-11-20-11z" fill="#cf0a2c"/></svg></div>`
         },
         {
             id: "toshiba",
             name: "Toshiba (Dynabook)",
-            logo: `<div class="fn-brand-badge" style="background:#dc2626;"><svg viewBox="0 0 100 100" width="30" height="30"><text x="50" y="58" font-family="'Arial Black', Impact, sans-serif" font-weight="900" font-size="14" fill="#fff" text-anchor="middle" letter-spacing="0.5">TOSHIBA</text></svg></div>`
         }
     ],
     mac: [
         {
             id: "macbook_pro",
             name: "MacBook Pro",
-            logo: `<div class="fn-brand-badge" style="background:linear-gradient(135deg, #0f172a, #334155);"><svg viewBox="0 0 48 48" width="26" height="26" fill="none" stroke="#fff" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round"><rect x="8" y="7" width="32" height="23" rx="2.5" fill="#1e293b"/><path d="M4 35h40a1.5 1.5 0 0 0 1.5-1.5v-1H2.5v1A1.5 1.5 0 0 0 4 35z" fill="#475569"/><path d="M21 32.5h6" stroke="#94a3b8" stroke-width="2"/><circle cx="24" cy="18" r="3" fill="#ea580c"/></svg></div>`
         },
         {
             id: "macbook_air",
             name: "MacBook Air",
-            logo: `<div class="fn-brand-badge" style="background:linear-gradient(135deg, #1e293b, #0ea5e9);"><svg viewBox="0 0 48 48" width="26" height="26" fill="none" stroke="#fff" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round"><path d="M10 10l28 5v16l-28-5z" fill="#0284c7" fill-opacity="0.3"/><rect x="8" y="9" width="32" height="22" rx="2" fill="#0f172a"/><path d="M4 34h40l-2 2H6z" fill="#38bdf8"/><path d="M24 16v8" stroke="#38bdf8" stroke-width="2"/></svg></div>`
         },
         {
             id: "imac",
             name: "iMac",
-            logo: `<div class="fn-brand-badge" style="background:linear-gradient(135deg, #0284c7, #2563eb);"><svg viewBox="0 0 48 48" width="26" height="26" fill="none" stroke="#fff" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round"><rect x="6" y="6" width="36" height="26" rx="3" fill="#0f172a"/><rect x="6" y="27" width="36" height="5" fill="#38bdf8"/><path d="M24 32v10m-8 0h16" stroke="#fff" stroke-width="3"/></svg></div>`
         },
         {
             id: "mac_mini",
             name: "Mac Mini & Studio",
-            logo: `<div class="fn-brand-badge" style="background:linear-gradient(135deg, #334155, #64748b);"><svg viewBox="0 0 48 48" width="26" height="26" fill="none" stroke="#fff" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round"><rect x="8" y="14" width="32" height="20" rx="4" fill="#0f172a"/><line x1="8" y1="28" x2="40" y2="28" stroke="#94a3b8" stroke-width="1.5"/><circle cx="24" cy="21" r="2.5" fill="#38bdf8"/><circle cx="36" cy="21" r="1.5" fill="#22c55e"/></svg></div>`
         },
         {
             id: "mac_pro",
             name: "Mac Pro",
-            logo: `<div class="fn-brand-badge" style="background:linear-gradient(135deg, #0f172a, #ea580c);"><svg viewBox="0 0 48 48" width="26" height="26" fill="none" stroke="#fff" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round"><rect x="12" y="6" width="24" height="34" rx="4" fill="#1e293b"/><circle cx="20" cy="14" r="2" fill="#ea580c"/><circle cx="28" cy="14" r="2" fill="#ea580c"/><circle cx="20" cy="22" r="2" fill="#ea580c"/><circle cx="28" cy="22" r="2" fill="#ea580c"/><circle cx="20" cy="30" r="2" fill="#ea580c"/><circle cx="28" cy="30" r="2" fill="#ea580c"/><path d="M12 42h6m12 0h6M12 6h6m12 0h6" stroke="#fff" stroke-width="2"/></svg></div>`
         }
     ],
     tablet: [
         {
             id: "apple_ipad",
             name: "Apple iPad",
-            logo: `<div class="fn-brand-badge" style="background:#0f172a;"><svg viewBox="0 0 170 170" width="24" height="24" fill="#ffffff"><path d="M150.37 130.25c-2.45 5.66-5.35 10.87-8.71 15.66-4.58 6.53-8.33 11.05-11.22 13.56-4.48 4.12-9.28 6.23-14.42 6.35-3.69 0-8.14-1.05-13.32-3.18-5.19-2.12-9.97-3.17-14.34-3.17-4.58 0-9.49 1.05-14.75 3.17-5.26 2.13-9.5 3.24-12.74 3.35-4.35.13-9.16-1.9-14.42-6.08-3.69-3.04-7.67-7.81-11.96-14.34-5.67-8.6-10.15-18.49-13.43-29.68-3.28-11.18-4.92-21.84-4.92-31.97 0-14.35 3.63-26.06 10.88-35.13 7.25-9.08 16.32-13.73 27.22-13.97 5.1 0 10.63 1.48 16.6 4.44 5.97 2.95 10.05 4.49 12.23 4.62 1.95 0 6.24-1.63 12.87-4.9 6.63-3.26 12.37-4.66 17.21-4.18 13.06.98 23.41 5.75 31.06 14.32-11.53 6.96-17.18 16.64-16.94 29.04.24 9.9 4.13 18.23 11.66 24.99 7.53 6.75 16.51 10.62 26.94 11.6-2.52 7.62-5.46 15.02-8.81 22.21zM119.22 33.15c0-7.39 2.68-14.28 8.04-20.67 5.36-6.39 12.01-10.45 19.95-12.18.33 1.2.49 2.29.49 3.28 0 7.39-2.79 14.33-8.36 20.83-5.57 6.5-12.39 10.46-20.45 11.89-.11-1.09-.17-2.17-.17-3.15z"/></svg></div>`
         },
         {
             id: "samsung_tab",
             name: "Samsung Galaxy Tab",
-            logo: `<div class="fn-brand-badge" style="background:#0057b8;"><svg viewBox="0 0 100 100" width="28" height="28"><path d="M35 63c3 4 8 7 15 7 9 0 14-5 14-11 0-7-5-10-14-12l-5-1c-6-1-10-4-10-9 0-6 5-11 13-11 6 0 11 3 14 6l-3 4c-3-3-7-5-11-5-6 0-9 3-9 7 0 4 3 7 10 8l5 1c7 2 14 5 14 13 0 7-6 13-18 13-8 0-14-4-18-9l3-4z" fill="#fff"/></svg></div>`
         },
         {
             id: "xiaomi_pad",
             name: "Xiaomi Pad",
-            logo: `<div class="fn-brand-badge" style="background:#ff6900;"><svg viewBox="0 0 100 100" width="26" height="26"><path d="M26 30v40h10V46l10 14 10-14v24h10V30H56l-8 12-8-12H26zm48 0v40h10V30H74z" fill="#fff"/></svg></div>`
         },
         {
             id: "surface_pro",
             name: "Surface Pro",
-            logo: `<div class="fn-brand-badge" style="background:#1e293b;"><svg viewBox="0 0 100 100" width="28" height="28"><rect x="25" y="25" width="22" height="22" fill="#f25022"/><rect x="53" y="25" width="22" height="22" fill="#7fba00"/><rect x="25" y="53" width="22" height="22" fill="#00a4ef"/><rect x="53" y="53" width="22" height="22" fill="#ffb900"/></svg></div>`
         },
         {
             id: "lenovo_tab",
             name: "Lenovo Tab",
-            logo: `<div class="fn-brand-badge" style="background:#e2231a;"><svg viewBox="0 0 100 100" width="30" height="30"><rect x="18" y="32" width="64" height="36" fill="#fff"/><text x="50" y="58" font-family="Arial, sans-serif" font-weight="900" font-size="16" fill="#e2231a" text-anchor="middle">Lenovo</text></svg></div>`
         },
         {
             id: "huawei_matepad",
             name: "Huawei MatePad",
-            logo: `<div class="fn-brand-badge" style="background:#111827;"><svg viewBox="0 0 100 100" width="28" height="28"><path d="M50 22c-3 8-3 16 0 24 3-8 3-16 0-24zm14 5c-6 6-9 14-8 22 7-4 13-11 15-18-2-2-4-3-7-4zm-28 0c-3 1-5 2-7 4 2 7 8 14 15 18 1-8-2-16-8-22zm39 17c-8 3-14 9-16 17 8-1 16-5 21-11-1-3-3-5-5-6zm-50 0c-2 1-4 3-5 6 5 6 13 10 21 11-2-8-8-14-16-17zm46 17c-8 0-16 4-20 11 8 2 16 0 23-4 0-3-1-5-3-7zm-42 0c-2 2-3 4-3 7 7 4 15 6 23 4-4-7-12-11-20-11z" fill="#cf0a2c"/></svg></div>`
         },
         {
             id: "oppo_pad",
             name: "Oppo Pad",
-            logo: `<div class="fn-brand-badge" style="background:#008a38;"><svg viewBox="0 0 100 100" width="30" height="30"><text x="50" y="58" font-family="Arial, sans-serif" font-weight="900" font-size="20" fill="#fff" text-anchor="middle">OPPO</text></svg></div>`
         }
     ],
     smartwatch: [
         {
             id: "apple_watch",
             name: "Apple Watch",
-            logo: `<div class="fn-brand-badge" style="background:#0f172a;"><svg viewBox="0 0 170 170" width="24" height="24" fill="#ffffff"><path d="M150.37 130.25c-2.45 5.66-5.35 10.87-8.71 15.66-4.58 6.53-8.33 11.05-11.22 13.56-4.48 4.12-9.28 6.23-14.42 6.35-3.69 0-8.14-1.05-13.32-3.18-5.19-2.12-9.97-3.17-14.34-3.17-4.58 0-9.49 1.05-14.75 3.17-5.26 2.13-9.5 3.24-12.74 3.35-4.35.13-9.16-1.9-14.42-6.08-3.69-3.04-7.67-7.81-11.96-14.34-5.67-8.6-10.15-18.49-13.43-29.68-3.28-11.18-4.92-21.84-4.92-31.97 0-14.35 3.63-26.06 10.88-35.13 7.25-9.08 16.32-13.73 27.22-13.97 5.1 0 10.63 1.48 16.6 4.44 5.97 2.95 10.05 4.49 12.23 4.62 1.95 0 6.24-1.63 12.87-4.9 6.63-3.26 12.37-4.66 17.21-4.18 13.06.98 23.41 5.75 31.06 14.32-11.53 6.96-17.18 16.64-16.94 29.04.24 9.9 4.13 18.23 11.66 24.99 7.53 6.75 16.51 10.62 26.94 11.6-2.52 7.62-5.46 15.02-8.81 22.21zM119.22 33.15c0-7.39 2.68-14.28 8.04-20.67 5.36-6.39 12.01-10.45 19.95-12.18.33 1.2.49 2.29.49 3.28 0 7.39-2.79 14.33-8.36 20.83-5.57 6.5-12.39 10.46-20.45 11.89-.11-1.09-.17-2.17-.17-3.15z"/></svg></div>`
         },
         {
             id: "samsung_watch",
             name: "Galaxy Watch",
-            logo: `<div class="fn-brand-badge" style="background:#0057b8;"><svg viewBox="0 0 100 100" width="28" height="28"><path d="M35 63c3 4 8 7 15 7 9 0 14-5 14-11 0-7-5-10-14-12l-5-1c-6-1-10-4-10-9 0-6 5-11 13-11 6 0 11 3 14 6l-3 4c-3-3-7-5-11-5-6 0-9 3-9 7 0 4 3 7 10 8l5 1c7 2 14 5 14 13 0 7-6 13-18 13-8 0-14-4-18-9l3-4z" fill="#fff"/></svg></div>`
         },
         {
             id: "garmin",
             name: "Garmin",
-            logo: `<div class="fn-brand-badge" style="background:#007cc3;"><svg viewBox="0 0 100 100" width="28" height="28"><polygon points="50,24 76,74 24,74" fill="#fff"/></svg></div>`
         },
         {
             id: "huawei_watch",
             name: "Huawei Watch",
-            logo: `<div class="fn-brand-badge" style="background:#111827;"><svg viewBox="0 0 100 100" width="28" height="28"><path d="M50 22c-3 8-3 16 0 24 3-8 3-16 0-24zm14 5c-6 6-9 14-8 22 7-4 13-11 15-18-2-2-4-3-7-4zm-28 0c-3 1-5 2-7 4 2 7 8 14 15 18 1-8-2-16-8-22zm39 17c-8 3-14 9-16 17 8-1 16-5 21-11-1-3-3-5-5-6zm-50 0c-2 1-4 3-5 6 5 6 13 10 21 11-2-8-8-14-16-17zm46 17c-8 0-16 4-20 11 8 2 16 0 23-4 0-3-1-5-3-7zm-42 0c-2 2-3 4-3 7 7 4 15 6 23 4-4-7-12-11-20-11z" fill="#cf0a2c"/></svg></div>`
         },
         {
             id: "google_watch",
             name: "Pixel Watch",
-            logo: `<div class="fn-brand-badge" style="background:#ffffff; border:1.5px solid #e2e8f0; border-radius:50%;"><svg viewBox="0 0 100 100" width="24" height="24"><path d="M78 51c0-2-.2-4-.6-6H50v12h16c-.7 3.6-2.8 6.7-5.9 8.8v7.3h9.5C75.2 68 78 60 78 51z" fill="#4285f4"/><path d="M50 79c8 0 14.7-2.6 19.6-7.2l-9.5-7.3c-2.7 1.8-6.1 2.9-10.1 2.9-7.8 0-14.4-5.3-16.7-12.4H23.5v7.6C28.4 72.3 38.5 79 50 79z" fill="#34a853"/><path d="M33.3 55c-.6-1.8-.9-3.7-.9-5.7s.3-3.9.9-5.7V36H23.5C21.6 39.8 20.5 44 20.5 49.3s1.1 9.5 3 13.3L33.3 55z" fill="#fbbc05"/><path d="M50 34c4.3 0 8.2 1.5 11.3 4.4l8.5-8.5C64.6 25.2 57.9 22.5 50 22.5c-11.5 0-21.6 6.7-26.5 16.5l9.8 7.6C35.6 39.3 42.2 34 50 34z" fill="#ea4335"/></svg></div>`
         }
     ],
     pc: [
         {
             id: "gaming_pc",
             name: "PC Gaming",
-            logo: `<div class="fn-brand-badge" style="background:#111827;"><svg viewBox="0 0 24 24" width="24" height="24" fill="none" stroke="#ea580c" stroke-width="2"><line x1="6" y1="12" x2="10" y2="12"/><line x1="8" y1="10" x2="8" y2="14"/><circle cx="15" cy="13" r="1" fill="#ea580c"/><circle cx="18" cy="11" r="1" fill="#ea580c"/><rect x="2" y="6" width="20" height="12" rx="4"/></svg></div>`
         },
         {
             id: "graphic_pc",
             name: "PC Đồ Họa 3D",
-            logo: `<div class="fn-brand-badge" style="background:#0284c7;"><svg viewBox="0 0 24 24" width="24" height="24" fill="none" stroke="#fff" stroke-width="2"><path d="M12 2l10 6.5v7L12 22 2 15.5v-7L12 2z"/><path d="M12 22v-6.5M22 8.5l-10 7L2 8.5"/></svg></div>`
         },
         {
             id: "dell_optiplex",
             name: "Dell Optiplex",
-            logo: `<div class="fn-brand-badge" style="background:#007db8;"><svg viewBox="0 0 100 100" width="28" height="28"><path d="M22 35h12c6 0 10 4 10 10s-4 10-10 10H22V35zm7 15h5c3 0 5-2 5-5s-2-5-5-5h-5v10zm18-15h16v5H54v4h11v5H54v6h13v5H47V35zm23 0h7v25h-7V35zm10 0h7v25h-7V35z" fill="#fff"/></svg></div>`
         },
         {
             id: "hp_prodesk",
             name: "HP ProDesk",
-            logo: `<div class="fn-brand-badge" style="background:#0096d6; border-radius:50%;"><svg viewBox="0 0 100 100" width="28" height="28"><path d="M43 25l-9 50h8l3-17h9c8 0 14-5 15-13 1-8-3-13-11-13H43zm11 8c4 0 6 2 5 6-.8 4-4 6-7 6h-6l2-12h7z" fill="#fff"/></svg></div>`
         },
         {
             id: "lenovo_thinkcentre",
             name: "Lenovo ThinkCentre",
-            logo: `<div class="fn-brand-badge" style="background:#e2231a;"><svg viewBox="0 0 100 100" width="28" height="28"><rect x="18" y="32" width="64" height="36" fill="#fff"/><text x="50" y="58" font-family="Arial, sans-serif" font-weight="900" font-size="16" fill="#e2231a" text-anchor="middle">Lenovo</text></svg></div>`
         }
     ]
 };
@@ -685,23 +631,6 @@ document.addEventListener('DOMContentLoaded', () => {
         animateElements.forEach(el => observer.observe(el));
     }
 
-    // ====== COUNTER ANIMATION ======
-    const statNumbers = document.querySelectorAll('.fn-stat-number');
-    statNumbers.forEach(el => {
-        const target = parseInt(el.textContent);
-        if (isNaN(target)) return;
-        let current = 0;
-        const increment = Math.ceil(target / 40);
-        const suffix = el.querySelector('span') ? el.querySelector('span').textContent : '';
-        const timer = setInterval(() => {
-            current += increment;
-            if (current >= target) {
-                current = target;
-                clearInterval(timer);
-            }
-            el.innerHTML = current + (suffix ? '<span>' + suffix + '</span>' : '');
-        }, 30);
-    });
 });
 
 // ================= 1. REPAIR FINDER WIZARD LOGIC =================
@@ -734,6 +663,12 @@ function selectDeviceType(devType) {
     if (labelEl) {
         labelEl.textContent = deviceLabels[devType] || 'Thiết bị';
     }
+    const titleEl = document.getElementById('fn-brand-step-title');
+    const subtitleEl = document.getElementById('fn-brand-step-subtitle');
+    if (titleEl) titleEl.textContent = devType === 'pc' ? 'Chọn dòng PC hoặc thương hiệu' : 'Chọn thương hiệu';
+    if (subtitleEl) subtitleEl.textContent = devType === 'pc'
+        ? 'Chọn loại PC hoặc hãng có sẵn; bạn cũng có thể tự nhập tên máy.'
+        : 'Bấm vào hãng thiết bị của bạn hoặc tự gõ tên nếu không thấy.';
 
     document.getElementById('fn-subview-devices').style.display = 'none';
     document.getElementById('fn-subview-brands').style.display = 'block';
@@ -749,20 +684,14 @@ function wizardBackToDevices() {
     document.getElementById('fn-subview-models').style.display = 'none';
 }
 
-const FIXNEAR_LOGO_IDS = new Set([
-    'apple', 'samsung', 'xiaomi', 'oppo', 'redmi', 'vivo', 'realme',
-    'google', 'sony', 'huawei', 'oneplus', 'poco', 'iqoo', 'honor',
-    'nothing', 'nokia', 'motorola', 'infinix', 'tecno', 'zte',
-    'dell', 'asus', 'hp', 'lenovo', 'acer', 'msi', 'lg', 'microsoft',
-    'razer', 'garmin'
-]);
 const FIXNEAR_GROUP_LOGOS = {
     samsung_pc: 'samsung', huawei_pc: 'huawei',
     macbook_pro: 'apple', macbook_air: 'apple', imac: 'apple', mac_mini: 'apple', mac_pro: 'apple',
     apple_ipad: 'apple', samsung_tab: 'samsung', xiaomi_pad: 'xiaomi',
     surface_pro: 'microsoft', lenovo_tab: 'lenovo', huawei_matepad: 'huawei', oppo_pad: 'oppo',
     apple_watch: 'apple', samsung_watch: 'samsung', huawei_watch: 'huawei', google_watch: 'google',
-    dell_optiplex: 'dell', hp_prodesk: 'hp', lenovo_thinkcentre: 'lenovo'
+    dell_optiplex: 'dell', hp_prodesk: 'hp', lenovo_thinkcentre: 'lenovo',
+    toshiba: 'dynabook'
 };
 
 // Render thương hiệu với logo ảnh local; các nhóm thiết bị chung dùng biểu tượng minh họa.
@@ -784,11 +713,12 @@ function renderBrands(devType) {
 
     brands.forEach(b => {
         const logoId = FIXNEAR_GROUP_LOGOS[b.id] || b.id;
-        const logoMarkup = FIXNEAR_LOGO_IDS.has(logoId)
-            ? `<img class="fn-brand-img" src="assets/images/brands/${logoId}.png" alt="" width="72" height="46" loading="lazy">`
-            : (b.id === 'toshiba' ? `<span class="fn-brand-wordmark">Toshiba</span>` : b.logo);
+        const logoFile = window.FIXNEAR_BRAND_ASSETS?.[logoId];
+        const logoMarkup = logoFile
+            ? `<img class="fn-brand-img" src="assets/images/brands/${logoFile}" alt="" width="72" height="46" loading="lazy">`
+            : `<span class="fn-brand-wordmark">${escapeCatalogText(b.name)}</span>`;
         html += `
-            <button type="button" class="fn-brand-card" onclick="selectBrand('${b.id}', '${b.name.replace(/'/g, "\\'")}')">
+            <button type="button" class="fn-brand-card" data-brand-id="${b.id}" onclick="selectBrand('${b.id}', '${b.name.replace(/'/g, "\\'")}')">
                 <div class="fn-brand-logo-wrap">
                     ${logoMarkup}
                 </div>

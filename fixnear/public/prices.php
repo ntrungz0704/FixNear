@@ -171,8 +171,7 @@ require_once __DIR__ . '/../includes/navbar.php';
                         $isSource = isset($row['quote']);
                         $quote = $row['quote'] ?? null;
                         $brandSlug = strtolower((string) $item['brand']);
-                        $deviceLogo = preg_match('/^[a-z0-9_-]+$/', $brandSlug) && is_file(__DIR__ . '/assets/images/brands/' . $brandSlug . '.png')
-                            ? 'assets/images/brands/' . $brandSlug . '.png' : null;
+                        $deviceLogo = fixnearBrandLogoPath($brandSlug);
                         $partName = $isSource ? preg_replace('/^' . preg_quote($quote['componentBrand'], '/') . '\\s*/iu', '', (string) $quote['componentName']) : '';
                         if ($isSource && $partName === '') $partName = $quote['componentName'];
                         $grades = $isSource ? [] : RepairAtlasPricing::getModelPrices($item['deviceType'], $item['tier'], $item['brand'], [$row['faultId']], $item['id'])[$row['faultId']] ?? [];

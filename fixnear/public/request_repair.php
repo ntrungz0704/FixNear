@@ -595,7 +595,6 @@ const WIZARD_DATA = {
             {
                 id: "apple_iphone",
                 name: "Apple (iPhone)",
-                logo: `<svg width="26" height="26" viewBox="0 0 170 170" fill="#0f172a"><path d="M150.37 130.25c-2.45 5.66-5.35 10.87-8.71 15.66-4.58 6.53-8.33 11.05-11.22 13.56-4.48 4.12-9.28 6.23-14.42 6.35-3.69 0-8.14-1.05-13.32-3.18-5.19-2.12-9.97-3.17-14.34-3.17-4.58 0-9.49 1.05-14.75 3.17-5.26 2.13-9.5 3.24-12.74 3.35-4.35.13-9.16-1.9-14.42-6.08-3.7-3.04-7.58-7.7-11.64-13.98-5.87-9.01-10.37-19.16-13.5-30.46-3.13-11.29-4.7-22.18-4.7-32.65 0-15.01 3.86-27.42 11.58-37.22 7.72-9.8 17.51-14.83 29.36-15.09 4.99 0 10.22 1.25 15.69 3.76 5.48 2.5 9.07 3.81 10.78 3.91 1.7.1 5.37-1.25 11.02-4.06 5.66-2.82 10.66-4.14 15.02-3.97 11.57.65 21.03 4.9 28.38 12.74-10.15 6.19-15.11 14.83-14.88 25.92.23 8.78 3.63 16.27 10.2 22.47 6.56 6.2 14.28 9.77 23.16 10.7-2.6 7.6-5.83 15.17-9.7 22.71zM119.22 31.84c0-7.39 2.65-14.36 7.95-20.91 5.3-6.55 11.96-10.53 19.98-11.93-.11 1.41-.33 2.82-.65 4.23-1.09 4.79-3.32 9.77-6.7 14.94-3.38 5.16-7.55 9.03-12.51 11.6-1.52.87-3.04 1.52-4.56 1.95-.54-.65-1.09-1.52-1.63-2.61-.54-1.09-.88-2.39-.88-3.89z"/></svg>`,
                 models: [
                     "iPhone 17 Pro Max", "iPhone 17 Pro", "iPhone 17",
                     "iPhone 16 Pro Max", "iPhone 16 Pro", "iPhone 16 Plus", "iPhone 16",
@@ -612,7 +611,6 @@ const WIZARD_DATA = {
             {
                 id: "samsung",
                 name: "Samsung",
-                logo: `<div style="font-weight:900; font-size:13px; letter-spacing:-0.5px; color:#1428a0; border:2px solid #1428a0; border-radius:12px; padding:2px 6px;">SAMSUNG</div>`,
                 models: [
                     "Galaxy S24 Ultra", "Galaxy S24 Plus", "Galaxy S24",
                     "Galaxy S23 Ultra", "Galaxy S23 Plus", "Galaxy S23",
@@ -627,7 +625,6 @@ const WIZARD_DATA = {
             {
                 id: "xiaomi",
                 name: "Xiaomi",
-                logo: `<div style="background:#ff6900; color:#fff; font-weight:900; font-size:14px; border-radius:8px; width:30px; height:30px; display:flex; align-items:center; justify-content:center;">mi</div>`,
                 models: [
                     "Xiaomi 14 Ultra", "Xiaomi 14", "Xiaomi 13 Pro", "Xiaomi 13", "Xiaomi 13T Pro", "Xiaomi 12T Pro", "Xiaomi 12 Pro",
                     "Redmi Note 13 Pro+ 5G", "Redmi Note 13 Pro", "Redmi Note 13", "Redmi Note 12 Pro", "Redmi Note 12", "Redmi 13C", "Redmi 12",
@@ -637,7 +634,6 @@ const WIZARD_DATA = {
             {
                 id: "oppo",
                 name: "Oppo",
-                logo: `<div style="background:#00875a; color:#fff; font-weight:900; font-size:11px; border-radius:8px; padding:4px 8px; letter-spacing:0.5px;">OPPO</div>`,
                 models: [
                     "Find N3 Fold", "Find N3 Flip", "Find X7 Ultra", "Find X6 Pro", "Find X5 Pro",
                     "Reno 11 Pro 5G", "Reno 11 5G", "Reno 10 Pro+ 5G", "Reno 10 5G", "Reno 8 Pro", "Reno 8",
@@ -647,37 +643,31 @@ const WIZARD_DATA = {
             {
                 id: "vivo",
                 name: "Vivo",
-                logo: `<div style="color:#415fff; font-weight:900; font-size:14px;">vivo</div>`,
                 models: ["Vivo X100 Pro", "Vivo X90 Pro", "Vivo V30 5G", "Vivo V29 5G", "Vivo V27 5G", "Vivo Y200", "Vivo Y36", "Vivo Y17s"]
             },
             {
                 id: "realme",
                 name: "Realme",
-                logo: `<div style="background:#ffc915; color:#000; font-weight:900; font-size:11px; border-radius:6px; padding:3px 6px;">realme</div>`,
                 models: ["Realme GT 5 Pro", "Realme 12 Pro+ 5G", "Realme 11 Pro", "Realme 11", "Realme C67", "Realme C55", "Realme C53"]
             },
             {
                 id: "google",
                 name: "Google (Pixel)",
-                logo: `<svg width="24" height="24" viewBox="0 0 24 24"><path fill="#4285F4" d="M23.745 12.27c0-.7-.06-1.4-.19-2.07H12v4.51h6.6c-.29 1.52-1.14 2.8-2.4 3.65v3.03h3.88c2.27-2.09 3.665-5.17 3.665-9.12z"/><path fill="#34A853" d="M12 24c3.24 0 5.95-1.08 7.93-2.91l-3.88-3.03c-1.08.72-2.45 1.16-4.05 1.16-3.12 0-5.77-2.1-6.72-4.93H1.26v3.13C3.25 21.3 7.31 24 12 24z"/><path fill="#FBBC05" d="M5.28 14.29c-.25-.72-.38-1.49-.38-2.29s.13-1.57.38-2.29V6.58H1.26C.46 8.16 0 9.94 0 12s.46 3.84 1.26 5.42l4.02-3.13z"/><path fill="#EA4335" d="M12 4.75c1.77 0 3.35.61 4.6 1.8l3.42-3.42C17.95 1.19 15.24 0 12 0 7.31 0 3.25 2.7 1.26 6.58l4.02 3.13c.95-2.83 3.6-4.96 6.72-4.96z"/></svg>`,
                 models: ["Pixel 9 Pro XL", "Pixel 9 Pro", "Pixel 9", "Pixel 8 Pro", "Pixel 8", "Pixel 7 Pro", "Pixel 7", "Pixel 7a", "Pixel 6 Pro", "Pixel 6a"]
             },
             {
                 id: "sony",
                 name: "Sony",
-                logo: `<div style="font-weight:900; font-size:12px; letter-spacing:1px; color:#0f172a;">SONY</div>`,
                 models: ["Xperia 1 VI", "Xperia 1 V", "Xperia 1 IV", "Xperia 5 V", "Xperia 5 IV", "Xperia 10 V"]
             },
             {
                 id: "oneplus",
                 name: "OnePlus",
-                logo: `<div style="background:#f50514; color:#fff; font-weight:900; font-size:12px; border-radius:6px; padding:2px 7px;">1+</div>`,
                 models: ["OnePlus 12", "OnePlus 12R", "OnePlus 11", "OnePlus 10 Pro", "OnePlus Open", "OnePlus Nord 3"]
             },
             {
                 id: "phone_other",
                 name: "✏️ Hãng khác",
-                logo: `<div style="font-size:18px;">📱</div>`,
                 models: ["Huawei Mate 60 Pro", "Honor Magic 6 Pro", "Nothing Phone (2)", "Nokia G22", "Asus ROG Phone 8 Pro", "Infinix Note 30"]
             }
         ],
@@ -711,7 +701,6 @@ const WIZARD_DATA = {
             {
                 id: "dell",
                 name: "Dell",
-                logo: `<div style="font-weight:900; font-size:12px; color:#0076ce; border:2.5px solid #0076ce; border-radius:50%; width:36px; height:36px; display:flex; align-items:center; justify-content:center; letter-spacing:-0.5px; box-shadow:0 2px 6px rgba(0,118,206,0.15);">DELL</div>`,
                 models: [
                     "Dell XPS 16 (9640)", "Dell XPS 14 (9440)", "Dell XPS 13 Plus (9320)", "Dell XPS 15 (9530)",
                     "Dell Inspiron 14 5430", "Dell Inspiron 15 3520", "Dell Inspiron 5510", "Dell Inspiron 7420 2-in-1",
@@ -723,7 +712,6 @@ const WIZARD_DATA = {
             {
                 id: "asus",
                 name: "Asus",
-                logo: `<div style="font-family:'Arial Black', Impact, sans-serif; font-weight:900; font-size:14px; color:#00539b; letter-spacing:1.5px; border-bottom:2px solid #00539b; padding-bottom:1px;">ASUS</div>`,
                 models: [
                     "Asus TUF Gaming F15", "Asus TUF Gaming A15", "Asus TUF Gaming F16", "Asus TUF Dash F15",
                     "Asus ROG Strix G16", "Asus ROG Strix SCAR 16", "Asus ROG Zephyrus G14", "Asus ROG Zephyrus M16",
@@ -735,7 +723,6 @@ const WIZARD_DATA = {
             {
                 id: "hp",
                 name: "HP",
-                logo: `<div style="background:#0096d6; color:#fff; font-family:'Georgia', serif; font-weight:900; font-size:16px; font-style:italic; border-radius:50%; width:36px; height:36px; display:flex; align-items:center; justify-content:center; box-shadow:0 2px 6px rgba(0,150,214,0.3);">hp</div>`,
                 models: [
                     "HP Victus 16", "HP Victus 15", "HP OMEN 16",
                     "HP Pavilion 15", "HP Pavilion 14", "HP Pavilion x360",
@@ -746,7 +733,6 @@ const WIZARD_DATA = {
             {
                 id: "lenovo",
                 name: "Lenovo",
-                logo: `<div style="background:#e2231a; color:#fff; font-family:Arial, sans-serif; font-weight:900; font-size:12px; padding:3px 8px; border-radius:4px; letter-spacing:0.5px; text-transform:lowercase; box-shadow:0 2px 6px rgba(226,35,26,0.25);">lenovo</div>`,
                 models: [
                     "Lenovo Legion Pro 5", "Lenovo Legion Pro 7", "Lenovo Legion Slim 5", "Lenovo LOQ 15",
                     "ThinkPad X1 Carbon Gen 11", "ThinkPad X1 Carbon Gen 9", "ThinkPad T14 Gen 3", "ThinkPad E14 Gen 4",
@@ -757,7 +743,6 @@ const WIZARD_DATA = {
             {
                 id: "acer",
                 name: "Acer",
-                logo: `<div style="color:#83b81a; font-family:'Trebuchet MS', Arial, sans-serif; font-weight:900; font-size:16px; letter-spacing:-0.5px;">acer</div>`,
                 models: [
                     "Acer Predator Helios 16", "Acer Predator Helios Neo 16", "Acer Nitro 16 Phoenix", "Acer Nitro 5 Tiger",
                     "Acer Aspire 5", "Acer Aspire 3", "Acer Aspire 7 Gaming", "Acer Swift Go 14", "Acer Swift 3"
@@ -766,7 +751,6 @@ const WIZARD_DATA = {
             {
                 id: "msi",
                 name: "MSI",
-                logo: `<div style="background:#0f172a; border:1.5px solid #e11d48; color:#fff; font-family:'Arial Black', sans-serif; font-weight:900; font-size:12px; padding:3px 8px; border-radius:6px; display:flex; align-items:center; gap:4px; box-shadow:0 2px 6px rgba(225,29,72,0.2);"><span style="color:#e11d48; font-size:14px;">🐉</span><span style="letter-spacing:1px;">msi</span></div>`,
                 models: [
                     "MSI Titan 18 HX", "MSI Raider GE78", "MSI Katana 15", "MSI Cyborg 15", "MSI Bravo 15",
                     "MSI Modern 14", "MSI Modern 15", "MSI Stealth 16", "MSI Prestige 14"
@@ -775,7 +759,6 @@ const WIZARD_DATA = {
             {
                 id: "laptop_other",
                 name: "✏️ Hãng khác",
-                logo: `<div style="background:#fff7ed; border:1.5px dashed #ea580c; border-radius:10px; width:36px; height:36px; display:flex; align-items:center; justify-content:center; font-size:18px;">✏️</div>`,
                 models: ["LG Gram 16", "LG Gram 14", "Microsoft Surface Laptop 5", "Surface Pro 9", "Gigabyte G5", "VAIO FE14"]
             }
         ],
@@ -805,7 +788,6 @@ const WIZARD_DATA = {
             {
                 id: "macbook_pro",
                 name: "MacBook Pro",
-                logo: `<div style="background:linear-gradient(135deg, #0f172a, #334155); width:36px; height:36px; border-radius:10px; display:flex; align-items:center; justify-content:center; box-shadow:0 2px 6px rgba(15,23,42,0.25);"><svg viewBox="0 0 48 48" width="22" height="22" fill="none" stroke="#fff" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round"><rect x="8" y="7" width="32" height="23" rx="2.5" fill="#1e293b"/><path d="M4 35h40a1.5 1.5 0 0 0 1.5-1.5v-1H2.5v1A1.5 1.5 0 0 0 4 35z" fill="#475569"/><circle cx="24" cy="18" r="3" fill="#ea580c"/></svg></div>`,
                 models: [
                     "MacBook Pro 16 M3 Max / M3 Pro", "MacBook Pro 14 M3 / M3 Pro",
                     "MacBook Pro 16 M2 Pro / M2 Max", "MacBook Pro 14 M2 Pro / M2 Max",
@@ -819,7 +801,6 @@ const WIZARD_DATA = {
             {
                 id: "macbook_air",
                 name: "MacBook Air",
-                logo: `<div style="background:linear-gradient(135deg, #1e293b, #0ea5e9); width:36px; height:36px; border-radius:10px; display:flex; align-items:center; justify-content:center; box-shadow:0 2px 6px rgba(14,165,233,0.25);"><svg viewBox="0 0 48 48" width="22" height="22" fill="none" stroke="#fff" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round"><rect x="8" y="9" width="32" height="22" rx="2" fill="#0f172a"/><path d="M4 34h40l-2 2H6z" fill="#38bdf8"/><path d="M24 16v8" stroke="#38bdf8" stroke-width="2"/></svg></div>`,
                 models: [
                     "MacBook Air 15 M3 (2024)", "MacBook Air 13 M3 (2024)",
                     "MacBook Air 15 M2 (2023)", "MacBook Air 13 M2 (2022)",
@@ -830,7 +811,6 @@ const WIZARD_DATA = {
             {
                 id: "imac",
                 name: "iMac All-in-One",
-                logo: `<div style="background:linear-gradient(135deg, #0284c7, #2563eb); width:36px; height:36px; border-radius:10px; display:flex; align-items:center; justify-content:center; box-shadow:0 2px 6px rgba(37,99,235,0.25);"><svg viewBox="0 0 48 48" width="22" height="22" fill="none" stroke="#fff" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round"><rect x="6" y="6" width="36" height="26" rx="3" fill="#0f172a"/><rect x="6" y="27" width="36" height="5" fill="#38bdf8"/><path d="M24 32v10m-8 0h16" stroke="#fff" stroke-width="3"/></svg></div>`,
                 models: [
                     "iMac 24\" M3 (2023)", "iMac 24\" M1 (2021)", "iMac 27\" Retina 5K (2020)", "iMac 21.5\" 4K (2019)"
                 ]
@@ -838,7 +818,6 @@ const WIZARD_DATA = {
             {
                 id: "mac_mini",
                 name: "Mac Mini & Studio",
-                logo: `<div style="background:linear-gradient(135deg, #334155, #64748b); width:36px; height:36px; border-radius:10px; display:flex; align-items:center; justify-content:center; box-shadow:0 2px 6px rgba(100,116,139,0.25);"><svg viewBox="0 0 48 48" width="22" height="22" fill="none" stroke="#fff" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round"><rect x="8" y="14" width="32" height="20" rx="4" fill="#0f172a"/><line x1="8" y1="28" x2="40" y2="28" stroke="#94a3b8" stroke-width="1.5"/><circle cx="24" cy="21" r="2.5" fill="#38bdf8"/></svg></div>`,
                 models: [
                     "Mac Mini M2 Pro (2023)", "Mac Mini M2", "Mac Mini M1 (2020)", "Mac Studio M2 Ultra", "Mac Studio M1 Max"
                 ]
@@ -846,7 +825,6 @@ const WIZARD_DATA = {
             {
                 id: "mac_pro",
                 name: "Mac Pro Workstation",
-                logo: `<div style="background:linear-gradient(135deg, #0f172a, #ea580c); width:36px; height:36px; border-radius:10px; display:flex; align-items:center; justify-content:center; box-shadow:0 2px 6px rgba(234,88,12,0.25);"><svg viewBox="0 0 48 48" width="22" height="22" fill="none" stroke="#fff" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round"><rect x="12" y="6" width="24" height="34" rx="4" fill="#1e293b"/><circle cx="20" cy="14" r="2" fill="#ea580c"/><circle cx="28" cy="14" r="2" fill="#ea580c"/><circle cx="20" cy="22" r="2" fill="#ea580c"/><circle cx="28" cy="22" r="2" fill="#ea580c"/><circle cx="20" cy="30" r="2" fill="#ea580c"/><circle cx="28" cy="30" r="2" fill="#ea580c"/></svg></div>`,
                 models: [
                     "Mac Pro Apple Silicon (2023)", "Mac Pro Tower (2019)"
                 ]
@@ -875,7 +853,6 @@ const WIZARD_DATA = {
             {
                 id: "pc_gaming",
                 name: "PC Gaming ráp",
-                logo: `<div style="font-size:18px;">🎮</div>`,
                 models: [
                     "PC Gaming Core i5 / RTX 4060", "PC Gaming Core i7 / RTX 4070 Ti", "PC Gaming Ryzen 7 / RTX 4080",
                     "PC Gaming Core i5 / RTX 3060", "PC Gaming Core i3 / GTX 1660 Super"
@@ -884,7 +861,6 @@ const WIZARD_DATA = {
             {
                 id: "pc_workstation",
                 name: "PC Đồ Họa / Render",
-                logo: `<div style="font-size:18px;">🏗️</div>`,
                 models: [
                     "PC Workstation Core i9 14900K / RTX 4090", "PC Dual Xeon Render 3D / Đồ Họa", "PC Ryzen 9 7950X / 64GB RAM"
                 ]
@@ -892,7 +868,6 @@ const WIZARD_DATA = {
             {
                 id: "pc_office",
                 name: "PC Văn Phòng",
-                logo: `<div style="font-size:18px;">🏢</div>`,
                 models: [
                     "PC Văn Phòng Core i3 / 8GB RAM / SSD 256GB", "PC Văn Phòng Core i5 / 16GB RAM / SSD 512GB", "PC Kế Toán / Thu Ngân"
                 ]
@@ -900,7 +875,6 @@ const WIZARD_DATA = {
             {
                 id: "pc_aio_brand",
                 name: "Đồng Bộ Dell / HP / Asus",
-                logo: `<div style="font-size:18px;">🖥️</div>`,
                 models: [
                     "Dell OptiPlex 7090 / 3080", "Dell Inspiron AIO 24", "HP ProDesk 400 G7", "HP Pavilion AIO 27", "Asus ExpertCenter D5"
                 ]
@@ -908,7 +882,6 @@ const WIZARD_DATA = {
             {
                 id: "pc_apple",
                 name: "Apple iMac / Mac Mini",
-                logo: `<div style="font-size:18px;">🍏</div>`,
                 models: [
                     "iMac 24 M3 (2023)", "iMac 24 M1 (2021)", "iMac 27 5K Retina Intel", "Mac Mini M2 / M2 Pro", "Mac Studio M2 Max"
                 ]
@@ -937,7 +910,6 @@ const WIZARD_DATA = {
             {
                 id: "ipad",
                 name: "Apple iPad",
-                logo: `<div style="font-size:18px;">🍏</div>`,
                 models: [
                     "iPad Pro 13 M4 (2024)", "iPad Pro 11 M4 (2024)",
                     "iPad Pro 12.9 M2", "iPad Pro 11 M2", "iPad Pro 12.9 M1", "iPad Pro 11 M1",
@@ -949,7 +921,6 @@ const WIZARD_DATA = {
             {
                 id: "samsung_tab",
                 name: "Samsung Galaxy Tab",
-                logo: `<div style="color:#1428a0; font-weight:900; font-size:12px;">SAMSUNG</div>`,
                 models: [
                     "Galaxy Tab S9 Ultra", "Galaxy Tab S9 Plus", "Galaxy Tab S9", "Galaxy Tab S9 FE",
                     "Galaxy Tab S8 Ultra", "Galaxy Tab S8", "Galaxy Tab A9 Plus", "Galaxy Tab A8"
@@ -958,13 +929,11 @@ const WIZARD_DATA = {
             {
                 id: "xiaomi_pad",
                 name: "Xiaomi Pad",
-                logo: `<div style="background:#ff6900; color:#fff; font-weight:900; font-size:11px; padding:2px 6px; border-radius:4px;">mi</div>`,
                 models: ["Xiaomi Pad 6 Pro", "Xiaomi Pad 6", "Xiaomi Pad 5", "Redmi Pad Pro", "Redmi Pad SE"]
             },
             {
                 id: "tablet_other",
                 name: "✏️ Hãng khác",
-                logo: `<div style="font-size:18px;">📟</div>`,
                 models: ["Lenovo Tab P11 Pro", "Microsoft Surface Pro 9", "Huawei MatePad 11.5"]
             }
         ],
@@ -989,7 +958,6 @@ const WIZARD_DATA = {
             {
                 id: "apple_watch",
                 name: "Apple Watch",
-                logo: `<div style="font-size:18px;">🍏</div>`,
                 models: [
                     "Apple Watch Ultra 2", "Apple Watch Ultra (49mm)",
                     "Apple Watch Series 9 (45mm / 41mm)", "Apple Watch Series 8", "Apple Watch Series 7", "Apple Watch Series 6", "Apple Watch Series 5", "Apple Watch Series 4",
@@ -999,7 +967,6 @@ const WIZARD_DATA = {
             {
                 id: "galaxy_watch",
                 name: "Samsung Galaxy Watch",
-                logo: `<div style="color:#1428a0; font-weight:900; font-size:12px;">SAMSUNG</div>`,
                 models: [
                     "Galaxy Watch 6 Classic (47mm / 43mm)", "Galaxy Watch 6 (44mm / 40mm)",
                     "Galaxy Watch 5 Pro", "Galaxy Watch 5", "Galaxy Watch 4 Classic", "Galaxy Watch 4"
@@ -1008,13 +975,11 @@ const WIZARD_DATA = {
             {
                 id: "garmin",
                 name: "Garmin",
-                logo: `<div style="color:#007cc3; font-weight:900; font-size:12px;">GARMIN</div>`,
                 models: ["Garmin Fenix 7 Pro", "Garmin Epix Pro", "Garmin Forerunner 965", "Garmin Forerunner 265", "Garmin Venu 3"]
             },
             {
                 id: "watch_other",
                 name: "✏️ Hãng khác",
-                logo: `<div style="font-size:18px;">⌚</div>`,
                 models: ["Xiaomi Watch S3", "Redmi Watch 4", "Huawei Watch GT 4", "Huawei Watch 4 Pro", "Amazfit GTR 4"]
             }
         ],
@@ -1089,12 +1054,11 @@ function wizardSelectDevice(deviceKey, deviceFullName) {
 }
 
 // BƯỚC 2: Logo thiết bị lấy từ cùng thư mục ảnh thương hiệu của catalog.
-const REPAIR_WIZARD_LOGO_IDS = new Set(['apple', 'samsung', 'xiaomi', 'oppo', 'vivo', 'realme', 'google', 'sony', 'oneplus', 'dell', 'asus', 'hp', 'lenovo', 'acer', 'msi', 'garmin']);
 const REPAIR_WIZARD_LOGO_ALIASES = {
-    ipad: 'apple', apple_watch: 'apple', galaxy_watch: 'samsung',
+    apple_iphone: 'apple', ipad: 'apple', apple_watch: 'apple', galaxy_watch: 'samsung',
     samsung_tab: 'samsung', xiaomi_pad: 'xiaomi',
     macbook_pro: 'apple', macbook_air: 'apple', imac: 'apple',
-    mac_mini: 'apple', mac_pro: 'apple', pc_apple: 'apple'
+    mac_mini: 'apple', mac_pro: 'apple', pc_apple: 'apple', toshiba: 'dynabook'
 };
 function renderStep2Brands() {
     const devData = WIZARD_DATA[selectedDeviceKey];
@@ -1112,9 +1076,10 @@ function renderStep2Brands() {
 
     devData.brands.forEach(brand => {
         const logoId = REPAIR_WIZARD_LOGO_ALIASES[brand.id] || brand.id;
-        const logoMarkup = REPAIR_WIZARD_LOGO_IDS.has(logoId)
-            ? `<img class="fn-rb-brand-img" src="assets/images/brands/${logoId}.png" alt="" width="40" height="40" loading="lazy">`
-            : brand.logo;
+        const logoFile = window.FIXNEAR_BRAND_ASSETS?.[logoId];
+        const logoMarkup = logoFile
+            ? `<img class="fn-rb-brand-img" src="assets/images/brands/${logoFile}" alt="" width="40" height="40" loading="lazy">`
+            : `<span class="fn-brand-wordmark">${String(brand.name).replace(/[&<>"']/g, c => ({'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;',"'":'&#39;'}[c]))}</span>`;
         const card = document.createElement('div');
         card.className = 'fn-rb-brand-card';
         card.innerHTML = `

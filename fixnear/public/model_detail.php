@@ -31,8 +31,8 @@ $allPrices = RepairAtlasPricing::getModelPrices(
 $grades = RepairAtlasPricing::getGradeFactors();
 $sourceQuotes = FixNearPriceEvidence::forModel((string) $model['id']);
 $brandSlug = strtolower((string) $model['brand']);
-$brandLogo = preg_match('/^[a-z0-9_-]+$/', $brandSlug) && is_file(__DIR__ . '/assets/images/brands/' . $brandSlug . '.png')
-    ? 'assets/images/brands/' . $brandSlug . '.png' : null;
+require_once __DIR__ . '/../includes/brand_assets.php';
+$brandLogo = fixnearBrandLogoPath($brandSlug);
 $allDevices = RepairAtlasPricing::getAllDevices();
 $deviceInfo = $allDevices[$model['deviceType']] ?? ['name' => ucfirst($model['deviceType']), 'icon' => '📱'];
 $specLabels = [

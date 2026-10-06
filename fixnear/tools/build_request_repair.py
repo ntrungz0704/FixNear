@@ -1,6 +1,8 @@
 # -*- coding: utf-8 -*-
 """
-Builder for request_repair.php:
+Legacy builder for an obsolete request_repair.php prototype:
+Do not run against the current site. The maintained page uses the audited brand
+asset manifest, current catalog and validated booking flow.
 Implements a state-of-the-art interactive repair wizard modeled after RepairBookings.com,
 featuring:
 1. Centered brand logos and names inside cards
@@ -13,6 +15,9 @@ featuring:
 """
 
 import json
+
+if __name__ == '__main__':
+    raise SystemExit('Legacy prototype generator retired; edit public/request_repair.php directly.')
 
 content = r'''<?php
 $pageTitle = "Gửi Yêu Cầu Sửa Chữa & Nhận Báo Giá — FixNear";

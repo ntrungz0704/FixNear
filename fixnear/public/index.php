@@ -3,7 +3,7 @@ $pageTitle = "FixNear — Tra Cứu Cửa Hàng Và Dịch Vụ Sửa Chữa T�
 require_once __DIR__ . '/../includes/header.php';
 require_once __DIR__ . '/../includes/navbar.php';
 
-$stats = db()->getStats();
+$stats = db()->getPublicStats();
 
 // Nhận diện tọa độ vị trí thực tế của người dùng từ Session, URL hoặc Cookie
 $userLoc = getUserLocation();
@@ -182,8 +182,8 @@ $featuredShops = array_slice($featuredShops, 0, 6);
                     <span class="fn-nav-path" id="fn-nav-device-label">Điện thoại</span>
                 </div>
 
-                <h3 class="fn-wizard-title">Chọn thương hiệu <span>(Select your brand)</span></h3>
-                <p class="fn-wizard-subtitle">Bấm vào hãng thiết bị của bạn hoặc tự gõ tên nếu không thấy</p>
+                <h3 class="fn-wizard-title" id="fn-brand-step-title">Chọn thương hiệu</h3>
+                <p class="fn-wizard-subtitle" id="fn-brand-step-subtitle">Bấm vào hãng thiết bị của bạn hoặc tự gõ tên nếu không thấy</p>
 
                 <!-- Lưới thương hiệu có logo chuẩn RepairBookings -->
                 <div class="fn-brands-grid" id="fn-brands-grid-container"></div>

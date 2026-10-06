@@ -262,8 +262,7 @@ require_once __DIR__ . '/../includes/navbar.php';
                 $issueCount = count($m['knownIssues'] ?? []);
                 $faultCount = count($m['supportedFaults'] ?? []);
                 $brandSlug = strtolower((string) ($m['brand'] ?? ''));
-                $brandLogo = preg_match('/^[a-z0-9_-]+$/', $brandSlug) && is_file(__DIR__ . '/assets/images/brands/' . $brandSlug . '.png')
-                    ? 'assets/images/brands/' . $brandSlug . '.png' : null;
+                $brandLogo = fixnearBrandLogoPath($brandSlug);
             ?>
                 <article class="fn-model-catalog-card">
                     <div class="fn-model-catalog-meta">
