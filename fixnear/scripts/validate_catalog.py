@@ -4,7 +4,7 @@
 FixNear RepairAtlas — Catalog Validator
 Kiểm định 100% tính toàn vẹn của danh mục:
 1. Schema & Tính duy nhất của Model ID
-2. Độ bao phủ giá (0 model thiếu giá)
+2. Độ bao phủ giá dự đoán từ mô hình (không kiểm tra giá niêm yết)
 3. Sanity Check (Phát hiện các tổ hợp pan bệnh vô lý)
 """
 
@@ -103,6 +103,20 @@ class CatalogValidator:
         if "digital-crown" in faults and dev != "smartwatch":
             self.errors.append(f"[SANITY VÔ LÝ] Thiết bị [{m_id}] không phải Smartwatch nhưng có lỗi 'digital-crown'")
 
+        if dev == "phone" and (faults & {"thermal", "software"}):
+            self.errors.append(f"[SANITY VÔ LÝ] Điện thoại [{m_id}] có lỗi dành cho máy tính: {faults & {'thermal', 'software'}}")
+        if dev == "phone" and model.get("tier") != "P5" and "hinge-body" in faults:
+            self.errors.append(f"[SANITY VÔ LÝ] Điện thoại không gập [{m_id}] có lỗi bản lề")
+        if dev == "tablet" and (faults & {"thermal", "software"}):
+            self.errors.append(f"[SANITY VÔ LÝ] Tablet [{m_id}] có lỗi dành cho máy tính: {faults & {'thermal', 'software'}}")
+        if dev == "tablet" and "surface" not in name.lower() and "hinge-body" in faults:
+            self.errors.append(f"[SANITY VÔ LÝ] Tablet [{m_id}] không có bản lề/chân đế")
+        if dev == "smartwatch" and "software" in faults:
+            self.errors.append(f"[SANITY VÔ LÝ] Đồng hồ [{m_id}] có dịch vụ cài Win/macOS")
+        if dev == "smartwatch" and model.get("brand", "").lower() != "apple":
+            if faults & {"digital-crown", "taptic-engine"}:
+                self.errors.append(f"[SANITY VÔ LÝ] Đồng hồ ngoài Apple [{m_id}] có linh kiện Apple Watch")
+
     def validate_model(self, file_path: Path, model: dict, idx: int, verbose: bool = False):
         m_id = model.get("id")
         if not m_id:
@@ -144,7 +158,7 @@ class CatalogValidator:
                     for grade in ["standard", "oem", "genuine"]:
                         price = self.pricing_engine.calculate_price(dev_type, tier, brand, f_id, grade, m_id)
                         if price is None:
-                            self.errors.append(f"Model [{m_id}] THIẾU GIÁ: không tính được giá cho lỗi '{f_id}', cấp '{grade}'")
+                            self.errors.append(f"Model [{m_id}] THIẾU GIÁ DỰ ĐOÁN: không tính được giá cho lỗi '{f_id}', cấp '{grade}'")
                         elif price["min"] > price["max"]:
                             self.errors.append(f"Model [{m_id}] GIÁ SAI LỆCH: lỗi '{f_id}' cấp '{grade}' có min ({price['min']}) > max ({price['max']})")
 
@@ -152,9 +166,10 @@ class CatalogValidator:
 
         # Check knownIssues
         known_issues = model.get("knownIssues", [])
-        if not isinstance(known_issues, list) or len(known_issues) == 0:
-            self.warnings.append(f"Model [{m_id}] chưa có lỗi đặc thù 'knownIssues'")
+        if not isinstance(known_issues, list):
+            self.errors.append(f"Model [{m_id}] knownIssues phải là danh sách")
         else:
+            # Danh sách rỗng hợp lệ: không tạo lỗi đặc thù khi chưa có bằng chứng.
             for ki_idx, issue in enumerate(known_issues):
                 self.validate_known_issue(m_id, ki_idx, issue)
             self.stats["total_known_issues"] += len(known_issues)
@@ -235,7 +250,7 @@ class CatalogValidator:
         else:
             print("\n✅ KẾT QUẢ: 100% KIỂM ĐỊNH ĐẠT YÊU CẦU!")
             print("   - Không có Model ID trùng lặp")
-            print("   - 0 Model bị thiếu giá")
+            print("   - 0 Model bị thiếu giá dự đoán từ mô hình (không phải giá xác thực)")
             print("   - Không có tổ hợp pan bệnh vô lý (Sanity checks passed)")
             return True
 

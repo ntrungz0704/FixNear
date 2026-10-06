@@ -1,0 +1,20 @@
+.fn-model-catalog-grid{display:grid;grid-template-columns:repeat(auto-fill,minmax(250px,1fr));grid-auto-rows:1fr;gap:16px}
+.fn-model-catalog-card{min-width:0;min-height:220px;padding:18px;background:#fff;border:1px solid #e2e8f0;border-radius:14px;display:flex;flex-direction:column;transition:border-color .18s,box-shadow .18s,transform .18s}
+.fn-model-catalog-card:hover{border-color:#fdba74;box-shadow:0 10px 24px rgba(154,52,18,.09);transform:translateY(-2px)}
+.fn-model-catalog-meta{display:flex;justify-content:space-between;align-items:center;gap:8px;margin-bottom:12px}
+.fn-model-catalog-brand,.fn-model-catalog-tier{display:inline-flex;align-items:center;min-height:25px;padding:2px 8px;border-radius:6px;font-size:10px;font-weight:800;letter-spacing:.03em}
+.fn-model-catalog-brand{background:#f1f5f9;color:#334155;max-width:75%;overflow:hidden;text-overflow:ellipsis;white-space:nowrap}.fn-model-catalog-tier{background:#fff7ed;color:#c2410c;border:1px solid #fed7aa}
+.fn-model-catalog-brand{gap:5px}.fn-model-catalog-brand img{width:18px;height:18px;object-fit:contain}
+.fn-model-catalog-card h3{font-family:var(--fn-font-heading);font-size:17px;line-height:1.35;font-weight:900;margin:0 0 10px;min-height:46px}
+.fn-model-catalog-card h3 a{color:#172033;text-decoration:none;display:-webkit-box;-webkit-line-clamp:2;-webkit-box-orient:vertical;overflow:hidden}
+.fn-model-catalog-card h3 a:hover{color:#c2410c}
+.fn-model-catalog-spec{min-height:48px;display:flex;flex-direction:column;gap:3px;color:#64748b;font-size:11px;line-height:1.3}
+.fn-model-catalog-spec span{overflow:hidden;text-overflow:ellipsis;white-space:nowrap}
+.fn-model-catalog-spec b{color:#334155;margin-right:4px}
+.fn-model-catalog-bottom{display:flex;flex-direction:column;gap:10px;margin-top:auto;padding-top:12px}
+.fn-model-catalog-bottom>span{color:#64748b;font-size:11px}
+.fn-model-catalog-bottom>a{min-height:40px;display:flex;align-items:center;justify-content:center;gap:8px;padding:0 12px;background:#ea580c;color:#fff;border-radius:9px;text-decoration:none;font-size:12px;font-weight:800;text-align:center}
+.fn-model-catalog-bottom>a:hover{background:#c2410c}
+.fn-model-catalog-card a:focus-visible{outline:3px solid #fb923c;outline-offset:3px}
+@media(max-width:650px){.fn-model-catalog-grid{grid-template-columns:repeat(2,minmax(0,1fr));gap:10px}.fn-model-catalog-card{padding:12px;min-height:215px}.fn-model-catalog-card h3{font-size:14px;min-height:39px}.fn-model-catalog-spec{font-size:10px}.fn-model-catalog-bottom>span{font-size:10px}}
+@media(max-width:380px){.fn-model-catalog-grid{grid-template-columns:1fr}}

@@ -43,20 +43,23 @@
 
     <!-- Gợi ý câu hỏi nhanh (Quick Chips) -->
     <div class="fn-ai-quick-chips">
+        <button type="button" class="fn-ai-chip" onclick="sendQuickPrompt('iPhone 13 Pro Max bị sọc màn hình thay hết bao nhiêu?')">
+            📱 iPhone 13 Pro Max sọc màn
+        </button>
+        <button type="button" class="fn-ai-chip" onclick="sendQuickPrompt('Thay pin Laptop Dell Inspiron ở Quận 10')">
+            🔋 Thay pin Dell Inspiron Q.10
+        </button>
+        <button type="button" class="fn-ai-chip" onclick="sendQuickPrompt('Máy vô nước mở không lên cấp cứu thế nào?')">
+            💧 Cấp cứu máy vô nước
+        </button>
         <button type="button" class="fn-ai-chip" onclick="sendQuickPrompt('Máy sập nguồn mở không lên phải làm sao?')">
             ⚡ Máy sập nguồn
-        </button>
-        <button type="button" class="fn-ai-chip" onclick="sendQuickPrompt('Màn hình bị sọc chỉ có ép kính được không?')">
-            🖥️ Màn hình sọc chỉ
-        </button>
-        <button type="button" class="fn-ai-chip" onclick="sendQuickPrompt('Giá thay pin iPhone và Laptop khoảng bao nhiêu?')">
-            🔋 Giá thay pin
         </button>
         <button type="button" class="fn-ai-chip" onclick="sendQuickPrompt('Làm sao để tránh bị tráo linh kiện (luộc đồ)?')">
             🛡️ Tránh luộc đồ
         </button>
-        <button type="button" class="fn-ai-chip" onclick="sendQuickPrompt('Tìm bản ghi cửa hàng gần Quận 10 và Quận 12')">
-            📍 Tìm tiệm gần tôi
+        <button type="button" class="fn-ai-chip" onclick="sendQuickPrompt('Tìm tiệm sửa chữa uy tín gần Quận 12')">
+            📍 Tiệm uy tín Quận 12
         </button>
     </div>
 

@@ -93,12 +93,20 @@ $sql .= "  `map_url` TEXT,\n";
 $sql .= "  `latitude` DECIMAL(10, 6) DEFAULT 10.853800,\n";
 $sql .= "  `longitude` DECIMAL(10, 6) DEFAULT 106.626300,\n";
 $sql .= "  `description` TEXT,\n";
-$sql .= "  `google_rating` DECIMAL(2, 1) DEFAULT 4.5,\n";
-$sql .= "  `google_reviews_count` INT DEFAULT 100,\n";
+$sql .= "  `google_rating` DECIMAL(2, 1) DEFAULT NULL,\n";
+$sql .= "  `google_reviews_count` INT DEFAULT NULL,\n";
 $sql .= "  `devices` VARCHAR(150) DEFAULT 'laptop,phone',\n";
-$sql .= "  `is_verified` TINYINT(1) DEFAULT 1,\n";
-$sql .= "  `allows_onsite_watch` TINYINT(1) DEFAULT 1,\n";
-$sql .= "  `requires_component_signing` TINYINT(1) DEFAULT 1,\n";
+$sql .= "  `is_verified` TINYINT(1) DEFAULT 0,\n";
+$sql .= "  `allows_onsite_watch` TINYINT(1) DEFAULT 0,\n";
+$sql .= "  `requires_component_signing` TINYINT(1) DEFAULT 0,\n";
+$sql .= "  `source_url` TEXT,\n";
+$sql .= "  `verified_at` DATETIME DEFAULT NULL,\n";
+$sql .= "  `google_place_id` VARCHAR(255) DEFAULT NULL,\n";
+$sql .= "  `google_verified_at` DATETIME DEFAULT NULL,\n";
+$sql .= "  `student_discount_source_url` TEXT,\n";
+$sql .= "  `student_discount_verified_at` DATETIME DEFAULT NULL,\n";
+$sql .= "  `policy_source_url` TEXT,\n";
+$sql .= "  `policy_verified_at` DATETIME DEFAULT NULL,\n";
 $sql .= "  `student_discount` VARCHAR(255) DEFAULT NULL,\n";
 $sql .= "  `image` TEXT,\n";
 $sql .= "  `website` VARCHAR(255) DEFAULT NULL,\n";
@@ -123,13 +131,13 @@ foreach ($shops as $s) {
         escapeSql($s['latitude'] ?? 10.8538),
         escapeSql($s['longitude'] ?? 106.6263),
         escapeSql($s['description'] ?? ''),
-        escapeSql($s['google_rating'] ?? 4.5),
-        escapeSql($s['google_reviews_count'] ?? 100),
+        escapeSql(!empty($s['google_place_id']) && !empty($s['google_verified_at']) ? ($s['google_rating'] ?? null) : null),
+        escapeSql(!empty($s['google_place_id']) && !empty($s['google_verified_at']) ? ($s['google_reviews_count'] ?? null) : null),
         escapeSql($devStr),
-        escapeSql($s['is_verified'] ?? 1),
-        escapeSql($s['allows_onsite_watch'] ?? 1),
-        escapeSql($s['requires_component_signing'] ?? 1),
-        escapeSql($s['student_discount'] ?? null),
+        escapeSql(!empty($s['source_url']) && !empty($s['verified_at']) ? 1 : 0),
+        escapeSql(!empty($s['policy_source_url']) && !empty($s['policy_verified_at']) && !empty($s['allows_onsite_watch']) ? 1 : 0),
+        escapeSql(!empty($s['policy_source_url']) && !empty($s['policy_verified_at']) && !empty($s['requires_component_signing']) ? 1 : 0),
+        escapeSql(!empty($s['student_discount_source_url']) && !empty($s['student_discount_verified_at']) ? ($s['student_discount'] ?? null) : null),
         escapeSql($s['image'] ?? ''),
         escapeSql($s['website'] ?? null),
         escapeSql($s['created_at'] ?? date('Y-m-d H:i:s'))
@@ -175,8 +183,10 @@ $sql .= "  `shop_id` INT NOT NULL,\n";
 $sql .= "  `service_id` INT NOT NULL,\n";
 $sql .= "  `min_price` INT DEFAULT 0,\n";
 $sql .= "  `max_price` INT DEFAULT 0,\n";
-$sql .= "  `warranty_text` VARCHAR(100) DEFAULT '6 - 12 tháng',\n";
-$sql .= "  `turnaround_text` VARCHAR(100) DEFAULT '30 - 60 phút',\n";
+$sql .= "  `warranty_text` VARCHAR(100) DEFAULT NULL,\n";
+$sql .= "  `turnaround_text` VARCHAR(100) DEFAULT NULL,\n";
+$sql .= "  `source_url` TEXT,\n";
+$sql .= "  `verified_at` DATETIME DEFAULT NULL,\n";
 $sql .= "  `note` TEXT,\n";
 $sql .= "  INDEX `idx_shop` (`shop_id`),\n";
 $sql .= "  INDEX `idx_service` (`service_id`)\n";
@@ -253,11 +263,12 @@ $sql .= "  `id` INT AUTO_INCREMENT PRIMARY KEY,\n";
 $sql .= "  `shop_id` INT NOT NULL,\n";
 $sql .= "  `user_id` INT DEFAULT NULL,\n";
 $sql .= "  `user_name` VARCHAR(150) NOT NULL,\n";
-$sql .= "  `rating` INT NOT NULL DEFAULT 5,\n";
+$sql .= "  `rating` INT NOT NULL,\n";
 $sql .= "  `device_name` VARCHAR(150) DEFAULT NULL,\n";
 $sql .= "  `service_repaired` VARCHAR(200) DEFAULT NULL,\n";
 $sql .= "  `comment` TEXT NOT NULL,\n";
 $sql .= "  `is_hidden` TINYINT(1) DEFAULT 0,\n";
+$sql .= "  `origin` VARCHAR(32) NOT NULL DEFAULT 'seed',\n";
 $sql .= "  `admin_reply` TEXT DEFAULT NULL,\n";
 $sql .= "  `admin_reply_at` DATETIME DEFAULT NULL,\n";
 $sql .= "  `created_at` DATETIME DEFAULT CURRENT_TIMESTAMP,\n";
@@ -266,11 +277,11 @@ $sql .= ") ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci;\n\n
 
 $reviews = readJson($dataDir . '/reviews.json');
 if (!empty($reviews)) {
-    $sql .= "INSERT INTO `reviews` (`id`, `shop_id`, `user_id`, `user_name`, `rating`, `device_name`, `service_repaired`, `comment`, `is_hidden`, `admin_reply`, `admin_reply_at`, `created_at`) VALUES\n";
+    $sql .= "INSERT INTO `reviews` (`id`, `shop_id`, `user_id`, `user_name`, `rating`, `device_name`, `service_repaired`, `comment`, `is_hidden`, `origin`, `admin_reply`, `admin_reply_at`, `created_at`) VALUES\n";
     $rvRows = [];
     foreach ($reviews as $rv) {
         $rvRows[] = sprintf(
-            "(%s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s)",
+            "(%s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s)",
             escapeSql($rv['id']),
             escapeSql($rv['shop_id']),
             escapeSql($rv['user_id'] ?? null),
@@ -280,6 +291,7 @@ if (!empty($reviews)) {
             escapeSql($rv['service_repaired'] ?? null),
             escapeSql($rv['comment']),
             escapeSql(!empty($rv['is_hidden']) ? 1 : 0),
+            escapeSql($rv['origin'] ?? 'seed'),
             escapeSql($rv['admin_reply'] ?? null),
             escapeSql($rv['admin_reply_at'] ?? null),
             escapeSql($rv['created_at'] ?? date('Y-m-d H:i:s'))
@@ -339,7 +351,7 @@ $sql .= "  `message` TEXT NOT NULL,\n";
 $sql .= "  `created_at` DATETIME DEFAULT CURRENT_TIMESTAMP\n";
 $sql .= ") ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci;\n\n";
 
-$sqlFile = $rootDir . '/fixnear_db.sql';
+$sqlFile = $dataDir . '/fixnear_db.sql';
 file_put_contents($sqlFile, $sql);
 echo "Đã tạo thành công file fixnear_db.sql tại: " . $sqlFile . "\n";
 echo "Dung lượng file: " . number_format(filesize($sqlFile)) . " bytes.\n";

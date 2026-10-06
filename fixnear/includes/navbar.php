@@ -21,11 +21,12 @@ $currentPage = basename($_SERVER['PHP_SELF']);
         <!-- Menu links: Trọng Tâm Chuẩn Yêu Cầu -->
         <div class="fn-nav-links" id="fn-nav-links">
             <button type="button" class="fn-mobile-close-btn" onclick="fnToggleMobileMenu()" aria-label="Đóng menu">✕</button>
-            <a href="<?= $assetPrefix ?>index.php" class="fn-nav-link <?= ($currentPage === 'index.php' || $currentPage === 'search.php') ? 'active' : '' ?>">TRANG CHỦ & TÌM KIẾM</a>
-            <a href="<?= $assetPrefix ?>models.php" class="fn-nav-link <?= ($currentPage === 'models.php' || $currentPage === 'model_detail.php') ? 'active' : '' ?>">DÒNG MÁY & LỖI</a>
-            <a href="<?= $assetPrefix ?>request_repair.php" class="fn-nav-link <?= $currentPage === 'request_repair.php' ? 'active' : '' ?>">GỬI YÊU CẦU TÌM THỢ</a>
-            <a href="<?= $assetPrefix ?>shops.php" class="fn-nav-link <?= $currentPage === 'shops.php' ? 'active' : '' ?>">DANH SÁCH CỬA HÀNG</a>
-            <a href="<?= $assetPrefix ?>contact.php" class="fn-nav-link <?= $currentPage === 'contact.php' ? 'active' : '' ?>">LIÊN HỆ DỰ ÁN</a>
+            <a href="<?= $assetPrefix ?>index.php" class="fn-nav-link <?= ($currentPage === 'index.php' || $currentPage === 'search.php') ? 'active' : '' ?>">TRANG CHỦ</a>
+            <a href="<?= $assetPrefix ?>models.php" class="fn-nav-link <?= ($currentPage === 'models.php' || $currentPage === 'model_detail.php') ? 'active' : '' ?>">DÒNG MÁY</a>
+            <a href="<?= $assetPrefix ?>prices.php" class="fn-nav-link <?= $currentPage === 'prices.php' ? 'active' : '' ?>">BẢNG GIÁ</a>
+            <a href="<?= $assetPrefix ?>request_repair.php" class="fn-nav-link <?= $currentPage === 'request_repair.php' ? 'active' : '' ?>">GỬI YÊU CẦU</a>
+            <a href="<?= $assetPrefix ?>shops.php" class="fn-nav-link <?= $currentPage === 'shops.php' ? 'active' : '' ?>">CỬA HÀNG</a>
+            <a href="<?= $assetPrefix ?>contact.php" class="fn-nav-link <?= $currentPage === 'contact.php' ? 'active' : '' ?>">LIÊN HỆ</a>
         </div>
 
         <!-- Actions -->

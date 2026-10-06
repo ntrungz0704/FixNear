@@ -20,7 +20,7 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
 
     if ($shop_id > 0 && !empty($comment) && mb_strlen($comment) <= 2000 && mb_strlen($device_name) <= 100 && mb_strlen($service_repaired) <= 150 && db()->getShopById($shop_id)) {
         $user = currentUser();
-        db()->addReview([
+        $savedReview = db()->addReview([
             'shop_id' => $shop_id,
             'user_id' => $user['id'],
             'user_name' => $user['name'],
@@ -29,8 +29,12 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
             'service_repaired' => $service_repaired,
             'comment' => $comment
         ]);
-        header("Location: ../shop_detail.php?id={$shop_id}&msg=review_added");
-        exit;
+        if ($savedReview !== false) {
+            header("Location: ../shop_detail.php?id={$shop_id}&msg=review_added");
+            exit;
+        }
+        http_response_code(503);
+        exit('Không thể lưu đánh giá lúc này. Vui lòng thử lại.');
     }
 }
 

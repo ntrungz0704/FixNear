@@ -22,10 +22,7 @@
       "camera",
       "speaker",
       "mic",
-      "hinge-body",
       "back-glass",
-      "thermal",
-      "software",
       "data-recovery",
       "diagnostic"
     ],
@@ -63,10 +60,7 @@
       "camera",
       "speaker",
       "mic",
-      "hinge-body",
       "back-glass",
-      "thermal",
-      "software",
       "data-recovery",
       "diagnostic"
     ],
@@ -104,10 +98,7 @@
       "camera",
       "speaker",
       "mic",
-      "hinge-body",
       "back-glass",
-      "thermal",
-      "software",
       "data-recovery",
       "diagnostic"
     ],
@@ -147,8 +138,6 @@
       "mic",
       "hinge-body",
       "back-glass",
-      "thermal",
-      "software",
       "data-recovery",
       "diagnostic",
       "foldable-cable"
@@ -187,10 +176,7 @@
       "camera",
       "speaker",
       "mic",
-      "hinge-body",
       "back-glass",
-      "thermal",
-      "software",
       "data-recovery",
       "diagnostic"
     ],
@@ -228,10 +214,7 @@
       "camera",
       "speaker",
       "mic",
-      "hinge-body",
       "back-glass",
-      "thermal",
-      "software",
       "data-recovery",
       "diagnostic"
     ],

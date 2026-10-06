@@ -27,7 +27,7 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
         'longitude' => (float)($_POST['longitude'] ?? 106.6263),
         'description' => trim($_POST['description'] ?? ''),
         'student_discount' => trim($_POST['student_discount'] ?? ''),
-        'image' => trim($_POST['image'] ?? 'https://images.unsplash.com/photo-1581092160607-ee22621dd758?w=600&auto=format&fit=crop&q=80'),
+        'image' => trim($_POST['image'] ?? ''),
         'devices' => !empty($devices) ? $devices : ['laptop', 'phone'],
         'allows_onsite_watch' => !empty($_POST['allows_onsite_watch']),
         'requires_component_signing' => !empty($_POST['requires_component_signing']),
@@ -128,7 +128,7 @@ require_once __DIR__ . '/../includes/navbar.php';
 
                 <div class="fn-form-group">
                     <label class="fn-label">Link ảnh đại diện cửa hàng:</label>
-                    <input type="url" name="image" class="fn-input" value="<?= htmlspecialchars($shop['image'] ?? 'https://images.unsplash.com/photo-1581092160607-ee22621dd758?w=600&auto=format&fit=crop&q=80') ?>" required>
+                    <input type="url" name="image" class="fn-input" value="<?= htmlspecialchars($shop['image'] ?? '') ?>" placeholder="URL ảnh từ website chính thức (nếu có)">
                 </div>
 
                 <div class="fn-form-group">

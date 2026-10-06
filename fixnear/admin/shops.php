@@ -15,7 +15,8 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST' && isset($_POST['delete'])) {
     exit;
 }
 
-$shops = db()->getShops();
+$shops = db()->getShops(['include_unverified' => true]);
+$publishedShopCount = count(array_filter($shops, static fn($shop) => !empty($shop['address_verified'])));
 $stats = db()->getStats();
 
 $pageTitle = "Quản Lý Cửa Hàng — FixNear Admin";
@@ -60,10 +61,10 @@ require_once __DIR__ . '/../includes/navbar.php';
         <div style="display: flex; justify-content: space-between; align-items: center; margin-bottom: 24px;">
             <div>
                 <h1 style="font-family: var(--fn-font-heading); font-size: 24px; font-weight: 900; color: var(--fn-dark);">
-                    Danh Sách Cửa Hàng (<?= count($shops) ?>)
+                    Cửa hàng: <?= $publishedShopCount ?> công khai / <?= count($shops) ?> bản ghi
                 </h1>
                 <p style="font-size: 13.5px; color: var(--fn-dark-muted);">
-                    Bộ dữ liệu hiện có <?= count($shops) ?> cửa hàng thuộc <?= (int)$stats['total_districts'] ?> khu vực TP.HCM; cần đối soát nguồn trước khi công bố thương mại.
+                    Chỉ chi nhánh có địa chỉ và số liên hệ đối chiếu từ website chính thức mới xuất hiện trên trang công khai. <?= count($shops) - $publishedShopCount ?> bản ghi đang chờ rà soát.
                 </p>
             </div>
             <a href="shop_edit.php" class="fn-btn fn-btn-primary">
@@ -81,7 +82,7 @@ require_once __DIR__ . '/../includes/navbar.php';
             </div>
         <?php endif; ?>
 
-        <div style="background: var(--fn-surface); border: 1px solid var(--fn-border); border-radius: var(--fn-radius); overflow: hidden; box-shadow: var(--fn-shadow-sm);">
+        <div style="background: var(--fn-surface); border: 1px solid var(--fn-border); border-radius: var(--fn-radius); overflow-x: auto; box-shadow: var(--fn-shadow-sm);">
             <table class="fn-price-table">
                 <thead>
                     <tr>
@@ -115,6 +116,9 @@ require_once __DIR__ . '/../includes/navbar.php';
                                 <span style="font-size: 11px; font-weight: 700; color: #4338ca; background: #e0e7ff; padding: 2px 6px; border-radius: 4px;">
                                     <?= htmlspecialchars($s['ward']) ?>, <?= htmlspecialchars($s['district']) ?>
                                 </span>
+                                <div style="margin-top:6px;font-size:11px;font-weight:800;color:<?= !empty($s['address_verified']) ? '#c2410c' : '#64748b' ?>;">
+                                    <?php if (!empty($s['address_verified'])): ?><a href="<?= htmlspecialchars($s['address_source_url']) ?>" target="_blank" rel="noopener noreferrer" style="color:#c2410c;">✓ Công khai · nguồn địa chỉ ↗</a><?php else: ?>Chưa đối soát · ẩn khỏi trang công khai<?php endif; ?>
+                                </div>
                             </td>
                             <td>
                                 <span style="font-size: 13px; font-family: monospace; font-weight: bold;">
@@ -122,12 +126,7 @@ require_once __DIR__ . '/../includes/navbar.php';
                                 </span>
                             </td>
                             <td>
-                                <span style="color: var(--fn-gold); font-weight: 800; font-size: 13.5px;">
-                                    ⭐ <?= $s['google_rating'] ?>
-                                </span>
-                                <span style="font-size: 11.5px; color: var(--fn-text-light);">
-                                    (<?= $s['google_reviews_count'] ?>)
-                                </span>
+                                <?php if (!empty($s['google_rating_verified'])): ?><span style="color: var(--fn-gold); font-weight: 800; font-size: 13.5px;">⭐ <?= htmlspecialchars($s['google_rating']) ?></span><span style="font-size: 11.5px; color: var(--fn-text-light);">(<?= (int)$s['google_reviews_count'] ?>)</span><?php else: ?><span style="font-size:11px;color:#64748b;">Chưa đối soát</span><?php endif; ?>
                             </td>
                             <td>
                                 <span style="font-size: 11.5px; font-family: monospace; color: var(--fn-text-light);">

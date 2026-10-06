@@ -158,7 +158,7 @@
     "name": "Kiểm tra chẩn đoán toàn diện",
     "nameEn": "Full Diagnostic Inspection",
     "icon": "🔍",
-    "description": "Kỹ thuật viên đo đạc linh kiện, test máy & báo giá công khai trước (Miễn phí 0đ).",
+    "description": "Kiểm tra thiết bị và xác nhận chi phí chẩn đoán với cửa hàng trước khi tiếp tục.",
     "isParent": true
   },
   {

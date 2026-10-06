@@ -1,0 +1,32 @@
+.fn-model-prices{margin:0 0 40px}
+.fn-model-prices-heading{display:flex;align-items:end;justify-content:space-between;gap:16px;margin-bottom:16px}
+.fn-model-prices-kicker{display:block;font-size:11px;letter-spacing:.12em;font-weight:900;color:#c2410c;margin-bottom:5px}
+.fn-model-prices-heading h2{font-family:var(--fn-font-heading);font-size:24px;font-weight:900;line-height:1.25;margin:0 0 4px;color:#172033}
+.fn-model-prices-heading p{margin:0;color:#64748b;font-size:13px;line-height:1.45}
+.fn-model-prices-all{display:inline-flex;align-items:center;justify-content:center;min-height:39px;border:1px solid #fed7aa;border-radius:8px;padding:0 13px;background:#fff7ed;color:#c2410c;text-decoration:none;font-size:12px;font-weight:800;white-space:nowrap}
+.fn-model-prices-legend{display:grid;grid-template-columns:repeat(3,minmax(0,1fr));gap:8px;margin:0 0 10px 34%}
+.fn-model-prices-legend span{font-size:11px;color:#9a3412}.fn-model-prices-legend b{margin-right:4px}.fn-model-prices-legend small{color:#94a3b8;font-size:10px}
+.fn-model-prices-list{border:1px solid #e2e8f0;border-radius:14px;overflow:hidden;background:#fff}
+.fn-model-price-row{display:grid;grid-template-columns:minmax(200px,1.45fr) minmax(420px,2.6fr) 140px;align-items:center;gap:16px;min-height:100px;padding:14px 18px;border-bottom:1px solid #e2e8f0}
+.fn-model-price-row:last-child{border-bottom:0}
+.fn-model-price-row:nth-child(even){background:#fffdfa}
+.fn-model-price-name{display:flex;align-items:center;gap:10px;min-width:0}
+.fn-model-price-icon{display:flex;align-items:center;justify-content:center;flex:0 0 38px;width:38px;height:38px;border-radius:9px;background:#fff7ed;font-size:20px}
+.fn-model-price-name h3{font-size:14px;font-weight:800;line-height:1.3;color:#172033;margin:0 0 4px}
+.fn-model-price-name p{display:-webkit-box;-webkit-line-clamp:2;-webkit-box-orient:vertical;overflow:hidden;font-size:11px;line-height:1.4;color:#64748b;margin:0}
+.fn-model-price-levels{display:grid;grid-template-columns:repeat(3,minmax(0,1fr));gap:7px}
+.fn-model-price-levels>div{display:flex;flex-direction:column;justify-content:center;gap:4px;min-height:50px;padding:6px 9px;background:#fff7ed;border:1px solid #fed7aa;border-radius:8px}
+.fn-model-price-levels span{font-size:10px;text-transform:uppercase;font-weight:800;color:#9a3412}
+.fn-model-price-levels strong{font-size:12px;line-height:1.25;color:#7c2d12;font-variant-numeric:tabular-nums}
+.fn-model-price-shop{display:inline-flex;align-items:center;justify-content:center;min-height:38px;background:#ea580c;color:#fff!important;text-decoration:none;border-radius:8px;font-size:11px;font-weight:800;text-align:center;padding:0 10px;white-space:nowrap}
+.fn-model-price-shop:hover{background:#c2410c}
+.fn-model-price-sources{grid-column:1/-1;border-top:1px dashed #fed7aa;padding-top:9px}
+.fn-model-price-sources summary{color:#c2410c;font-size:11px;font-weight:800;cursor:pointer}
+.fn-model-price-source-list{display:grid;grid-template-columns:repeat(auto-fit,minmax(230px,1fr));gap:8px;margin-top:10px}
+.fn-model-price-source-list>div{display:flex;flex-wrap:wrap;align-items:center;gap:4px 7px;padding:10px;background:#fff7ed;border:1px solid #fed7aa;border-radius:8px;font-size:11px}
+.fn-model-price-source-list strong{color:#172033;flex:1 1 120px}.fn-model-price-source-list small{color:#64748b}.fn-model-price-source-list a{color:#c2410c;font-weight:800}.fn-model-price-brand{padding:2px 5px;border-radius:4px;background:#ffedd5;color:#9a3412;font-weight:800}
+.fn-model-price-source-amount{color:#c2410c;font-weight:900;font-variant-numeric:tabular-nums}
+.fn-model-prices-note{color:#64748b;font-size:11px;line-height:1.5;margin:12px 0 0}
+.fn-model-prices a:focus-visible,.fn-model-prices summary:focus-visible{outline:3px solid #fb923c;outline-offset:3px}
+@media(max-width:1100px){.fn-model-price-row{grid-template-columns:minmax(160px,1fr) minmax(380px,2fr)}.fn-model-price-shop{grid-column:1/-1;justify-self:start;padding:0 16px}.fn-model-prices-legend{margin-left:30%}}
+@media(max-width:700px){.fn-model-prices-heading{display:block}.fn-model-prices-all{margin-top:10px}.fn-model-prices-legend{display:none}.fn-model-price-row{grid-template-columns:1fr;gap:10px;padding:14px}.fn-model-price-shop{grid-column:1;justify-self:stretch}.fn-model-price-sources{grid-column:1}.fn-model-price-levels strong{font-size:10px}}

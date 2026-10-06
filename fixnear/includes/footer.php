@@ -1,5 +1,9 @@
 </div><!-- /#fn-main-content -->
 <?php $footerStats = db()->getStats(); ?>
+<?php if (isAdmin() && str_starts_with(parse_url($_SERVER['REQUEST_URI'] ?? '', PHP_URL_PATH) ?: '', '/admin/')): ?>
+    <div id="fn-admin-live-status" class="fn-admin-live-status" role="status" aria-live="polite">Đang kiểm tra cập nhật quản trị…</div>
+    <script defer src="<?= $assetPrefix ?>assets/js/admin-live.js"></script>
+<?php endif; ?>
 
 <!-- Modal Báo cáo thông tin sai -->
 <div class="fn-modal-overlay" id="fn-report-modal">
@@ -55,9 +59,8 @@
             </svg>
         </button>
         
-        <!-- Ảnh Banner sắc nét -->
         <div style="position: relative; width: 100%; height: 290px; overflow: hidden; background: #0b1329;">
-            <img src="<?= $assetPrefix ?>assets/images/promo_banner.jpg" alt="Ưu Đãi FixNear" width="620" height="290" style="width: 100%; height: 100%; object-fit: cover; display: block;">
+            <img src="<?= $assetPrefix ?>assets/images/promo_banner.jpg" alt="Banner ưu đãi sinh viên FixNear; vui lòng xác nhận điều kiện áp dụng" width="620" height="290" style="width: 100%; height: 100%; object-fit: cover; display: block;">
             <div style="position: absolute; bottom: 0; left: 0; right: 0; height: 80px; background: linear-gradient(to top, #0f172a, transparent);"></div>
         </div>
 

@@ -3,8 +3,14 @@ DirectoryIndex index.php
 
 <IfModule mod_rewrite.c>
     RewriteEngine On
-    RewriteRule ^(?:config|data|scripts|tools|outputs)(?:/|$) - [F,L,NC]
-    RewriteRule ^(?:fixnear_db\.sql|start_server\.bat|Pasted%20text\.txt)$ - [F,L,NC]
+    RewriteRule ^(?:config|data|scripts|tools|outputs|docs|audit)(?:/|$) - [F,L,NC]
+    RewriteRule ^(?:start_server\.bat)$ - [F,L,NC]
+
+    # Hỗ trợ chuẩn MVC: Tự động điều hướng các trang hiển thị vào thư mục public/
+    RewriteCond %{REQUEST_URI} !^/(?:admin|api|public) [NC]
+    RewriteCond %{REQUEST_FILENAME} !-f
+    RewriteCond %{REQUEST_FILENAME} !-d
+    RewriteRule ^(.*)$ public/$1 [L]
 </IfModule>
 
 <FilesMatch "(^\.|\.(?:sql|log|ini|env|bak|dist|md)$)">

@@ -8,6 +8,7 @@ header('Content-Type: application/json; charset=utf-8');
 
 require_once __DIR__ . '/../config/db.php';
 require_once __DIR__ . '/../includes/pricing_engine.php';
+require_once __DIR__ . '/../includes/price_evidence.php';
 
 $action = $_GET['action'] ?? 'devices';
 $device = $_GET['device'] ?? '';
@@ -97,8 +98,9 @@ switch ($action) {
             'data' => [
                 'model' => $model,
                 'prices' => $prices,
-                'price_status' => 'UNVERIFIED',
-                'price_disclaimer' => 'Giá được ước tính bằng thuật toán FixNear, không phải báo giá chính thức từ cửa hàng. Cần xác nhận trực tiếp trước khi sửa.',
+                'price_status' => 'MODEL_ESTIMATE',
+                'price_disclaimer' => 'Ba mức giá là dự đoán bằng ma trận FixNear. Thời gian, bảo hành và loại linh kiện trong mô hình chưa được cửa hàng xác nhận.',
+                'source_quotes' => FixNearPriceEvidence::forModel((string) $model['id']),
                 'faults' => $faultDetails,
                 'grades' => RepairAtlasPricing::getGradeFactors()
             ]

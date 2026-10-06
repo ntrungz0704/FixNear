@@ -7,7 +7,7 @@ if (!isAdmin()) {
 }
 
 $stats = db()->getStats();
-$shops = db()->getShops();
+$shops = db()->getShops(['include_unverified' => true]);
 $reviews = db()->getAllReviews();
 $reports = db()->getReports();
 

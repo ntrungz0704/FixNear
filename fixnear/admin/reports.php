@@ -62,7 +62,7 @@ require_once __DIR__ . '/../includes/navbar.php';
             </p>
         </div>
 
-        <div style="background: var(--fn-surface); border: 1px solid var(--fn-border); border-radius: var(--fn-radius); overflow: hidden;">
+        <div style="background: var(--fn-surface); border: 1px solid var(--fn-border); border-radius: var(--fn-radius); overflow-x: auto;">
             <table class="fn-price-table">
                 <thead>
                     <tr>

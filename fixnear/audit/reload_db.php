@@ -7,7 +7,7 @@ $pdo = new PDO($dsn, DB_USER, DB_PASS, [
     PDO::ATTR_ERRMODE => PDO::ERRMODE_EXCEPTION
 ]);
 
-$sqlFile = dirname(__DIR__) . '/fixnear_db.sql';
+$sqlFile = dirname(__DIR__) . '/data/fixnear_db.sql';
 echo "Dang doc file SQL tu: $sqlFile ...\n";
 $sql = file_get_contents($sqlFile);
 

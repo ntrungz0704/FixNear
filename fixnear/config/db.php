@@ -50,11 +50,56 @@ class FixNearDB {
     public $applied_radius = 0;
 
     private function annotateShopVerification($shop) {
+        static $addressEvidence = null;
+        if ($addressEvidence === null) {
+            $evidenceFile = dirname(__DIR__) . '/data/shop-address-evidence.json';
+            $addressEvidence = is_file($evidenceFile) ? (json_decode(file_get_contents($evidenceFile), true) ?: []) : [];
+        }
+        $recordId = (string) ($shop['id'] ?? '');
+        $recordHash = hash('sha256', (string) ($shop['name'] ?? '') . '|' . explode(',', (string) ($shop['address'] ?? ''))[0]);
+        $sourceKey = hash_equals((string) ($addressEvidence['recordHashes'][$recordId] ?? ''), $recordHash)
+            ? ($addressEvidence['shops'][$recordId] ?? '') : '';
+        $shop['address_source_url'] = $sourceKey !== '' ? ($addressEvidence['sources'][$sourceKey] ?? '') : '';
+        $shop['address_verified_at'] = $shop['address_source_url'] !== '' ? ($addressEvidence['checkedAt'] ?? '') : '';
+        $shop['address_verified'] = $shop['address_source_url'] !== '' && $shop['address_verified_at'] !== '';
+        if ($shop['address_verified']) {
+            // Tìm theo địa chỉ đã đối chiếu; URL/pin lưu trong dữ liệu mẫu có thể đã cũ.
+            $shop['map_url'] = 'https://www.google.com/maps/search/?api=1&query=' . rawurlencode(($shop['name'] ?? '') . ', ' . ($shop['address'] ?? ''));
+        }
+        $shop['coordinates_verified'] = false;
+        if (isset($addressEvidence['phoneOverrides'][(string) ($shop['id'] ?? '')])) {
+            $shop['phone'] = $addressEvidence['phoneOverrides'][(string) $shop['id']];
+        }
+        $shop['phone_verified'] = $shop['address_verified'];
         $shop['source_verified'] = !empty($shop['source_url']) && !empty($shop['verified_at']);
         $shop['google_rating_verified'] = !empty($shop['google_place_id']) && !empty($shop['google_verified_at']);
         $shop['student_discount_verified'] = !empty($shop['student_discount_source_url']) && !empty($shop['student_discount_verified_at']);
         $shop['service_policy_verified'] = !empty($shop['policy_source_url']) && !empty($shop['policy_verified_at']);
-        $shop['is_verified'] = !empty($shop['is_verified']) || $shop['source_verified'];
+        // Cờ seed is_verified cũ không phải bằng chứng độc lập.
+        $shop['is_verified'] = $shop['source_verified'];
+        // Không dùng ảnh stock làm ảnh chi nhánh. Chỉ dùng logo lấy từ website
+        // hệ thống; cửa hàng chưa có ảnh chính thức sẽ hiện nhãn trung thực.
+        $websiteHost = strtolower((string) (parse_url((string) ($shop['website'] ?? ''), PHP_URL_HOST) ?: ''));
+        $websiteHost = preg_replace('/^www\./', '', $websiteHost);
+        $websiteLogos = [
+            'dienthoaivui.com.vn' => 'https://cdns.dienthoaivui.com.vn/logo.png',
+            'fastcare.vn' => 'https://cdn.fastcare.vn/uploads/2025/03/logo-fastcare.png',
+            'chamsocdidong.com' => 'https://chamsocdidong.com/images/config/logo-24h-do-011_1767087076.svg',
+            'viendidong.com' => 'https://viendidong.com/wp-content/uploads/2024/11/VDD_logo-06.png',
+            'saigonso.com' => 'assets/images/shop-sites/saigonso-2026-10-07.png',
+            'baohanhone.com' => 'https://cdn.hstatic.net/themes/1000338578/1001463942/14/logo-baohanhone.png?v=614',
+            'suachualaptop24h.com' => 'https://suachualaptop24h.com/images/config/sua-chua-logo_1776322654.jpg',
+            'iservice.vn' => 'https://theme.hstatic.net/1000353777/1000698522/14/logo.svg?v=1373',
+            'icare.center' => 'https://icare.center/uploads/images/setup/trang%20chu/logo-icare(1).svg',
+            'libbyrepaircenter.com' => 'https://media.base44.com/images/public/69b928045b5e8103fd70fccd/84613508a_LibbyLogo3D.png',
+            'cares.vn' => 'https://cares.vn/wp-content/uploads/elementor/thumbs/logo-cares-1-qkim89c9qeg1uozpdslwn3424w4l9465jf6kkovdvk.png',
+            'benhvienlaptop.com' => 'https://benhvienlaptop.com/wp-content/uploads/2026/08/Logo-benhvienlaptop-3.png',
+            'capcuulaptop.com' => 'https://capcuulaptop.com/wp-content/uploads/2015/11/logo.png',
+            'thegioilaptop24h.com' => 'https://www.thegioilaptop24h.com/assets/frontend/img/logo.png',
+            'giahuymobile.com' => 'https://cdn.hstatic.net/files/200000290713/file/logo_mobi_80bb9b049ab440ce94c3a49f1a4a0279.png',
+        ];
+        $shop['image'] = $websiteLogos[$websiteHost] ?? '';
+        $shop['image_kind'] = $websiteHost === 'saigonso.com' ? 'website_snapshot' : ($shop['image'] !== '' ? 'website_logo' : 'none');
         return $shop;
     }
 
@@ -94,12 +139,19 @@ class FixNearDB {
         } catch (PDOException $e) {
             // Nếu lỗi là chưa có database (1049 Unknown database), tự động tạo CSDL và nạp bảng
             if ($e->getCode() == 1049 || str_contains($e->getMessage(), 'Unknown database')) {
+                if (FIXNEAR_IS_PRODUCTION) {
+                    $this->is_mysql = false;
+                    $this->pdo = null;
+                    return;
+                }
                 try {
                     $rawPdo = new PDO("mysql:host=" . DB_HOST . ";port=" . DB_PORT . ";charset=utf8mb4", DB_USER, DB_PASS, [
                         PDO::ATTR_ERRMODE => PDO::ERRMODE_EXCEPTION
                     ]);
                     $rawPdo->exec("CREATE DATABASE IF NOT EXISTS `" . DB_NAME . "` DEFAULT CHARACTER SET utf8mb4 COLLATE utf8mb4_unicode_ci;");
-                    $sqlFile = dirname(__DIR__) . '/fixnear_db.sql';
+                    $sqlFile = file_exists(dirname(__DIR__) . '/data/fixnear_db.sql')
+                        ? dirname(__DIR__) . '/data/fixnear_db.sql'
+                        : dirname(__DIR__) . '/fixnear_db.sql';
                     if (file_exists($sqlFile)) {
                         $rawPdo->exec("USE `" . DB_NAME . "`;\n" . file_get_contents($sqlFile));
                     }
@@ -122,10 +174,14 @@ class FixNearDB {
 
     private function ensureTablesExist() {
         if (!$this->pdo) return;
+        // SQL đi kèm chứa dữ liệu mẫu; môi trường production phải tự cấp CSDL sạch.
+        if (FIXNEAR_IS_PRODUCTION) return;
         try {
             $stmt = $this->pdo->query("SHOW TABLES LIKE 'shops'");
             if (!$stmt->fetch()) {
-                $sqlFile = dirname(__DIR__) . '/fixnear_db.sql';
+                $sqlFile = file_exists(dirname(__DIR__) . '/data/fixnear_db.sql')
+                    ? dirname(__DIR__) . '/data/fixnear_db.sql'
+                    : dirname(__DIR__) . '/fixnear_db.sql';
                 if (file_exists($sqlFile)) {
                     $this->pdo->exec(file_get_contents($sqlFile));
                 }
@@ -263,6 +319,9 @@ class FixNearDB {
                 $shop = $this->annotateShopVerification($shop);
             }
             unset($shop);
+            if (empty($filters['include_unverified'])) {
+                $shops = array_values(array_filter($shops, static fn($shop) => !empty($shop['address_verified'])));
+            }
 
             // Tính GPS & Bán kính
             if (!empty($filters['user_lat']) && !empty($filters['user_lng'])) {
@@ -289,9 +348,13 @@ class FixNearDB {
                 usort($shops, fn($a, $b) => ($a['distance_km'] ?? 999) <=> ($b['distance_km'] ?? 999));
             } else {
                 usort($shops, function($a, $b) {
-                    $rDiff = ($b['google_rating'] ?? 0) <=> ($a['google_rating'] ?? 0);
+                    $aRating = !empty($a['google_rating_verified']) ? (float) ($a['google_rating'] ?? 0) : 0.0;
+                    $bRating = !empty($b['google_rating_verified']) ? (float) ($b['google_rating'] ?? 0) : 0.0;
+                    $rDiff = $bRating <=> $aRating;
                     if ($rDiff !== 0) return $rDiff;
-                    return ($b['google_reviews_count'] ?? 0) <=> ($a['google_reviews_count'] ?? 0);
+                    $aCount = !empty($a['google_rating_verified']) ? (int) ($a['google_reviews_count'] ?? 0) : 0;
+                    $bCount = !empty($b['google_rating_verified']) ? (int) ($b['google_reviews_count'] ?? 0) : 0;
+                    return ($bCount <=> $aCount) ?: strnatcasecmp($a['name'], $b['name']);
                 });
             }
 
@@ -387,13 +450,19 @@ class FixNearDB {
             usort($shops, fn($a, $b) => ($a['distance_km'] ?? 999) <=> ($b['distance_km'] ?? 999));
         } else {
             usort($shops, function($a, $b) {
-                $rDiff = ($b['google_rating'] ?? 0) <=> ($a['google_rating'] ?? 0);
+                $aRating = !empty($a['google_place_id']) && !empty($a['google_verified_at']) ? (float) ($a['google_rating'] ?? 0) : 0.0;
+                $bRating = !empty($b['google_place_id']) && !empty($b['google_verified_at']) ? (float) ($b['google_rating'] ?? 0) : 0.0;
+                $rDiff = $bRating <=> $aRating;
                 if ($rDiff !== 0) return $rDiff;
-                return ($b['google_reviews_count'] ?? 0) <=> ($a['google_reviews_count'] ?? 0);
+                return strnatcasecmp($a['name'], $b['name']);
             });
         }
 
-        return array_values(array_map([$this, 'annotateShopVerification'], $shops));
+        $shops = array_values(array_map([$this, 'annotateShopVerification'], $shops));
+        if (empty($filters['include_unverified'])) {
+            $shops = array_values(array_filter($shops, static fn($shop) => !empty($shop['address_verified'])));
+        }
+        return $shops;
     }
 
     public function getShopById($id, $user_lat = null, $user_lng = null) {
@@ -408,7 +477,8 @@ class FixNearDB {
             if (!empty($user_lat) && !empty($user_lng)) {
                 $shop['distance_km'] = $this->calculateDistance((float)$user_lat, (float)$user_lng, (float)$shop['latitude'], (float)$shop['longitude']);
             }
-            return $this->annotateShopVerification($shop);
+            $shop = $this->annotateShopVerification($shop);
+            return isAdmin() || !empty($shop['address_verified']) ? $shop : null;
         }
 
         $shops = $this->readJson('shops.json');
@@ -417,7 +487,8 @@ class FixNearDB {
                 if (!empty($user_lat) && !empty($user_lng)) {
                     $s['distance_km'] = $this->calculateDistance((float)$user_lat, (float)$user_lng, (float)$s['latitude'], (float)$s['longitude']);
                 }
-                return $this->annotateShopVerification($s);
+                $s = $this->annotateShopVerification($s);
+                return isAdmin() || !empty($s['address_verified']) ? $s : null;
             }
         }
         return null;
@@ -520,6 +591,8 @@ class FixNearDB {
 
     // ================= DỊCH VỤ SỬA CHỮA (SERVICES) =================
     public function getServices($device_type = null) {
+        $deviceAliases = ['win_laptop' => 'laptop', 'macbook' => 'mac', 'pc_desktop' => 'pc'];
+        if ($device_type !== null) $device_type = $deviceAliases[$device_type] ?? $device_type;
         if ($this->isUsingMySQL()) {
             if (!empty($device_type) && $device_type !== 'all') {
                 $stmt = $this->pdo->prepare("SELECT * FROM services WHERE device_type = :dt OR devices LIKE :dev OR device_type = 'all' ORDER BY id ASC");
@@ -667,13 +740,19 @@ class FixNearDB {
     // ================= ĐÁNH GIÁ (REVIEWS) =================
     public function getReviewsByShop($shop_id) {
         if ($this->isUsingMySQL()) {
-            $stmt = $this->pdo->prepare("SELECT * FROM reviews WHERE shop_id = :shop_id AND is_hidden = 0 ORDER BY created_at DESC");
-            $stmt->execute([':shop_id' => (int)$shop_id]);
-            return $stmt->fetchAll(PDO::FETCH_ASSOC);
+            try {
+                $stmt = $this->pdo->prepare("SELECT * FROM reviews WHERE shop_id = :shop_id AND is_hidden = 0 AND origin = 'user_submission' ORDER BY created_at DESC");
+                $stmt->execute([':shop_id' => (int)$shop_id]);
+                return $stmt->fetchAll(PDO::FETCH_ASSOC);
+            } catch (Exception $e) {
+                // CSDL cũ thiếu cột origin: không công bố review seed.
+                return [];
+            }
         }
 
         $reviews = $this->readJson('reviews.json');
-        $filtered = array_filter($reviews, fn($r) => $r['shop_id'] == $shop_id && empty($r['is_hidden']));
+        $filtered = array_filter($reviews, fn($r) => $r['shop_id'] == $shop_id
+            && empty($r['is_hidden']) && ($r['origin'] ?? '') === 'user_submission');
         usort($filtered, fn($a, $b) => strtotime($b['created_at']) - strtotime($a['created_at']));
         return array_values($filtered);
     }
@@ -703,11 +782,7 @@ class FixNearDB {
 
     public function addReview($data) {
         if ($this->isUsingMySQL()) {
-            $stmt = $this->pdo->prepare("
-                INSERT INTO reviews (shop_id, user_id, user_name, rating, device_name, service_repaired, comment, is_hidden, admin_reply, created_at)
-                VALUES (:shop_id, :user_id, :user_name, :rating, :device_name, :service_repaired, :comment, 0, NULL, NOW())
-            ");
-            $stmt->execute([
+            $reviewParams = [
                 ':shop_id' => (int)$data['shop_id'],
                 ':user_id' => !empty($data['user_id']) ? (int)$data['user_id'] : null,
                 ':user_name' => $data['user_name'] ?? 'Khách vãng lai',
@@ -715,7 +790,21 @@ class FixNearDB {
                 ':device_name' => $data['device_name'] ?? null,
                 ':service_repaired' => $data['service_repaired'] ?? null,
                 ':comment' => $data['comment'] ?? ''
-            ]);
+            ];
+            try {
+                $stmt = $this->pdo->prepare("
+                    INSERT INTO reviews (shop_id, user_id, user_name, rating, device_name, service_repaired, comment, is_hidden, origin, admin_reply, created_at)
+                    VALUES (:shop_id, :user_id, :user_name, :rating, :device_name, :service_repaired, :comment, 1, 'user_submission', NULL, NOW())
+                ");
+                $stmt->execute($reviewParams);
+            } catch (Exception $e) {
+                // Schema cũ: lưu để admin xem, nhưng giữ ẩn vì không phân biệt được nguồn.
+                $stmt = $this->pdo->prepare("
+                    INSERT INTO reviews (shop_id, user_id, user_name, rating, device_name, service_repaired, comment, is_hidden, admin_reply, created_at)
+                    VALUES (:shop_id, :user_id, :user_name, :rating, :device_name, :service_repaired, :comment, 1, NULL, NOW())
+                ");
+                $stmt->execute($reviewParams);
+            }
             $data['id'] = (int)$this->pdo->lastInsertId();
             return $data;
         }
@@ -725,7 +814,8 @@ class FixNearDB {
             $maxId = 0;
             foreach ($reviews as $r) $maxId = max($maxId, (int)$r['id']);
             $data['id'] = $maxId + 1;
-            $data['is_hidden'] = false;
+            $data['is_hidden'] = true;
+            $data['origin'] = 'user_submission';
             $data['created_at'] = date('Y-m-d H:i:s');
             $reviews[] = $data;
             return $this->writeJson('reviews.json', $reviews) ? $data : false;
@@ -1200,9 +1290,9 @@ class FixNearDB {
         if ($this->isUsingMySQL()) {
             try {
                 $totalShops = (int)$this->pdo->query("SELECT COUNT(*) FROM shops")->fetchColumn();
-                $verifiedShops = (int)$this->pdo->query("SELECT COUNT(*) FROM shops WHERE is_verified = 1")->fetchColumn();
+                $verifiedShops = (int)$this->pdo->query("SELECT COUNT(*) FROM shops WHERE source_url IS NOT NULL AND source_url != '' AND verified_at IS NOT NULL")->fetchColumn();
                 $totalDistricts = (int)$this->pdo->query("SELECT COUNT(DISTINCT district) FROM shops WHERE district != ''")->fetchColumn();
-                $avgRating = $this->pdo->query("SELECT ROUND(AVG(google_rating), 1) FROM shops WHERE google_rating IS NOT NULL")->fetchColumn();
+                $avgRating = $this->pdo->query("SELECT ROUND(AVG(google_rating), 1) FROM shops WHERE google_place_id IS NOT NULL AND google_place_id != '' AND google_verified_at IS NOT NULL AND google_rating IS NOT NULL")->fetchColumn();
                 $totalServices = (int)$this->pdo->query("SELECT COUNT(*) FROM services")->fetchColumn();
                 $totalReviews = (int)$this->pdo->query("SELECT COUNT(*) FROM reviews")->fetchColumn();
                 $pendingReports = (int)$this->pdo->query("SELECT COUNT(*) FROM wrong_info_reports WHERE status = 'pending'")->fetchColumn();
@@ -1221,7 +1311,7 @@ class FixNearDB {
                     'total_shops' => $totalShops,
                     'verified_shops' => $verifiedShops,
                     'total_districts' => $totalDistricts,
-                    'average_shop_rating' => $avgRating ? (float)$avgRating : 4.8,
+                    'average_shop_rating' => $avgRating ? (float)$avgRating : null,
                     'total_services' => $totalServices,
                     'total_reviews' => $totalReviews,
                     'pending_reports' => $pendingReports,

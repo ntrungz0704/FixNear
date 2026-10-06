@@ -16,14 +16,11 @@
       "screen",
       "glass-press",
       "battery",
-      "digital-crown",
-      "taptic-engine",
       "charging-port",
       "speaker",
       "mic",
       "mainboard",
       "water-damage",
-      "software",
       "diagnostic"
     ],
     "knownIssues": [
@@ -62,14 +59,11 @@
       "screen",
       "glass-press",
       "battery",
-      "digital-crown",
-      "taptic-engine",
       "charging-port",
       "speaker",
       "mic",
       "mainboard",
       "water-damage",
-      "software",
       "diagnostic"
     ],
     "knownIssues": [
@@ -99,14 +93,11 @@
       "screen",
       "glass-press",
       "battery",
-      "digital-crown",
-      "taptic-engine",
       "charging-port",
       "speaker",
       "mic",
       "mainboard",
       "water-damage",
-      "software",
       "diagnostic"
     ],
     "knownIssues": [
@@ -136,14 +127,11 @@
       "screen",
       "glass-press",
       "battery",
-      "digital-crown",
-      "taptic-engine",
       "charging-port",
       "speaker",
       "mic",
       "mainboard",
       "water-damage",
-      "software",
       "diagnostic"
     ],
     "knownIssues": [
@@ -173,14 +161,11 @@
       "screen",
       "glass-press",
       "battery",
-      "digital-crown",
-      "taptic-engine",
       "charging-port",
       "speaker",
       "mic",
       "mainboard",
       "water-damage",
-      "software",
       "diagnostic"
     ],
     "knownIssues": [

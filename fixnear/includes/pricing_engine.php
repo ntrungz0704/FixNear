@@ -264,6 +264,21 @@ class RepairAtlasPricing {
         return json_decode(file_get_contents($file), true) ?: [];
     }
 
+    /** Toàn bộ model trong catalog, lập chỉ mục theo ID cho bộ lọc và bảng giá. */
+    public static function getAllModels(): array {
+        static $models = null;
+        if ($models !== null) return $models;
+        $models = [];
+        foreach (array_keys(self::getAllDevices()) as $deviceType) {
+            foreach (self::getBrandsByDevice($deviceType) as $brand) {
+                foreach (self::getModelsByBrand($deviceType, $brand['id']) as $model) {
+                    if (!empty($model['id'])) $models[$model['id']] = $model;
+                }
+            }
+        }
+        return $models;
+    }
+
     /**
      * Tìm kiếm Model theo ID trên toàn bộ catalog
      */

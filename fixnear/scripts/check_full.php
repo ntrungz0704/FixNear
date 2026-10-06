@@ -7,6 +7,8 @@ $base = 'http://127.0.0.1:8000';
 $urls = [
     '/' => 200,
     '/models.php' => 200,
+    '/prices.php' => 200,
+    '/prices.php?model=apple-iphone-13' => 200,
     '/model_detail.php?id=apple-iphone-13' => 200,
     '/shops.php' => 200,
     '/shop_detail.php?id=1' => 200,
@@ -34,7 +36,8 @@ $urls = [
     '/data/shops.json' => 404,
     '/scripts/validate_catalog.py' => 404,
     '/fixnear_db.sql' => 404,
-    '/install.php' => 404
+    // Trình cài đặt chỉ được xem từ localhost trong môi trường phát triển.
+    '/install.php' => 200
 ];
 
 echo "=== KIEM TRA TRUY CAP URL & SECURITY ROUTER ===\n";

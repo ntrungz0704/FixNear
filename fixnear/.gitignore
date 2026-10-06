@@ -15,3 +15,8 @@ config/local.php
 .env
 .env.*
 !.env.example
+
+# Local browser captures used during visual QA
+outputs/qa-*.png
+outputs/site-*.png
+outputs/preview-*.png

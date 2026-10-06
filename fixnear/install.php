@@ -1,6 +1,5 @@
 <?php
-$isLocal = in_array($_SERVER['REMOTE_ADDR'] ?? '', ['127.0.0.1', '::1', 'localhost'], true)
-    || (PHP_SAPI === 'cli-server');
+$isLocal = in_array($_SERVER['REMOTE_ADDR'] ?? '', ['127.0.0.1', '::1', 'localhost'], true);
 if (!$isLocal && (getenv('FIXNEAR_ENABLE_INSTALLER') !== '1')) {
     http_response_code(404);
     exit('Not found');
@@ -25,7 +24,8 @@ if (isset($_POST['install_db'])) {
             PDO::ATTR_ERRMODE => PDO::ERRMODE_EXCEPTION
         ]);
 
-        $sql = file_get_contents(__DIR__ . '/fixnear_db.sql');
+        $sqlPath = file_exists(__DIR__ . '/data/fixnear_db.sql') ? __DIR__ . '/data/fixnear_db.sql' : __DIR__ . '/fixnear_db.sql';
+        $sql = file_get_contents($sqlPath);
         $pdo->exec($sql);
         $status = "Đã khởi tạo và nạp thành công toàn bộ 8 bảng cơ sở dữ liệu MySQL `$dbname`! Hệ thống FixNear đã sẵn sàng hoạt động với MySQL.";
     } catch (Exception $e) {
