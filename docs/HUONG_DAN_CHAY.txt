@@ -1,0 +1,23 @@
+HƯỚNG DẪN KHỞI CHẠY DỰ ÁN FIXNEAR
+==================================================
+
+CÁCH 1: KHỞI CHẠY NHANH 1 CHẠM (KHUYẾN NGHỊ)
+--------------------------------------------------
+1. Nhấp đúp chuột vào file: start_server.bat
+2. Trình duyệt sẽ tự động mở trang web tại địa chỉ:
+   http://localhost:8000
+
+CÁCH 2: CHẠY QUA XAMPP APACHE
+--------------------------------------------------
+1. Dự án cũng đã được đồng bộ sẵn trong thư mục XAMPP tại:
+   C:\xampp\htdocs\fixnear
+2. Mở XAMPP Control Panel và nhấn "Start" Apache (và MySQL nếu muốn).
+3. Mở trình duyệt truy cập:
+   http://localhost/fixnear
+
+THÔNG TIN TÀI KHOẢN HỆ THỐNG
+--------------------------------------------------
+- Không có tài khoản hoặc mật khẩu mặc định trong kho mã.
+- Tạo quản trị viên riêng bằng scripts/create_admin.php; xem docs/HOSTING.md.
+- Người dùng đăng ký trên web bằng nút "Đăng ký".
+- Cổng quản trị: http://localhost:8000/admin/

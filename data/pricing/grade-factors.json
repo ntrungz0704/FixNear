@@ -1,0 +1,23 @@
+{
+  "standard": {
+    "name": "Kịch bản giá thấp",
+    "factor": 1.0,
+    "warrantyMultiplier": 1.0,
+    "badge": "Giá dự đoán",
+    "description": "Mức dự đoán thấp của mô hình; chưa xác minh nhà sản xuất, chất lượng, bảo hành hoặc giá cửa hàng."
+  },
+  "oem": {
+    "name": "Kịch bản giá trung bình",
+    "factor": 1.3,
+    "warrantyMultiplier": 1.5,
+    "badge": "Giá dự đoán",
+    "description": "Mức dự đoán trung bình của mô hình; không chứng minh linh kiện OEM hoặc thuộc hãng cụ thể."
+  },
+  "genuine": {
+    "name": "Kịch bản giá cao",
+    "factor": 1.8,
+    "warrantyMultiplier": 2.0,
+    "badge": "Giá dự đoán",
+    "description": "Mức dự đoán cao của mô hình; không chứng minh linh kiện chính hãng hoặc bóc máy."
+  }
+}

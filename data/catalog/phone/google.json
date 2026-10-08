@@ -1,0 +1,390 @@
+[
+  {
+    "id": "google-pixel-9-pro-xl",
+    "name": "Google Pixel 9 Pro XL",
+    "brand": "google",
+    "deviceType": "phone",
+    "tier": "P4",
+    "releaseYear": 2024,
+    "specs": {
+      "screen": "6.8 inch Super Actua OLED 120Hz LTPO 3000 nits",
+      "chip": "Google Tensor G4 (4nm)",
+      "battery": "5060 mAh",
+      "charging": "37W Wired, 23W Wireless"
+    },
+    "supportedFaults": [
+      "screen",
+      "glass-press",
+      "battery",
+      "charging-port",
+      "water-damage",
+      "mainboard",
+      "camera",
+      "speaker",
+      "mic",
+      "back-glass",
+      "data-recovery",
+      "diagnostic"
+    ],
+    "knownIssues": [
+      {
+        "id": "camera-visor-glass",
+        "title": "Nứt kính thanh camera Bar (Camera Visor) kéo ngang lưng",
+        "severity": "medium",
+        "confidence": "high",
+        "symptoms": "Kính thanh ngang camera sau nứt sau khi cấn cạnh bàn.",
+        "solution": "Thay kính thanh ngang camera visor chính hãng Google."
+      }
+    ]
+  },
+  {
+    "id": "google-pixel-9-pro",
+    "name": "Google Pixel 9 Pro",
+    "brand": "google",
+    "deviceType": "phone",
+    "tier": "P4",
+    "releaseYear": 2024,
+    "specs": {
+      "screen": "6.3 inch Super Actua OLED 120Hz LTPO",
+      "chip": "Google Tensor G4",
+      "battery": "4700 mAh",
+      "charging": "27W"
+    },
+    "supportedFaults": [
+      "screen",
+      "glass-press",
+      "battery",
+      "charging-port",
+      "water-damage",
+      "mainboard",
+      "camera",
+      "speaker",
+      "mic",
+      "back-glass",
+      "data-recovery",
+      "diagnostic"
+    ],
+    "knownIssues": [
+      {
+        "id": "ultrasonic-fingerprint-thick-glass",
+        "title": "Kén vân tay siêu âm khi dán kính cường lực dày",
+        "severity": "low",
+        "confidence": "high",
+        "symptoms": "Vân tay siêu âm khó nhận khi dán kính không chuẩn.",
+        "solution": "Dán kính cường lực đạt chứng nhận Made for Google."
+      }
+    ]
+  },
+  {
+    "id": "google-pixel-9",
+    "name": "Google Pixel 9",
+    "brand": "google",
+    "deviceType": "phone",
+    "tier": "P3",
+    "releaseYear": 2024,
+    "specs": {
+      "screen": "6.3 inch Actua OLED 120Hz",
+      "chip": "Google Tensor G4",
+      "battery": "4700 mAh",
+      "charging": "27W"
+    },
+    "supportedFaults": [
+      "screen",
+      "glass-press",
+      "battery",
+      "charging-port",
+      "water-damage",
+      "mainboard",
+      "camera",
+      "speaker",
+      "mic",
+      "back-glass",
+      "data-recovery",
+      "diagnostic"
+    ],
+    "knownIssues": [
+      {
+        "id": "thermal-hot-outdoor",
+        "title": "Máy ấm khi dùng mạng di động ngoài trời nắng",
+        "severity": "low",
+        "confidence": "high",
+        "symptoms": "Khung nhôm bóng ấm lên.",
+        "solution": "Kiểm tra chu kỳ pin và tối ưu ứng dụng chạy ngầm."
+      }
+    ]
+  },
+  {
+    "id": "google-pixel-8-pro",
+    "name": "Google Pixel 8 Pro",
+    "brand": "google",
+    "deviceType": "phone",
+    "tier": "P4",
+    "releaseYear": 2023,
+    "specs": {
+      "screen": "6.7 inch Super Actua OLED 120Hz phẳng",
+      "chip": "Google Tensor G3",
+      "battery": "5050 mAh",
+      "charging": "30W"
+    },
+    "supportedFaults": [
+      "screen",
+      "glass-press",
+      "battery",
+      "charging-port",
+      "water-damage",
+      "mainboard",
+      "camera",
+      "speaker",
+      "mic",
+      "back-glass",
+      "data-recovery",
+      "diagnostic"
+    ],
+    "knownIssues": [
+      {
+        "id": "screen-bump-bumps",
+        "title": "Vết lồi nhỏ dưới lớp kính màn hình (Display Bumps)",
+        "severity": "medium",
+        "confidence": "high",
+        "symptoms": "Nhìn nghiêng dưới ánh đèn thấy các điểm chấm gồ nhẹ từ ốc bo mạch bên dưới.",
+        "solution": "Thay màn hình nguyên bộ và lót lại đệm cao su vi mạch."
+      }
+    ]
+  },
+  {
+    "id": "google-pixel-8",
+    "name": "Google Pixel 8",
+    "brand": "google",
+    "deviceType": "phone",
+    "tier": "P3",
+    "releaseYear": 2023,
+    "specs": {
+      "screen": "6.2 inch Actua OLED 120Hz",
+      "chip": "Google Tensor G3",
+      "battery": "4575 mAh",
+      "charging": "27W"
+    },
+    "supportedFaults": [
+      "screen",
+      "glass-press",
+      "battery",
+      "charging-port",
+      "water-damage",
+      "mainboard",
+      "camera",
+      "speaker",
+      "mic",
+      "back-glass",
+      "data-recovery",
+      "diagnostic"
+    ],
+    "knownIssues": [
+      {
+        "id": "pink-line-screen",
+        "title": "Sọc tím dọc màn hình OLED (Chương trình bảo hành mở rộng của Google)",
+        "severity": "critical",
+        "confidence": "high",
+        "symptoms": "Màn hình tự phát sinh một đường sọc tím dọc từ trên xuống dưới.",
+        "solution": "Thay cụm màn hình OLED chính hãng Google."
+      }
+    ]
+  },
+  {
+    "id": "google-pixel-8a",
+    "name": "Google Pixel 8a",
+    "brand": "google",
+    "deviceType": "phone",
+    "tier": "P2",
+    "releaseYear": 2024,
+    "specs": {
+      "screen": "6.1 inch Actua OLED 120Hz viền dày",
+      "chip": "Google Tensor G3",
+      "battery": "4492 mAh",
+      "charging": "18W"
+    },
+    "supportedFaults": [
+      "screen",
+      "glass-press",
+      "battery",
+      "charging-port",
+      "water-damage",
+      "mainboard",
+      "camera",
+      "speaker",
+      "mic",
+      "back-glass",
+      "data-recovery",
+      "diagnostic"
+    ],
+    "knownIssues": [
+      {
+        "id": "matte-back-scratch",
+        "title": "Trầy xước bề mặt lưng nhựa nhám",
+        "severity": "low",
+        "confidence": "high",
+        "symptoms": "Lưng sau xước vệt bóng.",
+        "solution": "Thay nắp lưng hoặc dán PPF."
+      }
+    ]
+  },
+  {
+    "id": "google-pixel-7-pro",
+    "name": "Google Pixel 7 Pro",
+    "brand": "google",
+    "deviceType": "phone",
+    "tier": "P3",
+    "releaseYear": 2022,
+    "specs": {
+      "screen": "6.7 inch LTPO AMOLED 120Hz cong",
+      "chip": "Google Tensor G2",
+      "battery": "5000 mAh",
+      "charging": "23W"
+    },
+    "supportedFaults": [
+      "screen",
+      "glass-press",
+      "battery",
+      "charging-port",
+      "water-damage",
+      "mainboard",
+      "camera",
+      "speaker",
+      "mic",
+      "back-glass",
+      "data-recovery",
+      "diagnostic"
+    ],
+    "knownIssues": [
+      {
+        "id": "camera-glass-spontaneous",
+        "title": "Mặt kính camera sau tự nứt vỡ trong thời tiết lạnh",
+        "severity": "high",
+        "confidence": "high",
+        "symptoms": "Kính ống kính camera sau bỗng nhiên vỡ vụn hình tròn.",
+        "solution": "Thay mặt kính camera sau và kiểm tra áp suất kín khí buồng camera."
+      },
+      {
+        "id": "volume-button-fall-out",
+        "title": "Phím tăng giảm âm lượng tự rơi rụng ra ngoài",
+        "severity": "medium",
+        "confidence": "high",
+        "symptoms": "Phím âm lượng cơ học bị lỏng ngàm và rơi mất nút bấm.",
+        "solution": "Lắp lại phím âm lượng mới có ngàm giữ kim loại gia cố."
+      }
+    ]
+  },
+  {
+    "id": "google-pixel-7",
+    "name": "Google Pixel 7",
+    "brand": "google",
+    "deviceType": "phone",
+    "tier": "P2",
+    "releaseYear": 2022,
+    "specs": {
+      "screen": "6.3 inch AMOLED 90Hz",
+      "chip": "Google Tensor G2",
+      "battery": "4355 mAh",
+      "charging": "20W"
+    },
+    "supportedFaults": [
+      "screen",
+      "glass-press",
+      "battery",
+      "charging-port",
+      "water-damage",
+      "mainboard",
+      "camera",
+      "speaker",
+      "mic",
+      "back-glass",
+      "data-recovery",
+      "diagnostic"
+    ],
+    "knownIssues": [
+      {
+        "id": "fingerprint-optical-slow-p7",
+        "title": "Cảm biến vân tay quang học nhận chậm",
+        "severity": "medium",
+        "confidence": "high",
+        "symptoms": "Nhận diện trễ 1-2 giây.",
+        "solution": "Cân chỉnh lại công cụ Google Calibration Tool."
+      }
+    ]
+  },
+  {
+    "id": "google-pixel-7a",
+    "name": "Google Pixel 7a",
+    "brand": "google",
+    "deviceType": "phone",
+    "tier": "P2",
+    "releaseYear": 2023,
+    "specs": {
+      "screen": "6.1 inch OLED 90Hz",
+      "chip": "Google Tensor G2",
+      "battery": "4385 mAh",
+      "charging": "18W"
+    },
+    "supportedFaults": [
+      "screen",
+      "glass-press",
+      "battery",
+      "charging-port",
+      "water-damage",
+      "mainboard",
+      "camera",
+      "speaker",
+      "mic",
+      "back-glass",
+      "data-recovery",
+      "diagnostic"
+    ],
+    "knownIssues": [
+      {
+        "id": "battery-heat-tensor",
+        "title": "Thân máy ấm và pin hao khi dùng 4G/5G",
+        "severity": "medium",
+        "confidence": "high",
+        "symptoms": "Ấm lưng máy và hao pin nhanh.",
+        "solution": "Kiểm tra chu kỳ sạc pin và cập nhật bản vá bảo mật."
+      }
+    ]
+  },
+  {
+    "id": "google-pixel-6-pro",
+    "name": "Google Pixel 6 Pro",
+    "brand": "google",
+    "deviceType": "phone",
+    "tier": "P2",
+    "releaseYear": 2021,
+    "specs": {
+      "screen": "6.71 inch LTPO AMOLED 120Hz cong",
+      "chip": "Google Tensor (1st Gen)",
+      "battery": "5003 mAh",
+      "charging": "23W"
+    },
+    "supportedFaults": [
+      "screen",
+      "glass-press",
+      "battery",
+      "charging-port",
+      "water-damage",
+      "mainboard",
+      "camera",
+      "speaker",
+      "mic",
+      "back-glass",
+      "data-recovery",
+      "diagnostic"
+    ],
+    "knownIssues": [
+      {
+        "id": "signal-drop-modem",
+        "title": "Sóng di động chập chờn do chip modem mạng Exynos 5123",
+        "severity": "high",
+        "confidence": "high",
+        "symptoms": "Đang gọi điện bị ngắt sóng hoặc tốc độ 4G chậm ở khu vực sóng yếu.",
+        "solution": "Cập nhật firmware baseband hoặc kiểm tra tiếp địa ăng-ten bo mạch."
+      }
+    ]
+  }
+]

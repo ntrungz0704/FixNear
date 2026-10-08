@@ -1,0 +1,61 @@
+.fn-prices-page{max-width:1280px;margin:0 auto;padding:32px 20px 64px;color:#172033}
+.fn-price-hero{display:flex;align-items:end;justify-content:space-between;gap:24px;padding:30px 32px;background:#fff7ed;border:1px solid #fed7aa;border-radius:18px}
+.fn-price-kicker{display:block;color:#c2410c;font-size:11px;font-weight:900;letter-spacing:.13em;margin-bottom:8px}
+.fn-price-hero h1{font-family:var(--fn-font-heading);font-size:clamp(28px,3vw,38px);line-height:1.15;margin:0 0 10px;font-weight:900}
+.fn-price-hero p{font-size:14px;line-height:1.55;color:#5b6473;margin:0;max-width:630px}
+.fn-price-stats{display:flex;gap:10px;flex-wrap:wrap;justify-content:flex-end}
+.fn-price-stats span{display:inline-flex;align-items:center;gap:6px;background:#fff;border:1px solid #fed7aa;border-radius:999px;padding:9px 13px;font-size:12px;color:#7c2d12;white-space:nowrap}
+.fn-price-stats strong{font-size:15px;color:#c2410c;font-variant-numeric:tabular-nums}
+.fn-price-tabs{display:flex;gap:5px;margin:24px 0 0;border-bottom:1px solid #e5e7eb;overflow:auto}
+.fn-price-tabs a{display:inline-flex;align-items:center;min-height:46px;padding:0 18px;color:#475569;font-size:14px;font-weight:800;text-decoration:none;white-space:nowrap;border-bottom:3px solid transparent}
+.fn-price-tabs a:hover,.fn-price-tabs a.is-active{color:#c2410c}
+.fn-price-tabs a.is-active{border-bottom-color:#ea580c}
+.fn-price-panel{background:#fff;border:1px solid #e5e7eb;border-radius:0 0 18px 18px;padding:24px;box-shadow:0 8px 28px rgba(15,23,42,.04)}
+.fn-price-heading{display:flex;align-items:start;justify-content:space-between;gap:20px;margin-bottom:20px}
+.fn-price-heading h2{font-family:var(--fn-font-heading);font-size:23px;line-height:1.25;margin:0 0 5px}
+.fn-price-heading p{color:#64748b;font-size:13px;line-height:1.5;margin:0;max-width:780px}
+.fn-price-count{background:#fff7ed;border:1px solid #fed7aa;color:#9a3412;font-size:12px;font-weight:800;border-radius:999px;padding:8px 12px;white-space:nowrap;font-variant-numeric:tabular-nums}
+.fn-price-filters{display:grid;grid-template-columns:repeat(4,minmax(0,1fr));gap:12px;align-items:end;background:#fafafa;border:1px solid #e5e7eb;border-radius:14px;padding:16px;margin-bottom:20px}
+.fn-price-query{grid-column:span 2}
+.fn-price-filters label{display:flex;flex-direction:column;gap:6px;min-width:0}
+.fn-price-filters label span{font-size:12px;font-weight:800;color:#334155}
+.fn-price-filters input,.fn-price-filters select{display:block;width:100%;height:44px;padding:0 12px;border:1px solid #cbd5e1;border-radius:9px;background:#fff;color:#1e293b;font:inherit;font-size:13px;min-width:0;box-sizing:border-box}
+.fn-price-filters select:disabled{background:#f1f5f9;color:#64748b;cursor:not-allowed}
+.fn-price-filters input::placeholder{color:#94a3b8}
+.fn-price-filters input:focus-visible,.fn-price-filters select:focus-visible,.fn-prices-page a:focus-visible,.fn-prices-page button:focus-visible{outline:3px solid #fb923c;outline-offset:2px}
+.fn-price-filter-actions{display:flex;align-items:center;gap:14px;min-height:44px}
+.fn-price-filter-actions button{height:44px;padding:0 22px;border:0;border-radius:9px;color:#fff;background:#ea580c;font-size:13px;font-weight:800;cursor:pointer;white-space:nowrap}
+.fn-price-filter-actions button:hover{background:#c2410c}
+.fn-price-filter-actions a{font-size:13px;font-weight:700;color:#475569;white-space:nowrap;text-decoration:none}
+.fn-price-filter-actions a:hover{text-decoration:underline}
+.fn-price-table-wrap{overflow-x:auto;border:1px solid #e5e7eb;border-radius:12px}
+.fn-price-table{border-collapse:collapse;width:100%;table-layout:fixed}
+.fn-price-table th{background:#fff7ed;border-bottom:1px solid #fed7aa;color:#7c2d12;text-align:left;font-size:11px;font-weight:900;letter-spacing:.03em;padding:13px 14px}
+.fn-price-table th:nth-child(1){width:20%}.fn-price-table th:nth-child(2){width:23%}.fn-price-table th:nth-child(3){width:39%}.fn-price-table th:nth-child(4){width:18%}
+.fn-price-table td{height:78px;padding:12px 14px;border-bottom:1px solid #e5e7eb;vertical-align:middle;font-size:13px;line-height:1.4;overflow-wrap:anywhere}
+.fn-price-table tr:last-child td{border-bottom:0}
+.fn-price-table tbody tr:hover{background:#fffbf7}
+.fn-price-table td strong{display:block;font-weight:800;color:#1e293b}
+.fn-price-table td small{display:-webkit-box;-webkit-line-clamp:2;-webkit-box-orient:vertical;overflow:hidden;color:#64748b;font-size:11px;line-height:1.4;margin-top:4px}
+.fn-price-table td a{color:#c2410c;font-weight:800;text-decoration:none}
+.fn-price-table td a:hover{text-decoration:underline}
+.fn-price-model-link{display:-webkit-box;-webkit-line-clamp:2;-webkit-box-orient:vertical;overflow:hidden;line-height:1.35}
+.fn-price-model-cell{display:flex;align-items:center;gap:9px;min-width:0}.fn-price-model-cell>div{min-width:0}.fn-price-model-cell img{flex:0 0 28px;width:28px;height:28px;object-fit:contain}
+.fn-price-part-brand{display:inline-block;padding:2px 5px;margin-right:3px;border-radius:4px;background:#ffedd5;color:#9a3412;font-weight:800}
+.fn-price-amount{color:#c2410c!important;font-size:17px;font-variant-numeric:tabular-nums;white-space:nowrap}
+.fn-price-range{display:grid;grid-template-columns:repeat(3,minmax(0,1fr));gap:6px}
+.fn-price-range span{min-height:50px;display:flex;flex-direction:column;justify-content:center;gap:2px;padding:6px 8px;background:#fff7ed;border:1px solid #fed7aa;border-radius:8px}
+.fn-price-range b{font-size:10px;color:#9a3412;text-transform:uppercase}
+.fn-price-range strong{font-size:11px;line-height:1.25;color:#7c2d12!important;font-variant-numeric:tabular-nums}
+.fn-price-midpoint{display:block;margin-top:5px;color:#9a3412;font-size:11px;font-weight:700}
+.fn-price-row-action{display:inline-flex;align-items:center;justify-content:center;min-height:36px;padding:0 10px;border:1px solid #fed7aa;border-radius:7px;background:#fff7ed;white-space:nowrap}
+.fn-price-pagination{display:flex;justify-content:center;align-items:center;gap:16px;margin:22px 0 0;font-size:13px;font-weight:800;font-variant-numeric:tabular-nums}
+.fn-price-pagination a{padding:9px 13px;border:1px solid #fed7aa;border-radius:8px;color:#c2410c;text-decoration:none}
+.fn-price-pagination a:hover{background:#fff7ed}
+.fn-price-empty{padding:42px 20px;text-align:center;background:#fffaf5;border:1px dashed #fdba74;border-radius:12px}
+.fn-price-empty strong{font-size:16px}.fn-price-empty p{color:#64748b;font-size:13px}.fn-price-empty a{color:#c2410c;font-weight:800;text-decoration:none}
+.fn-price-footnote{max-width:900px;margin:17px auto 0;text-align:center;color:#64748b;font-size:12px;line-height:1.55}
+@media(max-width:1050px){.fn-price-filters{grid-template-columns:repeat(2,minmax(0,1fr))}.fn-price-table{min-width:900px}}
+@media(min-width:651px) and (max-width:1050px){.fn-price-table{min-width:0;table-layout:auto}.fn-price-table thead{display:none}.fn-price-table tbody,.fn-price-table tr,.fn-price-table td{display:block}.fn-price-table tr{display:grid;grid-template-columns:repeat(2,minmax(0,1fr));gap:8px 18px;padding:16px;border-bottom:1px solid #e5e7eb}.fn-price-table td{height:auto;padding:0;border:0}.fn-price-table td::before{content:attr(data-label);display:block;color:#94a3b8;font-size:10px;font-weight:800;text-transform:uppercase;margin-bottom:3px}.fn-price-table td:nth-child(3){grid-column:1/-1}.fn-price-range{grid-template-columns:repeat(3,minmax(0,1fr))}}
+@media(max-width:650px){.fn-price-query{grid-column:auto}}
+@media(max-width:650px){.fn-prices-page{padding:18px 12px 40px}.fn-price-hero{display:block;padding:22px}.fn-price-stats{justify-content:flex-start;margin-top:18px}.fn-price-panel{padding:15px}.fn-price-heading{display:block}.fn-price-count{display:inline-flex;margin-top:12px}.fn-price-filters{grid-template-columns:1fr}.fn-price-table{min-width:0;table-layout:auto}.fn-price-table thead{display:none}.fn-price-table tbody,.fn-price-table tr,.fn-price-table td{display:block}.fn-price-table tr{padding:12px;border-bottom:1px solid #e5e7eb}.fn-price-table tr:last-child{border:0}.fn-price-table td{height:auto;padding:5px 0;border:0}.fn-price-table td::before{content:attr(data-label);display:block;color:#94a3b8;font-size:10px;font-weight:800;text-transform:uppercase;margin-bottom:2px}.fn-price-range{grid-template-columns:repeat(3,minmax(0,1fr))}}

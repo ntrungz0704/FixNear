@@ -1,0 +1,232 @@
+[
+  {
+    "id": "oneplus-12",
+    "name": "OnePlus 12",
+    "brand": "oneplus",
+    "deviceType": "phone",
+    "tier": "P4",
+    "releaseYear": 2023,
+    "specs": {
+      "screen": "6.82 inch 2K LTPO AMOLED 120Hz 4500 nits cong",
+      "chip": "Snapdragon 8 Gen 3",
+      "battery": "5400 mAh",
+      "charging": "100W SuperVOOC, 50W AirVOOC"
+    },
+    "supportedFaults": [
+      "screen",
+      "glass-press",
+      "battery",
+      "charging-port",
+      "water-damage",
+      "mainboard",
+      "camera",
+      "speaker",
+      "mic",
+      "back-glass",
+      "data-recovery",
+      "diagnostic"
+    ],
+    "knownIssues": [
+      {
+        "id": "gap-camera-bump",
+        "title": "Hở khe keo nhẹ giữa cụm camera tròn và mặt lưng",
+        "severity": "low",
+        "confidence": "high",
+        "symptoms": "Bụi dễ lọt vào kẽ mép gờ camera.",
+        "solution": "Dán lại keo chống nước chuyên dụng chuẩn nhà máy."
+      }
+    ]
+  },
+  {
+    "id": "oneplus-11",
+    "name": "OnePlus 11",
+    "brand": "oneplus",
+    "deviceType": "phone",
+    "tier": "P3",
+    "releaseYear": 2023,
+    "specs": {
+      "screen": "6.7 inch 2K AMOLED 120Hz cong",
+      "chip": "Snapdragon 8 Gen 2",
+      "battery": "5000 mAh",
+      "charging": "100W"
+    },
+    "supportedFaults": [
+      "screen",
+      "glass-press",
+      "battery",
+      "charging-port",
+      "water-damage",
+      "mainboard",
+      "camera",
+      "speaker",
+      "mic",
+      "back-glass",
+      "data-recovery",
+      "diagnostic"
+    ],
+    "knownIssues": [
+      {
+        "id": "green-line-op11",
+        "title": "Sọc xanh lá cây chỉ đứng màn hình AMOLED",
+        "severity": "critical",
+        "confidence": "high",
+        "symptoms": "Xuất hiện 1 vệt sọc xanh sáng chói sau khi máy ấm lên.",
+        "solution": "Hàn laser vi mạch cổ cáp hoặc thay màn hình zin mới."
+      }
+    ]
+  },
+  {
+    "id": "oneplus-10-pro",
+    "name": "OnePlus 10 Pro",
+    "brand": "oneplus",
+    "deviceType": "phone",
+    "tier": "P3",
+    "releaseYear": 2022,
+    "specs": {
+      "screen": "6.7 inch LTPO2 AMOLED 120Hz cong",
+      "chip": "Snapdragon 8 Gen 1",
+      "battery": "5000 mAh",
+      "charging": "80W"
+    },
+    "supportedFaults": [
+      "screen",
+      "glass-press",
+      "battery",
+      "charging-port",
+      "water-damage",
+      "mainboard",
+      "camera",
+      "speaker",
+      "mic",
+      "back-glass",
+      "data-recovery",
+      "diagnostic"
+    ],
+    "knownIssues": [
+      {
+        "id": "chassis-snap-bend",
+        "title": "Khung nhôm dễ gãy gập ngang dải ăng-ten khi chịu lực uốn",
+        "severity": "critical",
+        "confidence": "high",
+        "symptoms": "Khung vỏ máy bị cong gãy ở vị trí dưới cụm camera sau khi bị tì đè túi quần.",
+        "solution": "Thay toàn bộ vỏ khung sườn kim loại chính hãng và nắn chỉnh bo mạch."
+      }
+    ]
+  },
+  {
+    "id": "oneplus-open",
+    "name": "OnePlus Open",
+    "brand": "oneplus",
+    "deviceType": "phone",
+    "tier": "P5",
+    "releaseYear": 2023,
+    "specs": {
+      "screen": "Màn trong 7.82 inch 120Hz gập không nếp nhăn, màn ngoài 6.31 inch 120Hz",
+      "chip": "Snapdragon 8 Gen 2",
+      "battery": "4805 mAh",
+      "charging": "67W"
+    },
+    "supportedFaults": [
+      "screen",
+      "glass-press",
+      "battery",
+      "charging-port",
+      "water-damage",
+      "mainboard",
+      "camera",
+      "speaker",
+      "mic",
+      "hinge-body",
+      "back-glass",
+      "data-recovery",
+      "diagnostic",
+      "foldable-cable"
+    ],
+    "knownIssues": [
+      {
+        "id": "open-hinge-dust",
+        "title": "Bụi lọt bản lề gây kêu lạo xạo khi gập mở",
+        "severity": "medium",
+        "confidence": "high",
+        "symptoms": "Gập mở có cảm giác cộm cơ học.",
+        "solution": "Vệ sinh chuyên sâu cấu trúc bản lề Flexion Hinge."
+      }
+    ]
+  },
+  {
+    "id": "oneplus-ace-3",
+    "name": "OnePlus Ace 3 (12R)",
+    "brand": "oneplus",
+    "deviceType": "phone",
+    "tier": "P3",
+    "releaseYear": 2024,
+    "specs": {
+      "screen": "6.78 inch 1.5K AMOLED 120Hz 4500 nits cong",
+      "chip": "Snapdragon 8 Gen 2",
+      "battery": "5500 mAh",
+      "charging": "100W"
+    },
+    "supportedFaults": [
+      "screen",
+      "glass-press",
+      "battery",
+      "charging-port",
+      "water-damage",
+      "mainboard",
+      "camera",
+      "speaker",
+      "mic",
+      "back-glass",
+      "data-recovery",
+      "diagnostic"
+    ],
+    "knownIssues": [
+      {
+        "id": "curved-glass-ace3",
+        "title": "Nứt vỡ mặt kính mép cong khi va quệt",
+        "severity": "medium",
+        "confidence": "high",
+        "symptoms": "Mặt kính rạn nứt ngoài.",
+        "solution": "Ép kính màn hình cong công nghệ OCA."
+      }
+    ]
+  },
+  {
+    "id": "oneplus-nord-3",
+    "name": "OnePlus Nord 3 5G",
+    "brand": "oneplus",
+    "deviceType": "phone",
+    "tier": "P2",
+    "releaseYear": 2023,
+    "specs": {
+      "screen": "6.74 inch AMOLED 120Hz phẳng",
+      "chip": "Dimensity 9000",
+      "battery": "5000 mAh",
+      "charging": "80W"
+    },
+    "supportedFaults": [
+      "screen",
+      "glass-press",
+      "battery",
+      "charging-port",
+      "water-damage",
+      "mainboard",
+      "camera",
+      "speaker",
+      "mic",
+      "back-glass",
+      "data-recovery",
+      "diagnostic"
+    ],
+    "knownIssues": [
+      {
+        "id": "battery-aged-nord3",
+        "title": "Pin mau tụt khi bật màn hình 120Hz liên tục",
+        "severity": "medium",
+        "confidence": "high",
+        "symptoms": "Onscreen chỉ còn 4 tiếng.",
+        "solution": "Thay pin mới bảo hành 6 tháng."
+      }
+    ]
+  }
+]

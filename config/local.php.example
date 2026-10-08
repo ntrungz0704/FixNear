@@ -1,0 +1,39 @@
+<?php
+/**
+ * File cấu hình môi trường cục bộ (Local Environment Configuration).
+ * Hướng dẫn: Sao chép file này thành `config/local.php` trên máy chủ hoặc máy phát triển.
+ * LƯU Ý: Không bao giờ commit file `local.php` lên Git repository.
+ */
+return [
+    // Môi trường hoạt động: 'development' hoặc 'production'
+    'environment' => 'development',
+
+    // Múi giờ hệ thống
+    'timezone' => 'Asia/Ho_Chi_Minh',
+
+    // Thư mục lưu trữ dữ liệu JSON fallback cục bộ
+    // Khuyến nghị trên production: đặt ngoài public_html (ví dụ: '/home/account/fixnear-data')
+    'data_dir' => dirname(__DIR__) . '/data',
+
+    // ================= CẤU HÌNH CƠ SỞ DỮ LIỆU MYSQL =================
+    // Bật/tắt kết nối MySQL (true: ưu tiên MySQL -> fallback JSON; false: dùng trực tiếp JSON không chờ timeout)
+    'enable_mysql' => true,
+
+    // Địa chỉ máy chủ MySQL (mặc định localhost/127.0.0.1 đối với XAMPP, Laragon)
+    'db_host' => '127.0.0.1',
+
+    // Cổng kết nối MySQL (mặc định 3306)
+    'db_port' => 3306,
+
+    // Tên cơ sở dữ liệu
+    'db_name' => 'fixnear_db',
+
+    // Tên người dùng MySQL
+    'db_user' => 'root',
+
+    // Mật khẩu người dùng MySQL (XAMPP mặc định để trống '')
+    'db_pass' => '',
+
+    // Thời gian chờ tối đa khi kết nối MySQL (giây) trước khi tự động chuyển sang JSON fallback
+    'db_timeout' => 1,
+];

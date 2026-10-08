@@ -1,0 +1,311 @@
+[
+  {
+    "id": "samsung-galaxy-tab-s9-ultra",
+    "name": "Galaxy Tab S9 Ultra",
+    "brand": "samsung",
+    "deviceType": "tablet",
+    "tier": "T3",
+    "releaseYear": 2023,
+    "specs": {
+      "screen": "14.6 inch Dynamic AMOLED 2X 120Hz WQXGA+ khổng lồ, kháng nước IP68",
+      "chip": "Snapdragon 8 Gen 2 for Galaxy",
+      "battery": "11.200 mAh",
+      "spen": "Bút S-Pen kháng nước sạc 2 chiều"
+    },
+    "supportedFaults": [
+      "screen",
+      "glass-press",
+      "battery",
+      "charging-port",
+      "mainboard",
+      "camera",
+      "speaker",
+      "mic",
+      "water-damage",
+      "data-recovery",
+      "diagnostic",
+      "pencil-charging"
+    ],
+    "knownIssues": [
+      {
+        "id": "giant-screen-drop-crack",
+        "title": "Màn hình 14.6 inch khổng lồ dễ nứt vỡ khi chịu lực tì đè",
+        "severity": "critical",
+        "confidence": "high",
+        "symptoms": "Cấn đồ vật làm nứt tấm nền AMOLED hoặc sọc chỉ dọc.",
+        "solution": "Thay cụm màn hình Dynamic AMOLED 2X 14.6 inch chính hãng Samsung."
+      },
+      {
+        "id": "spen-charging-strip-back",
+        "title": "Rãnh nam châm sạc bút S-Pen mặt lưng không nhận sạc",
+        "severity": "medium",
+        "confidence": "high",
+        "symptoms": "Hít bút S-Pen sau lưng không thấy biểu tượng báo sạc pin.",
+        "solution": "Thay dải cuộn từ tính sạc bút sau nắp lưng."
+      }
+    ]
+  },
+  {
+    "id": "samsung-galaxy-tab-s9-plus",
+    "name": "Galaxy Tab S9+",
+    "brand": "samsung",
+    "deviceType": "tablet",
+    "tier": "T3",
+    "releaseYear": 2023,
+    "specs": {
+      "screen": "12.4 inch Dynamic AMOLED 2X 120Hz",
+      "chip": "Snapdragon 8 Gen 2",
+      "battery": "10.090 mAh",
+      "charging": "45W"
+    },
+    "supportedFaults": [
+      "screen",
+      "glass-press",
+      "battery",
+      "charging-port",
+      "mainboard",
+      "camera",
+      "speaker",
+      "mic",
+      "water-damage",
+      "data-recovery",
+      "diagnostic",
+      "pencil-charging"
+    ],
+    "knownIssues": [
+      {
+        "id": "battery-aged-s9p",
+        "title": "Pin sụt nhanh khi dùng độ sáng cao ngoài trời",
+        "severity": "medium",
+        "confidence": "high",
+        "symptoms": "Onscreen giảm chỉ còn 4 tiếng.",
+        "solution": "Thay pin mới chất lượng cao."
+      }
+    ]
+  },
+  {
+    "id": "samsung-galaxy-tab-s9",
+    "name": "Galaxy Tab S9",
+    "brand": "samsung",
+    "deviceType": "tablet",
+    "tier": "T3",
+    "releaseYear": 2023,
+    "specs": {
+      "screen": "11.0 inch Dynamic AMOLED 2X 120Hz",
+      "chip": "Snapdragon 8 Gen 2",
+      "battery": "8400 mAh",
+      "charging": "45W"
+    },
+    "supportedFaults": [
+      "screen",
+      "glass-press",
+      "battery",
+      "charging-port",
+      "mainboard",
+      "camera",
+      "speaker",
+      "mic",
+      "water-damage",
+      "data-recovery",
+      "diagnostic",
+      "pencil-charging"
+    ],
+    "knownIssues": [
+      {
+        "id": "spen-nib-wear",
+        "title": "Ngòi bút cao su S-Pen bị mòn tòe ngòi",
+        "severity": "low",
+        "confidence": "high",
+        "symptoms": "Vẽ viết ma sát kém nhạy.",
+        "solution": "Thay ngòi bút S-Pen mới."
+      }
+    ]
+  },
+  {
+    "id": "samsung-galaxy-tab-s9-fe",
+    "name": "Galaxy Tab S9 FE / FE+",
+    "brand": "samsung",
+    "deviceType": "tablet",
+    "tier": "T2",
+    "releaseYear": 2023,
+    "specs": {
+      "screen": "10.9 / 12.4 inch IPS LCD 90Hz, kháng nước IP68",
+      "chip": "Exynos 1380",
+      "battery": "8000 / 10090 mAh",
+      "charging": "45W"
+    },
+    "supportedFaults": [
+      "screen",
+      "glass-press",
+      "battery",
+      "charging-port",
+      "mainboard",
+      "camera",
+      "speaker",
+      "mic",
+      "water-damage",
+      "data-recovery",
+      "diagnostic",
+      "pencil-charging"
+    ],
+    "knownIssues": [
+      {
+        "id": "lcd-shatter-s9fe",
+        "title": "Màn hình nứt vỡ LCD",
+        "severity": "high",
+        "confidence": "high",
+        "symptoms": "Kính vỡ sọc kẻ hoặc chảy mực đen.",
+        "solution": "Thay cụm màn hình IPS LCD mới."
+      }
+    ]
+  },
+  {
+    "id": "samsung-galaxy-tab-s8-ultra",
+    "name": "Galaxy Tab S8 Ultra",
+    "brand": "samsung",
+    "deviceType": "tablet",
+    "tier": "T3",
+    "releaseYear": 2022,
+    "specs": {
+      "screen": "14.6 inch Super AMOLED 120Hz",
+      "chip": "Snapdragon 8 Gen 1",
+      "battery": "11.200 mAh",
+      "charging": "45W"
+    },
+    "supportedFaults": [
+      "screen",
+      "glass-press",
+      "battery",
+      "charging-port",
+      "mainboard",
+      "camera",
+      "speaker",
+      "mic",
+      "water-damage",
+      "data-recovery",
+      "diagnostic",
+      "pencil-charging"
+    ],
+    "knownIssues": [
+      {
+        "id": "snap8gen1-hot-s8u",
+        "title": "Thân máy ấm lên khi chơi game nặng",
+        "severity": "medium",
+        "confidence": "high",
+        "symptoms": "Lưng máy nóng vùng camera.",
+        "solution": "Vệ sinh tản nhiệt và thay pin mới."
+      }
+    ]
+  },
+  {
+    "id": "samsung-galaxy-tab-s8-plus",
+    "name": "Galaxy Tab S8+",
+    "brand": "samsung",
+    "deviceType": "tablet",
+    "tier": "T3",
+    "releaseYear": 2022,
+    "specs": {
+      "screen": "12.4 inch Super AMOLED 120Hz",
+      "chip": "Snapdragon 8 Gen 1",
+      "battery": "10.090 mAh"
+    },
+    "supportedFaults": [
+      "screen",
+      "glass-press",
+      "battery",
+      "charging-port",
+      "mainboard",
+      "camera",
+      "speaker",
+      "mic",
+      "water-damage",
+      "data-recovery",
+      "diagnostic",
+      "pencil-charging"
+    ],
+    "knownIssues": [
+      {
+        "id": "battery-aged-s8p",
+        "title": "Pin chai cần bảo dưỡng",
+        "severity": "medium",
+        "confidence": "high",
+        "symptoms": "Sập nguồn khi pin báo dưới 15%.",
+        "solution": "Thay pin mới chất lượng cao."
+      }
+    ]
+  },
+  {
+    "id": "samsung-galaxy-tab-a9-plus",
+    "name": "Galaxy Tab A9+",
+    "brand": "samsung",
+    "deviceType": "tablet",
+    "tier": "T1",
+    "releaseYear": 2023,
+    "specs": {
+      "screen": "11.0 inch TFT LCD 90Hz",
+      "chip": "Snapdragon 695",
+      "battery": "7040 mAh",
+      "charging": "15W"
+    },
+    "supportedFaults": [
+      "screen",
+      "glass-press",
+      "battery",
+      "charging-port",
+      "mainboard",
+      "camera",
+      "speaker",
+      "mic",
+      "water-damage",
+      "data-recovery",
+      "diagnostic"
+    ],
+    "knownIssues": [
+      {
+        "id": "speaker-crackle-a9p",
+        "title": "Loa 4 loa ngoài rè nhẹ khi mở max volume",
+        "severity": "low",
+        "confidence": "high",
+        "symptoms": "Âm thanh rè lẹt xẹt.",
+        "solution": "Vệ sinh màng loa hoặc thay loa mới."
+      }
+    ]
+  },
+  {
+    "id": "samsung-galaxy-tab-a8",
+    "name": "Galaxy Tab A8 10.5 inch (2022)",
+    "brand": "samsung",
+    "deviceType": "tablet",
+    "tier": "T1",
+    "releaseYear": 2022,
+    "specs": {
+      "screen": "10.5 inch TFT LCD WUXGA",
+      "chip": "Unisoc Tiger T618",
+      "battery": "7040 mAh",
+      "charging": "15W"
+    },
+    "supportedFaults": [
+      "screen",
+      "glass-press",
+      "battery",
+      "charging-port",
+      "mainboard",
+      "camera",
+      "speaker",
+      "mic",
+      "water-damage",
+      "data-recovery",
+      "diagnostic"
+    ],
+    "knownIssues": [
+      {
+        "id": "charging-loose-a8",
+        "title": "Cổng sạc Type-C cắm lỏng chập chờn",
+        "severity": "medium",
+        "confidence": "high",
+        "symptoms": "Sạc ngắt quãng liên tục.",
+        "solution": "Thay bo chân sạc phụ."
+      }
+    ]
+  }
+]
