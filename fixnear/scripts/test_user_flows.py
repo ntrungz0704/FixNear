@@ -79,16 +79,35 @@ def main():
 
             status, _, form = request(guest, base, "/request_repair.php")
             assert status == 200
+            status, _, invalid = request(guest, base, "/request_repair.php", {
+                "csrf_token": csrf(form), "submit_request": "1", "device_type": "Điện thoại (Smartphone)",
+                "brand_model": "iPhone 16e", "issue_type": "Thay pin", "district": "Quận 1",
+                "customer_name": "Test Guest", "customer_email": "guest-e2e@example.invalid",
+                "customer_phone": "0901234567"
+            })
+            assert status == 200 and "Số Zalo cần có" in invalid
+            assert json.loads((data_dir / "repair_requests.json").read_text(encoding="utf-8")) == []
             status, _, result = request(guest, base, "/request_repair.php", {
                 "csrf_token": csrf(form), "submit_request": "1", "device_type": "Điện thoại (Smartphone)",
                 "brand_model": "iPhone 16e", "model_id": "apple-iphone-16e", "fault_id": "battery",
                 "issue_type": "Thay pin", "symptom": "Pin tụt nhanh", "district": "Quận 1",
                 "customer_name": "Test Guest", "customer_email": "guest-e2e@example.invalid",
-                "customer_phone": "0901234567", "preferred_time": "Sáng mai"
+                "customer_phone": "0901234567", "customer_zalo": "0901234567", "preferred_time": "Sáng mai"
             })
             requests = json.loads((data_dir / "repair_requests.json").read_text(encoding="utf-8"))
             assert status == 200 and len(requests) == 1 and requests[0]["customer_name"] == "Test Guest"
+            assert requests[0]["customer_zalo"] == "0901234567"
             request_id = requests[0]["id"]
+            status, _, tracking_form = request(guest, base, "/track_request.php")
+            assert status == 200
+            status, _, wrong_tracking = request(guest, base, "/track_request.php", {
+                "csrf_token": csrf(tracking_form), "code": request_id, "phone": "0999999999"
+            })
+            assert status == 200 and "Không tìm thấy hồ sơ" in wrong_tracking
+            status, _, correct_tracking = request(guest, base, "/track_request.php", {
+                "csrf_token": csrf(tracking_form), "code": request_id, "phone": "0901234567"
+            })
+            assert status == 200 and "Hồ sơ " + request_id in correct_tracking
 
             user = build_opener(HTTPCookieProcessor(CookieJar()))
             status, _, form = request(user, base, "/register.php")
@@ -118,11 +137,13 @@ def main():
                 "csrf_token": csrf(form), "submit_request": "1", "device_type": "Laptop Windows",
                 "brand_model": "Dell XPS", "issue_type": "Kiểm tra máy", "symptom": "Không khởi động",
                 "district": "Quận 3", "customer_name": "Test User", "customer_email": "user-e2e@example.invalid",
-                "customer_phone": "0901234568", "preferred_time": "Chiều mai"
+                "customer_phone": "0901234568", "customer_zalo": "0901234569", "preferred_time": "Chiều mai"
             })
             requests = json.loads((data_dir / "repair_requests.json").read_text(encoding="utf-8"))
             member_request = next(item for item in requests if item["customer_name"] == "Test User")
             assert status == 200 and len(requests) == 2 and int(member_request["user_id"]) == users[-1]["id"]
+            assert member_request["customer_zalo"] == "0901234569"
+            assert member_request["id"] in request(user, base, "/track_request.php")[2]
 
             status, _, detail = request(user, base, "/shop_detail.php?id=1")
             assert status == 200
@@ -147,7 +168,17 @@ def main():
             assert status == 200 and live_before["pending_requests"] == 2 and live_before["pending_reviews"] == 1
             assert request(guest, base, "/api/admin_live.php")[0] == 403
             status, _, dashboard = request(admin, base, "/admin/requests.php")
-            assert status == 200 and request_id in dashboard
+            assert status == 200 and request_id in dashboard and "0901234569" in dashboard
+            status, _, contact_form = request(guest, base, "/contact.php")
+            assert status == 200
+            status, _, contact_result = request(guest, base, "/contact.php", {
+                "csrf_token": csrf(contact_form), "send_contact": "1", "name": "Test Guest",
+                "phone": "0901234567", "email": "guest-e2e@example.invalid",
+                "type": "Đóng góp ý kiến cải tiến tính năng website",
+                "message": "Kiểm thử biểu mẫu liên hệ không cần đăng nhập."
+            })
+            assert status == 200 and "Kiểm thử biểu mẫu liên hệ" in json.dumps(json.loads((data_dir / "contact_messages.json").read_text(encoding="utf-8")), ensure_ascii=False)
+            assert "Test Guest" in request(admin, base, "/admin/contacts.php")[2]
             status, _, _ = request(admin, base, "/admin/requests.php", {
                 "csrf_token": csrf(dashboard), "id": request_id, "status": "contacted"
             })
@@ -169,7 +200,7 @@ def main():
             live_after = json.loads(live_response)
             assert status == 200 and live_after["pending_requests"] == 1 and live_after["pending_reviews"] == 0
             assert live_after["revision"] != live_before["revision"]
-            print("PASS: price filters, guest/member requests, registration/login, admin status, review moderation/reply and public sync")
+            print("PASS: prices, required contacts, guest/member booking, registration/login, guest contact, admin status, review moderation/reply and public sync")
         finally:
             process.terminate()
             try:

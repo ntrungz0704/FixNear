@@ -414,7 +414,7 @@ $featuredShops = array_slice($featuredShops, 0, 6);
                     Chọn loại thiết bị như Laptop, MacBook, iPhone, iPad hoặc PC để lọc nhóm dịch vụ phù hợp.
                 </p>
                 <a href="request_repair.php" class="fn-process-btn fn-process-btn-1" title="Bắt đầu mô tả thiết bị">
-                    <span>Hỗ trợ 4 nhóm máy</span> <span>&rarr;</span>
+                    <span>Hỗ trợ 6 nhóm thiết bị</span> <span>&rarr;</span>
                 </a>
             </div>
 

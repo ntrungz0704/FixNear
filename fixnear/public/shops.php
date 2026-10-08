@@ -462,7 +462,7 @@ require_once __DIR__ . '/../includes/navbar.php';
             </a>
         </div>
     <?php else: ?>
-        <div style="display: grid; grid-template-columns: repeat(auto-fill, minmax(350px, 1fr)); gap: 24px; text-align: left;">
+        <div class="fn-shop-list" style="display: grid; grid-template-columns: repeat(auto-fill, minmax(350px, 1fr)); gap: 24px; text-align: left;">
             <?php foreach ($filteredShops as $shop): ?>
                 <div class="fn-shop-card" style="display: flex; flex-direction: column; background: #ffffff; border-radius: 16px; border: 1px solid #e2e8f0; box-shadow: 0 4px 16px rgba(0,0,0,0.04); overflow: hidden; text-align: left; transition: transform 0.2s, box-shadow 0.2s;" onmouseover="this.style.boxShadow='0 8px 25px rgba(0,0,0,0.08)'" onmouseout="this.style.boxShadow='0 4px 16px rgba(0,0,0,0.04)'">
                     
@@ -495,10 +495,10 @@ require_once __DIR__ . '/../includes/navbar.php';
                     </div>
 
                     <!-- Body Thẻ Cửa Hàng -->
-                    <div style="flex: 1; display: flex; flex-direction: column; padding: 18px; text-align: left;">
+                    <div class="fn-shop-list-body" style="flex: 1; display: flex; flex-direction: column; padding: 18px; text-align: left;">
                         
                         <!-- Hàng Rating & Giờ Mở Cửa -->
-                        <div style="display: flex; justify-content: space-between; align-items: center; margin-bottom: 8px; flex-wrap: wrap; gap: 6px;">
+                        <div class="fn-shop-list-meta" style="display: flex; justify-content: space-between; align-items: center; margin-bottom: 8px; flex-wrap: wrap; gap: 6px;">
                             <span style="color: #ea580c; font-weight: 800; font-size: 13.5px;">
                                 <?= !empty($shop['google_rating_verified']) ? '★ ' . htmlspecialchars($shop['google_rating']) . ' <span style="color:#94a3b8;font-weight:600;font-size:11px;">(' . number_format($shop['google_reviews_count'], 0, ',', '.') . ' Google)</span>' : '<span style="color:#64748b;font-size:11px;">Google: chưa đối soát</span>' ?>
                             </span>
@@ -508,20 +508,20 @@ require_once __DIR__ . '/../includes/navbar.php';
                         </div>
 
                         <!-- Tên Cửa Hàng -->
-                        <h3 style="font-family: var(--fn-font-heading); font-size: 16.5px; font-weight: 800; color: #0f172a; line-height: 1.35; margin: 0 0 6px 0;">
+                        <h3 class="fn-shop-list-title" style="font-family: var(--fn-font-heading); font-size: 16.5px; font-weight: 800; color: #0f172a; line-height: 1.35; margin: 0 0 6px 0;">
                             <a href="shop_detail.php?id=<?= $shop['id'] ?>" style="color: inherit; text-decoration: none;">
                                 <?= htmlspecialchars($shop['name']) ?>
                             </a>
                         </h3>
 
                         <!-- Địa Chỉ -->
-                        <p style="font-size: 12.5px; color: #64748b; line-height: 1.5; margin: 0 0 8px 0;">
+                        <p class="fn-shop-list-address" style="font-size: 12.5px; color: #64748b; line-height: 1.5; margin: 0 0 8px 0;">
                             📌 <?= htmlspecialchars($shop['address']) ?>
                         </p>
-                        <?php if (!empty($shop['address_verified'])): ?><a href="<?= htmlspecialchars($shop['address_source_url']) ?>" target="_blank" rel="noopener noreferrer" style="font-size:11px;color:#c2410c;font-weight:800;margin-bottom:8px;">Nguồn địa chỉ ↗</a><?php endif; ?>
+                        <div class="fn-shop-list-source"><?php if (!empty($shop['address_verified'])): ?><a href="<?= htmlspecialchars($shop['address_source_url']) ?>" target="_blank" rel="noopener noreferrer" style="font-size:11px;color:#c2410c;font-weight:800;">Nguồn địa chỉ ↗</a><?php endif; ?></div>
 
                         <!-- Khoảng Cách km Từ Vị Trí Người Dùng -->
-                        <div style="margin-bottom: 10px;">
+                        <div class="fn-shop-list-distance" style="margin-bottom: 10px;">
                             <?php if (isset($shop['distance_km'])): ?>
                                 <span style="display: inline-flex; align-items: center; gap: 4px; background: #ecfdf5; color: #047857; border: 1px solid #a7f3d0; padding: 2px 8px; border-radius: 6px; font-size: 12px; font-weight: 800;">
                                     📍 Cách bạn: <?= $shop['distance_km'] < 1 ? round($shop['distance_km'] * 1000) . 'm' : $shop['distance_km'] . ' km' ?>
@@ -534,14 +534,14 @@ require_once __DIR__ . '/../includes/navbar.php';
                         </div>
 
                         <!-- Hotline Nhanh -->
-                        <div style="font-size: 12.5px; margin-bottom: 10px;">
+                        <div class="fn-shop-list-phone" style="font-size: 12.5px; margin-bottom: 10px;">
                             <a href="tel:<?= preg_replace('/[^0-9]/', '', $shop['phone']) ?>" style="color: #16a34a; font-weight: 700; text-decoration: none;">
                                 📞 <?= htmlspecialchars($shop['phone']) ?>
                             </a>
                         </div>
 
                         <!-- Pills Tiêu Chuẩn Minh Bạch -->
-                        <div style="display: flex; gap: 5px; flex-wrap: wrap; margin-top: auto; margin-bottom: 14px;">
+                        <div class="fn-shop-list-pills" style="display: flex; gap: 5px; flex-wrap: wrap; margin-bottom: 14px;">
                             <?php if (!empty($shop['service_policy_verified']) && !empty($shop['allows_onsite_watch'])): ?>
                                 <span style="background: #eff6ff; color: #1d4ed8; font-size: 11px; font-weight: 600; padding: 2px 7px; border-radius: 5px; border: 1px solid #bfdbfe;">✓ Xem trực tiếp</span>
                             <?php endif; ?>

@@ -271,11 +271,11 @@ require_once __DIR__ . '/../includes/navbar.php';
                     </div>
                     <h3><a href="model_detail.php?id=<?= urlencode($m['id']) ?>"><?= htmlspecialchars($m['name']) ?></a></h3>
                     <div class="fn-model-catalog-spec">
-                        <?php if ($specChip): ?><span><b>Chip</b> <?= htmlspecialchars(mb_strimwidth($specChip, 0, 42, '…')) ?></span><?php endif; ?>
-                        <?php if ($specScreen): ?><span><b>Màn hình</b> <?= htmlspecialchars(mb_strimwidth($specScreen, 0, 42, '…')) ?></span><?php endif; ?>
+                        <?php if ($specChip): ?><span><b>Chip</b> <?= htmlspecialchars($specChip) ?></span><?php endif; ?>
+                        <?php if ($specScreen): ?><span><b>Màn hình</b> <?= htmlspecialchars($specScreen) ?></span><?php endif; ?>
                     </div>
                     <div class="fn-model-catalog-bottom">
-                        <span><?= $faultCount ?> hạng mục sửa<?= $issueCount > 0 ? ' · ' . $issueCount . ' lỗi tham khảo' : '' ?></span>
+                        <span><?= (int)($m['releaseYear'] ?? 0) > 0 ? 'Ra mắt ' . (int)$m['releaseYear'] . ' · ' : '' ?><?= $faultCount ?> hạng mục sửa<?= $issueCount > 0 ? ' · ' . $issueCount . ' lỗi tham khảo' : '' ?></span>
                         <a href="model_detail.php?id=<?= urlencode($m['id']) ?>">Xem chi tiết & giá <span aria-hidden="true">→</span></a>
                     </div>
                 </article>

@@ -20,11 +20,12 @@ DEST = ROOT / "public/assets/images/brands"
 MANIFEST = ROOT / "data/brand-logo-sources.json"
 SIMPLE_ICONS_COMMIT = "98820a4dc8c363ca72fa2c0d294ea4a0a9bba75d"
 SIMPLE_IDS = [
-    "acer", "apple", "asus", "dell", "garmin", "google", "honor", "hp",
+    "acer", "apple", "asus", "dell", "garmin", "honor", "hp",
     "huawei", "lenovo", "lg", "motorola", "msi", "nokia", "oneplus",
     "oppo", "razer", "samsung", "sony", "vivo", "xiaomi",
 ]
 OFFICIAL = {
+    "google": ("png", "https://www.gstatic.com/images/branding/product/2x/googleg_48dp.png", "https://developers.google.com/identity/branding-guidelines"),
     "realme": ("png", "https://image01.realme.net/general/20181218/1545105227803.png", "https://www.realme.com/global/"),
     "poco": ("png", "https://i01.appmifile.com/webfile/globalimg/i18n/poco/POCO.png", "https://www.po.co/global/index.html"),
     "nothing": ("png", "https://cdn.shopify.com/s/files/1/0376/5420/0459/files/LOGO_400X200_0b0683f1-5666-4cc5-9b12-996061e29fd1.png?v=1666624074", "https://nothing.tech/"),
@@ -46,9 +47,11 @@ def fetch(url):
         return data
 
 
-def write_asset(name, ext, data, asset_url, reference_url, kind):
+def write_asset(name, ext, data, asset_url, reference_url, kind, brand_color=None):
     if ext == "svg":
         data = data.replace(b"\r\n", b"\n")
+        if brand_color:
+            data = data.replace(b"<svg ", f'<svg fill="#{brand_color}" '.encode(), 1)
     if ext == "svg" and b"<svg" not in data[:200]:
         raise ValueError(f"not SVG: {name}")
     if ext == "png" and not data.startswith(b"\x89PNG\r\n\x1a\n"):
@@ -58,6 +61,7 @@ def write_asset(name, ext, data, asset_url, reference_url, kind):
     return {
         "file": f"{name}.{ext}", "kind": kind, "assetUrl": asset_url,
         "referenceUrl": reference_url, "sha256": sha256(data).hexdigest(),
+        **({"brandColor": f"#{brand_color}"} if brand_color else {}),
     }
 
 
@@ -75,7 +79,10 @@ def main():
         data = fetch(url)
         if name.upper().encode() not in data.upper():
             raise ValueError(f"SVG title does not match {name}")
-        result[name] = write_asset(name, "svg", data, url, item["source"], "pinned-vector")
+        # Simple Icons paths inherit fill; its pinned metadata provides each brand color.
+        # Pure white is unsuitable on our white cards, so use the dark Sony mark.
+        color = "000000" if name == "sony" else item["hex"]
+        result[name] = write_asset(name, "svg", data, url, item["source"], "pinned-vector", color)
     for name, (ext, url, reference) in OFFICIAL.items():
         result[name] = write_asset(name, ext, fetch(url), url, reference,
                                    "brand-website" if name != "redmi" else "current-redmi-vector")
@@ -94,7 +101,7 @@ def main():
               "simpleIconsCommit": SIMPLE_ICONS_COMMIT,
               "logos": dict(sorted(result.items()))}
     MANIFEST.write_text(json.dumps(output, ensure_ascii=False, indent=2) + "\n", encoding="utf-8")
-    print(f"Wrote {len(result)} audited brand assets to {DEST}")
+    print(f"Wrote {len(result)} audited brand assets")
 
 
 if __name__ == "__main__":

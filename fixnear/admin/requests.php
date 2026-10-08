@@ -143,6 +143,7 @@ require_once __DIR__ . '/../includes/navbar.php';
                             $elapsedHours = (time() - $createdAt) / 3600;
                             $hoursLeft = 24 - $elapsedHours;
                             $cleanPhone = preg_replace('/[^0-9]/', '', $req['customer_phone'] ?? '');
+                            $cleanZalo = preg_replace('/[^0-9]/', '', $req['customer_zalo'] ?? ($req['customer_phone'] ?? ''));
 
                             // Soạn sẵn nội dung Gmail
                             $emailSubject = rawurlencode("[FixNear] Báo giá & Hướng dẫn sửa chữa thiết bị " . ($req['brand_model'] ?? ''));
@@ -166,6 +167,9 @@ require_once __DIR__ . '/../includes/navbar.php';
                                     <div style="font-size: 12px; color: #2563eb; font-weight: 700; margin-top: 2px;">
                                         📞 <?= htmlspecialchars($req['customer_phone']) ?>
                                     </div>
+                                    <?php if (!empty($req['customer_zalo'])): ?>
+                                        <div style="font-size: 11.5px; margin-top: 2px;"><a href="https://zalo.me/<?= htmlspecialchars(preg_replace('/\D+/', '', $req['customer_zalo'])) ?>" target="_blank" rel="noopener noreferrer" style="color:#c2410c;font-weight:700;">Zalo: <?= htmlspecialchars($req['customer_zalo']) ?> ↗</a></div>
+                                    <?php endif; ?>
                                     <?php if (!empty($req['customer_email'])): ?>
                                         <div style="font-size: 11.5px; color: #64748b; margin-top: 2px; word-break: break-all;">
                                             ✉️ <?= htmlspecialchars($req['customer_email']) ?>
@@ -229,14 +233,14 @@ require_once __DIR__ . '/../includes/navbar.php';
                                     <div style="display: flex; flex-direction: column; gap: 6px; align-items: flex-end;">
                                         <!-- Nút Gửi Gmail -->
                                         <?php if (!empty($req['customer_email'])): ?>
-                                            <a href="mailto:<?= htmlspecialchars($req['customer_email']) ?>?subject=<?= $emailSubject ?>&body=<?= $emailBody ?>" target="_blank" class="fn-btn fn-btn-sm" style="background: #eff6ff; color: #1d4ed8; border: 1px solid #bfdbfe; font-size: 11.5px; padding: 4px 8px; text-decoration: none; width: 120px; text-align: center;" title="Mở ứng dụng Gmail gửi phản hồi">
-                                                ✉️ Gửi Gmail
+                                            <a href="mailto:<?= htmlspecialchars($req['customer_email']) ?>?subject=<?= $emailSubject ?>&body=<?= $emailBody ?>" target="_blank" class="fn-btn fn-btn-sm" style="background: #eff6ff; color: #1d4ed8; border: 1px solid #bfdbfe; font-size: 11.5px; padding: 4px 8px; text-decoration: none; width: 120px; text-align: center;" title="Mở ứng dụng email để phản hồi">
+                                                ✉️ Gửi email
                                             </a>
                                         <?php endif; ?>
 
                                         <!-- Nút Nhắn Tin Zalo -->
-                                        <?php if (!empty($cleanPhone)): ?>
-                                            <a href="https://zalo.me/<?= $cleanPhone ?>" target="_blank" rel="noopener" class="fn-btn fn-btn-sm" style="background: #e0f2fe; color: #0284c7; border: 1px solid #bae6fd; font-size: 11.5px; padding: 4px 8px; text-decoration: none; width: 120px; text-align: center;" title="Mở Zalo nhắn tin cho khách">
+                                        <?php if (!empty($cleanZalo)): ?>
+                                            <a href="https://zalo.me/<?= $cleanZalo ?>" target="_blank" rel="noopener" class="fn-btn fn-btn-sm" style="background: #e0f2fe; color: #0284c7; border: 1px solid #bae6fd; font-size: 11.5px; padding: 4px 8px; text-decoration: none; width: 120px; text-align: center;" title="Mở Zalo nhắn tin cho khách">
                                                 💬 Chat Zalo
                                             </a>
                                         <?php endif; ?>

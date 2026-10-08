@@ -82,6 +82,21 @@ def main():
                         assert metrics["scroll"] <= width + 2, (route, metrics)
                         screenshot = page.call("Page.captureScreenshot", {"format": "png", "captureBeyondViewport": False})
                         (OUTPUT / f"qa-{slug}-{label}.png").write_bytes(b64decode(screenshot["data"]))
+                        if slug == "model-detail":
+                            page.evaluate("document.getElementById('bang-gia').scrollIntoView({block:'start'})")
+                            screenshot = page.call("Page.captureScreenshot", {"format": "png", "captureBeyondViewport": False})
+                            (OUTPUT / f"qa-model-price-list-{label}.png").write_bytes(b64decode(screenshot["data"]))
+                        if slug == "shops" and label == "desktop":
+                            phone_tops = page.evaluate("[...document.querySelectorAll('.fn-shop-list .fn-shop-list-phone')].slice(0,3).map(el=>Math.round(el.getBoundingClientRect().top))")
+                            assert len(phone_tops) == 3 and max(phone_tops) - min(phone_tops) <= 2, phone_tops
+                        if slug == "request":
+                            device_count = page.evaluate("document.querySelectorAll('.fn-rb-device-card').length")
+                            assert device_count == 6, device_count
+                            brand_count = page.evaluate("(() => {document.querySelectorAll('.fn-rb-device-card')[0].click(); return document.querySelectorAll('.fn-rb-brand-card').length})()")
+                            assert brand_count >= 8, brand_count
+                            time.sleep(.35)
+                            screenshot = page.call("Page.captureScreenshot", {"format": "png", "captureBeyondViewport": False})
+                            (OUTPUT / f"qa-request-brands-{label}.png").write_bytes(b64decode(screenshot["data"]))
                         if slug == "prices":
                             controls = page.evaluate("({brandDisabled:document.getElementById('price-brand').disabled,modelDisabled:document.getElementById('price-model').disabled,modelOptions:document.getElementById('price-model').options.length})")
                             assert controls["brandDisabled"] and controls["modelDisabled"] and controls["modelOptions"] == 1, controls

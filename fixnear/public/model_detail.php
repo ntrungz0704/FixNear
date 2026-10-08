@@ -135,14 +135,14 @@ require_once __DIR__ . '/../includes/navbar.php';
                 </span>
             </div>
 
-            <div style="display: grid; grid-template-columns: repeat(auto-fit, minmax(320px, 1fr)); gap: 16px;">
+            <div class="fn-model-issue-grid">
                 <?php foreach ($model['knownIssues'] as $issue): 
                     $sevColor = '#dc2626'; $sevBg = '#fef2f2'; $sevBorder = '#fecaca'; $sevText = 'Nghiêm trọng';
                     if ($issue['severity'] === 'high') { $sevColor = '#ea580c'; $sevBg = '#fff7ed'; $sevBorder = '#fed7aa'; $sevText = 'Mức chú ý cao'; }
                     if ($issue['severity'] === 'medium') { $sevColor = '#d97706'; $sevBg = '#fffbeb'; $sevBorder = '#fde68a'; $sevText = 'Trung bình'; }
                     if ($issue['severity'] === 'low') { $sevColor = '#0284c7'; $sevBg = '#f0f9ff'; $sevBorder = '#bae6fd'; $sevText = 'Nhẹ'; }
                 ?>
-                    <div class="fn-card" style="padding: 20px; border-left: 4px solid <?= $sevColor ?>; display: flex; flex-direction: column; justify-content: space-between;">
+                    <div class="fn-card fn-model-issue-card" style="border-left: 4px solid <?= $sevColor ?>;">
                         <div>
                             <div style="display: flex; justify-content: space-between; align-items: flex-start; gap: 8px; margin-bottom: 12px;">
                                 <h3 style="font-size: 16px; font-weight: 800; color: var(--fn-dark); margin: 0; line-height: 1.4;">
@@ -158,15 +158,11 @@ require_once __DIR__ . '/../includes/navbar.php';
                                 <span style="color: #334155;"><?= htmlspecialchars($issue['symptoms']) ?></span>
                             </div>
 
-                            <div style="margin-bottom: 16px; font-size: 13.5px; line-height: 1.5; background: #f8fafc; padding: 10px 12px; border-radius: 8px; border: 1px solid #e2e8f0;">
-                                <strong style="color: #16a34a; display: block; margin-bottom: 3px; font-size: 12px; text-transform: uppercase;">Bước tiếp theo:</strong>
-                                <span style="color: #0f172a;">Đề nghị kỹ thuật viên kiểm tra nguyên nhân, nêu rõ linh kiện, giá trọn gói và bảo hành bằng văn bản trước khi sửa.</span>
-                            </div>
                         </div>
 
                         <div style="border-top: 1px solid #f1f5f9; padding-top: 12px; display: flex; justify-content: space-between; align-items: center;">
-                            <span style="font-size: 12px; color: #16a34a; font-weight: 600;">
-                                ✓ Mức dữ liệu: <?= $issue['confidence'] === 'high' ? 'Ưu tiên tham khảo' : 'Cần kiểm tra máy' ?>
+                            <span style="font-size: 12px; color: #92400e; font-weight: 700;">
+                                <?= $issue['confidence'] === 'high' ? 'Ưu tiên kiểm tra' : 'Cần kiểm tra máy' ?>
                             </span>
                             <a href="search.php?device=<?= urlencode($model['deviceType']) ?>&model=<?= urlencode($model['id']) ?>" class="fn-btn fn-btn-sm fn-btn-primary" style="font-size: 12px; padding: 6px 12px;">
                                 📍 Tìm Tiệm Sửa ➔
@@ -175,6 +171,7 @@ require_once __DIR__ . '/../includes/navbar.php';
                     </div>
                 <?php endforeach; ?>
             </div>
+            <p class="fn-model-issue-note">Khi đến cửa hàng, hãy yêu cầu kiểm tra nguyên nhân và báo rõ linh kiện, tổng chi phí, bảo hành trước khi sửa.</p>
         </div>
     <?php endif; ?>
 
@@ -187,11 +184,6 @@ require_once __DIR__ . '/../includes/navbar.php';
                 <p>Khoảng ước tính để tham khảo. Cửa hàng xác nhận linh kiện, tổng tiền và bảo hành sau khi kiểm tra máy.</p>
             </div>
             <a href="prices.php?model=<?= urlencode($model['id']) ?>" class="fn-model-prices-all">Xem bảng giá →</a>
-        </div>
-        <div class="fn-model-prices-legend" aria-label="Ba khoảng dự đoán">
-            <span><b>Thấp</b> <small>Khoảng tham khảo</small></span>
-            <span><b>Trung bình</b> <small>Khoảng tham khảo</small></span>
-            <span><b>Cao</b> <small>Khoảng tham khảo</small></span>
         </div>
         <div class="fn-model-prices-list">
             <?php foreach ($model['supportedFaults'] as $faultId):
@@ -209,10 +201,10 @@ require_once __DIR__ . '/../includes/navbar.php';
                         </div>
                     </div>
                     <div class="fn-model-price-levels" aria-label="Ba mức ước tính">
-                        <?php foreach (['standard' => 'Thấp', 'oem' => 'TB', 'genuine' => 'Cao'] as $gradeId => $level):
+                        <?php foreach (['standard' => 'Thấp', 'oem' => 'Trung bình', 'genuine' => 'Cao'] as $gradeId => $level):
                             $price = $pMatrix[$gradeId] ?? null;
                         ?>
-                            <div><span><?= $level ?></span><strong><?= $price ? formatPrice($price['min']) . '–' . formatPrice($price['max']) : 'Cần báo giá' ?></strong></div>
+                            <div class="fn-model-price-level fn-model-price-level-<?= htmlspecialchars($gradeId) ?>"><span><?= $level ?></span><strong><?= $price ? formatPrice($price['min']) . '–' . formatPrice($price['max']) : 'Cần báo giá' ?></strong></div>
                         <?php endforeach; ?>
                     </div>
                     <a class="fn-model-price-shop" href="search.php?<?= htmlspecialchars(http_build_query(['device' => $model['deviceType'], 'model' => $model['id'], 'service_id' => $fault['serviceId'] ?? ''])) ?>">Tìm cửa hàng →</a>

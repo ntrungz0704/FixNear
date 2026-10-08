@@ -890,15 +890,26 @@ class FixNearDB {
             if (empty($data['id'])) {
                 $data['id'] = 'FN-' . rand(1000, 9999);
             }
+            // Keep existing installations compatible with the separate Zalo contact field.
+            foreach ([
+                'customer_zalo' => "ALTER TABLE repair_requests ADD COLUMN customer_zalo VARCHAR(50) DEFAULT NULL AFTER customer_phone",
+                'user_id' => "ALTER TABLE repair_requests ADD COLUMN user_id INT DEFAULT NULL AFTER id"
+            ] as $column => $migration) {
+                if (!$this->pdo->query("SHOW COLUMNS FROM repair_requests LIKE '" . $column . "'")->fetch()) {
+                    $this->pdo->exec($migration);
+                }
+            }
             $stmt = $this->pdo->prepare("
-                INSERT INTO repair_requests (id, customer_name, customer_email, customer_phone, device_type, brand_model, issue_type, symptom, district, preferred_time, estimated_price, status, created_at)
-                VALUES (:id, :customer_name, :customer_email, :customer_phone, :device_type, :brand_model, :issue_type, :symptom, :district, :preferred_time, :estimated_price, :status, NOW())
+                INSERT INTO repair_requests (id, user_id, customer_name, customer_email, customer_phone, customer_zalo, device_type, brand_model, issue_type, symptom, district, preferred_time, estimated_price, status, created_at)
+                VALUES (:id, :user_id, :customer_name, :customer_email, :customer_phone, :customer_zalo, :device_type, :brand_model, :issue_type, :symptom, :district, :preferred_time, :estimated_price, :status, NOW())
             ");
             $stmt->execute([
                 ':id' => $data['id'],
+                ':user_id' => $data['user_id'] ?? null,
                 ':customer_name' => $data['customer_name'] ?? '',
                 ':customer_email' => $data['customer_email'] ?? null,
                 ':customer_phone' => $data['customer_phone'] ?? '',
+                ':customer_zalo' => $data['customer_zalo'] ?? '',
                 ':device_type' => $data['device_type'] ?? '',
                 ':brand_model' => $data['brand_model'] ?? '',
                 ':issue_type' => $data['issue_type'] ?? '',

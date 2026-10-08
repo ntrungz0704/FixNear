@@ -3,6 +3,11 @@ $pageTitle = "Gửi Yêu Cầu Sửa Chữa & Nhận Báo Giá — FixNear";
 require_once __DIR__ . '/../config/db.php';
 require_once __DIR__ . '/../includes/pricing_engine.php';
 
+$wizardCatalogBrands = [];
+foreach (RepairAtlasPricing::getAllDevices() as $wizardDeviceKey => $wizardDevice) {
+    $wizardCatalogBrands[$wizardDeviceKey] = RepairAtlasPricing::getBrandsByDevice($wizardDeviceKey);
+}
+
 $success = false;
 $requestData = null;
 $recommendedShops = [];
@@ -25,6 +30,7 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST' && isset($_POST['submit_request'])) {
     $customerName = trim($_POST['customer_name'] ?? '');
     $customerEmail = trim($_POST['customer_email'] ?? '');
     $customerPhone = trim($_POST['customer_phone'] ?? '');
+    $customerZalo = trim($_POST['customer_zalo'] ?? '');
     $preferredTime = trim($_POST['preferred_time'] ?? 'Sáng mai');
 
     $allowedDistricts = [
@@ -33,6 +39,7 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST' && isset($_POST['submit_request'])) {
         'Quận Gò Vấp', 'Quận Phú Nhuận', 'Quận Tân Bình', 'Quận Tân Phú', 'TP. Thủ Đức'
     ];
     $phoneDigits = preg_replace('/\D+/', '', $customerPhone);
+    $zaloDigits = preg_replace('/\D+/', '', $customerZalo);
     if ($formError !== '') {
         // Giữ thông báo giới hạn đã đặt ở trên.
     } elseif ($customerName === '' || mb_strlen($customerName) > 100) {
@@ -41,6 +48,8 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST' && isset($_POST['submit_request'])) {
         $formError = 'Email chưa đúng định dạng. Vui lòng kiểm tra lại.';
     } elseif (strlen($phoneDigits) < 9 || strlen($phoneDigits) > 12) {
         $formError = 'Số điện thoại cần có từ 9 đến 12 chữ số.';
+    } elseif (strlen($zaloDigits) < 9 || strlen($zaloDigits) > 12) {
+        $formError = 'Số Zalo cần có từ 9 đến 12 chữ số.';
     } elseif (!in_array($district, $allowedDistricts, true)) {
         $formError = 'Khu vực đã chọn không hợp lệ.';
     } elseif ($issueType === '' || mb_strlen($issueType) > 160 || mb_strlen($symptom) > 2000 || mb_strlen($brandModel) > 180) {
@@ -118,6 +127,7 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST' && isset($_POST['submit_request'])) {
         'customer_name' => $customerName,
         'customer_email' => $customerEmail,
         'customer_phone' => $customerPhone,
+        'customer_zalo' => $customerZalo,
         'device_type' => $deviceType,
         'brand_model' => $brandModel,
         'issue_type' => $issueType,
@@ -174,13 +184,13 @@ require_once __DIR__ . '/../includes/navbar.php';
     <!-- Tiêu đề lớn & Định vị vai trò Trung Gian Bảo Hộ của FixNear -->
     <div style="text-align: center; max-width: 860px; margin: 0 auto 36px;">
         <div style="display: inline-flex; align-items: center; gap: 8px; background: #fff7ed; border: 1px solid #fed7aa; color: #ea580c; font-size: 12.5px; font-weight: 800; padding: 6px 18px; border-radius: 20px; margin-bottom: 12px; text-transform: uppercase;">
-            🤝 BIỂU MẪU TIẾP NHẬN & GỢI Ý CỬA HÀNG MIỄN PHÍ
+            GỬI YÊU CẦU · KHÔNG CẦN TÀI KHOẢN
         </div>
         <h1 style="font-family: var(--fn-font-heading); font-size: 32px; font-weight: 900; color: var(--fn-dark); line-height: 1.25;">
-            Gửi Thông Tin Thiết Bị — <span style="color: #ea580c;">FixNear Gợi Ý Bản Ghi Phù Hợp</span>
+            Gửi yêu cầu <span style="color: #ea580c;">sửa chữa thiết bị</span>
         </h1>
         <p style="font-size: 15px; color: var(--fn-dark-muted); margin-top: 10px; line-height: 1.6; max-width: 780px; margin-left: auto; margin-right: auto;">
-            Bạn gửi tình trạng máy để nhóm quản trị rà soát các bản ghi cửa hàng phù hợp. <strong>FixNear không tự đưa ra báo giá</strong>; giá, thời gian và nơi nhận sửa chỉ có hiệu lực sau khi cửa hàng xác nhận trực tiếp.
+            Chọn thiết bị, mô tả lỗi và để lại thông tin liên hệ. Nhóm quản trị tiếp nhận yêu cầu; cửa hàng xác nhận giá và lịch sửa sau khi kiểm tra máy.
         </p>
     </div>
 
@@ -276,9 +286,9 @@ require_once __DIR__ . '/../includes/navbar.php';
             
             <!-- Breadcrumbs tiến trình -->
             <div style="display: flex; align-items: center; justify-content: space-between; flex-wrap: wrap; gap: 10px; margin-bottom: 20px;">
-                <div id="fn-wizard-breadcrumb" class="fn-rb-breadcrumb" onclick="wizardGoToStep(1)">
+                <button type="button" id="fn-wizard-breadcrumb" class="fn-rb-breadcrumb" onclick="wizardGoToStep(1)">
                     <span>📱 Bước 1: Chọn Thiết Bị</span>
-                </div>
+                </button>
                 <div style="font-size: 12.5px; font-weight: 800; color: #ea580c; background: #fff7ed; padding: 4px 12px; border-radius: 12px; border: 1px solid #fed7aa;" id="fn-step-indicator">
                     Bước 1 / 5
                 </div>
@@ -300,30 +310,30 @@ require_once __DIR__ . '/../includes/navbar.php';
                     <p class="fn-rb-subtitle">Chọn đúng dòng máy để hiển thị đầy đủ danh mục thương hiệu và linh kiện tương ứng:</p>
                     
                     <div class="fn-rb-device-grid">
-                        <div class="fn-rb-device-card active" onclick="wizardSelectDevice('phone', 'Điện thoại (Smartphone)')">
-                            <div class="fn-rb-device-icon" style="background: #eff6ff; color: #2563eb;">📱</div>
+                        <button type="button" class="fn-rb-device-card active" data-device-key="phone" onclick="wizardSelectDevice('phone', 'Điện thoại (Smartphone)', this)" aria-pressed="true">
+                            <div class="fn-rb-device-icon">📱</div>
                             <div class="fn-rb-device-name">Điện Thoại</div>
-                        </div>
-                        <div class="fn-rb-device-card" onclick="wizardSelectDevice('win_laptop', 'Laptop Windows')">
-                            <div class="fn-rb-device-icon" style="background: #f0fdf4; color: #16a34a;">💻</div>
-                            <div class="fn-rb-device-name">Laptop Win</div>
-                        </div>
-                        <div class="fn-rb-device-card" onclick="wizardSelectDevice('macbook', 'Apple MacBook')">
-                            <div class="fn-rb-device-icon" style="background: #f8fafc; color: #0f172a;">🍏</div>
+                        </button>
+                        <button type="button" class="fn-rb-device-card" data-device-key="win_laptop" onclick="wizardSelectDevice('win_laptop', 'Laptop Windows', this)" aria-pressed="false">
+                            <div class="fn-rb-device-icon">💻</div>
+                            <div class="fn-rb-device-name">Laptop Windows</div>
+                        </button>
+                        <button type="button" class="fn-rb-device-card" data-device-key="macbook" onclick="wizardSelectDevice('macbook', 'Apple MacBook', this)" aria-pressed="false">
+                            <div class="fn-rb-device-icon">💻</div>
                             <div class="fn-rb-device-name">MacBook</div>
-                        </div>
-                        <div class="fn-rb-device-card" onclick="wizardSelectDevice('tablet', 'Máy tính bảng (iPad / Tablet)')">
-                            <div class="fn-rb-device-icon" style="background: #faf5ff; color: #9333ea;">📟</div>
+                        </button>
+                        <button type="button" class="fn-rb-device-card" data-device-key="tablet" onclick="wizardSelectDevice('tablet', 'Máy tính bảng (iPad / Tablet)', this)" aria-pressed="false">
+                            <div class="fn-rb-device-icon">📟</div>
                             <div class="fn-rb-device-name">iPad / Tablet</div>
-                        </div>
-                        <div class="fn-rb-device-card" onclick="wizardSelectDevice('pc_desktop', 'Máy tính để bàn (PC / Desktop)')">
-                            <div class="fn-rb-device-icon" style="background: #fff7ed; color: #ea580c;">🖥️</div>
-                            <div class="fn-rb-device-name">Máy Tính Bàn</div>
-                        </div>
-                        <div class="fn-rb-device-card" onclick="wizardSelectDevice('smartwatch', 'Đồng hồ thông minh (Smartwatch)')">
-                            <div class="fn-rb-device-icon" style="background: #ecfeff; color: #0891b2;">⌚</div>
+                        </button>
+                        <button type="button" class="fn-rb-device-card" data-device-key="pc_desktop" onclick="wizardSelectDevice('pc_desktop', 'Máy tính để bàn (PC / Desktop)', this)" aria-pressed="false">
+                            <div class="fn-rb-device-icon">🖥️</div>
+                            <div class="fn-rb-device-name">PC / All-in-One</div>
+                        </button>
+                        <button type="button" class="fn-rb-device-card" data-device-key="smartwatch" onclick="wizardSelectDevice('smartwatch', 'Đồng hồ thông minh (Smartwatch)', this)" aria-pressed="false">
+                            <div class="fn-rb-device-icon">⌚</div>
                             <div class="fn-rb-device-name">Smartwatch</div>
-                        </div>
+                        </button>
                     </div>
                 </div>
 
@@ -335,7 +345,7 @@ require_once __DIR__ . '/../includes/navbar.php';
                             ← Đổi Thiết Bị
                         </button>
                     </div>
-                    <p class="fn-rb-subtitle">Click chọn thương hiệu để xem danh mục toàn bộ model và phiên bản:</p>
+                    <p class="fn-rb-subtitle">Chọn hãng để xem các model đang có trong danh mục:</p>
                     
                     <div class="fn-rb-brand-grid" id="fn-brand-grid-container">
                         <!-- Danh sách card thương hiệu với logo căn giữa sẽ được sinh bởi JavaScript -->
@@ -451,7 +461,7 @@ require_once __DIR__ . '/../includes/navbar.php';
 
                     <div class="fn-form-row" style="margin-top: 18px;">
                         <div class="fn-form-group">
-                            <label class="fn-label">Khu vực bạn muốn sửa: <span style="color:#ef4444;">*</span></label>
+                            <label class="fn-label" for="fn-wizard-district">Khu vực bạn muốn sửa: <span style="color:#ef4444;">*</span></label>
                             <select name="district" id="fn-wizard-district" class="fn-select" required>
                                 <option value="Quận 1">Quận 1</option>
                                 <option value="Quận 3">Quận 3</option>
@@ -475,7 +485,7 @@ require_once __DIR__ . '/../includes/navbar.php';
 
                         <div class="fn-form-group">
                             <label class="fn-label">Định vị GPS thông minh:</label>
-                            <button type="button" class="fn-btn fn-btn-secondary" style="width: 100%; height: 44px; display: flex; align-items: center; justify-content: center; gap: 8px; font-size: 13px; font-weight: 700;" onclick="wizardDetectDistrict()">
+                            <button type="button" class="fn-btn fn-btn-secondary" style="width: 100%; height: 44px; display: flex; align-items: center; justify-content: center; gap: 8px; font-size: 13px; font-weight: 700;" onclick="wizardDetectDistrict(this)">
                                 📍 Lấy Vị Trí Của Tôi Hiện Tại
                             </button>
                         </div>
@@ -487,19 +497,25 @@ require_once __DIR__ . '/../includes/navbar.php';
                             <input type="text" id="customer-name" name="customer_name" class="fn-input" placeholder="Ví dụ: Nguyễn Văn An" autocomplete="name" maxlength="100" required>
                         </div>
                         <div class="fn-form-group">
-                            <label class="fn-label" for="customer-phone">Số điện thoại / Zalo nhận báo giá: <span style="color:#ef4444;">*</span></label>
+                            <label class="fn-label" for="customer-phone">Số điện thoại nhận cuộc gọi: <span style="color:#ef4444;">*</span></label>
                             <input type="tel" id="customer-phone" name="customer_phone" class="fn-input" placeholder="Ví dụ: 0908 123 456" autocomplete="tel" inputmode="tel" required>
                         </div>
                     </div>
 
                     <div class="fn-form-row" style="margin-top: 14px;">
                         <div class="fn-form-group">
-                            <label class="fn-label" for="customer-email">Email nhận biên lai số hóa: <span style="color:#ef4444;">*</span></label>
+                            <label class="fn-label" for="customer-email">Email nhận phản hồi: <span style="color:#ef4444;">*</span></label>
                             <input type="email" id="customer-email" name="customer_email" class="fn-input" placeholder="email@gmail.com" autocomplete="email" spellcheck="false" maxlength="160" required>
                         </div>
                         <div class="fn-form-group">
-                            <label class="fn-label">Khung giờ bạn có thể mang máy đến (08:30 - 20:30):</label>
-                            <select name="preferred_time" class="fn-select">
+                            <label class="fn-label" for="customer-zalo">Số Zalo nhận phản hồi: <span style="color:#ef4444;">*</span></label>
+                            <div class="fn-zalo-field"><input type="tel" id="customer-zalo" name="customer_zalo" class="fn-input" placeholder="Ví dụ: 0908 123 456" inputmode="tel" required><button type="button" onclick="document.getElementById('customer-zalo').value=document.getElementById('customer-phone').value">Giống SĐT</button></div>
+                        </div>
+                    </div>
+                    <div class="fn-form-row" style="margin-top: 14px;">
+                        <div class="fn-form-group">
+                            <label class="fn-label" for="preferred-time">Khung giờ bạn có thể mang máy đến (08:30 - 20:30):</label>
+                            <select name="preferred_time" id="preferred-time" class="fn-select">
                                 <option value="⚡ Hôm nay (Sửa gấp lấy liền trong giờ mở cửa 08:30 - 20:30)">⚡ Sửa gấp lấy liền hôm nay (08:30 - 20:30)</option>
                                 <option value="🌅 Ca Sáng (08:30 - 11:30) — Kiểm tra lấy trước trưa">🌅 Ca Sáng (08:30 - 11:30)</option>
                                 <option value="☀️ Ca Chiều (13:30 - 17:30) — Xử lý buổi chiều">☀️ Ca Chiều (13:30 - 17:30)</option>
@@ -511,10 +527,10 @@ require_once __DIR__ . '/../includes/navbar.php';
 
                     <div style="margin-top: 26px;">
                         <button type="submit" class="fn-btn fn-btn-primary" style="width: 100%; padding: 15px; font-size: 16px; font-weight: 900; border-radius: 14px; box-shadow: 0 8px 24px rgba(234, 88, 12, 0.4); text-transform: uppercase;">
-                            🔍 Xem Khoảng Giá Ước Tính & Danh Sách Cửa Hàng ➔
+                            Gửi yêu cầu sửa chữa & xem cửa hàng gợi ý →
                         </button>
                         <div style="text-align: center; font-size: 12.5px; color: #64748b; margin-top: 10px;">
-                            🔒 Cam kết bảo mật thông tin. Thời gian phản hồi và báo giá chính xác do cửa hàng xác nhận trực tiếp.
+                            Yêu cầu được lưu để quản trị viên tiếp nhận. Bạn có thể gửi khi chưa đăng nhập; giá và thời gian do cửa hàng xác nhận.
                         </div>
                     </div>
                 </div>
@@ -524,61 +540,36 @@ require_once __DIR__ . '/../includes/navbar.php';
 
         <!-- Cột Phải: Vai Trò Trung Gian Bảo Hộ & Quyền Lợi Khách Hàng -->
         <div style="text-align: left;">
-            <!-- Cam Kết Trung Gian Bảo Hộ -->
+            <!-- Những điều cần xác nhận trước khi giao máy -->
             <div style="background: linear-gradient(135deg, #0f172a, #1e293b); color: #fff; border-radius: var(--fn-radius-lg); padding: 26px; margin-bottom: 24px; text-align: left; box-shadow: 0 10px 30px rgba(15, 23, 42, 0.25);">
                 <div style="color: #fb923c; font-size: 12px; font-weight: 800; text-transform: uppercase; letter-spacing: 0.5px; margin-bottom: 8px;">
-                    🛡️ VAI TRÒ TRUNG GIAN CỦA FIXNEAR
+                    TRƯỚC KHI SỬA
                 </div>
                 <h3 style="font-family: var(--fn-font-heading); font-size: 19px; font-weight: 900; color: #fff; margin-bottom: 14px; text-align: left;">
-                    Bảo Vệ Bạn Khỏi "Vẽ Bệnh & Luộc Đồ"
+                    Ba điều cần hỏi cửa hàng
                 </h3>
-                <ul style="padding-left: 0; list-style: none; font-size: 13.5px; line-height: 1.7; display: flex; flex-direction: column; gap: 14px; text-align: left;">
+                <ul style="padding-left: 0; list-style: none; font-size: 13.5px; line-height: 1.6; display: flex; flex-direction: column; gap: 12px; text-align: left;">
                     <li style="display: flex; gap: 10px;">
-                        <span style="color:#22c55e; font-size: 18px; flex-shrink: 0;">✓</span>
-                        <span><strong>Gợi ý bản ghi phù hợp:</strong> FixNear lọc theo khu vực và nhóm thiết bị; kết quả không phải là chứng nhận tay nghề hay xác nhận còn linh kiện.</span>
+                        <span style="color:#fb923c; font-size: 18px; flex-shrink: 0;">1</span>
+                        <span><strong>Giá trọn gói:</strong> Bao gồm linh kiện, công sửa và các khoản phát sinh?</span>
                     </li>
                     <li style="display: flex; gap: 10px;">
-                        <span style="color:#22c55e; font-size: 18px; flex-shrink: 0;">✓</span>
-                        <span><strong>Đối chiếu khoảng giá:</strong> Hãy yêu cầu cửa hàng báo rõ linh kiện, công sửa và chi phí phát sinh trước khi đồng ý.</span>
+                        <span style="color:#fb923c; font-size: 18px; flex-shrink: 0;">2</span>
+                        <span><strong>Linh kiện:</strong> Hãng, loại, nguồn gốc và bảo hành bằng văn bản?</span>
                     </li>
                     <li style="display: flex; gap: 10px;">
-                        <span style="color:#22c55e; font-size: 18px; flex-shrink: 0;">✓</span>
-                        <span><strong>Đề nghị ký tên linh kiện:</strong> Hãy xác nhận với cửa hàng về việc quan sát sửa chữa hoặc ký tên linh kiện trước khi bàn giao máy.</span>
-                    </li>
-                    <li style="display: flex; gap: 10px;">
-                        <span style="color:#fb923c; font-size: 18px; flex-shrink: 0;">★</span>
-                        <span><strong>Ưu đãi học sinh - sinh viên:</strong> Chính sách có thể thay đổi; hãy hỏi cửa hàng về điều kiện áp dụng trước khi đến.</span>
+                        <span style="color:#fb923c; font-size: 18px; flex-shrink: 0;">3</span>
+                        <span><strong>Quy trình:</strong> Thời gian trả máy và quyền xem hoặc ký linh kiện?</span>
                     </li>
                 </ul>
             </div>
 
-            <!-- Live Feed Đơn Thực Tế -->
-            <div style="background: var(--fn-surface); border: 1px solid var(--fn-border); border-radius: var(--fn-radius-lg); padding: 22px; text-align: left;">
-                <div style="display: flex; align-items: center; justify-content: space-between; margin-bottom: 14px;">
-                    <h4 style="font-size: 14.5px; font-weight: 800; color: var(--fn-dark); display: flex; align-items: center; gap: 6px; margin: 0;">
-                        <span class="fn-pulse-dot" style="background:#94a3b8;"></span> Ví Dụ Yêu Cầu Sửa Chữa
-                    </h4>
-                    <span style="font-size: 11px; color: #64748b;">Minh họa</span>
-                </div>
-
-                <div style="display: flex; flex-direction: column; gap: 12px; font-size: 12.5px;">
-                    <div style="background: #f8fafc; padding: 10px 12px; border-radius: 8px; border-left: 3px solid #ea580c;">
-                        <div style="font-weight: 700; color: #0f172a;">Hoàng Nam — iPhone 15 Pro Max (Q.1)</div>
-                        <div style="color: #64748b; margin-top: 2px;">Lỗi: Thay màn hình OLED zin · <em>3 phút trước</em></div>
-                    </div>
-                    <div style="background: #f8fafc; padding: 10px 12px; border-radius: 8px; border-left: 3px solid #22c55e;">
-                        <div style="font-weight: 700; color: #0f172a;">Trần Minh T. — Asus TUF Gaming F15 (Q.Tân Bình)</div>
-                        <div style="color: #64748b; margin-top: 2px;">Lỗi: Vệ sinh máy & Tra keo tản nhiệt MX-4 · <em>11 phút trước</em></div>
-                    </div>
-                    <div style="background: #f8fafc; padding: 10px 12px; border-radius: 8px; border-left: 3px solid #3b82f6;">
-                        <div style="font-weight: 700; color: #0f172a;">Thùy Trang — MacBook Air M2 (Q.3)</div>
-                        <div style="color: #64748b; margin-top: 2px;">Lỗi: Thay pin chuẩn Apple · <em>24 phút trước</em></div>
-                    </div>
-                    <div style="background: #f8fafc; padding: 10px 12px; border-radius: 8px; border-left: 3px solid #eab308;">
-                        <div style="font-weight: 700; color: #0f172a;">Khánh Linh — Apple Watch Series 8 (Q.10)</div>
-                        <div style="color: #64748b; margin-top: 2px;">Lỗi: Cấp cứu vô nước khi bơi · <em>38 phút trước</em></div>
-                    </div>
-                </div>
+            <div class="fn-request-next-steps">
+                <h4>Sau khi gửi yêu cầu</h4>
+                <p><b>1.</b> FixNear lưu thông tin và cấp mã theo dõi.</p>
+                <p><b>2.</b> Quản trị viên xem và cập nhật trạng thái.</p>
+                <p><b>3.</b> Giá và lịch hẹn chỉ có hiệu lực khi cửa hàng xác nhận trực tiếp.</p>
+                <a href="track_request.php">Theo dõi yêu cầu →</a>
             </div>
         </div>
 
@@ -1004,6 +995,7 @@ let selectedDeviceKey = 'phone';
 let selectedBrandId = '';
 let selectedModelName = '';
 let selectedIssueName = '';
+const catalogBrandsByDevice = <?= json_encode($wizardCatalogBrands, JSON_UNESCAPED_UNICODE | JSON_HEX_TAG | JSON_HEX_AMP | JSON_HEX_APOS | JSON_HEX_QUOT) ?>;
 
 // ================= KHỞI TẠO GIAO DIỆN KHI LOAD TRANG =================
 document.addEventListener('DOMContentLoaded', function() {
@@ -1032,21 +1024,27 @@ function wizardGoToStep(step) {
     if (step === 3) bcText = '🔍 Bước 3: Chọn Model (' + selectedBrandId + ')';
     if (step === 4) bcText = '⚠️ Bước 4: Chọn Pan Bệnh (' + selectedModelName + ')';
     if (step === 5) bcText = '📍 Bước 5: Khu Vực & Nhận Báo Giá';
-    document.getElementById('fn-wizard-breadcrumb').innerHTML = '<span>' + bcText + '</span>';
+    document.getElementById('fn-wizard-breadcrumb').textContent = bcText;
 
     // Cuộn mượt lên đầu khung wizard
     document.getElementById('fn-rb-wizard-box').scrollIntoView({ behavior: 'smooth', block: 'start' });
 }
 
 // BƯỚC 1: CHỌN LOẠI THIẾT BỊ
-function wizardSelectDevice(deviceKey, deviceFullName) {
+function wizardSelectDevice(deviceKey, deviceFullName, selectedCard) {
     selectedDeviceKey = deviceKey;
+    selectedBrandId = '';
+    selectedModelName = '';
+    selectedIssueName = '';
+    selectedModelObj = null;
     document.getElementById('hidden_device_type').value = deviceFullName;
+    for (const id of ['hidden_brand_model', 'hidden_model_id', 'hidden_fault_id', 'hidden_issue_type']) document.getElementById(id).value = '';
 
     // Highlight card đang chọn
     const cards = document.querySelectorAll('.fn-rb-device-card');
-    cards.forEach(c => c.classList.remove('active'));
-    event.currentTarget.classList.add('active');
+    cards.forEach(c => { c.classList.remove('active'); c.setAttribute('aria-pressed', 'false'); });
+    selectedCard.classList.add('active');
+    selectedCard.setAttribute('aria-pressed', 'true');
 
     // Chuyển sang Bước 2 & Render Brand tương ứng
     renderStep2Brands();
@@ -1058,36 +1056,59 @@ const REPAIR_WIZARD_LOGO_ALIASES = {
     apple_iphone: 'apple', ipad: 'apple', apple_watch: 'apple', galaxy_watch: 'samsung',
     samsung_tab: 'samsung', xiaomi_pad: 'xiaomi',
     macbook_pro: 'apple', macbook_air: 'apple', imac: 'apple',
-    mac_mini: 'apple', mac_pro: 'apple', pc_apple: 'apple', toshiba: 'dynabook'
+    mac_mini: 'apple', mac_pro: 'apple', pc_apple: 'apple', apple_desktop: 'apple', toshiba: 'dynabook'
 };
 function renderStep2Brands() {
     const devData = WIZARD_DATA[selectedDeviceKey];
     if (!devData) return;
+    const deviceKey = selectedDeviceKey;
+    const brands = catalogBrandsByDevice[deviceKey] || devData.brands;
 
     document.getElementById('step-2-title').textContent = '2. Chọn Hãng ' + devData.name + ' Của Bạn';
     const container = document.getElementById('fn-brand-grid-container');
     container.innerHTML = '';
 
-    if (devData.brands.length <= 6) {
+    if (brands.length <= 6) {
         container.className = 'fn-rb-brand-grid fn-grid-compact';
     } else {
         container.className = 'fn-rb-brand-grid';
     }
 
-    devData.brands.forEach(brand => {
+    brands.forEach(brand => {
         const logoId = REPAIR_WIZARD_LOGO_ALIASES[brand.id] || brand.id;
         const logoFile = window.FIXNEAR_BRAND_ASSETS?.[logoId];
-        const logoMarkup = logoFile
-            ? `<img class="fn-rb-brand-img" src="assets/images/brands/${logoFile}" alt="" width="40" height="40" loading="lazy">`
-            : `<span class="fn-brand-wordmark">${String(brand.name).replace(/[&<>"']/g, c => ({'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;',"'":'&#39;'}[c]))}</span>`;
-        const card = document.createElement('div');
+        const card = document.createElement('button');
+        card.type = 'button';
         card.className = 'fn-rb-brand-card';
-        card.innerHTML = `
-            <div class="fn-rb-brand-logo">
-                ${logoMarkup}
-            </div>
-            <div class="fn-rb-brand-name" title="${brand.name}">${brand.name}</div>
-        `;
+        card.setAttribute('aria-label', `Chọn hãng ${brand.name}`);
+        const logo = document.createElement('span');
+        logo.className = 'fn-rb-brand-logo';
+        if (logoFile) {
+            const img = document.createElement('img');
+            img.className = 'fn-rb-brand-img';
+            img.src = `assets/images/brands/${logoFile}`;
+            img.alt = '';
+            img.width = 58;
+            img.height = 50;
+            img.loading = 'lazy';
+            logo.appendChild(img);
+        } else {
+            const genericMark = document.createElement('span');
+            genericMark.className = 'fn-rb-brand-generic';
+            genericMark.textContent = '⋯';
+            genericMark.setAttribute('aria-hidden', 'true');
+            logo.appendChild(genericMark);
+        }
+        const name = document.createElement('span');
+        name.className = 'fn-rb-brand-name';
+        name.textContent = brand.name;
+        card.append(logo, name);
+        if (Number.isInteger(brand.modelCount)) {
+            const count = document.createElement('small');
+            count.className = 'fn-rb-brand-count';
+            count.textContent = `${brand.modelCount} model`;
+            card.appendChild(count);
+        }
         card.onclick = function() {
             wizardSelectBrand(brand);
         };
@@ -1098,8 +1119,13 @@ function renderStep2Brands() {
 // BƯỚC 2 -> BƯỚC 3: CHỌN HÃNG & RENDER MODEL ĐỘNG TỪ REPAIRATLAS CATALOG
 function wizardSelectBrand(brand) {
     selectedBrandId = brand.id;
+    selectedModelName = '';
+    selectedIssueName = '';
+    selectedModelObj = null;
+    for (const id of ['hidden_brand_model', 'hidden_model_id', 'hidden_fault_id', 'hidden_issue_type']) document.getElementById(id).value = '';
     document.getElementById('step-3-title').textContent = '3. Chọn Model ' + brand.name;
     document.getElementById('step-3-subtitle').textContent = 'Đang tải danh mục model ' + brand.name + '...';
+    document.getElementById('fn-model-grid-container').innerHTML = '<div class="fn-rb-model-loading">Đang tải model…</div>';
 
     // Map brand id sang catalog brand format
     let catBrand = brand.id.replace('apple_iphone', 'apple')
@@ -1120,9 +1146,12 @@ function wizardSelectBrand(brand) {
                            .replace('galaxy_watch', 'samsung');
 
     // Gọi API lấy dữ liệu động từ RepairAtlas Catalog
-    fetch(`api/get_catalog.php?action=models&device=${selectedDeviceKey}&brand=${catBrand}`)
+    const requestedDevice = selectedDeviceKey;
+    const requestedBrand = brand.id;
+    fetch(`api/get_catalog.php?action=models&device=${encodeURIComponent(requestedDevice)}&brand=${encodeURIComponent(catBrand)}`)
         .then(res => res.json())
         .then(data => {
+            if (selectedDeviceKey !== requestedDevice || selectedBrandId !== requestedBrand) return;
             if (data.success && data.data && data.data.length > 0) {
                 document.getElementById('step-3-subtitle').textContent = `Có ${data.data.length} model thuộc hãng ${brand.name} trong RepairAtlas. Click chọn hoặc tìm kiếm nhanh:`;
                 renderStep3Models(data.data, true);
@@ -1131,6 +1160,7 @@ function wizardSelectBrand(brand) {
             }
         })
         .catch(err => {
+            if (selectedDeviceKey !== requestedDevice || selectedBrandId !== requestedBrand) return;
             console.warn('Không tải được Catalog API:', err);
             renderUnavailableBrandModels(brand, true);
         });
@@ -1167,6 +1197,8 @@ function renderStep3Models(modelsList, isRichCatalog) {
 
             const card = document.createElement('div');
             card.className = 'fn-rb-model-card';
+            card.setAttribute('role', 'button');
+            card.tabIndex = 0;
             card.style.display = 'flex';
             card.style.justifyContent = 'space-between';
             card.style.alignItems = 'center';
@@ -1197,6 +1229,13 @@ function renderStep3Models(modelsList, isRichCatalog) {
             `;
             card.onclick = function() {
                 wizardSelectModel(item);
+            };
+            card.onkeydown = function(event) {
+                if (event.target.closest('a')) return;
+                if (event.key === 'Enter' || event.key === ' ') {
+                    event.preventDefault();
+                    wizardSelectModel(item);
+                }
             };
             container.appendChild(card);
         });
@@ -1277,20 +1316,7 @@ function renderStep4Issues() {
         alertDiv.style.color = '#92400e';
         alertDiv.style.lineHeight = '1.5';
 
-        let issuesHtml = knownIssues.map(ki => `
-            <div style="margin-top: 6px; padding: 6px 10px; background: #ffffff; border-radius: 8px; border: 1px solid #fde68a;">
-                <div style="font-weight: 800; color: #b45309;">⚠️ ${ki.issue}</div>
-                ${ki.advice ? `<div style="font-size: 12px; color: #78350f; margin-top: 2px;">💡 <em>Lời khuyên: ${ki.advice}</em></div>` : ''}
-            </div>
-        `).join('');
-
-        alertDiv.innerHTML = `
-            <div style="display: flex; align-items: center; gap: 8px; font-weight: 800; font-size: 14px; color: #b45309;">
-                <span>🔬 Báo Cáo Chẩn Đoán FixNear RepairAtlas (${selectedModelName}):</span>
-            </div>
-            <div style="margin-top: 4px; font-size: 13px;">Dòng máy này có <strong>${knownIssues.length} pan bệnh đặc thù</strong> được ghi nhận phổ biến:</div>
-            ${issuesHtml}
-        `;
+        alertDiv.textContent = `${knownIssues.length} giả thuyết lỗi tham khảo cho ${selectedModelName}. Hãy mô tả triệu chứng thực tế để cửa hàng kiểm tra.`;
         container.parentNode.insertBefore(alertDiv, container);
     }
 
@@ -1298,7 +1324,8 @@ function renderStep4Issues() {
         // Kiểm tra xem issue này có trùng với knownIssue nào không
         const isKnown = knownIssues.some(ki => ki.faultId === issue.id || (ki.issue && ki.issue.toLowerCase().includes(issue.name.toLowerCase())));
 
-        const card = document.createElement('div');
+        const card = document.createElement('button');
+        card.type = 'button';
         card.className = 'fn-rb-repair-card' + (isKnown ? ' known-issue-card' : '');
         if (isKnown) {
             card.style.borderColor = '#f59e0b';
@@ -1343,12 +1370,12 @@ function wizardProceedToStep5() {
 }
 
 // Định vị GPS lấy quận tự động
-function wizardDetectDistrict() {
+function wizardDetectDistrict(button) {
     if (!navigator.geolocation) {
         alert('Trình duyệt của bạn không hỗ trợ Geolocation GPS.');
         return;
     }
-    const btn = event.currentTarget;
+    const btn = button;
     const oldHtml = btn.innerHTML;
     btn.innerHTML = '⏳ Đang xác định vị trí...';
     btn.disabled = true;
