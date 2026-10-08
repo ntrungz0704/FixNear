@@ -89,7 +89,6 @@ require_once __DIR__ . '/../includes/navbar.php';
         <?php if ($focusShop): ?>
         <div class="fn-map-floating-card" style="position: absolute; bottom: 24px; left: 24px; max-width: 420px; width: calc(100% - 48px); background: #ffffff; border-radius: 16px; border: 1px solid #e2e8f0; box-shadow: 0 10px 30px rgba(0,0,0,0.18); padding: 18px; z-index: 1000; text-align: left;">
             <div style="display: flex; gap: 14px; align-items: flex-start;">
-                <?php if (!empty($focusShop['image'])): ?><img src="<?= htmlspecialchars($focusShop['image']) ?>" alt="Logo từ website <?= htmlspecialchars($focusShop['name']) ?>" style="width: 80px; height: 80px; border-radius: 12px; object-fit: contain; flex-shrink: 0; border: 1px solid #fed7aa; background:#fff7ed; padding:8px;"><?php else: ?><div style="width:80px;height:80px;flex-shrink:0;display:grid;place-items:center;border-radius:12px;background:#fff7ed;color:#9a3412;font-size:11px;text-align:center;padding:6px;">Chưa có ảnh</div><?php endif; ?>
                 <div style="flex: 1; min-width: 0;">
                     <div style="display: flex; align-items: center; gap: 6px; margin-bottom: 4px;">
                         <?php if (!empty($focusShop['google_rating_verified'])): ?><span style="color: #ea580c; font-weight: 800; font-size: 13px;">★ <?= htmlspecialchars($focusShop['google_rating']) ?></span><?php endif; ?>

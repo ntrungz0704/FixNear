@@ -1,10 +1,11 @@
 {
   "checkedAt": "2026-10-07",
   "sources": {
-    "dienthoaivui": "https://dienthoaivui.com.vn/thay-cap-sac-iphone-12",
+    "dienthoaivui": "https://dienthoaivui.com.vn/tong-hop-dia-chi-cua-hang-sua-chua-tot-nhat-tai-tphcm",
+    "dienthoaivui_extra": "https://dienthoaivui.com.vn/thay-cap-sac-iphone-12",
     "fastcare": "https://fastcare.vn/he-thong-cua-hang",
     "chamsocdidong": "https://chamsocdidong.com/hospital.html",
-    "saigonso": "https://saigonso.com/thay-chan-sac-ip-11-pro-max",
+    "saigonso": "https://saigonso.com/lien-he",
     "viendidong": "https://viendidong.com/shop/"
   },
   "phoneOverrides": {
@@ -13,13 +14,13 @@
   "shops": {
     "1": "dienthoaivui",
     "9": "dienthoaivui",
-    "17": "dienthoaivui",
+    "17": "dienthoaivui_extra",
     "21": "dienthoaivui",
     "30": "dienthoaivui",
-    "37": "dienthoaivui",
+    "37": "dienthoaivui_extra",
     "41": "dienthoaivui",
     "45": "dienthoaivui",
-    "49": "dienthoaivui",
+    "49": "dienthoaivui_extra",
     "57": "dienthoaivui",
     "61": "dienthoaivui",
     "65": "dienthoaivui",

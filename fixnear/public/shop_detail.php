@@ -58,18 +58,15 @@ $msg = $_GET['msg'] ?? '';
     <div style="background: var(--fn-surface); border: 1px solid var(--fn-border); border-radius: var(--fn-radius-lg); overflow: hidden; box-shadow: var(--fn-shadow-sm); margin-bottom: 30px;">
         <div class="fn-shop-header-grid">
             <div style="height: 100%; min-height: 240px; position: relative;">
-                <?php if (!empty($shop['image'])): ?><img class="<?= $shop['image_kind'] === 'website_snapshot' ? 'fn-shop-website-shot' : 'fn-shop-logo-img' ?>" src="<?= htmlspecialchars($shop['image']) ?>" alt="Hình từ website hệ thống <?= htmlspecialchars($shop['name']) ?>" width="600" height="400"><?php else: ?><div class="fn-shop-no-photo">Chưa có ảnh chính thức của chi nhánh</div><?php endif; ?>
-                <span class="fn-shop-media-caption"><?= $shop['image_kind'] === 'website_snapshot' ? 'Ảnh website hệ thống' : (!empty($shop['image']) ? 'Logo từ website hệ thống' : 'Chưa có ảnh') ?></span>
+                <?= fixnearShopMedia($shop) ?>
                 <?php if (isset($shop['distance_km'])): ?>
                     <span class="fn-distance-badge" style="background: #0f172a; color: #38bdf8; font-weight: 800; border: 1px solid #0284c7;">
                         📍 <?= $shop['distance_km'] < 1 ? 'Cách vị trí đã chọn ~' . round($shop['distance_km'] * 1000) . 'm' : 'Cách vị trí đã chọn ~' . $shop['distance_km'] . ' km' ?>
                     </span>
-                <?php else: ?>
-                    <span class="fn-distance-badge" style="background:#0f172a;color:#e2e8f0;">📍 Chưa có vị trí để tính khoảng cách</span>
                 <?php endif; ?>
             </div>
 
-            <div style="padding: 24px 24px 24px 0; display: flex; flex-direction: column; justify-content: center;">
+            <div class="fn-shop-hero-info" style="padding: 24px 24px 24px 0; display: flex; flex-direction: column; justify-content: center;">
                 <div class="fn-shop-detail-title-row" style="display: flex; align-items: center; justify-content: space-between; gap: 12px; margin-bottom: 8px;">
                     <h1 style="font-family: var(--fn-font-heading); font-size: 24px; font-weight: 900; color: var(--fn-dark);">
                         <?= htmlspecialchars($shop['name']) ?>
@@ -86,21 +83,7 @@ $msg = $_GET['msg'] ?? '';
                     <span>🏢</span>
                     <span><?= htmlspecialchars($shop['address']) ?></span>
                 </div>
-                <p style="margin:0 0 12px;font-size:12px;color:#9a3412;">
-                    <?php if (!empty($shop['address_verified'])): ?>
-                        Địa chỉ có nguồn · <a href="<?= htmlspecialchars($shop['address_source_url']) ?>" target="_blank" rel="noopener noreferrer" style="color:#c2410c;font-weight:800;">Website cửa hàng ↗</a>
-                    <?php else: ?>
-                        Địa chỉ chi nhánh chưa có nguồn đối soát; vui lòng xác nhận trước khi đến.
-                    <?php endif; ?>
-                </p>
-
-                <div style="font-size: 13.5px; color: var(--fn-text-light); margin-bottom: 12px; display: flex; align-items: center; gap: 8px; flex-wrap:wrap;">
-                    <span>⏰ Giờ tham khảo: <strong><?= htmlspecialchars($shop['opening_hours']) ?></strong></span>
-                    <span>•</span>
-                    <a href="tel:<?= preg_replace('/[^0-9]/', '', $shop['phone']) ?>" style="color:#c2410c;font-weight:800;">📞 Gọi <?= htmlspecialchars($shop['phone']) ?></a>
-                    <span>•</span>
-                    <a href="<?= htmlspecialchars($shop['map_url'] ?: ('https://www.google.com/maps/search/?api=1&query=' . urlencode($shop['name'] . ', ' . $shop['address']))) ?>" target="_blank" rel="noopener noreferrer" style="color:#c2410c;font-weight:800;">Chỉ đường ↗</a>
-                </div>
+                <p class="fn-shop-hero-hours">⏰ Giờ tham khảo: <strong><?= htmlspecialchars($shop['opening_hours']) ?></strong></p>
 
                 <?php if (!empty($shop['source_verified']) && !empty($shop['description'])): ?><p style="font-size: 13.5px; color: var(--fn-dark-muted); line-height: 1.6; margin-bottom: 12px;"><?= htmlspecialchars($shop['description']) ?></p><?php endif; ?>
 
@@ -118,7 +101,14 @@ $msg = $_GET['msg'] ?? '';
                     <?php endif; ?>
                 </div>
 
-                <button type="button" class="fn-open-report-btn fn-shop-report-link" data-shop-id="<?= $shop['id'] ?>" data-shop-name="<?= htmlspecialchars($shop['name']) ?>">Báo thông tin sai ↗</button>
+                <div class="fn-shop-hero-actions">
+                    <a href="tel:<?= preg_replace('/[^0-9]/', '', $shop['phone']) ?>" class="fn-btn fn-btn-primary">📞 Gọi hỏi giá &amp; lịch sửa</a>
+                    <a href="<?= htmlspecialchars($shop['map_url'] ?: ('https://www.google.com/maps/search/?api=1&query=' . urlencode($shop['name'] . ', ' . $shop['address']))) ?>" target="_blank" rel="noopener noreferrer" class="fn-btn fn-btn-secondary">🗺️ Xem trên Google Maps</a>
+                </div>
+                <div class="fn-shop-hero-links">
+                    <?php if (!empty($shop['website'])): ?><a href="<?= htmlspecialchars($shop['website']) ?>" target="_blank" rel="noopener noreferrer">Website chính thức ↗</a><?php endif; ?>
+                    <button type="button" class="fn-open-report-btn fn-shop-report-link" data-shop-id="<?= $shop['id'] ?>" data-shop-name="<?= htmlspecialchars($shop['name']) ?>">Báo thông tin sai</button>
+                </div>
             </div>
         </div>
     </div>

@@ -162,6 +162,7 @@ if ($isLocated) {
 }
 
 $shopCount = count($filteredShops);
+$hasVerifiedRating = (bool)array_filter($filteredShops, static fn($shop) => !empty($shop['google_rating_verified']));
 $shopsPerPage = 9;
 $shopPageCount = max(1, (int)ceil($shopCount / $shopsPerPage));
 $requestedPage = filter_input(INPUT_GET, 'page', FILTER_VALIDATE_INT, ['options' => ['min_range' => 1]]) ?: 1;
@@ -456,7 +457,7 @@ require_once __DIR__ . '/../includes/navbar.php';
             <?php if ($shopCount > 0): ?><span class="fn-shop-page-summary">· Hiển thị <?= ($shopPage - 1) * $shopsPerPage + 1 ?>–<?= min($shopPage * $shopsPerPage, $shopCount) ?></span><?php endif; ?>
         </div>
         <div style="font-size: 12.5px; color: #64748b;">
-            Thứ tự: <strong><?= $isLocated ? '📍 Khoảng cách gần bạn nhất' : '⭐ Điểm đánh giá đối soát / A–Z' ?></strong>
+            Thứ tự: <strong><?= $isLocated ? '📍 Khoảng cách gần bạn nhất' : ($hasVerifiedRating ? 'Đánh giá có nguồn / tên A–Z' : 'Tên A–Z') ?></strong>
         </div>
     </div>
 
@@ -481,24 +482,12 @@ require_once __DIR__ . '/../includes/navbar.php';
                     
                     <!-- Thumbnail & Badges -->
                     <div class="fn-shop-media" style="height: 145px; position: relative; overflow: hidden;">
-                        <?php if (!empty($shop['image'])): ?><img class="<?= $shop['image_kind'] === 'website_snapshot' ? 'fn-shop-website-shot' : 'fn-shop-logo-img' ?>" src="<?= htmlspecialchars($shop['image']) ?>" alt="Hình từ website hệ thống <?= htmlspecialchars($shop['name']) ?>" width="600" height="400" loading="lazy"><?php else: ?><div class="fn-shop-no-photo">Chưa có ảnh chính thức của chi nhánh</div><?php endif; ?>
-                        <span class="fn-shop-media-caption"><?= $shop['image_kind'] === 'website_snapshot' ? 'Ảnh website hệ thống' : (!empty($shop['image']) ? 'Logo từ website hệ thống' : 'Chưa có ảnh') ?></span>
+                        <?= fixnearShopMedia($shop) ?>
                         
                         <!-- Badge Khu Vực -->
                         <span style="position: absolute; top: 10px; left: 10px; background: rgba(15,23,42,0.85); backdrop-filter: blur(4px); color: #38bdf8; font-weight: 800; padding: 3px 10px; border-radius: 20px; font-size: 11px;">
                             📍 <?= htmlspecialchars($shop['district']) ?>
                         </span>
-
-                        <!-- Badge Xác Minh Nguồn -->
-                        <?php if (!empty($shop['address_verified'])): ?>
-                            <span style="position: absolute; top: 10px; right: 10px; background: #ea580c; color: #fff; font-weight: 800; padding: 3px 10px; border-radius: 20px; font-size: 10.5px;">
-                                ✓ Địa chỉ có nguồn
-                            </span>
-                        <?php else: ?>
-                            <span style="position: absolute; top: 10px; right: 10px; background: rgba(15,23,42,0.7); backdrop-filter: blur(4px); color: #e2e8f0; font-weight: 700; padding: 3px 10px; border-radius: 20px; font-size: 10.5px;">
-                                📋 Dữ liệu tham khảo
-                            </span>
-                        <?php endif; ?>
 
                         <!-- Nút Yêu Thích -->
                         <?php $isFav = in_array((int)$shop['id'], array_map('intval', $userFavorites), true); ?>
@@ -531,14 +520,13 @@ require_once __DIR__ . '/../includes/navbar.php';
                         <p class="fn-shop-list-address" style="font-size: 13px; color: #334155; line-height: 1.5; margin: 0 0 8px 0;">
                             📌 <?= htmlspecialchars($shop['address']) ?>
                         </p>
-                        <div class="fn-shop-list-facts">
-                            <?php if (!empty($shop['address_verified'])): ?><a href="<?= htmlspecialchars($shop['address_source_url']) ?>" target="_blank" rel="noopener noreferrer" class="fn-shop-list-source">Nguồn địa chỉ ↗</a><?php endif; ?>
-                            <?php if (isset($shop['distance_km'])): ?>
+                        <?php if (isset($shop['distance_km'])): ?>
+                            <div class="fn-shop-list-facts">
                                 <span class="fn-shop-list-distance" style="display: inline-flex; align-items: center; gap: 4px; background: #ecfdf5; color: #047857; border: 1px solid #a7f3d0; padding: 2px 8px; border-radius: 6px; font-size: 12px; font-weight: 800;">
                                     📍 Cách bạn: <?= $shop['distance_km'] < 1 ? round($shop['distance_km'] * 1000) . 'm' : $shop['distance_km'] . ' km' ?>
                                 </span>
-                            <?php endif; ?>
-                        </div>
+                            </div>
+                        <?php endif; ?>
 
                         <!-- Pills Tiêu Chuẩn Minh Bạch -->
                         <div class="fn-shop-list-pills" style="display: flex; gap: 5px; flex-wrap: wrap; margin-bottom: 14px;">

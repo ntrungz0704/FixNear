@@ -92,6 +92,8 @@ def main():
             first_ids = re.findall(r'class="fn-shop-card" data-shop-id="(\d+)"', first_page)
             assert status == 200 and len(first_ids) == 9 and 'aria-label="Phân trang cửa hàng"' in first_page
             assert 'shops.php?device=phone&amp;page=2#shop-results' in first_page
+            assert "Nguồn địa chỉ" not in first_page and "Địa chỉ có nguồn" not in first_page
+            assert "Logo từ website hệ thống" not in first_page and "Chưa có ảnh đúng chi nhánh" in first_page
             status, _, second_page = request(guest, base, "/shops.php?device=phone&page=2")
             second_ids = re.findall(r'class="fn-shop-card" data-shop-id="(\d+)"', second_page)
             assert status == 200 and len(second_ids) == 9 and not set(first_ids).intersection(second_ids)
@@ -104,11 +106,12 @@ def main():
             status, _, prices = request(guest, base, "/prices.php?device=phone&brand=apple&model=apple-iphone-16e&mode=estimate")
             assert status == 200 and "iPhone 16e" in prices and "13 kết quả" in prices
             status, _, watch_detail = request(guest, base, "/model_detail.php?id=apple-watch-ultra-2")
-            assert status == 200 and "Chưa có cửa hàng đủ nguồn địa chỉ" in watch_detail
+            assert status == 200 and "Chưa có cửa hàng phù hợp" in watch_detail
             status, _, guest_detail = request(guest, base, "/shop_detail.php?id=1")
             assert status == 200 and 'id="btn-fav-detail"' not in guest_detail
-            assert "Mức giữa tham khảo" in guest_detail and "Website Chính Thức" not in guest_detail
-            assert "Mở Google Maps Kiểm Chứng" not in guest_detail
+            assert "Mức giữa tham khảo" in guest_detail and "Website chính thức" in guest_detail
+            assert "Gọi hỏi giá &amp; lịch sửa" in guest_detail and "Xem trên Google Maps" in guest_detail
+            assert "Nguồn địa chỉ" not in guest_detail and "Logo từ website hệ thống" not in guest_detail
             assert request(guest, base, "/api/toggle_favorite.php", {"shop_id": "1"})[0] == 401
             assert json.loads((data_dir / "favorites.json").read_text(encoding="utf-8")) == []
             request(guest, base, "/api/add_review.php", {

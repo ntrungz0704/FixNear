@@ -48,6 +48,7 @@ Lệnh phải kết thúc với `0 lỗi`. Cảnh báo môi trường developmen
 
 - Giá, bảo hành, ưu đãi sinh viên: cần URL nguồn và ngày đối soát cho từng cửa hàng.
 - Điểm/số lượt đánh giá Google: cần Place ID và thời điểm đồng bộ hợp lệ.
+- Ảnh chi nhánh: dữ liệu hiện chưa có Place ID hoặc ảnh đúng từng cửa hàng. Giao diện không dùng logo hệ thống hay ảnh trang sản phẩm làm ảnh chi nhánh. Nếu muốn hiển thị ảnh Google Maps, cần tích hợp Places API (New), khớp Place ID với đúng chi nhánh và hiển thị ghi công tác giả cùng liên kết tới ảnh gốc theo [quy định của Google](https://developers.google.com/maps/documentation/places/web-service/policies). Không sao chép ảnh trực tiếp từ trang Google Maps.
 - Hotline, email, địa chỉ pháp lý và chính sách quyền riêng tư của đơn vị vận hành.
 
 Xem thêm báo cáo kiểm chứng tại `outputs/FACT_VERIFICATION_2026-09-27.md` trong bản phát triển (thư mục này bị chặn trên host).

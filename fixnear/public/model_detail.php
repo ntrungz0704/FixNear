@@ -256,7 +256,7 @@ require_once __DIR__ . '/../includes/navbar.php';
         </div>
 
         <?php if (!$topShops): ?>
-            <p class="fn-model-shops-empty">Chưa có cửa hàng đủ nguồn địa chỉ cho nhóm thiết bị này. Bạn có thể gửi yêu cầu để được liên hệ sau.</p>
+            <p class="fn-model-shops-empty">Chưa có cửa hàng phù hợp cho nhóm thiết bị này. Bạn có thể gửi yêu cầu để được liên hệ sau.</p>
         <?php else: ?>
             <div class="fn-model-shops-grid">
                 <?php foreach ($topShops as $shop):
@@ -265,30 +265,20 @@ require_once __DIR__ . '/../includes/navbar.php';
                     $phoneDigits = preg_replace('/[^0-9]/', '', $sPhone);
                     $sAddress = trim((string) ($shop['address'] ?? ''));
                     $mapUrl = !empty($shop['map_url']) ? $shop['map_url'] : 'https://www.google.com/maps/search/?' . http_build_query(['api' => 1, 'query' => $shop['name'] . ' ' . $sAddress]);
-                    $imageKind = $shop['image_kind'] ?? 'none';
                 ?>
                     <article class="fn-model-shop-card">
                         <div class="fn-model-shop-media">
-                            <?php if (!empty($shop['image'])): ?>
-                                <img class="<?= $imageKind === 'website_snapshot' ? 'fn-shop-website-shot' : 'fn-shop-logo-img' ?>" src="<?= htmlspecialchars($shop['image']) ?>" alt="Hình từ website hệ thống <?= htmlspecialchars($shop['name']) ?>" width="600" height="240" loading="lazy">
-                            <?php else: ?>
-                                <div class="fn-shop-no-photo">Chưa có ảnh từ nguồn cửa hàng</div>
-                            <?php endif; ?>
-                            <span class="fn-model-shop-media-caption"><?= $imageKind === 'website_snapshot' ? 'Ảnh website hệ thống' : (!empty($shop['image']) ? 'Logo website hệ thống' : 'Chưa có ảnh') ?></span>
+                            <?= fixnearShopMedia($shop) ?>
                         </div>
                         <div class="fn-model-shop-body">
                             <div class="fn-model-shop-meta">
                                 <span><?= htmlspecialchars($shop['district'] ?? 'TP.HCM') ?></span>
-                                <span><?= !empty($shop['address_verified']) ? 'Địa chỉ có nguồn' : 'Địa chỉ tham khảo' ?></span>
                             </div>
                             <h3><a href="shop_detail.php?id=<?= (int) $shop['id'] ?>"><?= htmlspecialchars($shop['name']) ?></a></h3>
                             <div class="fn-model-shop-facts">
                                 <p><span aria-hidden="true">📍</span><span><?= htmlspecialchars($sAddress) ?></span></p>
                                 <p><span aria-hidden="true">◷</span><span><?= $sHours !== '' ? 'Giờ tham khảo: ' . htmlspecialchars($sHours) : 'Giờ mở cửa: cần xác nhận' ?></span></p>
                             </div>
-                            <?php if (!empty($shop['address_verified']) && !empty($shop['address_source_url'])): ?>
-                                <a class="fn-model-shop-source" href="<?= htmlspecialchars($shop['address_source_url']) ?>" target="_blank" rel="noopener noreferrer">Đối chiếu địa chỉ tại nguồn ↗</a>
-                            <?php endif; ?>
                             <div class="fn-model-shop-actions">
                                 <a class="fn-model-shop-detail" href="shop_detail.php?id=<?= (int) $shop['id'] ?>">Xem cửa hàng &amp; phản hồi →</a>
                                 <?php if ($phoneDigits !== ''): ?><a href="tel:<?= $phoneDigits ?>">Gọi cửa hàng</a><?php endif; ?>

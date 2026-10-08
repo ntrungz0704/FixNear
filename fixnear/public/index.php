@@ -293,8 +293,7 @@ $featuredShops = array_slice($featuredShops, 0, 6);
         <?php foreach ($featuredShops as $idx => $shop): ?>
             <div class="fn-shop-card" style="text-align: left; <?= $idx === 0 ? 'border: 2px solid #ea580c; box-shadow: 0 8px 24px rgba(234, 88, 12, 0.18); position: relative;' : '' ?>">
                 <div class="fn-shop-thumb">
-                    <?php if (!empty($shop['image'])): ?><img class="<?= $shop['image_kind'] === 'website_snapshot' ? 'fn-shop-website-shot' : 'fn-shop-logo-img' ?>" src="<?= htmlspecialchars($shop['image']) ?>" alt="Hình từ website hệ thống <?= htmlspecialchars($shop['name']) ?>" width="600" height="400" loading="lazy"><?php else: ?><div class="fn-shop-no-photo">Chưa có ảnh chính thức của chi nhánh</div><?php endif; ?>
-                    <span class="fn-shop-media-caption"><?= $shop['image_kind'] === 'website_snapshot' ? 'Ảnh website hệ thống' : (!empty($shop['image']) ? 'Logo từ website hệ thống' : 'Chưa có ảnh') ?></span>
+                    <?= fixnearShopMedia($shop) ?>
                     <?php if ($isLocated && isset($shop['distance_km'])): ?>
                     <span class="fn-distance-badge" style="background: #0f172a; color: #38bdf8; font-weight: 800; border: 1px solid #0284c7;">
                         📍 <?= $shop['distance_km'] < 1 ? round($shop['distance_km'] * 1000) . 'm' : $shop['distance_km'] . ' km' ?>
@@ -302,8 +301,6 @@ $featuredShops = array_slice($featuredShops, 0, 6);
                     <?php endif; ?>
                     <?php if ($isLocated && $idx === 0): ?>
                         <span class="fn-nearest-badge">🏆 GẦN BẠN NHẤT</span>
-                    <?php elseif (!empty($shop['address_verified'])): ?>
-                        <span class="fn-verified-badge" style="background: #ea580c; color: #fff; font-weight: 800;">✓ ĐỊA CHỈ CÓ NGUỒN</span>
                     <?php endif; ?>
                 </div>
 

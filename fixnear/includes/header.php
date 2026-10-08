@@ -1,6 +1,7 @@
 <?php
 require_once __DIR__ . '/../config/db.php';
 require_once __DIR__ . '/brand_assets.php';
+require_once __DIR__ . '/shop_media.php';
 $currentUser = currentUser();
 $assetPrefix = str_contains(str_replace('\\', '/', $_SERVER['PHP_SELF'] ?? ''), '/admin/') ? '../' : '';
 ?>

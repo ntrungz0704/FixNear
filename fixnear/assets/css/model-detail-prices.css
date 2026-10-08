@@ -68,21 +68,15 @@
 .fn-model-shop-card{min-width:0;display:flex;flex-direction:column;overflow:hidden;border:1px solid #fed7aa;border-radius:16px;background:#fff;box-shadow:0 5px 20px rgba(124,45,18,.06);transition:transform .2s ease,box-shadow .2s ease,border-color .2s ease}
 .fn-model-shop-card:hover{transform:translateY(-3px);border-color:#fb923c;box-shadow:0 11px 26px rgba(124,45,18,.11)}
 .fn-model-shop-media{height:134px;position:relative;overflow:hidden;background:#fff7ed;border-bottom:1px solid #ffedd5}
-.fn-model-shop-media img{display:block;width:100%;height:100%}
-.fn-model-shop-media img.fn-shop-logo-img{padding:22px 35px}
 .fn-model-shop-media .fn-shop-no-photo{min-height:0;height:100%}
-.fn-model-shop-media-caption{position:absolute;right:9px;bottom:9px;background:rgba(255,255,255,.94);color:#7c2d12;border:1px solid #fed7aa;border-radius:6px;padding:3px 8px;font-size:10px;font-weight:800}
 .fn-model-shop-body{display:flex;flex:1;flex-direction:column;min-width:0;padding:18px}
 .fn-model-shop-meta{display:flex;align-items:center;justify-content:space-between;gap:8px;margin-bottom:11px;color:#9a3412;font-size:10px;font-weight:800}
 .fn-model-shop-meta span:first-child{background:#fff7ed;border:1px solid #fed7aa;border-radius:99px;padding:3px 8px}
-.fn-model-shop-meta span:last-child{color:#475569;text-align:right}
 .fn-model-shop-body h3{min-height:2.7em;color:#0f172a;font-family:var(--fn-font-heading);font-size:17px;line-height:1.35;font-weight:900;overflow-wrap:anywhere;margin:0 0 14px}
 .fn-model-shop-body h3 a:hover{color:#c2410c;text-decoration:underline;text-underline-offset:3px}
 .fn-model-shop-facts{display:grid;gap:9px}
 .fn-model-shop-facts p{display:grid;grid-template-columns:18px minmax(0,1fr);gap:8px;color:#334155;font-size:12px;line-height:1.5;overflow-wrap:anywhere;margin:0}
 .fn-model-shop-facts p>span:first-child{color:#ea580c;font-size:15px;line-height:1.2}
-.fn-model-shop-source{display:inline-block;align-self:start;color:#c2410c;font-size:11px;font-weight:800;margin-top:10px}
-.fn-model-shop-source:hover{text-decoration:underline}
 .fn-model-shop-actions{display:grid;grid-template-columns:repeat(2,minmax(0,1fr));gap:8px;margin-top:auto;padding-top:18px}
 .fn-model-shop-actions a{display:inline-flex;align-items:center;justify-content:center;min-height:40px;padding:8px 10px;border:1px solid #fed7aa;border-radius:9px;background:#fff7ed;color:#9a3412;font-size:11px;font-weight:800;text-align:center;line-height:1.3}
 .fn-model-shop-actions a:hover{background:#ffedd5;border-color:#fb923c}

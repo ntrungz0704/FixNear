@@ -77,29 +77,10 @@ class FixNearDB {
         $shop['service_policy_verified'] = !empty($shop['policy_source_url']) && !empty($shop['policy_verified_at']);
         // Cờ seed is_verified cũ không phải bằng chứng độc lập.
         $shop['is_verified'] = $shop['source_verified'];
-        // Không dùng ảnh stock làm ảnh chi nhánh. Chỉ dùng logo lấy từ website
-        // hệ thống; cửa hàng chưa có ảnh chính thức sẽ hiện nhãn trung thực.
-        $websiteHost = strtolower((string) (parse_url((string) ($shop['website'] ?? ''), PHP_URL_HOST) ?: ''));
-        $websiteHost = preg_replace('/^www\./', '', $websiteHost);
-        $websiteLogos = [
-            'dienthoaivui.com.vn' => 'https://cdns.dienthoaivui.com.vn/logo.png',
-            'fastcare.vn' => 'https://cdn.fastcare.vn/uploads/2025/03/logo-fastcare.png',
-            'chamsocdidong.com' => 'https://chamsocdidong.com/images/config/logo-24h-do-011_1767087076.svg',
-            'viendidong.com' => 'https://viendidong.com/wp-content/uploads/2024/11/VDD_logo-06.png',
-            'saigonso.com' => 'assets/images/shop-sites/saigonso-2026-10-07.png',
-            'baohanhone.com' => 'https://cdn.hstatic.net/themes/1000338578/1001463942/14/logo-baohanhone.png?v=614',
-            'suachualaptop24h.com' => 'https://suachualaptop24h.com/images/config/sua-chua-logo_1776322654.jpg',
-            'iservice.vn' => 'https://theme.hstatic.net/1000353777/1000698522/14/logo.svg?v=1373',
-            'icare.center' => 'https://icare.center/uploads/images/setup/trang%20chu/logo-icare(1).svg',
-            'libbyrepaircenter.com' => 'https://media.base44.com/images/public/69b928045b5e8103fd70fccd/84613508a_LibbyLogo3D.png',
-            'cares.vn' => 'https://cares.vn/wp-content/uploads/elementor/thumbs/logo-cares-1-qkim89c9qeg1uozpdslwn3424w4l9465jf6kkovdvk.png',
-            'benhvienlaptop.com' => 'https://benhvienlaptop.com/wp-content/uploads/2026/08/Logo-benhvienlaptop-3.png',
-            'capcuulaptop.com' => 'https://capcuulaptop.com/wp-content/uploads/2015/11/logo.png',
-            'thegioilaptop24h.com' => 'https://www.thegioilaptop24h.com/assets/frontend/img/logo.png',
-            'giahuymobile.com' => 'https://cdn.hstatic.net/files/200000290713/file/logo_mobi_80bb9b049ab440ce94c3a49f1a4a0279.png',
-        ];
-        $shop['image'] = $websiteLogos[$websiteHost] ?? '';
-        $shop['image_kind'] = $websiteHost === 'saigonso.com' ? 'website_snapshot' : ($shop['image'] !== '' ? 'website_logo' : 'none');
+        // Website logos and product-page screenshots are not photos of a branch.
+        // Do not display any image as a shop photo without branch-specific evidence.
+        $shop['image'] = '';
+        $shop['image_kind'] = 'none';
         return $shop;
     }
 

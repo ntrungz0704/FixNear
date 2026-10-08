@@ -246,8 +246,7 @@ require_once __DIR__ . '/../includes/navbar.php';
                 <?php foreach ($recommendedShops as $shop): ?>
                     <div class="fn-shop-card">
                         <div class="fn-shop-thumb">
-                            <?php if (!empty($shop['image'])): ?><img class="<?= $shop['image_kind'] === 'website_snapshot' ? 'fn-shop-website-shot' : 'fn-shop-logo-img' ?>" src="<?= htmlspecialchars($shop['image']) ?>" alt="Hình từ website hệ thống <?= htmlspecialchars($shop['name']) ?>" width="600" height="400" loading="lazy"><?php else: ?><div class="fn-shop-no-photo">Chưa có ảnh chính thức của chi nhánh</div><?php endif; ?>
-                            <span class="fn-shop-media-caption"><?= $shop['image_kind'] === 'website_snapshot' ? 'Ảnh website hệ thống' : (!empty($shop['image']) ? 'Logo từ website hệ thống' : 'Chưa có ảnh') ?></span>
+                            <?= fixnearShopMedia($shop) ?>
                             <span class="fn-distance-badge">📍 <?= htmlspecialchars($shop['district']) ?></span>
                         </div>
                         <div class="fn-shop-body" style="text-align: left;">
