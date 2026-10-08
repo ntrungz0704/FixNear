@@ -1,13 +1,22 @@
-"""Ensure public shops never advertise a system logo as a branch photo."""
+"""Ensure published shops never advertise a logo as a branch photo."""
 
-from urllib.request import urlopen
+from pathlib import Path
 import json
-import sys
+import os
+import subprocess
 
 
-base = sys.argv[1] if len(sys.argv) > 1 else "http://127.0.0.1:8000"
-with urlopen(base + "/api/get_shops.php", timeout=10) as response:
-    shops = json.load(response)["data"]
+root = Path(__file__).resolve().parents[1]
+environment = os.environ.copy()
+environment["FIXNEAR_DISABLE_MYSQL"] = "1"
+payload = subprocess.check_output(
+    ["php", "-r", "require 'config/db.php'; echo json_encode(db()->getShops(), JSON_UNESCAPED_UNICODE | JSON_THROW_ON_ERROR);"],
+    cwd=root,
+    env=environment,
+    text=True,
+    encoding="utf-8",
+)
+shops = json.loads(payload)
 misrepresented = [shop.get("id") for shop in shops if shop.get("image") or shop.get("image_kind") != "none"]
 print(f"Published shops: {len(shops)}; unsupported branch photos shown: {len(misrepresented)}")
 if misrepresented:
