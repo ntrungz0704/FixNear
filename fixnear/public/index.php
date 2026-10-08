@@ -711,7 +711,7 @@ $featuredShops = array_slice($featuredShops, 0, 6);
                     <span class="fn-faq-icon">+</span>
                 </button>
                 <div class="fn-faq-answer">
-                    <p>Có! Bạn chỉ cần nhập số điện thoại và email để gửi yêu cầu báo giá. Đội ngũ FixNear sẽ chủ động liên hệ lại để tư vấn và gợi ý cửa hàng phù hợp.</p>
+                    <p>Có. Bạn có thể gửi yêu cầu mà không cần tài khoản. Hãy nhập email, số điện thoại, số Zalo và mô tả tình trạng máy. Sau khi gửi, hệ thống cấp mã để bạn theo dõi yêu cầu.</p>
                 </div>
             </div>
         </div>
