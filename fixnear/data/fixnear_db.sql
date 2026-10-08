@@ -19,9 +19,7 @@ CREATE TABLE `users` (
   `created_at` DATETIME DEFAULT CURRENT_TIMESTAMP
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci;
 
-INSERT INTO `users` (`id`, `name`, `email`, `password`, `role`, `phone`, `created_at`) VALUES
-(1, 'Quản Trị Viên FixNear', 'admin@fixnear.vn', '$2y$12$9iwWqbDT9A15xcs8luxLn.u8l97/AEePh0Ac8SGFkWmWy.X.3cHLe', 'admin', '0988888888', '2026-09-01 08:00:00'),
-(2, 'Nguyễn Văn Nam', 'vannam.nguyen@gmail.com', '$2y$12$8c2fbh6mpXUlvVye1l1Eg.lQxvDM30rPHeJU9oE.fAVmeWRlOM.aS', 'user', '0912345678', '2026-09-10 10:00:00');
+-- Tạo tài khoản quản trị riêng sau khi cài đặt bằng scripts/create_admin.php.
 
 -- 2. BẢNG SHOPS (68 Cửa Hàng Tại TP.HCM)
 DROP TABLE IF EXISTS `shops`;

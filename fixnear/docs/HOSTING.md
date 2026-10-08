@@ -12,9 +12,9 @@
 2. Sao chép `config/local.php.example` thành `config/local.php`.
 3. Đặt `environment` thành `production`.
 4. Đặt `data_dir` tới thư mục nằm **ngoài** `public_html`, ví dụ `/home/ACCOUNT/fixnear-data`.
-5. Sao chép các file JSON trong `data/` sang thư mục dữ liệu đó. Không sao chép tài khoản/yêu cầu thử nghiệm lên production.
+5. Sao chép dữ liệu cần dùng trong `data/` sang thư mục đó. Không sao chép tài khoản/yêu cầu thử nghiệm lên production.
 6. Cấp quyền tối thiểu đủ để PHP đọc/ghi thư mục dữ liệu (thường 750 cho thư mục, 640/660 cho file tùy cấu hình host).
-7. Không sao chép `data/users.json` mẫu lên production. Tạo quản trị viên bằng terminal host, dùng biến môi trường tạm thời để mật khẩu không nằm trong source:
+7. `data/users.json` là dữ liệu riêng của máy chạy và không nằm trong Git. Tạo quản trị viên bằng terminal host, dùng biến môi trường tạm thời để mật khẩu không nằm trong source:
 
    ```bash
    FIXNEAR_ADMIN_EMAIL="admin@domain.vn" FIXNEAR_ADMIN_NAME="Quản trị viên" FIXNEAR_ADMIN_PASSWORD="mat-khau-rieng-it-nhat-12-ky-tu" php scripts/create_admin.php

@@ -42,27 +42,6 @@ $sql .= "  `created_at` DATETIME DEFAULT CURRENT_TIMESTAMP\n";
 $sql .= ") ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci;\n\n";
 
 $users = readJson($dataDir . '/users.json');
-// Thêm cả demo user nếu chưa có
-$hasDemoUser = false;
-foreach ($users as $u) {
-    if (($u['email'] ?? '') === 'vannam.nguyen@gmail.com') {
-        $hasDemoUser = true;
-        break;
-    }
-}
-if (!$hasDemoUser) {
-    $users[] = [
-        'id' => 2,
-        'name' => 'Nguyễn Văn Nam',
-        'email' => 'vannam.nguyen@gmail.com',
-        'password' => password_hash('password123', PASSWORD_BCRYPT),
-        'role' => 'user',
-        'phone' => '0912345678',
-        'created_at' => '2026-09-10 10:00:00'
-    ];
-}
-
-$sql .= "INSERT INTO `users` (`id`, `name`, `email`, `password`, `role`, `phone`, `created_at`) VALUES\n";
 $userRows = [];
 foreach ($users as $u) {
     $userRows[] = sprintf(
@@ -76,7 +55,10 @@ foreach ($users as $u) {
         escapeSql($u['created_at'] ?? date('Y-m-d H:i:s'))
     );
 }
-$sql .= implode(",\n", $userRows) . ";\n\n";
+if ($userRows) {
+    $sql .= "INSERT INTO `users` (`id`, `name`, `email`, `password`, `role`, `phone`, `created_at`) VALUES\n";
+    $sql .= implode(",\n", $userRows) . ";\n\n";
+}
 
 // 2. SHOPS
 $sql .= "-- 2. BẢNG SHOPS (68 Cửa Hàng Tại TP.HCM)\n";

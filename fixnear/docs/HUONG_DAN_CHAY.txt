@@ -17,14 +17,7 @@ CÁCH 2: CHẠY QUA XAMPP APACHE
 
 THÔNG TIN TÀI KHOẢN HỆ THỐNG
 --------------------------------------------------
-- Quản trị viên (Admin):
-  Email: admin@fixnear.vn
-  Mật khẩu: admin123
-  Truy cập cổng quản trị: http://localhost:8000/admin/
-
-- Thành viên (User):
-  Email: vannam.nguyen@gmail.com
-  Mật khẩu: password123
-
-- Bạn cũng có thể bấm nút "Đăng ký" trên web để tạo tài khoản mới bất kỳ lúc nào.
-Hệ thống sử dụng mật khẩu mã hóa an toàn và cơ sở dữ liệu bền vững 100%!
+- Không có tài khoản hoặc mật khẩu mặc định trong kho mã.
+- Tạo quản trị viên riêng bằng scripts/create_admin.php; xem docs/HOSTING.md.
+- Người dùng đăng ký trên web bằng nút "Đăng ký".
+- Cổng quản trị: http://localhost:8000/admin/
