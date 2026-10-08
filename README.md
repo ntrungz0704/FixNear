@@ -2,6 +2,10 @@
 
 Website tra cứu thiết bị, chi phí sửa chữa tham khảo và thông tin cửa hàng tại TP.HCM.
 
+## Công nghệ của website
+
+Giao diện dùng HTML5, CSS3 và JavaScript; máy chủ dùng PHP 8.1+ và MySQL. Bản chạy thử có thể dùng dữ liệu JSON khi chưa cấu hình MySQL. Python chỉ nằm trong các tiện ích tạo dữ liệu và kiểm thử ngoại tuyến ở `scripts/` và `tools/`; website không gọi Python khi người dùng truy cập. GitHub tính cả các tiện ích đó vào biểu đồ ngôn ngữ của repository.
+
 ## Chạy trên máy cá nhân
 
 Yêu cầu PHP 8.1+ với `mbstring`, `json`, `openssl`.
