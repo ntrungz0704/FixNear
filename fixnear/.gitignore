@@ -1,6 +1,11 @@
 # Temporary locks and logs
 data/*.lock
 data/users.json
+data/repair_requests.json
+data/contact_messages.json
+data/reviews.json
+data/favorites.json
+data/reports.json
 *.log
 .DS_Store
 Thumbs.db

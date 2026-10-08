@@ -168,7 +168,7 @@ $requestedPage = filter_input(INPUT_GET, 'page', FILTER_VALIDATE_INT, ['options'
 $shopPage = min($requestedPage, $shopPageCount);
 $visibleShops = array_slice($filteredShops, ($shopPage - 1) * $shopsPerPage, $shopsPerPage);
 $shopPageUrl = static function (int $page): string {
-    $params = array_intersect_key($_GET, array_flip(['device', 'brand', 'model', 'fault_id', 'service_id', 'issue_name', 'district', 'student', 'favorite', 'q', 'lat', 'lng', 'location']));
+    $params = array_intersect_key($_GET, array_flip(['device', 'brand', 'model', 'fault_id', 'service_id', 'issue_name', 'district', 'student', 'favorite', 'q', 'user_lat', 'user_lng', 'loc_name']));
     $params['page'] = $page;
     return 'shops.php?' . http_build_query($params, '', '&', PHP_QUERY_RFC3986) . '#shop-results';
 };

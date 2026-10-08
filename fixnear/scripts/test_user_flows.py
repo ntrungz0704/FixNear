@@ -99,6 +99,8 @@ def main():
             status, _, last_page = request(guest, base, "/shops.php?device=phone&page=999")
             assert status == 200 and 'aria-current="page">4</a>' in last_page
             assert 0 < len(re.findall(r'class="fn-shop-card" data-shop-id="(\d+)"', last_page)) <= 9
+            status, _, located_page = request(guest, base, "/shops.php?device=phone&user_lat=10.76&user_lng=106.68&loc_name=Q1")
+            assert status == 200 and 'user_lat=10.76&amp;user_lng=106.68&amp;loc_name=Q1&amp;page=2#shop-results' in located_page
             status, _, prices = request(guest, base, "/prices.php?device=phone&brand=apple&model=apple-iphone-16e&mode=estimate")
             assert status == 200 and "iPhone 16e" in prices and "13 kết quả" in prices
             status, _, watch_detail = request(guest, base, "/model_detail.php?id=apple-watch-ultra-2")
