@@ -278,7 +278,7 @@ $allServicesFull = db()->getServices(null);
                             </div>
 
                             <!-- Địa chỉ -->
-                            <div style="font-size: 12.5px; color: #64748b; display: flex; align-items: flex-start; gap: 5px; margin-bottom: 6px; line-height: 1.45;">
+                            <div style="font-size: 13px; color: #334155; display: flex; align-items: flex-start; gap: 5px; margin-bottom: 6px; line-height: 1.5;">
                                 <span style="flex-shrink: 0;">🏢</span>
                                 <span><?= htmlspecialchars($shop['address']) ?></span>
                             </div>
@@ -293,17 +293,13 @@ $allServicesFull = db()->getServices(null);
                                 <span style="color: #64748b;">⏰ <?= htmlspecialchars($shop['opening_hours']) ?></span>
                             </div>
 
-                            <!-- Hotline + Website gọn -->
-                            <div style="display: flex; align-items: center; gap: 12px; flex-wrap: wrap; font-size: 12.5px; margin-bottom: 10px;">
-                                <a href="tel:<?= preg_replace('/\s+/', '', $shop['phone']) ?>" style="color: #16a34a; font-weight: 700; text-decoration: none; display: inline-flex; align-items: center; gap: 3px;">
-                                    📞 <?= htmlspecialchars($shop['phone']) ?>
-                                </a>
-                                <?php if (!empty($shop['website']) && strpos($shop['website'], 'google.com/maps') === false): ?>
+                            <?php if (!empty($shop['website']) && strpos($shop['website'], 'google.com/maps') === false): ?>
+                                <div style="font-size: 12.5px; margin-bottom: 10px;">
                                     <a href="<?= htmlspecialchars($shop['website']) ?>" target="_blank" style="color: #2563eb; font-weight: 600; text-decoration: none; display: inline-flex; align-items: center; gap: 3px;">
                                         🌐 Website ↗
                                     </a>
-                                <?php endif; ?>
-                            </div>
+                                </div>
+                            <?php endif; ?>
 
                             <!-- Pills -->
                             <div style="display: flex; flex-wrap: wrap; gap: 5px; margin-bottom: 12px;">
@@ -502,8 +498,6 @@ document.addEventListener('DOMContentLoaded', () => {
         const websiteHtml = (safeWebsite && safeWebsite.indexOf('google.com/maps') === -1) ?
             `<a href="${safeWebsite}" target="_blank" rel="noopener noreferrer" style="display:inline-flex; align-items:center; gap:4px; font-size:12px; color:#2563eb; font-weight:700; text-decoration:none;">🌐 Website ↗</a>` : '';
         const cleanPhone = (shop.phone || '').replace(/[^0-9]/g, '');
-        const phoneHtml = shop.phone ? 
-            `<a href="tel:${cleanPhone}" style="display:inline-flex; align-items:center; gap:4px; font-size:12.5px; color:#16a34a; font-weight:800; text-decoration:none;">📞 Hotline: ${escapeResultText(shop.phone)}</a>` : '';
         
         return `
         <div class="fn-shop-card ${nearbyClass}" data-shop-id="${shopId}" style="padding:18px; border:1px solid var(--fn-border); border-radius:14px; margin-bottom:14px; background:#fff; transition: color 0.3s, background-color 0.3s, border-color 0.3s, box-shadow 0.3s, transform 0.3s, opacity 0.3s; box-shadow: 0 2px 8px rgba(0,0,0,0.04); text-align:left;">
@@ -525,7 +519,6 @@ document.addEventListener('DOMContentLoaded', () => {
             </div>
 
             <div style="display:flex; gap:14px; flex-wrap:wrap; align-items:center; margin-bottom:10px;">
-                ${phoneHtml}
                 ${websiteHtml}
             </div>
 

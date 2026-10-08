@@ -285,7 +285,6 @@ require_once __DIR__ . '/../includes/navbar.php';
                             <div class="fn-model-shop-facts">
                                 <p><span aria-hidden="true">📍</span><span><?= htmlspecialchars($sAddress) ?></span></p>
                                 <p><span aria-hidden="true">◷</span><span><?= $sHours !== '' ? 'Giờ tham khảo: ' . htmlspecialchars($sHours) : 'Giờ mở cửa: cần xác nhận' ?></span></p>
-                                <p><span aria-hidden="true">☎</span><span><?= $sPhone !== '' ? htmlspecialchars($sPhone) : 'Số điện thoại: cần xác nhận' ?></span></p>
                             </div>
                             <?php if (!empty($shop['address_verified']) && !empty($shop['address_source_url'])): ?>
                                 <a class="fn-model-shop-source" href="<?= htmlspecialchars($shop['address_source_url']) ?>" target="_blank" rel="noopener noreferrer">Đối chiếu địa chỉ tại nguồn ↗</a>

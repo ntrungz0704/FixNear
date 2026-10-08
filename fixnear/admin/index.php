@@ -54,7 +54,7 @@ require_once __DIR__ . '/../includes/navbar.php';
                     <?php endif; ?>
                 </div>
                 <p style="font-size: 13.5px; color: var(--fn-dark-muted); margin-top: 4px;">
-                    <?= count($publicShops) ?> cửa hàng công khai trong <?= $publicDistricts ?> khu vực; <?= count($shops) - count($publicShops) ?> bản ghi đang chờ đối soát.
+                    <?= (int)$stats['total_shops'] ?> bản ghi tại <?= (int)$stats['total_districts'] ?> khu vực; <?= count($publicShops) ?> cửa hàng công khai tại <?= $publicDistricts ?> khu vực. <?= count($shops) - count($publicShops) ?> bản ghi cần bổ sung nguồn địa chỉ.
                 </p>
             </div>
             <div class="fn-admin-head-actions" style="display: flex; gap: 10px;">

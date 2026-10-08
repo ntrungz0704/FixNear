@@ -1092,10 +1092,10 @@ function initLiveTicker() {
 
     const messages = [
         "Dữ liệu cửa hàng, giá và ưu đãi có thể thay đổi — hãy xác nhận trực tiếp trước khi sửa",
-        "Điểm Google chỉ được hiển thị khi có Place ID và ngày đối soát",
+        "Bảng giá theo model gồm mức ước tính; giá cuối do cửa hàng xác nhận",
         "FixNear không tự báo giá — hãy yêu cầu cửa hàng xác nhận giá trọn gói trước khi sửa",
         "Không giao máy trước khi ghi nhận tình trạng, giá trọn gói và điều kiện bảo hành",
-        "FixNear không công khai nhận xét mẫu hoặc nhận xét Google không có nguồn"
+        "Đánh giá cửa hàng do thành viên gửi và được kiểm duyệt trước khi hiển thị"
     ];
 
     let index = 0;
@@ -1348,29 +1348,13 @@ function initPromoBanner3s() {
 }
 
 // ================= 7. QUẢN LÝ CỬA HÀNG YÊU THÍCH (FAVORITES) =================
-function getLocalFavorites() {
-    try {
-        const stored = localStorage.getItem('fixnear_favorites');
-        return stored ? JSON.parse(stored) : [];
-    } catch (e) {
-        return [];
-    }
-}
-
-function setLocalFavorites(favs) {
-    try {
-        localStorage.setItem('fixnear_favorites', JSON.stringify(favs));
-    } catch (e) {}
-}
-
 function syncFavoritesUI() {
-    const localFavs = getLocalFavorites();
     document.querySelectorAll('.fn-fav-btn').forEach(btn => {
         const shopId = parseInt(btn.getAttribute('data-shop-id'), 10);
         const icon = btn.querySelector('.fn-fav-icon') || document.getElementById(`fav-icon-${shopId}`);
         const text = document.getElementById(`fav-text-${shopId}`);
         const isServerFav = btn.getAttribute('data-favorited') === '1';
-        const isFav = isServerFav || localFavs.includes(shopId);
+        const isFav = isServerFav;
 
         if (icon) icon.textContent = isFav ? '❤️' : '🤍';
         if (text) text.textContent = isFav ? 'Đã lưu yêu thích' : 'Lưu yêu thích';
@@ -1405,29 +1389,12 @@ async function toggleFavorite(event, shopId) {
             body: `shop_id=${shopId}&csrf_token=${encodeURIComponent(csrfToken)}`
         });
         const data = await res.json();
-
-        let localFavs = getLocalFavorites();
-        let isNowFav = false;
-
-        if (data.logged_in) {
-            isNowFav = Boolean(data.favorited);
-            if (isNowFav) {
-                if (!localFavs.includes(shopId)) localFavs.push(shopId);
-            } else {
-                localFavs = localFavs.filter(id => id !== shopId);
-            }
-            setLocalFavorites(localFavs);
-        } else {
-            // Khách vãng lai: toggle localStorage
-            if (localFavs.includes(shopId)) {
-                localFavs = localFavs.filter(id => id !== shopId);
-                isNowFav = false;
-            } else {
-                localFavs.push(shopId);
-                isNowFav = true;
-            }
-            setLocalFavorites(localFavs);
+        if (res.status === 401 || !data.logged_in) {
+            location.href = 'login.php?redirect=' + encodeURIComponent(location.pathname.split('/').pop() + location.search);
+            return;
         }
+        if (!res.ok || !data.success) throw new Error(data.message || 'Không thể lưu cửa hàng.');
+        const isNowFav = Boolean(data.favorited);
 
         if (btn) btn.setAttribute('data-favorited', isNowFav ? '1' : '0');
         if (icon) icon.textContent = isNowFav ? '❤️' : '🤍';
@@ -1439,24 +1406,8 @@ async function toggleFavorite(event, shopId) {
             setTimeout(() => { btn.style.transform = ''; }, 200);
         }
 
-        // Thông báo nhẹ toast nếu chưa đăng nhập
-        if (!data.logged_in && isNowFav) {
-            showSimpleToast('❤️ Đã lưu vào mục yêu thích trình duyệt!');
-        }
     } catch (e) {
-        // Fallback offline / network error
-        let localFavs = getLocalFavorites();
-        let isNowFav = false;
-        if (localFavs.includes(shopId)) {
-            localFavs = localFavs.filter(id => id !== shopId);
-            isNowFav = false;
-        } else {
-            localFavs.push(shopId);
-            isNowFav = true;
-        }
-        setLocalFavorites(localFavs);
-        if (icon) icon.textContent = isNowFav ? '❤️' : '🤍';
-        if (text) text.textContent = isNowFav ? 'Đã lưu yêu thích' : 'Lưu yêu thích';
+        showSimpleToast('Không thể lưu cửa hàng lúc này. Vui lòng thử lại.');
     }
 }
 

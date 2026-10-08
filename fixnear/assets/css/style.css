@@ -2987,14 +2987,13 @@ textarea:focus-visible,
     .fn-rb-brand-grid, .fn-rb-brand-grid.fn-grid-compact { grid-template-columns: repeat(2, minmax(0, 1fr)); }
 }
 
-/* Equal rows keep the hotline and action buttons aligned across shop cards. */
+/* Equal rows keep shop actions aligned across cards. */
 .fn-shop-list .fn-shop-card { height: 100%; }
 .fn-shop-list-body .fn-shop-list-meta { min-height: 54px; align-content: start; }
 .fn-shop-list-body .fn-shop-list-title { min-height: 4.05em; }
 .fn-shop-list-body .fn-shop-list-address { min-height: 4.5em; }
 .fn-shop-list-body .fn-shop-list-source { min-height: 24px; }
 .fn-shop-list-body .fn-shop-list-distance { min-height: 32px; }
-.fn-shop-list-body .fn-shop-list-phone { min-height: 30px; display: flex; align-items: center; padding: 4px 10px; border: 1px solid #bbf7d0; border-radius: 9px; background: #f0fdf4; }
 .fn-shop-list-body .fn-shop-list-pills { min-height: 34px; align-content: start; }
 .fn-shop-list-body > div:last-child { margin-top: auto; }
 @media (max-width: 700px) {
@@ -3307,6 +3306,19 @@ textarea:focus-visible,
     grid-template-columns: 340px 1fr;
     gap: 24px;
 }
+.fn-shop-report-link { border: 0; background: transparent; color: #c2410c; font: inherit; font-size: 12px; font-weight: 800; padding: 0; cursor: pointer; align-self: flex-start; }
+.fn-shop-report-link:hover { text-decoration: underline; }
+.fn-shop-report-link:focus-visible { outline: 3px solid #fb923c; outline-offset: 3px; }
+.fn-footer-compact { display:flex; justify-content:space-between; gap:32px; align-items:start; }
+.fn-footer-compact p { max-width:430px; margin:9px 0 6px; color:#cbd5e1; line-height:1.5; font-size:13px; }
+.fn-footer-compact small { color:#94a3b8; font-size:11px; line-height:1.5; }
+.fn-footer-identity { display:inline-flex; align-items:center; gap:8px; color:#fff; text-decoration:none; font-size:23px; }
+.fn-footer-identity span { color:#ea580c; }
+.fn-footer-compact nav { display:flex; flex-wrap:wrap; gap:10px 20px; padding-top:7px; }
+.fn-footer-compact nav a { color:#e2e8f0; font-weight:700; font-size:13px; text-decoration:none; }
+.fn-footer-compact nav a:hover { color:#fb923c; }
+.fn-footer-compact-bottom { border-top:1px solid #334155; margin-top:24px; padding-top:14px; color:#94a3b8; font-size:11px; }
+@media (max-width:700px) { .fn-footer-compact { flex-direction:column; gap:16px; } .fn-footer-compact nav { padding-top:0; } }
 @media (max-width: 768px) {
     .fn-shop-header-grid {
         grid-template-columns: 1fr;

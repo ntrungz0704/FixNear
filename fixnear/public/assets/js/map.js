@@ -111,7 +111,7 @@ function addFixnearShopMarker(shop) {
     const distanceText = Number.isFinite(distance) ? `Khoảng cách ước tính: <b>~${distance.toFixed(1)} km</b><br>` : '';
     const ratingText = shop.google_rating_verified
         ? `⭐ <b>${escapeMapText(shop.google_rating)}</b> (${escapeMapText(shop.google_reviews_count)} Google)<br>`
-        : 'Google: chưa đối soát<br>';
+        : '';
     const popupContent = `
         <div style="min-width:210px;font-family:inherit;">
             <div style="font-weight:800;font-size:14px;color:#0f172a;margin-bottom:4px;">${escapeMapText(shop.name)}</div>

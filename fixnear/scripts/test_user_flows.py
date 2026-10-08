@@ -92,6 +92,16 @@ def main():
             assert status == 200 and "iPhone 16e" in prices and "13 kết quả" in prices
             status, _, watch_detail = request(guest, base, "/model_detail.php?id=apple-watch-ultra-2")
             assert status == 200 and "Chưa có cửa hàng đủ nguồn địa chỉ" in watch_detail
+            status, _, guest_detail = request(guest, base, "/shop_detail.php?id=1")
+            assert status == 200 and 'id="btn-fav-detail"' not in guest_detail
+            assert "Mức giữa tham khảo" in guest_detail and "Website Chính Thức" not in guest_detail
+            assert "Mở Google Maps Kiểm Chứng" not in guest_detail
+            assert request(guest, base, "/api/toggle_favorite.php", {"shop_id": "1"})[0] == 401
+            assert json.loads((data_dir / "favorites.json").read_text(encoding="utf-8")) == []
+            request(guest, base, "/api/add_review.php", {
+                "shop_id": "1", "rating": "5", "device_name": "Test", "service_repaired": "Test", "comment": "Không đăng nhập"
+            })
+            assert json.loads((data_dir / "reviews.json").read_text(encoding="utf-8")) == []
 
             status, _, form = request(guest, base, "/request_repair.php")
             assert status == 200
@@ -139,6 +149,7 @@ def main():
 
             status, _, home = request(user, base, "/index.php")
             assert status == 200
+            assert "Bản ghi · 35 công khai" in home and "Khu vực · 14 công khai" in home
             request(user, base, "/logout.php", {"csrf_token": csrf(home)})
             status, _, form = request(user, base, "/login.php")
             assert status == 200
@@ -162,7 +173,15 @@ def main():
             assert member_request["id"] in request(user, base, "/track_request.php")[2]
 
             status, _, detail = request(user, base, "/shop_detail.php?id=1")
-            assert status == 200
+            assert status == 200 and 'id="btn-fav-detail"' in detail
+            status, _, favorite_response = request(user, base, "/api/toggle_favorite.php", {
+                "shop_id": "1", "csrf_token": csrf(detail)
+            })
+            assert status == 200 and json.loads(favorite_response)["favorited"] is True
+            assert json.loads((data_dir / "favorites.json").read_text(encoding="utf-8"))
+            assert request(user, base, "/api/toggle_favorite.php", {"shop_id": "1"})[0] == 403
+            assert "Đã lưu (1)" in request(user, base, "/shops.php?favorite=1")[2]
+            assert 'name="favorite"' not in request(guest, base, "/shops.php")[2]
             status, url, _ = request(user, base, "/api/add_review.php", {
                 "csrf_token": csrf(detail), "shop_id": "1", "rating": "4",
                 "device_name": "iPhone 16e", "service_repaired": "Thay pin",
@@ -251,7 +270,7 @@ def main():
             live_after = json.loads(live_response)
             assert status == 200 and live_after["pending_requests"] == 1 and live_after["pending_reviews"] == 0
             assert live_after["revision"] != live_before["revision"]
-            print("PASS: prices, required contacts, guest/member booking, registration/login, guest contact, admin shop and price validation, admin status, review moderation/reply and public sync")
+            print("PASS: 319-model prices, guest/member booking, registration/login, guest contact, login-only favorites/reviews, admin shop and price validation, status, moderation/reply and public sync")
         finally:
             process.terminate()
             try:

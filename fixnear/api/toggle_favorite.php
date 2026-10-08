@@ -43,13 +43,17 @@ if (!$shop) {
 
 $user = currentUser();
 if (!$user) {
-    // Chưa đăng nhập: Phản hồi báo client lưu vào localStorage
+    http_response_code(401);
     echo json_encode([
-        'success' => true,
+        'success' => false,
         'logged_in' => false,
-        'shop_id' => $shopId,
-        'message' => 'Đã lưu tạm vào bộ nhớ trình duyệt. Đăng nhập để đồng bộ lâu dài!'
+        'message' => 'Đăng nhập để lưu cửa hàng yêu thích.'
     ]);
+    exit;
+}
+if (!verifyCsrfToken()) {
+    http_response_code(403);
+    echo json_encode(['success' => false, 'message' => 'Phiên đã hết hạn. Tải lại trang rồi thử lại.']);
     exit;
 }
 

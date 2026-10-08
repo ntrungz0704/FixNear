@@ -247,11 +247,11 @@ require_once __DIR__ . '/../includes/navbar.php';
                     <div class="fn-shop-card">
                         <div class="fn-shop-thumb">
                             <?php if (!empty($shop['image'])): ?><img class="<?= $shop['image_kind'] === 'website_snapshot' ? 'fn-shop-website-shot' : 'fn-shop-logo-img' ?>" src="<?= htmlspecialchars($shop['image']) ?>" alt="Hình từ website hệ thống <?= htmlspecialchars($shop['name']) ?>" width="600" height="400" loading="lazy"><?php else: ?><div class="fn-shop-no-photo">Chưa có ảnh chính thức của chi nhánh</div><?php endif; ?>
-                            <span class="fn-shop-media-caption"><?= $shop['image_kind'] === 'website_snapshot' ? 'Ảnh website hệ thống' : (!empty($shop['image']) ? 'Logo từ website hệ thống' : 'Ảnh đang chờ đối soát') ?></span>
+                            <span class="fn-shop-media-caption"><?= $shop['image_kind'] === 'website_snapshot' ? 'Ảnh website hệ thống' : (!empty($shop['image']) ? 'Logo từ website hệ thống' : 'Chưa có ảnh') ?></span>
                             <span class="fn-distance-badge">📍 <?= htmlspecialchars($shop['district']) ?></span>
                         </div>
                         <div class="fn-shop-body" style="text-align: left;">
-                            <div class="fn-shop-rating"><?= !empty($shop['google_rating_verified']) ? '⭐ ' . htmlspecialchars($shop['google_rating']) . ' (' . number_format($shop['google_reviews_count']) . ' đánh giá Google)' : 'Google: chưa đối soát' ?></div>
+                            <?php if (!empty($shop['google_rating_verified'])): ?><div class="fn-shop-rating">⭐ <?= htmlspecialchars($shop['google_rating']) ?> (<?= number_format($shop['google_reviews_count']) ?> đánh giá Google)</div><?php endif; ?>
                             <h3 class="fn-shop-name" style="text-align: left;"><?= htmlspecialchars($shop['name']) ?></h3>
                             <p class="fn-shop-address" style="text-align: left;">📌 <?= htmlspecialchars($shop['address']) ?></p>
                             <div style="font-size: 13px; color: #64748b; font-weight: 700; margin: 8px 0; text-align: left;">

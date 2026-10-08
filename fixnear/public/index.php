@@ -4,6 +4,9 @@ require_once __DIR__ . '/../includes/header.php';
 require_once __DIR__ . '/../includes/navbar.php';
 
 $stats = db()->getPublicStats();
+$allStats = db()->getStats();
+require_once __DIR__ . '/../includes/pricing_engine.php';
+$modelCount = count(RepairAtlasPricing::getAllModels());
 
 // Nhận diện tọa độ vị trí thực tế của người dùng từ Session, URL hoặc Cookie
 $userLoc = getUserLocation();
@@ -63,7 +66,7 @@ $featuredShops = array_slice($featuredShops, 0, 6);
     <p class="fn-hero-subtitle">
         Tra cứu lỗi theo model và cửa hàng trong bộ dữ liệu TP.HCM. Giá dự đoán được gắn nhãn riêng; giá niêm yết chỉ hiển thị khi có nguồn cho đúng model và hạng mục.
     </p>
-    <p style="text-align:center; margin:0 0 24px;"><a href="prices.php" style="display:inline-flex; align-items:center; gap:8px; color:#fff; background:#ea580c; border-radius:999px; padding:10px 18px; font-size:13px; font-weight:800; text-decoration:none;">Xem bảng giá linh kiện có nguồn →</a></p>
+    <p style="text-align:center; margin:0 0 24px;"><a href="prices.php?mode=estimate" style="display:inline-flex; align-items:center; gap:8px; color:#fff; background:#ea580c; border-radius:999px; padding:10px 18px; font-size:13px; font-weight:800; text-decoration:none;">Xem giá tham khảo <?= $modelCount ?> model →</a></p>
 
     <!-- WIZARD 2 BƯỚC CHUẨN REPAIRBOOKINGS -->
     <div class="fn-wizard-box">
@@ -247,20 +250,20 @@ $featuredShops = array_slice($featuredShops, 0, 6);
     <!-- Thống kê dự án -->
     <div class="fn-stats-bar">
         <div class="fn-stat-item">
+            <div class="fn-stat-number"><?= (int)$allStats['total_shops'] ?></div>
+            <div class="fn-stat-label">Bản ghi · <?= (int)$stats['total_shops'] ?> công khai</div>
+        </div>
+        <div class="fn-stat-item">
+            <div class="fn-stat-number"><?= (int)$allStats['total_districts'] ?></div>
+            <div class="fn-stat-label">Khu vực · <?= (int)$stats['total_districts'] ?> công khai</div>
+        </div>
+        <div class="fn-stat-item">
+            <div class="fn-stat-number"><?= $modelCount ?></div>
+            <div class="fn-stat-label">Model có mức giá tham khảo</div>
+        </div>
+        <div class="fn-stat-item">
             <div class="fn-stat-number"><?= (int)$stats['total_shops'] ?></div>
-            <div class="fn-stat-label">Bản ghi cửa hàng tham khảo</div>
-        </div>
-        <div class="fn-stat-item">
-            <div class="fn-stat-number"><?= (int)$stats['total_districts'] ?></div>
-            <div class="fn-stat-label">Khu vực có dữ liệu</div>
-        </div>
-        <div class="fn-stat-item">
-            <div class="fn-stat-number"><?= (int)$stats['total_services'] ?></div>
-            <div class="fn-stat-label">Dịch vụ trong dữ liệu mẫu</div>
-        </div>
-        <div class="fn-stat-item">
-            <div class="fn-stat-number"><?= htmlspecialchars((string)($stats['average_shop_rating'] ?? '—')) ?><span>★</span></div>
-            <div class="fn-stat-label">Điểm Google lưu trong bộ dữ liệu</div>
+            <div class="fn-stat-label">Cửa hàng có nguồn địa chỉ</div>
         </div>
     </div>
 </section>
@@ -291,7 +294,7 @@ $featuredShops = array_slice($featuredShops, 0, 6);
             <div class="fn-shop-card" style="text-align: left; <?= $idx === 0 ? 'border: 2px solid #ea580c; box-shadow: 0 8px 24px rgba(234, 88, 12, 0.18); position: relative;' : '' ?>">
                 <div class="fn-shop-thumb">
                     <?php if (!empty($shop['image'])): ?><img class="<?= $shop['image_kind'] === 'website_snapshot' ? 'fn-shop-website-shot' : 'fn-shop-logo-img' ?>" src="<?= htmlspecialchars($shop['image']) ?>" alt="Hình từ website hệ thống <?= htmlspecialchars($shop['name']) ?>" width="600" height="400" loading="lazy"><?php else: ?><div class="fn-shop-no-photo">Chưa có ảnh chính thức của chi nhánh</div><?php endif; ?>
-                    <span class="fn-shop-media-caption"><?= $shop['image_kind'] === 'website_snapshot' ? 'Ảnh website hệ thống' : (!empty($shop['image']) ? 'Logo từ website hệ thống' : 'Ảnh đang chờ đối soát') ?></span>
+                    <span class="fn-shop-media-caption"><?= $shop['image_kind'] === 'website_snapshot' ? 'Ảnh website hệ thống' : (!empty($shop['image']) ? 'Logo từ website hệ thống' : 'Chưa có ảnh') ?></span>
                     <?php if ($isLocated && isset($shop['distance_km'])): ?>
                     <span class="fn-distance-badge" style="background: #0f172a; color: #38bdf8; font-weight: 800; border: 1px solid #0284c7;">
                         📍 <?= $shop['distance_km'] < 1 ? round($shop['distance_km'] * 1000) . 'm' : $shop['distance_km'] . ' km' ?>
@@ -311,14 +314,12 @@ $featuredShops = array_slice($featuredShops, 0, 6);
                                 <?= htmlspecialchars($shop['name']) ?>
                             </a>
                         </h3>
-                        <div style="display: flex; flex-direction: column; align-items: flex-end; gap: 4px; flex-shrink: 0;">
-                            <?php if (!empty($shop['google_rating_verified'])): ?>
+                        <?php if (!empty($shop['google_rating_verified'])): ?>
+                            <div style="display: flex; flex-direction: column; align-items: flex-end; gap: 4px; flex-shrink: 0;">
                                 <div class="fn-shop-rating" style="flex-shrink: 0;">⭐ <?= htmlspecialchars($shop['google_rating']) ?></div>
                                 <span style="font-size: 11px; color: #6b7280; font-weight: 600;"><?= number_format($shop['google_reviews_count']) ?> đánh giá Google</span>
-                            <?php else: ?>
-                                <span style="font-size:11px;color:#64748b;background:#f1f5f9;padding:4px 7px;border-radius:6px;">Google: chưa đối soát</span>
-                            <?php endif; ?>
-                        </div>
+                            </div>
+                        <?php endif; ?>
                     </div>
 
                     <div class="fn-shop-address" style="text-align: left; justify-content: flex-start; margin-top: 8px;">
@@ -331,15 +332,6 @@ $featuredShops = array_slice($featuredShops, 0, 6);
                             <span>⏰</span>
                             <span style="text-align: left;"><?= htmlspecialchars($shop['opening_hours']) ?></span>
                         </div>
-                    </div>
-
-                    <!-- Hotline nhanh -->
-                    <div style="display: flex; align-items: center; gap: 8px; margin-top: 8px; padding: 8px 12px; background: #f0fdf4; border: 1px solid #bbf7d0; border-radius: 8px;">
-                        <span style="font-size: 14px;">📞</span>
-                        <a href="tel:<?= preg_replace('/\s+/', '', $shop['phone']) ?>" style="color: #16a34a; font-weight: 800; font-size: 14px; text-decoration: none; letter-spacing: 0.3px;">
-                            <?= htmlspecialchars($shop['phone']) ?>
-                        </a>
-                        <span style="font-size: 11px; color: #6b7280; margin-left: auto;">Gọi ngay</span>
                     </div>
 
                     <div class="fn-features-pills" style="justify-content: flex-start; text-align: left; margin-top: 10px; margin-bottom: 12px;">
@@ -598,7 +590,6 @@ $featuredShops = array_slice($featuredShops, 0, 6);
                     </div>
                     <div style="text-align:left;">
                         <h4 style="font-size:16px; font-weight:800; color:var(--fn-dark); margin:0;">Điện Thoại Vui</h4>
-                        <div style="font-size:12px; color:#64748b; font-weight:700;">Điểm Google: xem tại nguồn</div>
                     </div>
                 </div>
                 <div style="font-size:12.5px; color:var(--fn-dark-muted); text-align:left; line-height:1.5;">
@@ -617,7 +608,6 @@ $featuredShops = array_slice($featuredShops, 0, 6);
                     </div>
                     <div style="text-align:left;">
                         <h4 style="font-size:16px; font-weight:800; color:var(--fn-dark); margin:0;">Fastcare</h4>
-                        <div style="font-size:12px; color:#64748b; font-weight:700;">Điểm Google: xem tại nguồn</div>
                     </div>
                 </div>
                 <div style="font-size:12.5px; color:var(--fn-dark-muted); text-align:left; line-height:1.5;">
@@ -636,7 +626,6 @@ $featuredShops = array_slice($featuredShops, 0, 6);
                     </div>
                     <div style="text-align:left;">
                         <h4 style="font-size:16px; font-weight:800; color:var(--fn-dark); margin:0;">Viện Di Động</h4>
-                        <div style="font-size:12px; color:#64748b; font-weight:700;">Điểm Google: xem tại nguồn</div>
                     </div>
                 </div>
                 <div style="font-size:12.5px; color:var(--fn-dark-muted); text-align:left; line-height:1.5;">
@@ -655,7 +644,6 @@ $featuredShops = array_slice($featuredShops, 0, 6);
                     </div>
                     <div style="text-align:left;">
                         <h4 style="font-size:16px; font-weight:800; color:var(--fn-dark); margin:0;">Bệnh Viện Điện Thoại 24h</h4>
-                        <div style="font-size:12px; color:#64748b; font-weight:700;">Điểm Google: xem tại nguồn</div>
                     </div>
                 </div>
                 <div style="font-size:12.5px; color:var(--fn-dark-muted); text-align:left; line-height:1.5;">
@@ -684,7 +672,7 @@ $featuredShops = array_slice($featuredShops, 0, 6);
                     <span class="fn-faq-icon">+</span>
                 </button>
                 <div class="fn-faq-answer">
-                    <p>Không. FixNear là <strong>nền tảng tra cứu độc lập</strong>, cung cấp bản ghi cửa hàng để bạn tự so sánh. Giá chỉ được hiển thị khi có nguồn và ngày đối soát; các mục còn lại được ghi rõ là chưa xác minh.</p>
+                    <p>Không. FixNear là <strong>nền tảng tra cứu độc lập</strong>. Bảng giá ghi rõ mức ước tính theo model và mức niêm yết có liên kết nguồn; cửa hàng xác nhận giá cuối sau khi kiểm tra máy.</p>
                 </div>
             </div>
             <div class="fn-faq-item">
@@ -693,7 +681,7 @@ $featuredShops = array_slice($featuredShops, 0, 6);
                     <span class="fn-faq-icon">+</span>
                 </button>
                 <div class="fn-faq-answer">
-                    <p>Không. FixNear chỉ hiển thị giá khi bản ghi có nguồn và ngày đối soát. Giá cuối cùng vẫn phụ thuộc tình trạng thiết bị và phải được cửa hàng xác nhận sau khi kiểm tra.</p>
+                    <p>Không. Các mức tham khảo được tính từ ma trận model, còn giá niêm yết có đường dẫn tới trang của đơn vị cung cấp. Giá cuối phụ thuộc linh kiện và tình trạng máy.</p>
                 </div>
             </div>
             <div class="fn-faq-item">

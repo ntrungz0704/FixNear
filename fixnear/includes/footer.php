@@ -249,100 +249,23 @@ function dismissPromoToday() {
     </div>
 </div>
 
-<footer class="fn-footer" style="text-align: left; background: #0f172a; color: #cbd5e1; padding: 60px 0 30px; border-top: 1px solid #1e293b;">
-    <div class="fn-container" style="max-width: 1240px; margin: 0 auto; padding: 0 20px; text-align: left;">
-        <div style="display: grid; grid-template-columns: 1.4fr 1fr 1fr 1.6fr; gap: 36px; text-align: left;">
-            <!-- Cột 1: Thông tin thương hiệu FixNear -->
-            <div style="text-align: left;">
-                <div class="fn-logo" style="color: #fff; margin-bottom: 14px; text-align: left; display: inline-flex; align-items: center; gap: 10px;">
-                    <img src="<?= $assetPrefix ?>assets/images/fixnear_logo_icon.svg" alt="FixNear" width="32" height="32" style="flex-shrink:0; display:block;">
-                    <div class="fn-logo-text" style="font-size: 24px; font-weight: 900; letter-spacing: -0.5px;">
-                        <span style="color:#fff;">Fix</span><span style="color:#ea580c;">Near</span>
-                    </div>
-                </div>
-                <p style="font-size: 13.5px; line-height: 1.6; color: #94a3b8; margin: 0 0 16px 0; text-align: left;">
-                    Nền tảng thử nghiệm giúp tra cứu <?= (int)$footerStats['total_shops'] ?> bản ghi cửa hàng và nhóm dịch vụ sửa chữa tại TP.HCM. Người dùng cần xác nhận thông tin trực tiếp trước khi sử dụng dịch vụ.
-                </p>
-                <div style="font-size: 13px; line-height: 1.7; color: #cbd5e1; display: flex; flex-direction: column; gap: 8px; text-align: left;">
-                    <div>📍 <strong>Địa chỉ vận hành:</strong> Chưa công bố</div>
-                    <div>📞 <strong>Hotline / Zalo:</strong> Chưa cấu hình</div>
-                    <div>✉️ <strong>Email:</strong> Chưa cấu hình</div>
-                    <div style="font-size: 12px; color: #94a3b8; margin-top: 4px;">🎓 <em>Phiên bản thử nghiệm phục vụ mục đích học tập; không hàm ý tổ chức nào bảo trợ dữ liệu.</em></div>
-                </div>
-            </div>
-
-            <!-- Cột 2: Dịch Vụ Sửa Chữa -->
-            <div style="text-align: left;">
-                <h4 style="font-size: 16px; font-weight: 900; color: #fff; margin: 0 0 16px 0; text-align: left; text-transform: uppercase; letter-spacing: 0.5px;">
-                    Dịch Vụ Sửa Chữa
-                </h4>
-                <ul style="list-style: none; padding: 0; margin: 0; display: flex; flex-direction: column; gap: 10px; font-size: 13.5px; text-align: left;">
-                    <li><a href="request_repair.php?device=phone" style="color: #cbd5e1; text-decoration: none; transition: color 0.2s;" onmouseover="this.style.color='#ea580c'" onmouseout="this.style.color='#cbd5e1'">📱 Sửa Điện Thoại (iPhone, Samsung...)</a></li>
-                    <li><a href="request_repair.php?device=laptop_win" style="color: #cbd5e1; text-decoration: none; transition: color 0.2s;" onmouseover="this.style.color='#ea580c'" onmouseout="this.style.color='#cbd5e1'">💻 Sửa Laptop Windows (Dell, Asus, HP...)</a></li>
-                    <li><a href="request_repair.php?device=macbook" style="color: #cbd5e1; text-decoration: none; transition: color 0.2s;" onmouseover="this.style.color='#ea580c'" onmouseout="this.style.color='#cbd5e1'">🍏 Sửa MacBook & iMac Chuyên Sâu</a></li>
-                    <li><a href="request_repair.php?device=tablet" style="color: #cbd5e1; text-decoration: none; transition: color 0.2s;" onmouseover="this.style.color='#ea580c'" onmouseout="this.style.color='#cbd5e1'">📟 Sửa Máy Tính Bảng (iPad, Tab)</a></li>
-                    <li><a href="request_repair.php?device=pc" style="color: #cbd5e1; text-decoration: none; transition: color 0.2s;" onmouseover="this.style.color='#ea580c'" onmouseout="this.style.color='#cbd5e1'">🖥️ Sửa Máy Tính Bàn PC / Máy Gaming</a></li>
-                    <li><a href="request_repair.php?device=smartwatch" style="color: #cbd5e1; text-decoration: none; transition: color 0.2s;" onmouseover="this.style.color='#ea580c'" onmouseout="this.style.color='#cbd5e1'">⌚ Sửa Đồng Hồ Apple Watch / Smartwatch</a></li>
-                    <li><a href="request_repair.php" style="color: #cbd5e1; text-decoration: none; transition: color 0.2s;" onmouseover="this.style.color='#ea580c'" onmouseout="this.style.color='#cbd5e1'">💾 Cứu Dữ Liệu Ổ Cứng Hỏng</a></li>
-                    <li><a href="request_repair.php" style="color: #cbd5e1; text-decoration: none; transition: color 0.2s;" onmouseover="this.style.color='#ea580c'" onmouseout="this.style.color='#cbd5e1'">❄️ Vệ Sinh & Tra Keo Tản Nhiệt</a></li>
-                </ul>
-            </div>
-
-            <!-- Cột 3: Cam Kết & Hỗ Trợ -->
-            <div style="text-align: left;">
-                <h4 style="font-size: 16px; font-weight: 900; color: #fff; margin: 0 0 16px 0; text-align: left; text-transform: uppercase; letter-spacing: 0.5px;">
-                    Hướng Dẫn & Liên Hệ
-                </h4>
-                <ul style="list-style: none; padding: 0; margin: 0; display: flex; flex-direction: column; gap: 10px; font-size: 13.5px; text-align: left;">
-                    <li><a href="javascript:void(0)" onclick="fnOpenVerificationModal()" style="color: #cbd5e1; text-decoration: none; transition: color 0.2s;" onmouseover="this.style.color='#ea580c'" onmouseout="this.style.color='#cbd5e1'">🛡️ Bộ Câu Hỏi An Toàn "3 Không"</a></li>
-                    <li><a href="javascript:void(0)" onclick="fnOpenVerificationModal()" style="color: #cbd5e1; text-decoration: none; transition: color 0.2s;" onmouseover="this.style.color='#ea580c'" onmouseout="this.style.color='#cbd5e1'">🔍 Cách Đối Chiếu Dữ Liệu</a></li>
-                    <li><a href="request_repair.php" style="color: #cbd5e1; text-decoration: none; transition: color 0.2s;" onmouseover="this.style.color='#ea580c'" onmouseout="this.style.color='#cbd5e1'">⚡ Gửi Yêu Cầu Báo Giá Nhanh</a></li>
-                    <li><a href="shops.php" style="color: #cbd5e1; text-decoration: none; transition: color 0.2s;" onmouseover="this.style.color='#ea580c'" onmouseout="this.style.color='#cbd5e1'">⭐ Danh Sách <?= (int)$footerStats['total_shops'] ?> Cửa Hàng</a></li>
-                    <li><a href="track_request.php" style="color: #cbd5e1; text-decoration: none; transition: color 0.2s;" onmouseover="this.style.color='#ea580c'" onmouseout="this.style.color='#cbd5e1'">🔎 Theo Dõi Yêu Cầu</a></li>
-                    <li><a href="contact.php" style="color: #cbd5e1; text-decoration: none; transition: color 0.2s;" onmouseover="this.style.color='#ea580c'" onmouseout="this.style.color='#cbd5e1'">📞 Liên Hệ Ban Điều Hành Dự Án</a></li>
-                    <li><a href="contact.php" style="color: #cbd5e1; text-decoration: none; transition: color 0.2s;" onmouseover="this.style.color='#ea580c'" onmouseout="this.style.color='#cbd5e1'">⚠️ Góp Ý & Khiếu Nại Chất Lượng</a></li>
-                    <li><a href="contact.php" style="color: #cbd5e1; text-decoration: none; transition: color 0.2s;" onmouseover="this.style.color='#ea580c'" onmouseout="this.style.color='#cbd5e1'">🤝 Góp Ý Thông Tin Cửa Hàng</a></li>
-                </ul>
-            </div>
-
-            <!-- Cột 4: các khu vực đang có dữ liệu -->
-            <div style="text-align: left;">
-                <h4 style="font-size: 16px; font-weight: 900; color: #fff; margin: 0 0 16px 0; text-align: left; text-transform: uppercase; letter-spacing: 0.5px;">
-                    <?= (int)$footerStats['total_districts'] ?> Khu Vực Có Dữ Liệu (A – Z)
-                </h4>
-                <div style="display: grid; grid-template-columns: repeat(2, 1fr); gap: 8px 14px; font-size: 12.5px; text-align: left;">
-                    <a href="shops.php?district=Quận 1" style="color: #94a3b8; text-decoration: none;" onmouseover="this.style.color='#ea580c'" onmouseout="this.style.color='#94a3b8'">• Quận 1</a>
-                    <a href="shops.php?district=Quận 3" style="color: #94a3b8; text-decoration: none;" onmouseover="this.style.color='#ea580c'" onmouseout="this.style.color='#94a3b8'">• Quận 3</a>
-                    <a href="shops.php?district=Quận 4" style="color: #94a3b8; text-decoration: none;" onmouseover="this.style.color='#ea580c'" onmouseout="this.style.color='#94a3b8'">• Quận 4</a>
-                    <a href="shops.php?district=Quận 5" style="color: #94a3b8; text-decoration: none;" onmouseover="this.style.color='#ea580c'" onmouseout="this.style.color='#94a3b8'">• Quận 5</a>
-                    <a href="shops.php?district=Quận 6" style="color: #94a3b8; text-decoration: none;" onmouseover="this.style.color='#ea580c'" onmouseout="this.style.color='#94a3b8'">• Quận 6</a>
-                    <a href="shops.php?district=Quận 7" style="color: #94a3b8; text-decoration: none;" onmouseover="this.style.color='#ea580c'" onmouseout="this.style.color='#94a3b8'">• Quận 7</a>
-                    <a href="shops.php?district=Quận 8" style="color: #94a3b8; text-decoration: none;" onmouseover="this.style.color='#ea580c'" onmouseout="this.style.color='#94a3b8'">• Quận 8</a>
-                    <a href="shops.php?district=Quận 10" style="color: #94a3b8; text-decoration: none;" onmouseover="this.style.color='#ea580c'" onmouseout="this.style.color='#94a3b8'">• Quận 10</a>
-                    <a href="shops.php?district=Quận 11" style="color: #94a3b8; text-decoration: none;" onmouseover="this.style.color='#ea580c'" onmouseout="this.style.color='#94a3b8'">• Quận 11</a>
-                    <a href="shops.php?district=Quận 12" style="color: #94a3b8; text-decoration: none;" onmouseover="this.style.color='#ea580c'" onmouseout="this.style.color='#94a3b8'">• Quận 12</a>
-                    <a href="shops.php?district=Quận Bình Tân" style="color: #94a3b8; text-decoration: none;" onmouseover="this.style.color='#ea580c'" onmouseout="this.style.color='#94a3b8'">• Bình Tân</a>
-                    <a href="shops.php?district=Quận Bình Thạnh" style="color: #94a3b8; text-decoration: none;" onmouseover="this.style.color='#ea580c'" onmouseout="this.style.color='#94a3b8'">• Bình Thạnh</a>
-                    <a href="shops.php?district=Quận Gò Vấp" style="color: #94a3b8; text-decoration: none;" onmouseover="this.style.color='#ea580c'" onmouseout="this.style.color='#94a3b8'">• Gò Vấp</a>
-                    <a href="shops.php?district=Quận Phú Nhuận" style="color: #94a3b8; text-decoration: none;" onmouseover="this.style.color='#ea580c'" onmouseout="this.style.color='#94a3b8'">• Phú Nhuận</a>
-                    <a href="shops.php?district=Quận Tân Bình" style="color: #94a3b8; text-decoration: none;" onmouseover="this.style.color='#ea580c'" onmouseout="this.style.color='#94a3b8'">• Tân Bình</a>
-                    <a href="shops.php?district=Quận Tân Phú" style="color: #94a3b8; text-decoration: none;" onmouseover="this.style.color='#ea580c'" onmouseout="this.style.color='#94a3b8'">• Tân Phú</a>
-                    <a href="shops.php?district=TP. Thủ Đức" style="color: #94a3b8; text-decoration: none; grid-column: span 2;" onmouseover="this.style.color='#ea580c'" onmouseout="this.style.color='#94a3b8'">• TP. Thủ Đức (Q.2, Q.9, Thủ Đức)</a>
-                </div>
-                <div style="margin-top: 14px; font-size: 12px; color: #64748b; line-height: 1.5;">
-                    💡 Bấm vào từng khu vực để lọc nhanh các bản ghi cửa hàng đang có trong dữ liệu.
-                </div>
-            </div>
-        </div>
-
-        <div style="margin-top: 40px; padding-top: 20px; border-top: 1px solid #1e293b; display: flex; justify-content: space-between; align-items: center; flex-wrap: wrap; gap: 12px; font-size: 13px; color: #64748b; text-align: left;">
+<?php $allShopStats = db()->getStats(); ?>
+<footer class="fn-footer" style="background:#0f172a;color:#cbd5e1;padding:30px 0 18px;border-top:2px solid #ea580c;">
+    <div class="fn-container" style="max-width:1240px;margin:auto;padding:0 20px;">
+        <div class="fn-footer-compact">
             <div>
-                &copy; <?= date('Y') ?> <strong>FixNear</strong> — Dự án thử nghiệm tra cứu thông tin sửa chữa thiết bị tại TP.HCM.
+                <a href="index.php" class="fn-footer-identity"><img src="<?= $assetPrefix ?>assets/images/fixnear_logo_icon.svg" alt="" width="30" height="30"><strong>Fix<span>Near</span></strong></a>
+                <p>Nơi tra cứu model, chi phí tham khảo và thông tin cửa hàng sửa chữa tại TP.HCM.</p>
+                <small>Dữ liệu dự án: <?= (int)$allShopStats['total_shops'] ?> bản ghi / <?= (int)$allShopStats['total_districts'] ?> khu vực · <?= (int)$footerStats['total_shops'] ?> cửa hàng công khai tại <?= (int)$footerStats['total_districts'] ?> khu vực.</small>
             </div>
-            <div style="font-size: 12px; color: #475569;">
-                Phiên bản học tập/demo — dữ liệu chưa xác minh toàn bộ
-            </div>
+            <nav aria-label="Liên kết cuối trang">
+                <a href="index.php">Trang chủ</a>
+                <a href="prices.php">Bảng giá</a>
+                <a href="shops.php">Cửa hàng</a>
+                <a href="contact.php">Liên hệ</a>
+            </nav>
         </div>
+        <div class="fn-footer-compact-bottom">© <?= date('Y') ?> FixNear · Giá ước tính và thông tin cửa hàng cần xác nhận trước khi sử dụng dịch vụ.</div>
     </div>
 </footer>
 

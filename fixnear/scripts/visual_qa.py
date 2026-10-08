@@ -84,6 +84,12 @@ def main():
                         assert metrics["scroll"] <= width + 2, (route, metrics)
                         screenshot = page.call("Page.captureScreenshot", {"format": "png", "captureBeyondViewport": False})
                         (OUTPUT / f"qa-{slug}-{label}.png").write_bytes(b64decode(screenshot["data"]))
+                        if slug == "home":
+                            footer_height = page.evaluate("Math.round(document.querySelector('footer.fn-footer').getBoundingClientRect().height)")
+                            assert footer_height <= 330, (label, footer_height)
+                            page.evaluate("document.querySelector('footer.fn-footer').scrollIntoView({block:'end'})")
+                            screenshot = page.call("Page.captureScreenshot", {"format": "png", "captureBeyondViewport": False})
+                            (OUTPUT / f"qa-footer-{label}.png").write_bytes(b64decode(screenshot["data"]))
                         if slug.startswith("model-detail"):
                             page.evaluate("document.getElementById('bang-gia').scrollIntoView({block:'start'})")
                             screenshot = page.call("Page.captureScreenshot", {"format": "png", "captureBeyondViewport": False})
@@ -101,8 +107,8 @@ def main():
                             screenshot = page.call("Page.captureScreenshot", {"format": "png", "captureBeyondViewport": False})
                             (OUTPUT / f"qa-{slug}-shops-{label}.png").write_bytes(b64decode(screenshot["data"]))
                         if slug == "shops" and label == "desktop":
-                            phone_tops = page.evaluate("[...document.querySelectorAll('.fn-shop-list .fn-shop-list-phone')].slice(0,3).map(el=>Math.round(el.getBoundingClientRect().top))")
-                            assert len(phone_tops) == 3 and max(phone_tops) - min(phone_tops) <= 2, phone_tops
+                            action_tops = page.evaluate("[...document.querySelectorAll('.fn-shop-list .fn-shop-card')].slice(0,3).map(card=>Math.round(card.querySelector('a[href^=\"tel:\"]')?.getBoundingClientRect().top ?? -1))")
+                            assert len(action_tops) == 3 and min(action_tops) > 0 and max(action_tops) - min(action_tops) <= 2, action_tops
                         if slug == "request":
                             device_count = page.evaluate("document.querySelectorAll('.fn-rb-device-card').length")
                             assert device_count == 6, device_count

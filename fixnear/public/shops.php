@@ -117,7 +117,7 @@ if (!empty($faultId)) {
 }
 
 // Lấy danh sách yêu thích của thành viên
-$currentUserId = isLoggedIn() ? (int)($_SESSION['user']['id'] ?? 0) : 0;
+$currentUserId = (int)(currentUser()['id'] ?? 0);
 $userFavorites = $currentUserId > 0 ? db()->getFavorites($currentUserId) : [];
 
 // Truy vấn danh sách cửa hàng
@@ -322,7 +322,7 @@ require_once __DIR__ . '/../includes/navbar.php';
                         </span>
                     </div>
                     <span style="font-size: 11px; background: #ecfdf5; color: #047857; font-weight: 800; padding: 3px 8px; border-radius: 6px; border: 1px solid #a7f3d0;">
-                        Chưa đối soát giá cửa hàng
+                        Ước tính · hỏi giá tại cửa hàng
                     </span>
                 </div>
 
@@ -469,7 +469,7 @@ require_once __DIR__ . '/../includes/navbar.php';
                     <!-- Thumbnail & Badges -->
                     <div class="fn-shop-media" style="height: 175px; position: relative; overflow: hidden;">
                         <?php if (!empty($shop['image'])): ?><img class="<?= $shop['image_kind'] === 'website_snapshot' ? 'fn-shop-website-shot' : 'fn-shop-logo-img' ?>" src="<?= htmlspecialchars($shop['image']) ?>" alt="Hình từ website hệ thống <?= htmlspecialchars($shop['name']) ?>" width="600" height="400" loading="lazy"><?php else: ?><div class="fn-shop-no-photo">Chưa có ảnh chính thức của chi nhánh</div><?php endif; ?>
-                        <span class="fn-shop-media-caption"><?= $shop['image_kind'] === 'website_snapshot' ? 'Ảnh website hệ thống' : (!empty($shop['image']) ? 'Logo từ website hệ thống' : 'Ảnh đang chờ đối soát') ?></span>
+                        <span class="fn-shop-media-caption"><?= $shop['image_kind'] === 'website_snapshot' ? 'Ảnh website hệ thống' : (!empty($shop['image']) ? 'Logo từ website hệ thống' : 'Chưa có ảnh') ?></span>
                         
                         <!-- Badge Khu Vực -->
                         <span style="position: absolute; top: 10px; left: 10px; background: rgba(15,23,42,0.85); backdrop-filter: blur(4px); color: #38bdf8; font-weight: 800; padding: 3px 10px; border-radius: 20px; font-size: 11px;">
@@ -489,9 +489,9 @@ require_once __DIR__ . '/../includes/navbar.php';
 
                         <!-- Nút Yêu Thích -->
                         <?php $isFav = in_array((int)$shop['id'], array_map('intval', $userFavorites), true); ?>
-                        <button type="button" class="fn-fav-btn" data-shop-id="<?= $shop['id'] ?>" data-favorited="<?= $isFav ? '1' : '0' ?>" onclick="toggleFavorite(event, <?= $shop['id'] ?>)" title="<?= $isFav ? 'Xóa khỏi yêu thích' : 'Lưu cửa hàng' ?>" aria-label="Lưu cửa hàng" style="position: absolute; bottom: 10px; right: 10px; width: 34px; height: 34px; border-radius: 50%; background: rgba(255,255,255,0.92); backdrop-filter: blur(4px); border: 1px solid rgba(0,0,0,0.08); cursor: pointer; display: flex; align-items: center; justify-content: center; font-size: 16px; box-shadow: 0 2px 8px rgba(0,0,0,0.15); z-index: 2;">
+                        <?php if (isLoggedIn()): ?><button type="button" class="fn-fav-btn" data-shop-id="<?= $shop['id'] ?>" data-favorited="<?= $isFav ? '1' : '0' ?>" onclick="toggleFavorite(event, <?= $shop['id'] ?>)" title="<?= $isFav ? 'Xóa khỏi yêu thích' : 'Lưu cửa hàng' ?>" aria-label="Lưu cửa hàng" style="position: absolute; bottom: 10px; right: 10px; width: 34px; height: 34px; border-radius: 50%; background: rgba(255,255,255,0.92); backdrop-filter: blur(4px); border: 1px solid rgba(0,0,0,0.08); cursor: pointer; display: flex; align-items: center; justify-content: center; font-size: 16px; box-shadow: 0 2px 8px rgba(0,0,0,0.15); z-index: 2;">
                             <span class="fn-fav-icon" id="fav-icon-<?= $shop['id'] ?>"><?= $isFav ? '❤️' : '🤍' ?></span>
-                        </button>
+                        </button><?php endif; ?>
                     </div>
 
                     <!-- Body Thẻ Cửa Hàng -->
@@ -515,7 +515,7 @@ require_once __DIR__ . '/../includes/navbar.php';
                         </h3>
 
                         <!-- Địa Chỉ -->
-                        <p class="fn-shop-list-address" style="font-size: 12.5px; color: #64748b; line-height: 1.5; margin: 0 0 8px 0;">
+                        <p class="fn-shop-list-address" style="font-size: 13px; color: #334155; line-height: 1.5; margin: 0 0 8px 0;">
                             📌 <?= htmlspecialchars($shop['address']) ?>
                         </p>
                         <div class="fn-shop-list-source"><?php if (!empty($shop['address_verified'])): ?><a href="<?= htmlspecialchars($shop['address_source_url']) ?>" target="_blank" rel="noopener noreferrer" style="font-size:11px;color:#c2410c;font-weight:800;">Nguồn địa chỉ ↗</a><?php endif; ?></div>
@@ -531,13 +531,6 @@ require_once __DIR__ . '/../includes/navbar.php';
                                     📍 Khoảng cách chưa xác định (Bật vị trí để tính)
                                 </span>
                             <?php endif; ?>
-                        </div>
-
-                        <!-- Hotline Nhanh -->
-                        <div class="fn-shop-list-phone" style="font-size: 12.5px; margin-bottom: 10px;">
-                            <a href="tel:<?= preg_replace('/[^0-9]/', '', $shop['phone']) ?>" style="color: #16a34a; font-weight: 700; text-decoration: none;">
-                                📞 <?= htmlspecialchars($shop['phone']) ?>
-                            </a>
                         </div>
 
                         <!-- Pills Tiêu Chuẩn Minh Bạch -->
