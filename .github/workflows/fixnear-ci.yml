@@ -2,20 +2,11 @@ name: FixNear checks
 
 on:
   push:
-    paths:
-      - 'fixnear/**'
-      - '.github/workflows/fixnear-ci.yml'
   pull_request:
-    paths:
-      - 'fixnear/**'
-      - '.github/workflows/fixnear-ci.yml'
 
 jobs:
   verify:
     runs-on: ubuntu-latest
-    defaults:
-      run:
-        working-directory: fixnear
     steps:
       - uses: actions/checkout@v4
       - uses: shivammathur/setup-php@v2
@@ -32,5 +23,7 @@ jobs:
           python scripts/validate_catalog.py
           python scripts/validate_price_evidence.py
           python scripts/validate_brand_logos.py
+          python scripts/validate_shop_evidence.py
+          python scripts/validate_shop_media.py
       - name: User and admin flows
         run: python scripts/test_user_flows.py

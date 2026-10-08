@@ -1,26 +1,28 @@
-# OS generated files
-Thumbs.db
-Thumbs.db:encryptable
-ehthumbs.db
-ehthumbs_vista.db
-*.stackdump
-[Dd]esktop.ini
+# Temporary locks and logs
+data/*.lock
+data/users.json
+data/repair_requests.json
+data/contact_messages.json
+data/reviews.json
+data/favorites.json
+data/reports.json
+*.log
 .DS_Store
-
-# Editor directories and files
-.idea/
-.vscode/
-*.suo
-*.ntvs*
-*.njsproj
-*.sln
-*.sw?
+Thumbs.db
+desktop.ini
 
 # Python cache
 __pycache__/
 *.py[cod]
 *$py.class
 
-# Temporary locks and logs
-*.lock
-*.log
+# Local configuration overrides
+config/local.php
+.env
+.env.*
+!.env.example
+
+# Local browser captures used during visual QA
+outputs/qa-*.png
+outputs/site-*.png
+outputs/preview-*.png
