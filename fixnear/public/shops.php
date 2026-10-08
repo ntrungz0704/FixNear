@@ -161,6 +161,18 @@ if ($isLocated) {
     });
 }
 
+$shopCount = count($filteredShops);
+$shopsPerPage = 9;
+$shopPageCount = max(1, (int)ceil($shopCount / $shopsPerPage));
+$requestedPage = filter_input(INPUT_GET, 'page', FILTER_VALIDATE_INT, ['options' => ['min_range' => 1]]) ?: 1;
+$shopPage = min($requestedPage, $shopPageCount);
+$visibleShops = array_slice($filteredShops, ($shopPage - 1) * $shopsPerPage, $shopsPerPage);
+$shopPageUrl = static function (int $page): string {
+    $params = array_intersect_key($_GET, array_flip(['device', 'brand', 'model', 'fault_id', 'service_id', 'issue_name', 'district', 'student', 'favorite', 'q', 'lat', 'lng', 'location']));
+    $params['page'] = $page;
+    return 'shops.php?' . http_build_query($params, '', '&', PHP_QUERY_RFC3986) . '#shop-results';
+};
+
 // Bảng tên hiển thị thiết bị
 $deviceNames = [
     'phone' => 'Điện thoại',
@@ -438,9 +450,10 @@ require_once __DIR__ . '/../includes/navbar.php';
     </div>
 
     <!-- Thông báo thứ tự sắp xếp -->
-    <div style="display: flex; justify-content: space-between; align-items: center; margin-bottom: 20px; flex-wrap: wrap; gap: 10px;">
+    <div id="shop-results" class="fn-shop-results-heading" style="display: flex; justify-content: space-between; align-items: center; margin-bottom: 20px; flex-wrap: wrap; gap: 10px;">
         <div style="font-size: 14.5px; font-weight: 800; color: #0f172a;">
-            Danh sách cửa hàng phù hợp (<?= count($filteredShops) ?> bản ghi)
+            Danh sách cửa hàng phù hợp (<?= $shopCount ?> bản ghi)
+            <?php if ($shopCount > 0): ?><span class="fn-shop-page-summary">· Hiển thị <?= ($shopPage - 1) * $shopsPerPage + 1 ?>–<?= min($shopPage * $shopsPerPage, $shopCount) ?></span><?php endif; ?>
         </div>
         <div style="font-size: 12.5px; color: #64748b;">
             Thứ tự: <strong><?= $isLocated ? '📍 Khoảng cách gần bạn nhất' : '⭐ Điểm đánh giá đối soát / A–Z' ?></strong>
@@ -462,12 +475,12 @@ require_once __DIR__ . '/../includes/navbar.php';
             </a>
         </div>
     <?php else: ?>
-        <div class="fn-shop-list" style="display: grid; grid-template-columns: repeat(auto-fill, minmax(350px, 1fr)); gap: 24px; text-align: left;">
-            <?php foreach ($filteredShops as $shop): ?>
-                <div class="fn-shop-card" style="display: flex; flex-direction: column; background: #ffffff; border-radius: 16px; border: 1px solid #e2e8f0; box-shadow: 0 4px 16px rgba(0,0,0,0.04); overflow: hidden; text-align: left; transition: transform 0.2s, box-shadow 0.2s;" onmouseover="this.style.boxShadow='0 8px 25px rgba(0,0,0,0.08)'" onmouseout="this.style.boxShadow='0 4px 16px rgba(0,0,0,0.04)'">
+        <div class="fn-shop-list" style="display: grid; grid-template-columns: repeat(auto-fill, minmax(350px, 1fr)); gap: 18px; text-align: left;">
+            <?php foreach ($visibleShops as $shop): ?>
+                <div class="fn-shop-card" data-shop-id="<?= (int)$shop['id'] ?>" style="display: flex; flex-direction: column; background: #ffffff; border-radius: 16px; border: 1px solid #e2e8f0; box-shadow: 0 4px 16px rgba(0,0,0,0.04); overflow: hidden; text-align: left; transition: transform 0.2s, box-shadow 0.2s;" onmouseover="this.style.boxShadow='0 8px 25px rgba(0,0,0,0.08)'" onmouseout="this.style.boxShadow='0 4px 16px rgba(0,0,0,0.04)'">
                     
                     <!-- Thumbnail & Badges -->
-                    <div class="fn-shop-media" style="height: 175px; position: relative; overflow: hidden;">
+                    <div class="fn-shop-media" style="height: 145px; position: relative; overflow: hidden;">
                         <?php if (!empty($shop['image'])): ?><img class="<?= $shop['image_kind'] === 'website_snapshot' ? 'fn-shop-website-shot' : 'fn-shop-logo-img' ?>" src="<?= htmlspecialchars($shop['image']) ?>" alt="Hình từ website hệ thống <?= htmlspecialchars($shop['name']) ?>" width="600" height="400" loading="lazy"><?php else: ?><div class="fn-shop-no-photo">Chưa có ảnh chính thức của chi nhánh</div><?php endif; ?>
                         <span class="fn-shop-media-caption"><?= $shop['image_kind'] === 'website_snapshot' ? 'Ảnh website hệ thống' : (!empty($shop['image']) ? 'Logo từ website hệ thống' : 'Chưa có ảnh') ?></span>
                         
@@ -495,7 +508,7 @@ require_once __DIR__ . '/../includes/navbar.php';
                     </div>
 
                     <!-- Body Thẻ Cửa Hàng -->
-                    <div class="fn-shop-list-body" style="flex: 1; display: flex; flex-direction: column; padding: 18px; text-align: left;">
+                    <div class="fn-shop-list-body" style="flex: 1; display: flex; flex-direction: column; padding: 16px; text-align: left;">
                         
                         <!-- Hàng Rating & Giờ Mở Cửa -->
                         <div class="fn-shop-list-meta" style="display: flex; justify-content: space-between; align-items: center; margin-bottom: 8px; flex-wrap: wrap; gap: 6px;">
@@ -518,17 +531,11 @@ require_once __DIR__ . '/../includes/navbar.php';
                         <p class="fn-shop-list-address" style="font-size: 13px; color: #334155; line-height: 1.5; margin: 0 0 8px 0;">
                             📌 <?= htmlspecialchars($shop['address']) ?>
                         </p>
-                        <div class="fn-shop-list-source"><?php if (!empty($shop['address_verified'])): ?><a href="<?= htmlspecialchars($shop['address_source_url']) ?>" target="_blank" rel="noopener noreferrer" style="font-size:11px;color:#c2410c;font-weight:800;">Nguồn địa chỉ ↗</a><?php endif; ?></div>
-
-                        <!-- Khoảng Cách km Từ Vị Trí Người Dùng -->
-                        <div class="fn-shop-list-distance" style="margin-bottom: 10px;">
+                        <div class="fn-shop-list-facts">
+                            <?php if (!empty($shop['address_verified'])): ?><a href="<?= htmlspecialchars($shop['address_source_url']) ?>" target="_blank" rel="noopener noreferrer" class="fn-shop-list-source">Nguồn địa chỉ ↗</a><?php endif; ?>
                             <?php if (isset($shop['distance_km'])): ?>
-                                <span style="display: inline-flex; align-items: center; gap: 4px; background: #ecfdf5; color: #047857; border: 1px solid #a7f3d0; padding: 2px 8px; border-radius: 6px; font-size: 12px; font-weight: 800;">
+                                <span class="fn-shop-list-distance" style="display: inline-flex; align-items: center; gap: 4px; background: #ecfdf5; color: #047857; border: 1px solid #a7f3d0; padding: 2px 8px; border-radius: 6px; font-size: 12px; font-weight: 800;">
                                     📍 Cách bạn: <?= $shop['distance_km'] < 1 ? round($shop['distance_km'] * 1000) . 'm' : $shop['distance_km'] . ' km' ?>
-                                </span>
-                            <?php else: ?>
-                                <span style="display: inline-flex; align-items: center; gap: 4px; background: #f8fafc; color: #64748b; border: 1px solid #e2e8f0; padding: 2px 8px; border-radius: 6px; font-size: 11.5px; font-weight: 600;">
-                                    📍 Khoảng cách chưa xác định (Bật vị trí để tính)
                                 </span>
                             <?php endif; ?>
                         </div>
@@ -570,6 +577,18 @@ require_once __DIR__ . '/../includes/navbar.php';
                 </div>
             <?php endforeach; ?>
         </div>
+        <?php if ($shopPageCount > 1): ?>
+            <nav class="fn-shop-pagination" aria-label="Phân trang cửa hàng">
+                <span>Trang <?= $shopPage ?> / <?= $shopPageCount ?></span>
+                <div class="fn-shop-pagination-links">
+                    <?php if ($shopPage > 1): ?><a href="<?= htmlspecialchars($shopPageUrl($shopPage - 1)) ?>" rel="prev">← Trước</a><?php endif; ?>
+                    <?php for ($pageNumber = 1; $pageNumber <= $shopPageCount; $pageNumber++): ?>
+                        <a href="<?= htmlspecialchars($shopPageUrl($pageNumber)) ?>" <?= $pageNumber === $shopPage ? 'aria-current="page"' : '' ?>><?= $pageNumber ?></a>
+                    <?php endfor; ?>
+                    <?php if ($shopPage < $shopPageCount): ?><a href="<?= htmlspecialchars($shopPageUrl($shopPage + 1)) ?>" rel="next">Sau →</a><?php endif; ?>
+                </div>
+            </nav>
+        <?php endif; ?>
     <?php endif; ?>
 
 </div>

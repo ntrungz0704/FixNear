@@ -249,23 +249,22 @@ function dismissPromoToday() {
     </div>
 </div>
 
-<?php $allShopStats = db()->getStats(); ?>
-<footer class="fn-footer" style="background:#0f172a;color:#cbd5e1;padding:30px 0 18px;border-top:2px solid #ea580c;">
-    <div class="fn-container" style="max-width:1240px;margin:auto;padding:0 20px;">
-        <div class="fn-footer-compact">
-            <div>
+<footer class="fn-footer">
+    <div class="fn-container fn-footer-inner">
+        <div class="fn-footer-panel">
+            <div class="fn-footer-panel-copy">
                 <a href="index.php" class="fn-footer-identity"><img src="<?= $assetPrefix ?>assets/images/fixnear_logo_icon.svg" alt="" width="30" height="30"><strong>Fix<span>Near</span></strong></a>
-                <p>Nơi tra cứu model, chi phí tham khảo và thông tin cửa hàng sửa chữa tại TP.HCM.</p>
-                <small>Dữ liệu dự án: <?= (int)$allShopStats['total_shops'] ?> bản ghi / <?= (int)$allShopStats['total_districts'] ?> khu vực · <?= (int)$footerStats['total_shops'] ?> cửa hàng công khai tại <?= (int)$footerStats['total_districts'] ?> khu vực.</small>
+                <p>Tra cứu thiết bị, tham khảo chi phí, tìm nơi sửa phù hợp tại TP.HCM.</p>
+                <div class="fn-footer-stat"><strong><?= (int)$footerStats['total_shops'] ?> cửa hàng công khai</strong><span>·</span><?= (int)$footerStats['total_districts'] ?> khu vực có dữ liệu</div>
             </div>
-            <nav aria-label="Liên kết cuối trang">
-                <a href="index.php">Trang chủ</a>
-                <a href="prices.php">Bảng giá</a>
-                <a href="shops.php">Cửa hàng</a>
-                <a href="contact.php">Liên hệ</a>
-            </nav>
+            <a href="shops.php" class="fn-footer-cta">Khám phá cửa hàng <span aria-hidden="true">↗</span></a>
         </div>
-        <div class="fn-footer-compact-bottom">© <?= date('Y') ?> FixNear · Giá ước tính và thông tin cửa hàng cần xác nhận trước khi sử dụng dịch vụ.</div>
+        <div class="fn-footer-base">
+            <nav aria-label="Liên kết cuối trang">
+                <a href="index.php">Trang chủ</a><a href="prices.php">Bảng giá</a><a href="shops.php">Cửa hàng</a><a href="contact.php">Liên hệ</a>
+            </nav>
+            <span>© <?= date('Y') ?> FixNear · Giá và thông tin cửa hàng cần xác nhận trước khi sử dụng.</span>
+        </div>
     </div>
 </footer>
 

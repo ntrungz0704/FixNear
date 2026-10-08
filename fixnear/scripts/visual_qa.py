@@ -109,6 +109,8 @@ def main():
                         if slug == "shops" and label == "desktop":
                             action_tops = page.evaluate("[...document.querySelectorAll('.fn-shop-list .fn-shop-card')].slice(0,3).map(card=>Math.round(card.querySelector('a[href^=\"tel:\"]')?.getBoundingClientRect().top ?? -1))")
                             assert len(action_tops) == 3 and min(action_tops) > 0 and max(action_tops) - min(action_tops) <= 2, action_tops
+                            card_heights = page.evaluate("[...document.querySelectorAll('.fn-shop-list .fn-shop-card')].slice(0,3).map(card=>Math.round(card.getBoundingClientRect().height))")
+                            assert len(card_heights) == 3 and max(card_heights) <= 550, card_heights
                         if slug == "request":
                             device_count = page.evaluate("document.querySelectorAll('.fn-rb-device-card').length")
                             assert device_count == 6, device_count

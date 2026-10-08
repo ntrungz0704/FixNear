@@ -88,6 +88,17 @@ def main():
             status, _, prices = request(guest, base, "/prices.php")
             assert status == 200 and 'id="price-brand"' in prices and 'id="price-model"' in prices
             assert 'Tất cả 319 model' not in prices
+            status, _, first_page = request(guest, base, "/shops.php?device=phone")
+            first_ids = re.findall(r'class="fn-shop-card" data-shop-id="(\d+)"', first_page)
+            assert status == 200 and len(first_ids) == 9 and 'aria-label="Phân trang cửa hàng"' in first_page
+            assert 'shops.php?device=phone&amp;page=2#shop-results' in first_page
+            status, _, second_page = request(guest, base, "/shops.php?device=phone&page=2")
+            second_ids = re.findall(r'class="fn-shop-card" data-shop-id="(\d+)"', second_page)
+            assert status == 200 and len(second_ids) == 9 and not set(first_ids).intersection(second_ids)
+            assert 'aria-current="page">2</a>' in second_page
+            status, _, last_page = request(guest, base, "/shops.php?device=phone&page=999")
+            assert status == 200 and 'aria-current="page">4</a>' in last_page
+            assert 0 < len(re.findall(r'class="fn-shop-card" data-shop-id="(\d+)"', last_page)) <= 9
             status, _, prices = request(guest, base, "/prices.php?device=phone&brand=apple&model=apple-iphone-16e&mode=estimate")
             assert status == 200 and "iPhone 16e" in prices and "13 kết quả" in prices
             status, _, watch_detail = request(guest, base, "/model_detail.php?id=apple-watch-ultra-2")
