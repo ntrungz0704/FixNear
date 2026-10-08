@@ -8,6 +8,8 @@ if (!isAdmin()) {
 
 $stats = db()->getStats();
 $shops = db()->getShops(['include_unverified' => true]);
+$publicShops = array_values(array_filter($shops, static fn($shop) => !empty($shop['address_verified'])));
+$publicDistricts = count(array_unique(array_map(static fn($shop) => (string) ($shop['district'] ?? ''), $publicShops)));
 $reviews = db()->getAllReviews();
 $reports = db()->getReports();
 
@@ -32,44 +34,12 @@ require_once __DIR__ . '/../includes/navbar.php';
 
 <div class="fn-admin-layout">
     <!-- Sidebar Quản Trị -->
-    <div class="fn-admin-sidebar">
-        <div style="font-size: 11px; font-weight: 800; color: var(--fn-text-light); text-transform: uppercase; padding: 0 12px 8px;">
-            Quản Trị Hệ Thống
-        </div>
-        <a href="index.php" class="fn-admin-menu-item active">
-            📊 Bảng thống kê
-        </a>
-        <a href="requests.php" class="fn-admin-menu-item">
-            📋 Yêu cầu báo giá (<?= $stats['total_requests'] ?? 0 ?>)
-        </a>
-        <a href="shops.php" class="fn-admin-menu-item">
-            🏪 Quản lý cửa hàng (<?= $stats['total_shops'] ?>)
-        </a>
-        <a href="services.php" class="fn-admin-menu-item">
-            🏷️ Dịch vụ & Bảng giá (<?= $stats['total_services'] ?>)
-        </a>
-        <a href="reviews.php" class="fn-admin-menu-item">
-            ⭐ Quản lý đánh giá (<?= $stats['total_reviews'] ?>)
-        </a>
-        <a href="reports.php" class="fn-admin-menu-item">
-            🚩 Báo cáo sai sót (<?= $stats['pending_reports'] ?>)
-        </a>
-        <a href="contacts.php" class="fn-admin-menu-item">
-            💬 Tin nhắn liên hệ (<?= $stats['total_contacts'] ?? 0 ?>)
-        </a>
-        
-        <div style="margin-top: auto; padding-top: 20px; border-top: 1px solid var(--fn-border);">
-            <a href="../index.php" class="fn-btn fn-btn-secondary fn-btn-sm" style="width: 100%;">
-                &larr; Xem giao diện web
-            </a>
-        </div>
-    </div>
+    <?php require __DIR__ . '/_sidebar.php'; ?>
 
-    <!-- Nội dung chính -->
     <div class="fn-admin-content">
-        <div style="display: flex; justify-content: space-between; align-items: center; margin-bottom: 24px;">
+        <div class="fn-admin-page-head" style="display: flex; justify-content: space-between; align-items: center; margin-bottom: 24px;">
             <div>
-                <div style="display: flex; align-items: center; gap: 10px;">
+                <div class="fn-admin-title-row" style="display: flex; align-items: center; gap: 10px;">
                     <h1 style="font-family: var(--fn-font-heading); font-size: 24px; font-weight: 900; color: var(--fn-dark); margin: 0;">
                         Bảng Điều Khiển FixNear
                     </h1>
@@ -84,10 +54,10 @@ require_once __DIR__ . '/../includes/navbar.php';
                     <?php endif; ?>
                 </div>
                 <p style="font-size: 13.5px; color: var(--fn-dark-muted); margin-top: 4px;">
-                    Hệ thống hiện lưu <?= (int)$stats['total_shops'] ?> bản ghi cửa hàng thuộc <?= (int)$stats['total_districts'] ?> khu vực TP.HCM.
+                    <?= count($publicShops) ?> cửa hàng công khai trong <?= $publicDistricts ?> khu vực; <?= count($shops) - count($publicShops) ?> bản ghi đang chờ đối soát.
                 </p>
             </div>
-            <div style="display: flex; gap: 10px;">
+            <div class="fn-admin-head-actions" style="display: flex; gap: 10px;">
                 <a href="../install.php" class="fn-btn fn-btn-secondary fn-btn-sm" title="Khởi tạo hoặc kiểm tra CSDL MySQL">
                     ⚙️ Quản Lý CSDL MySQL
                 </a>
@@ -102,13 +72,13 @@ require_once __DIR__ . '/../includes/navbar.php';
             <div style="background: var(--fn-surface); border: 1px solid var(--fn-border); border-radius: var(--fn-radius); padding: 20px;">
                 <div style="font-size: 12px; font-weight: 700; color: var(--fn-text-light); text-transform: uppercase;">Tổng Cửa Hàng</div>
                 <div style="font-size: 28px; font-weight: 900; color: var(--fn-primary); margin-top: 6px;"><?= $stats['total_shops'] ?></div>
-                <div style="font-size: 11.5px; color: #16a34a; margin-top: 4px;">68 tiệm / 17 quận TP.HCM</div>
+                <div style="font-size: 11.5px; color: #9a3412; margin-top: 4px;"><?= count($publicShops) ?> công khai · <?= count($shops) - count($publicShops) ?> chờ đối soát</div>
             </div>
 
             <div style="background: var(--fn-surface); border: 1px solid var(--fn-border); border-radius: var(--fn-radius); padding: 20px;">
                 <div style="font-size: 12px; font-weight: 700; color: var(--fn-text-light); text-transform: uppercase;">Lỗi & Dịch Vụ</div>
                 <div style="font-size: 28px; font-weight: 900; color: var(--fn-secondary); margin-top: 6px;"><?= $stats['total_services'] ?></div>
-                <div style="font-size: 11.5px; color: var(--fn-text-light); margin-top: 4px;">10 Laptop • 9 Điện thoại</div>
+                <div style="font-size: 11.5px; color: var(--fn-text-light); margin-top: 4px;">Danh mục dịch vụ trong hệ thống</div>
             </div>
 
             <div style="background: var(--fn-surface); border: 1px solid var(--fn-border); border-radius: var(--fn-radius); padding: 20px;">

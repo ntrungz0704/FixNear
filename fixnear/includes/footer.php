@@ -1,9 +1,9 @@
 </div><!-- /#fn-main-content -->
+<?php if ($assetPrefix === '../' && isAdmin()): ?>
+</body>
+</html>
+<?php return; endif; ?>
 <?php $footerStats = db()->getPublicStats(); ?>
-<?php if (isAdmin() && str_starts_with(parse_url($_SERVER['REQUEST_URI'] ?? '', PHP_URL_PATH) ?: '', '/admin/')): ?>
-    <div id="fn-admin-live-status" class="fn-admin-live-status" role="status" aria-live="polite">Đang kiểm tra cập nhật quản trị…</div>
-    <script defer src="<?= $assetPrefix ?>assets/js/admin-live.js"></script>
-<?php endif; ?>
 
 <!-- Modal Báo cáo thông tin sai -->
 <div class="fn-modal-overlay" id="fn-report-modal">

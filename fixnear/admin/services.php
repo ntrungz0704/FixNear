@@ -8,29 +8,40 @@ if (!isAdmin()) {
 
 $services = db()->getServices();
 $shops = db()->getShops(['include_unverified' => true]);
+$priceFormError = '';
+$priceFormValues = $_POST;
 
 // Thêm khoảng giá mới cho cửa hàng
 if ($_SERVER['REQUEST_METHOD'] === 'POST' && isset($_POST['add_price'])) {
     requireValidCsrf();
-    $shop_id = (int)$_POST['shop_id'];
-    $service_id = (int)$_POST['service_id'];
-    $min_price = (float)$_POST['min_price'];
-    $max_price = (float)$_POST['max_price'];
-    $warranty = trim($_POST['warranty'] ?? '6 tháng');
-    $turnaround = trim($_POST['turnaround'] ?? '30 phút');
+    $shop_id = (int)($_POST['shop_id'] ?? 0);
+    $service_id = (int)($_POST['service_id'] ?? 0);
+    $min_price = filter_var($_POST['min_price'] ?? null, FILTER_VALIDATE_INT);
+    $max_price = filter_var($_POST['max_price'] ?? null, FILTER_VALIDATE_INT);
+    $warranty = trim($_POST['warranty'] ?? '');
+    $turnaround = trim($_POST['turnaround'] ?? '');
     $note = trim($_POST['note'] ?? '');
 
-    db()->saveShopService([
-        'shop_id' => $shop_id,
-        'service_id' => $service_id,
-        'min_price' => $min_price,
-        'max_price' => $max_price,
-        'warranty' => $warranty,
-        'turnaround' => $turnaround,
-        'note' => $note
-    ]);
-    header("Location: services.php?msg=price_added");
-    exit;
+    if (!in_array($shop_id, array_map(static fn($shop) => (int) $shop['id'], $shops), true)
+        || !in_array($service_id, array_map(static fn($service) => (int) $service['id'], $services), true)) {
+        $priceFormError = 'Chọn cửa hàng và dịch vụ có trong hệ thống.';
+    } elseif ($min_price === false || $max_price === false || $min_price <= 0 || $max_price < $min_price) {
+        $priceFormError = 'Giá phải lớn hơn 0 và giá tối đa không được thấp hơn giá tối thiểu.';
+    } elseif ($warranty === '' || $turnaround === '') {
+        $priceFormError = 'Nhập điều kiện bảo hành và thời gian sửa đã được cửa hàng xác nhận.';
+    } else {
+        db()->saveShopService([
+            'shop_id' => $shop_id,
+            'service_id' => $service_id,
+            'min_price' => $min_price,
+            'max_price' => $max_price,
+            'warranty_text' => $warranty,
+            'turnaround_text' => $turnaround,
+            'note' => $note
+        ]);
+        header("Location: services.php?msg=price_added");
+        exit;
+    }
 }
 
 $pageTitle = "Quản Lý Dịch Vụ & Bảng Giá — FixNear Admin";
@@ -39,43 +50,17 @@ require_once __DIR__ . '/../includes/navbar.php';
 ?>
 
 <div class="fn-admin-layout">
-    <div class="fn-admin-sidebar">
-        <a href="index.php" class="fn-admin-menu-item">
-            📊 Bảng thống kê
-        </a>
-        <a href="requests.php" class="fn-admin-menu-item">
-            📋 Yêu cầu báo giá
-        </a>
-        <a href="shops.php" class="fn-admin-menu-item">
-            🏪 Quản lý cửa hàng
-        </a>
-        <a href="services.php" class="fn-admin-menu-item active">
-            🏷️ Dịch vụ & Bảng giá
-        </a>
-        <a href="reviews.php" class="fn-admin-menu-item">
-            ⭐ Quản lý đánh giá
-        </a>
-        <a href="reports.php" class="fn-admin-menu-item">
-            🚩 Báo cáo sai sót
-        </a>
-        <a href="contacts.php" class="fn-admin-menu-item">
-            💬 Tin nhắn liên hệ
-        </a>
-        <div style="margin-top: auto; padding-top: 20px; border-top: 1px solid var(--fn-border);">
-            <a href="../index.php" class="fn-btn fn-btn-secondary fn-btn-sm" style="width: 100%;">
-                &larr; Xem giao diện web
-            </a>
-        </div>
-    </div>
+    <?php require __DIR__ . '/_sidebar.php'; ?>
+
 
     <div class="fn-admin-content">
-        <div style="display: flex; justify-content: space-between; align-items: center; margin-bottom: 24px;">
+        <div class="fn-admin-page-head" style="display: flex; justify-content: space-between; align-items: center; margin-bottom: 24px;">
             <div>
                 <h1 style="font-family: var(--fn-font-heading); font-size: 24px; font-weight: 900; color: var(--fn-dark);">
-                    Quản Lý 19 Lỗi & Khoảng Giá Tham Khảo
+                    Dịch vụ &amp; bảng giá cửa hàng
                 </h1>
                 <p style="font-size: 13.5px; color: var(--fn-dark-muted);">
-                    Chuẩn hóa danh mục 10 lỗi Laptop và 9 lỗi Điện thoại theo thiết kế đề tài.
+                    <?= count($services) ?> dịch vụ trong hệ thống. Khoảng giá do quản trị nhập cần được đối chiếu với cửa hàng trước khi công bố.
                 </p>
             </div>
         </div>
@@ -87,28 +72,29 @@ require_once __DIR__ . '/../includes/navbar.php';
         <?php endif; ?>
 
         <!-- Form gán khoảng giá cho tiệm -->
-        <div style="background: var(--fn-surface); border: 1px solid var(--fn-border); border-radius: var(--fn-radius); padding: 20px; margin-bottom: 30px;">
+        <div class="fn-admin-form-panel" style="background: var(--fn-surface); border: 1px solid var(--fn-border); border-radius: var(--fn-radius); padding: 20px; margin-bottom: 30px;">
             <h3 style="font-size: 16px; font-weight: 800; margin-bottom: 14px; color: var(--fn-dark);">
-                ➕ Gán Khoảng Giá Mới Cho Cửa Hàng
+                ➕ Gán khoảng giá cho cửa hàng
             </h3>
+            <?php if ($priceFormError !== ''): ?><div class="fn-admin-form-errors" role="alert"><?= htmlspecialchars($priceFormError) ?></div><?php endif; ?>
             <form action="services.php" method="POST">
                 <?= csrfField() ?>
                 <input type="hidden" name="add_price" value="1">
-                <div style="display: grid; grid-template-columns: repeat(auto-fit, minmax(200px, 1fr)); gap: 12px; margin-bottom: 12px;">
+                <div class="fn-admin-price-top">
                     <div>
-                        <label class="fn-label" style="font-size: 12px;">Chọn cửa hàng:</label>
-                        <select name="shop_id" class="fn-select" required>
+                        <label for="price-shop" class="fn-label" style="font-size: 12px;">Chọn cửa hàng:</label>
+                        <select id="price-shop" name="shop_id" class="fn-select" required>
                             <?php foreach ($shops as $s): ?>
-                                <option value="<?= $s['id'] ?>"><?= htmlspecialchars($s['name']) ?></option>
+                                <option value="<?= (int) $s['id'] ?>" <?= (int) ($priceFormValues['shop_id'] ?? 0) === (int) $s['id'] ? 'selected' : '' ?>><?= htmlspecialchars($s['name']) ?></option>
                             <?php endforeach; ?>
                         </select>
                     </div>
 
                     <div>
-                        <label class="fn-label" style="font-size: 12px;">Chọn dịch vụ / lỗi:</label>
-                        <select name="service_id" class="fn-select" required>
+                        <label for="price-service" class="fn-label" style="font-size: 12px;">Chọn dịch vụ / lỗi:</label>
+                        <select id="price-service" name="service_id" class="fn-select" required>
                             <?php foreach ($services as $srv): ?>
-                                <option value="<?= $srv['id'] ?>">
+                                <option value="<?= (int) $srv['id'] ?>" <?= (int) ($priceFormValues['service_id'] ?? 0) === (int) $srv['id'] ? 'selected' : '' ?>>
                                     [<?= $srv['device_type'] === 'laptop' ? 'Laptop' : 'ĐT' ?>] <?= htmlspecialchars($srv['name']) ?>
                                 </option>
                             <?php endforeach; ?>
@@ -116,41 +102,41 @@ require_once __DIR__ . '/../includes/navbar.php';
                     </div>
 
                     <div>
-                        <label class="fn-label" style="font-size: 12px;">Giá min (VNĐ):</label>
-                        <input type="number" name="min_price" class="fn-input" placeholder="VD: 350000" required>
+                        <label for="price-min" class="fn-label" style="font-size: 12px;">Giá tối thiểu (VNĐ):</label>
+                        <input id="price-min" type="number" min="1" step="1" name="min_price" class="fn-input" value="<?= htmlspecialchars((string) ($priceFormValues['min_price'] ?? '')) ?>" placeholder="Ví dụ: 350000" inputmode="numeric" required>
                     </div>
 
                     <div>
-                        <label class="fn-label" style="font-size: 12px;">Giá max (VNĐ):</label>
-                        <input type="number" name="max_price" class="fn-input" placeholder="VD: 850000" required>
+                        <label for="price-max" class="fn-label" style="font-size: 12px;">Giá tối đa (VNĐ):</label>
+                        <input id="price-max" type="number" min="1" step="1" name="max_price" class="fn-input" value="<?= htmlspecialchars((string) ($priceFormValues['max_price'] ?? '')) ?>" placeholder="Ví dụ: 850000" inputmode="numeric" required>
                     </div>
                 </div>
 
-                <div style="display: grid; grid-template-columns: 1fr 1fr 2fr auto; gap: 12px; align-items: flex-end;">
+                <div class="fn-admin-price-bottom">
                     <div>
-                        <label class="fn-label" style="font-size: 12px;">Bảo hành:</label>
-                        <input type="text" name="warranty" class="fn-input" value="6 - 12 tháng">
+                        <label for="price-warranty" class="fn-label" style="font-size: 12px;">Bảo hành đã xác nhận:</label>
+                        <input id="price-warranty" type="text" name="warranty" class="fn-input" value="<?= htmlspecialchars((string) ($priceFormValues['warranty'] ?? '')) ?>" placeholder="Ví dụ: 6 tháng" required>
                     </div>
                     <div>
-                        <label class="fn-label" style="font-size: 12px;">Thời gian sửa:</label>
-                        <input type="text" name="turnaround" class="fn-input" value="30 - 45 phút">
+                        <label for="price-time" class="fn-label" style="font-size: 12px;">Thời gian sửa đã xác nhận:</label>
+                        <input id="price-time" type="text" name="turnaround" class="fn-input" value="<?= htmlspecialchars((string) ($priceFormValues['turnaround'] ?? '')) ?>" placeholder="Ví dụ: 30–45 phút" required>
                     </div>
                     <div>
-                        <label class="fn-label" style="font-size: 12px;">Ghi chú:</label>
-                        <input type="text" name="note" class="fn-input" placeholder="Linh kiện zin / bóc máy...">
+                        <label for="price-note" class="fn-label" style="font-size: 12px;">Ghi chú:</label>
+                        <input id="price-note" type="text" name="note" class="fn-input" value="<?= htmlspecialchars((string) ($priceFormValues['note'] ?? '')) ?>" placeholder="Tên linh kiện và điều kiện áp dụng">
                     </div>
                     <div>
                         <button type="submit" class="fn-btn fn-btn-primary fn-btn-sm" style="padding: 10px 16px;">
-                            Lưu Giá
+                            Lưu khoảng giá
                         </button>
                     </div>
                 </div>
             </form>
         </div>
 
-        <!-- Danh sách 19 dịch vụ chuẩn hóa -->
+        <!-- Danh mục dịch vụ trong dữ liệu -->
         <h2 style="font-family: var(--fn-font-heading); font-size: 18px; font-weight: 800; margin-bottom: 14px;">
-            Danh Mục 19 Dịch Vụ Cốt Lõi Của Hệ Thống
+            Danh mục <?= count($services) ?> dịch vụ trong hệ thống
         </h2>
 
         <div style="background: var(--fn-surface); border: 1px solid var(--fn-border); border-radius: var(--fn-radius); overflow-x: auto;">

@@ -499,9 +499,9 @@ require_once __DIR__ . '/../includes/navbar.php';
                         
                         <!-- Hàng Rating & Giờ Mở Cửa -->
                         <div class="fn-shop-list-meta" style="display: flex; justify-content: space-between; align-items: center; margin-bottom: 8px; flex-wrap: wrap; gap: 6px;">
-                            <span style="color: #ea580c; font-weight: 800; font-size: 13.5px;">
-                                <?= !empty($shop['google_rating_verified']) ? '★ ' . htmlspecialchars($shop['google_rating']) . ' <span style="color:#94a3b8;font-weight:600;font-size:11px;">(' . number_format($shop['google_reviews_count'], 0, ',', '.') . ' Google)</span>' : '<span style="color:#64748b;font-size:11px;">Google: chưa đối soát</span>' ?>
-                            </span>
+                            <?php if (!empty($shop['google_rating_verified'])): ?>
+                                <span style="color: #ea580c; font-weight: 800; font-size: 13.5px;">★ <?= htmlspecialchars($shop['google_rating']) ?> <span style="color:#94a3b8;font-weight:600;font-size:11px;">(<?= number_format($shop['google_reviews_count'], 0, ',', '.') ?> Google)</span></span>
+                            <?php endif; ?>
                             <span style="font-size: 11px; color: #475569; background: #f1f5f9; padding: 2px 8px; border-radius: 6px; font-weight: 600;">
                                 🕒 <?= htmlspecialchars($shop['opening_hours']) ?>
                             </span>

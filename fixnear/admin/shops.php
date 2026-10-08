@@ -25,40 +25,11 @@ require_once __DIR__ . '/../includes/navbar.php';
 ?>
 
 <div class="fn-admin-layout">
-    <div class="fn-admin-sidebar">
-        <div style="font-size: 11px; font-weight: 800; color: var(--fn-text-light); text-transform: uppercase; padding: 0 12px 8px;">
-            Quản Trị Hệ Thống
-        </div>
-        <a href="index.php" class="fn-admin-menu-item">
-            📊 Bảng thống kê
-        </a>
-        <a href="requests.php" class="fn-admin-menu-item">
-            📋 Yêu cầu báo giá
-        </a>
-        <a href="shops.php" class="fn-admin-menu-item active">
-            🏪 Quản lý cửa hàng (<?= count($shops) ?>)
-        </a>
-        <a href="services.php" class="fn-admin-menu-item">
-            🏷️ Dịch vụ & Bảng giá
-        </a>
-        <a href="reviews.php" class="fn-admin-menu-item">
-            ⭐ Quản lý đánh giá
-        </a>
-        <a href="reports.php" class="fn-admin-menu-item">
-            🚩 Báo cáo sai sót
-        </a>
-        <a href="contacts.php" class="fn-admin-menu-item">
-            💬 Tin nhắn liên hệ
-        </a>
-        <div style="margin-top: auto; padding-top: 20px; border-top: 1px solid var(--fn-border);">
-            <a href="../index.php" class="fn-btn fn-btn-secondary fn-btn-sm" style="width: 100%;">
-                &larr; Xem giao diện web
-            </a>
-        </div>
-    </div>
+    <?php require __DIR__ . '/_sidebar.php'; ?>
+
 
     <div class="fn-admin-content">
-        <div style="display: flex; justify-content: space-between; align-items: center; margin-bottom: 24px;">
+        <div class="fn-admin-page-head" style="display: flex; justify-content: space-between; align-items: center; margin-bottom: 24px;">
             <div>
                 <h1 style="font-family: var(--fn-font-heading); font-size: 24px; font-weight: 900; color: var(--fn-dark);">
                     Cửa hàng: <?= $publishedShopCount ?> công khai / <?= count($shops) ?> bản ghi
@@ -101,9 +72,15 @@ require_once __DIR__ . '/../includes/navbar.php';
                             <td><strong>#<?= $s['id'] ?></strong></td>
                             <td>
                                 <div style="font-weight: 800; color: var(--fn-dark); font-size: 14.5px;">
-                                    <a href="../shop_detail.php?id=<?= $s['id'] ?>" target="_blank" style="color: var(--fn-primary);">
-                                        <?= htmlspecialchars($s['name']) ?> ↗
-                                    </a>
+                                    <?php if (!empty($s['address_verified'])): ?>
+                                        <a href="../shop_detail.php?id=<?= (int) $s['id'] ?>" target="_blank" rel="noopener noreferrer" style="color: var(--fn-primary);">
+                                            <?= htmlspecialchars($s['name']) ?> ↗
+                                        </a>
+                                    <?php else: ?>
+                                        <a href="shop_edit.php?id=<?= (int) $s['id'] ?>" style="color: var(--fn-primary);">
+                                            <?= htmlspecialchars($s['name']) ?> · Chỉnh sửa
+                                        </a>
+                                    <?php endif; ?>
                                 </div>
                                 <div style="font-size: 12px; color: var(--fn-text-light);">
                                     <?= implode(', ', array_map('ucfirst', $s['devices'] ?? [])) ?>

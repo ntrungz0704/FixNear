@@ -25,7 +25,7 @@ def csrf(html):
 
 
 def request(opener, base, path, fields=None):
-    data = urlencode(fields).encode() if fields is not None else None
+    data = urlencode(fields, doseq=True).encode() if fields is not None else None
     try:
         response = opener.open(Request(base + path, data=data), timeout=10)
     except HTTPError as error:
@@ -39,6 +39,8 @@ def main():
         data_dir.mkdir()
         for filename in ("shops.json", "services.json", "shop_services.json"):
             shutil.copy2(ROOT / "data" / filename, data_dir / filename)
+        for dirname in ("catalog", "pricing"):
+            shutil.copytree(ROOT / "data" / dirname, data_dir / dirname)
         admin_password = "Test-admin-password-2026"
         admin_hash = subprocess.check_output(["php", "-r", f"echo password_hash('{admin_password}', PASSWORD_DEFAULT);"], text=True)
         (data_dir / "users.json").write_text(json.dumps([{
@@ -54,6 +56,18 @@ def main():
         base = f"http://127.0.0.1:{port}"
         env = os.environ.copy()
         env.update({"FIXNEAR_DATA_DIR": str(data_dir), "FIXNEAR_DISABLE_MYSQL": "1", "FIXNEAR_ENV": "test"})
+        shop_devices = subprocess.check_output([
+            "php", "-r",
+            "require 'config/db.php'; foreach (['phone','win_laptop','macbook','tablet','pc_desktop','smartwatch'] as $device) { foreach (db()->getShops(['device'=>$device]) as $shop) { echo json_encode([$device, $shop['devices']], JSON_UNESCAPED_UNICODE), PHP_EOL; } }",
+        ], cwd=ROOT, env=env, text=True)
+        device_aliases = {"win_laptop": "laptop", "macbook": "mac", "pc_desktop": "pc"}
+        seen_requested = set()
+        for line in shop_devices.splitlines():
+            requested, supported = json.loads(line)
+            seen_requested.add(requested)
+            assert device_aliases.get(requested, requested) in supported, (requested, supported)
+        assert {"phone", "win_laptop", "macbook", "tablet", "pc_desktop"} <= seen_requested
+        assert "smartwatch" not in seen_requested
         process = subprocess.Popen(
             ["php", "-S", f"127.0.0.1:{port}", "-t", str(ROOT), str(ROOT / "router.php")],
             cwd=ROOT, env=env, stdout=subprocess.DEVNULL, stderr=subprocess.DEVNULL,
@@ -76,6 +90,8 @@ def main():
             assert 'Tất cả 319 model' not in prices
             status, _, prices = request(guest, base, "/prices.php?device=phone&brand=apple&model=apple-iphone-16e&mode=estimate")
             assert status == 200 and "iPhone 16e" in prices and "13 kết quả" in prices
+            status, _, watch_detail = request(guest, base, "/model_detail.php?id=apple-watch-ultra-2")
+            assert status == 200 and "Chưa có cửa hàng đủ nguồn địa chỉ" in watch_detail
 
             status, _, form = request(guest, base, "/request_repair.php")
             assert status == 200
@@ -163,6 +179,41 @@ def main():
                 "csrf_token": csrf(form), "email": "admin-e2e@example.invalid", "password": admin_password
             })
             assert status == 200 and url.endswith("/admin/index.php")
+            status, _, shop_form = request(admin, base, "/admin/shop_edit.php")
+            assert status == 200 and 'name="website"' in shop_form and 'name="devices[]"' in shop_form
+            shop_fields = {
+                "csrf_token": csrf(shop_form), "name": "Xưởng kiểm thử", "ward": "Phường Tân Hưng",
+                "district": "Quận 7", "address": "1 Đường Kiểm Thử, Quận 7, TP.HCM",
+                "phone": "0901234567", "opening_hours": "T2–CN 08:00–20:00",
+                "latitude": "", "longitude": "106.711111", "website": "https://example.invalid",
+                "devices[]": ["phone", "tablet", "smartwatch"],
+            }
+            status, _, invalid_shop = request(admin, base, "/admin/shop_edit.php", shop_fields)
+            assert status == 200 and "Chưa lưu được cửa hàng" in invalid_shop
+            assert not any(shop["name"] == "Xưởng kiểm thử" for shop in json.loads((data_dir / "shops.json").read_text(encoding="utf-8")))
+            shop_fields["latitude"] = "10.711111"
+            status, url, _ = request(admin, base, "/admin/shop_edit.php", shop_fields)
+            saved_shop = next(shop for shop in json.loads((data_dir / "shops.json").read_text(encoding="utf-8")) if shop["name"] == "Xưởng kiểm thử")
+            assert status == 200 and url.endswith("/admin/shops.php?msg=saved")
+            assert saved_shop["website"] == "https://example.invalid" and saved_shop["devices"] == ["phone", "tablet", "smartwatch"]
+            assert "Xưởng kiểm thử" not in request(guest, base, "/shops.php")[2]
+            status, _, price_form = request(admin, base, "/admin/services.php")
+            assert status == 200
+            service_id = str(json.loads((data_dir / "services.json").read_text(encoding="utf-8"))[0]["id"])
+            price_fields = {
+                "csrf_token": csrf(price_form), "add_price": "1", "shop_id": "1", "service_id": service_id,
+                "min_price": "900000", "max_price": "300000", "warranty": "6 tháng",
+                "turnaround": "2 giờ", "note": "Kiểm thử dữ liệu cửa hàng",
+            }
+            old_count = len(json.loads((data_dir / "shop_services.json").read_text(encoding="utf-8")))
+            status, _, invalid_price = request(admin, base, "/admin/services.php", price_fields)
+            assert status == 200 and "Giá phải lớn hơn 0" in invalid_price
+            assert len(json.loads((data_dir / "shop_services.json").read_text(encoding="utf-8"))) == old_count
+            price_fields["min_price"] = "300000"
+            status, url, _ = request(admin, base, "/admin/services.php", price_fields)
+            saved_prices = json.loads((data_dir / "shop_services.json").read_text(encoding="utf-8"))
+            assert status == 200 and url.endswith("/admin/services.php?msg=price_added") and len(saved_prices) == old_count + 1
+            assert saved_prices[-1]["warranty_text"] == "6 tháng" and saved_prices[-1]["turnaround_text"] == "2 giờ"
             status, _, live_response = request(admin, base, "/api/admin_live.php")
             live_before = json.loads(live_response)
             assert status == 200 and live_before["pending_requests"] == 2 and live_before["pending_reviews"] == 1
@@ -200,7 +251,7 @@ def main():
             live_after = json.loads(live_response)
             assert status == 200 and live_after["pending_requests"] == 1 and live_after["pending_reviews"] == 0
             assert live_after["revision"] != live_before["revision"]
-            print("PASS: prices, required contacts, guest/member booking, registration/login, guest contact, admin status, review moderation/reply and public sync")
+            print("PASS: prices, required contacts, guest/member booking, registration/login, guest contact, admin shop and price validation, admin status, review moderation/reply and public sync")
         finally:
             process.terminate()
             try:

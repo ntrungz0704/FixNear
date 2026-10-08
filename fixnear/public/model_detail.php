@@ -47,7 +47,22 @@ $specLabels = [
 
 // Lấy danh sách cửa hàng hỗ trợ dòng máy này qua db() chuẩn hóa
 $matchingShops = db()->getShops(['device' => $model['deviceType']]);
-$topShops = array_slice($matchingShops, 0, 3);
+$topShops = [];
+$shownSystems = [];
+foreach ($matchingShops as $shop) {
+    $system = strtolower((string) (parse_url((string) ($shop['website'] ?? ''), PHP_URL_HOST) ?: preg_split('/\s+-\s+/', (string) $shop['name'])[0]));
+    if (isset($shownSystems[$system])) continue;
+    $shownSystems[$system] = true;
+    $topShops[] = $shop;
+    if (count($topShops) === 3) break;
+}
+if (count($topShops) < 3) {
+    foreach ($matchingShops as $shop) {
+        if (in_array((int) $shop['id'], array_map(static fn($item) => (int) $item['id'], $topShops), true)) continue;
+        $topShops[] = $shop;
+        if (count($topShops) === 3) break;
+    }
+}
 
 require_once __DIR__ . '/../includes/header.php';
 require_once __DIR__ . '/../includes/navbar.php';
@@ -230,88 +245,62 @@ require_once __DIR__ . '/../includes/navbar.php';
         <p class="fn-model-prices-note">Giá ước tính không xác định hãng linh kiện hay giá tại cửa hàng. Xem nguồn niêm yết khi có và yêu cầu báo giá trọn gói trước khi sửa.</p>
     </section>
 
-    <!-- KHỐI 3: GỢI Ý CỬA HÀNG UY TÍN CHUYÊN DÒNG MÁY NÀY -->
-    <div style="margin-bottom: 30px;">
-        <div style="display: flex; justify-content: space-between; align-items: center; margin-bottom: 16px; flex-wrap: wrap; gap: 10px;">
+    <section class="fn-model-shops" aria-labelledby="fn-model-shops-title">
+        <div class="fn-model-shops-heading">
             <div>
-                <h2 style="font-family: var(--fn-font-heading); font-size: 20px; font-weight: 900; color: var(--fn-dark); margin: 0 0 4px 0;">
-                    📍 Bản Ghi Cửa Hàng Có Hỗ Trợ Nhóm Thiết Bị Này
-                </h2>
-                <p style="font-size: 13.5px; color: var(--fn-dark-muted); margin: 0;">
-                    Các bản ghi phù hợp với thiết bị <?= htmlspecialchars($deviceInfo['name']) ?>; vui lòng xác nhận địa chỉ, giờ mở cửa và dịch vụ trực tiếp.
-                </p>
+                <span class="fn-model-shops-kicker">CỬA HÀNG TRONG DANH MỤC</span>
+                <h2 id="fn-model-shops-title">Tìm nơi kiểm tra <?= htmlspecialchars($deviceInfo['name']) ?></h2>
+                <p>Danh sách theo nhóm thiết bị. Hãy hỏi cửa hàng về đúng model, dịch vụ, giá và giờ mở cửa trước khi đến.</p>
             </div>
-            <a href="search.php?device=<?= urlencode($model['deviceType']) ?>&brand=<?= urlencode($model['brand']) ?>" class="fn-btn fn-btn-secondary" style="font-size: 13px;">
-                Xem tất cả cửa hàng ➔
-            </a>
+            <a href="search.php?<?= htmlspecialchars(http_build_query(['device' => $model['deviceType'], 'model' => $model['id']])) ?>" class="fn-model-shops-all">Xem danh sách đầy đủ →</a>
         </div>
 
-        <div style="display: grid; grid-template-columns: repeat(auto-fit, minmax(320px, 1fr)); gap: 16px;">
-            <?php foreach ($topShops as $shop): ?>
-                <?php
-                    $sRating = !empty($shop['google_rating_verified']) ? floatval($shop['google_rating']) : null;
-                    $sReviews = !empty($shop['google_rating_verified']) ? intval($shop['google_reviews_count']) : null;
-                    $sHours = $shop['opening_hours'] ?? $shop['hours'] ?? '08:00 - 21:00 (Cả tuần & Ngày lễ)';
-                    $sLat = $shop['latitude'] ?? $shop['lat'] ?? 10.7769;
-                    $sLng = $shop['longitude'] ?? $shop['lng'] ?? 106.7009;
-                    $sVerified = !empty($shop['source_verified']);
-                    $mapUrl = !empty($shop['map_url']) ? $shop['map_url'] : "https://www.google.com/maps/dir/?api=1&destination={$sLat},{$sLng}";
+        <?php if (!$topShops): ?>
+            <p class="fn-model-shops-empty">Chưa có cửa hàng đủ nguồn địa chỉ cho nhóm thiết bị này. Bạn có thể gửi yêu cầu để được liên hệ sau.</p>
+        <?php else: ?>
+            <div class="fn-model-shops-grid">
+                <?php foreach ($topShops as $shop):
+                    $sHours = trim((string) ($shop['opening_hours'] ?? $shop['hours'] ?? ''));
+                    $sPhone = trim((string) ($shop['phone'] ?? ''));
+                    $phoneDigits = preg_replace('/[^0-9]/', '', $sPhone);
+                    $sAddress = trim((string) ($shop['address'] ?? ''));
+                    $mapUrl = !empty($shop['map_url']) ? $shop['map_url'] : 'https://www.google.com/maps/search/?' . http_build_query(['api' => 1, 'query' => $shop['name'] . ' ' . $sAddress]);
+                    $imageKind = $shop['image_kind'] ?? 'none';
                 ?>
-                <div class="fn-shop-card" style="margin-bottom: 0;">
-                    <div class="fn-shop-card-header">
-                        <div>
-                            <h3 class="fn-shop-title">
-                                <a href="shop_detail.php?id=<?= $shop['id'] ?>" target="_blank" rel="noopener noreferrer" style="color:inherit; text-decoration:none;">
-                                    <?= htmlspecialchars($shop['name']) ?>
-                                </a>
-                                <?php if ($sVerified): ?>
-                                    <span class="fn-badge fn-badge-verified" title="Bản ghi có cờ xác minh trong dữ liệu FixNear">✓ Có cờ xác minh</span>
-                                <?php endif; ?>
-                            </h3>
-                            <div class="fn-shop-rating">
-                                <?php if ($sRating !== null): ?>
-                                    <span class="fn-stars">★ <?= number_format($sRating, 1) ?></span>
-                                    <span class="fn-review-count">(<?= number_format($sReviews, 0, ',', '.') ?> đánh giá Google)</span>
-                                <?php else: ?>
-                                    <span class="fn-review-count">Google: chưa đối soát</span>
-                                <?php endif; ?>
+                    <article class="fn-model-shop-card">
+                        <div class="fn-model-shop-media">
+                            <?php if (!empty($shop['image'])): ?>
+                                <img class="<?= $imageKind === 'website_snapshot' ? 'fn-shop-website-shot' : 'fn-shop-logo-img' ?>" src="<?= htmlspecialchars($shop['image']) ?>" alt="Hình từ website hệ thống <?= htmlspecialchars($shop['name']) ?>" width="600" height="240" loading="lazy">
+                            <?php else: ?>
+                                <div class="fn-shop-no-photo">Chưa có ảnh từ nguồn cửa hàng</div>
+                            <?php endif; ?>
+                            <span class="fn-model-shop-media-caption"><?= $imageKind === 'website_snapshot' ? 'Ảnh website hệ thống' : (!empty($shop['image']) ? 'Logo website hệ thống' : 'Chưa có ảnh') ?></span>
+                        </div>
+                        <div class="fn-model-shop-body">
+                            <div class="fn-model-shop-meta">
+                                <span><?= htmlspecialchars($shop['district'] ?? 'TP.HCM') ?></span>
+                                <span><?= !empty($shop['address_verified']) ? 'Địa chỉ có nguồn' : 'Địa chỉ tham khảo' ?></span>
+                            </div>
+                            <h3><a href="shop_detail.php?id=<?= (int) $shop['id'] ?>"><?= htmlspecialchars($shop['name']) ?></a></h3>
+                            <div class="fn-model-shop-facts">
+                                <p><span aria-hidden="true">📍</span><span><?= htmlspecialchars($sAddress) ?></span></p>
+                                <p><span aria-hidden="true">◷</span><span><?= $sHours !== '' ? 'Giờ tham khảo: ' . htmlspecialchars($sHours) : 'Giờ mở cửa: cần xác nhận' ?></span></p>
+                                <p><span aria-hidden="true">☎</span><span><?= $sPhone !== '' ? htmlspecialchars($sPhone) : 'Số điện thoại: cần xác nhận' ?></span></p>
+                            </div>
+                            <?php if (!empty($shop['address_verified']) && !empty($shop['address_source_url'])): ?>
+                                <a class="fn-model-shop-source" href="<?= htmlspecialchars($shop['address_source_url']) ?>" target="_blank" rel="noopener noreferrer">Đối chiếu địa chỉ tại nguồn ↗</a>
+                            <?php endif; ?>
+                            <div class="fn-model-shop-actions">
+                                <a class="fn-model-shop-detail" href="shop_detail.php?id=<?= (int) $shop['id'] ?>">Xem cửa hàng &amp; phản hồi →</a>
+                                <?php if ($phoneDigits !== ''): ?><a href="tel:<?= $phoneDigits ?>">Gọi cửa hàng</a><?php endif; ?>
+                                <a href="<?= htmlspecialchars($mapUrl) ?>" target="_blank" rel="noopener noreferrer">Chỉ đường ↗</a>
                             </div>
                         </div>
-                    </div>
-
-                    <div class="fn-shop-info">
-                        <div class="fn-shop-info-row">
-                            <span class="fn-shop-info-icon">📍</span>
-                            <span><?= htmlspecialchars($shop['address']) ?>, <strong><?= htmlspecialchars($shop['district']) ?></strong></span>
-                        </div>
-                        <div class="fn-shop-info-row">
-                            <span class="fn-shop-info-icon">⏰</span>
-                            <span><?= htmlspecialchars($sHours) ?></span>
-                        </div>
-                        <div class="fn-shop-info-row">
-                            <span class="fn-shop-info-icon">📞</span>
-                            <span style="font-weight:700; color:var(--fn-primary);"><?= htmlspecialchars($shop['phone']) ?></span>
-                        </div>
-                    </div>
-
-                    <!-- Nút bấm hành động chuẩn FixNear: Hàng trên 50/50, Hàng dưới 100% full width, Target blank -->
-                    <div style="margin-top: 14px; padding-top: 12px; border-top: 1px solid #f1f5f9; display: flex; flex-direction: column; gap: 8px;">
-                        <div style="display: flex; gap: 8px;">
-                            <a href="tel:<?= preg_replace('/[^0-9]/', '', $shop['phone']) ?>" target="_blank" rel="noopener noreferrer" class="fn-btn fn-btn-sm fn-btn-primary" style="flex: 1; text-align: center; justify-content: center;">
-                                📞 Gọi ngay
-                            </a>
-                            <a href="<?= htmlspecialchars($mapUrl) ?>" target="_blank" rel="noopener noreferrer" class="fn-btn fn-btn-sm fn-btn-secondary" style="flex: 1; text-align: center; justify-content: center;">
-                                🗺️ Chỉ đường
-                            </a>
-                        </div>
-                        <a href="shop_detail.php?id=<?= $shop['id'] ?>" target="_blank" rel="noopener noreferrer" class="fn-btn fn-btn-sm" style="width: 100%; text-align: center; justify-content: center; background: linear-gradient(135deg, #ea580c, #f97316); color: #ffffff; border: none; font-weight: 800; padding: 10px 14px; border-radius: 8px; box-shadow: 0 2px 8px rgba(234, 88, 12, 0.25);">
-                            Xem Dịch Vụ & Phản Hồi ➔
-                        </a>
-                    </div>
-                </div>
-            <?php endforeach; ?>
-        </div>
-    </div>
+                    </article>
+                <?php endforeach; ?>
+            </div>
+        <?php endif; ?>
+    </section>
 </div>
 
 <?php require_once __DIR__ . '/../includes/footer.php'; ?>

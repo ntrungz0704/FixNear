@@ -41,6 +41,6 @@ $assetPrefix = str_contains(str_replace('\\', '/', $_SERVER['PHP_SELF'] ?? ''), 
         <?php endif; ?>
     <?php endforeach; ?>
 </head>
-<body>
+<body class="<?= $assetPrefix === '../' && isAdmin() ? 'fn-admin-page' : '' ?>">
 <a class="fn-skip-link" href="#fn-main-content">Bỏ qua điều hướng</a>
 <div id="fn-main-content" tabindex="-1">

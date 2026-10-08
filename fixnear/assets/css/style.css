@@ -3393,3 +3393,83 @@ textarea:focus-visible,
 .fn-admin-live-status{position:fixed;left:18px;bottom:18px;z-index:1200;max-width:calc(100vw - 36px);padding:9px 12px;border:1px solid #fdba74;border-radius:10px;background:#fff7ed;box-shadow:0 4px 16px rgba(124,45,18,.12);color:#9a3412;font-size:12px;font-weight:800}
 .fn-admin-live-status button{border:0;background:transparent;color:#c2410c;text-decoration:underline;font:inherit;cursor:pointer}
 .fn-admin-content .fn-price-table{min-width:760px}
+
+/* Shared admin workspace: one navigation system, consistent spacing and readable tables. */
+.fn-admin-page{background:#fffaf5}
+.fn-admin-navbar .fn-nav-container{max-width:none;min-height:64px;height:auto;padding:9px 28px;gap:18px}
+.fn-admin-navbar .fn-logo{flex:0 0 auto}
+.fn-admin-navbar-title{display:flex;flex-direction:column;min-width:0;margin-right:auto;padding-left:17px;border-left:1px solid #fed7aa;color:#0f172a;font-family:var(--fn-font-heading);font-size:16px;font-weight:900;line-height:1.25}
+.fn-admin-navbar-title small{color:#64748b;font-family:var(--fn-font-body);font-size:10px;font-weight:700}
+.fn-admin-navbar-actions{display:flex;align-items:center;gap:10px;flex:0 0 auto}
+.fn-admin-navbar-actions>a,.fn-admin-navbar-actions button{display:inline-flex;align-items:center;justify-content:center;min-height:38px;padding:8px 12px;border:1px solid #fed7aa;border-radius:9px;background:#fff;color:#9a3412;font-size:12px;font-weight:800;white-space:nowrap;cursor:pointer}
+.fn-admin-navbar-actions>a:hover,.fn-admin-navbar-actions button:hover{background:#fff7ed;border-color:#fb923c}
+.fn-admin-navbar-actions form{margin:0}
+.fn-admin-navbar-user{max-width:180px;overflow:hidden;text-overflow:ellipsis;white-space:nowrap;color:#334155;font-size:12px;font-weight:700}
+.fn-admin-page .fn-admin-live-status{position:static;max-width:none;min-height:34px;padding:7px 28px;border-width:0 0 1px;border-radius:0;background:#fff7ed;box-shadow:none;color:#9a3412;font-size:11px;font-weight:800}
+.fn-admin-page .fn-admin-layout{min-height:calc(100vh - 64px)}
+.fn-admin-page .fn-admin-sidebar{position:sticky;top:64px;align-self:flex-start;height:calc(100vh - 64px);width:250px;flex:0 0 250px;overflow-y:auto;background:#fff;border-right:1px solid #fed7aa;padding:23px 14px;box-shadow:3px 0 18px rgba(124,45,18,.025)}
+.fn-admin-sidebar-label{padding:0 12px 8px;color:#9a3412;font-size:10px;font-weight:900;letter-spacing:.12em}
+.fn-admin-page .fn-admin-menu-item{min-height:43px;border:1px solid transparent;border-radius:10px;padding:10px 12px;color:#475569;line-height:1.35}
+.fn-admin-page .fn-admin-menu-item:hover{background:#fff7ed;border-color:#fed7aa;color:#9a3412}
+.fn-admin-page .fn-admin-menu-item.active{background:#fff1e7;border-color:#fdba74;color:#9a3412;font-weight:800}
+.fn-admin-page .fn-admin-content{padding:30px clamp(20px,2.8vw,42px);background:#fffaf5}
+.fn-admin-page .fn-admin-content h1{line-height:1.25;text-wrap:balance;overflow-wrap:anywhere}
+.fn-admin-page .fn-admin-page-head{flex-wrap:wrap!important;align-items:flex-start!important;gap:16px!important}
+.fn-admin-page .fn-admin-page-head>div:first-child{min-width:0;flex:1 1 360px}
+.fn-admin-page .fn-admin-title-row{flex-wrap:wrap}
+.fn-admin-page .fn-admin-head-actions{flex-wrap:wrap}
+.fn-admin-page .fn-admin-stats-grid>div,.fn-admin-page .fn-admin-two-col-grid>div{box-shadow:0 3px 18px rgba(124,45,18,.045)}
+.fn-admin-page .fn-price-table{border-collapse:separate;border-spacing:0;min-width:760px}
+.fn-admin-page .fn-price-table th{position:sticky;top:0;z-index:1;background:#fff7ed;color:#7c2d12;font-size:11px;font-weight:800;letter-spacing:.025em;white-space:nowrap}
+.fn-admin-page .fn-price-table td{vertical-align:top;overflow-wrap:anywhere}
+.fn-admin-page .fn-price-table tbody tr:hover{background:#fffaf3}
+.fn-admin-form-note{margin:-8px 0 18px;padding:12px 15px;border:1px solid #fed7aa;border-radius:10px;background:#fff7ed;color:#7c2d12;font-size:12px;line-height:1.55}
+.fn-admin-form-errors{margin:0 0 18px;padding:13px 16px;border:1px solid #fca5a5;border-radius:10px;background:#fef2f2;color:#991b1b;font-size:12px}
+.fn-admin-form-errors ul{padding-left:19px;margin:5px 0 0}
+.fn-admin-form-row{display:grid;grid-template-columns:repeat(2,minmax(0,1fr));gap:16px}
+.fn-admin-device-fieldset{margin:0 0 18px;padding:15px;border:1px solid #fed7aa;border-radius:12px}
+.fn-admin-device-fieldset legend{padding:0 6px;color:#0f172a;font-size:13px;font-weight:800}
+.fn-admin-device-options{display:grid;grid-template-columns:repeat(2,minmax(0,1fr));gap:9px 15px}
+.fn-admin-device-options label{display:flex;align-items:center;gap:9px;min-height:38px;color:#334155;font-size:12px;font-weight:700;cursor:pointer}
+.fn-admin-device-options input{width:17px;height:17px;accent-color:#ea580c;flex:0 0 auto}
+.fn-admin-policy-options{margin:0 0 20px}
+.fn-admin-price-top{display:grid;grid-template-columns:repeat(2,minmax(0,1fr));gap:12px;margin-bottom:16px}
+.fn-admin-price-bottom{display:grid;grid-template-columns:repeat(2,minmax(0,1fr));gap:12px;align-items:end}
+.fn-admin-price-bottom>div:last-child{grid-column:1/-1}
+.fn-admin-price-bottom button{min-height:42px}
+.fn-admin-page a:focus-visible,.fn-admin-page button:focus-visible,.fn-admin-page input:focus-visible,.fn-admin-page select:focus-visible,.fn-admin-page textarea:focus-visible{outline:3px solid #fb923c;outline-offset:2px}
+@media(max-width:900px){
+  .fn-admin-page .fn-admin-layout{display:block}
+  .fn-admin-page .fn-admin-sidebar{position:sticky;top:63px;z-index:20;display:flex;flex-direction:row;flex-wrap:nowrap;align-items:center;width:100%;height:auto;max-height:none;gap:7px;overflow-x:auto;overflow-y:hidden;padding:9px 14px;border-right:0;border-bottom:1px solid #fed7aa;white-space:nowrap;scrollbar-width:thin}
+  .fn-admin-page .fn-admin-sidebar-label{display:none}
+  .fn-admin-page .fn-admin-menu-item{flex:0 0 auto!important;min-height:40px;white-space:nowrap}
+  .fn-admin-page .fn-admin-content{width:100%;overflow:visible;padding:24px 20px}
+}
+@media(max-width:600px){
+  .fn-admin-navbar .fn-nav-container{padding:9px 14px;gap:10px}
+  .fn-admin-navbar-title,.fn-admin-navbar-user{display:none}
+  .fn-admin-navbar-actions{gap:6px}
+  .fn-admin-navbar-actions>a,.fn-admin-navbar-actions button{min-height:36px;padding:7px 8px;font-size:10px}
+  .fn-admin-page .fn-admin-content{padding:20px 14px}
+  .fn-admin-page .fn-admin-page-head>div:first-child{flex-basis:100%}
+  .fn-admin-page .fn-admin-head-actions{width:100%}
+  .fn-admin-page .fn-admin-head-actions .fn-btn{flex:1 1 150px;text-align:center;justify-content:center}
+  .fn-admin-page .fn-admin-content h1{font-size:21px!important}
+  .fn-admin-page .fn-admin-stats-grid{grid-template-columns:repeat(2,minmax(0,1fr));gap:10px}
+  .fn-admin-page .fn-admin-stats-grid>div{padding:15px!important}
+  .fn-admin-form-panel{padding:18px!important}
+  .fn-admin-form-row{grid-template-columns:1fr;gap:0}
+  .fn-admin-device-options{grid-template-columns:1fr}
+  .fn-admin-price-top,.fn-admin-price-bottom{grid-template-columns:1fr}
+  .fn-admin-price-bottom>div:last-child{grid-column:1}
+  .fn-admin-price-bottom button{width:100%;justify-content:center}
+  .fn-admin-page .fn-price-table{display:block;width:100%!important;min-width:0!important;border:0;background:transparent}
+  .fn-admin-page .fn-price-table thead{display:none}
+  .fn-admin-page .fn-price-table tbody{display:grid;gap:12px}
+  .fn-admin-page .fn-price-table tbody tr{display:block;min-width:0;overflow:hidden;border:1px solid #fed7aa;border-radius:12px;background:#fff;box-shadow:0 3px 12px rgba(124,45,18,.04)}
+  .fn-admin-page .fn-price-table tbody td{display:block;width:100%!important;max-width:none!important;padding:10px 14px!important;border:0!important;text-align:left!important;white-space:normal!important;overflow-wrap:anywhere}
+  .fn-admin-page .fn-price-table tbody td+td{border-top:1px solid #fff1e7!important}
+  .fn-admin-page .fn-price-table tbody td::before{content:attr(data-label);display:block;margin-bottom:4px;color:#9a3412;font-size:10px;font-weight:900;letter-spacing:.06em;text-transform:uppercase}
+  .fn-admin-page .fn-price-table tbody td[colspan]::before{display:none}
+}
+@media(max-width:380px){.fn-admin-navbar-title{display:none}.fn-admin-navbar-actions{margin-left:auto}}

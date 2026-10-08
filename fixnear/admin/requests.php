@@ -32,59 +32,28 @@ foreach ($requests as $r) {
     elseif ($st === 'completed') $completedReqs++;
 }
 
-$pageTitle = "Quản Lý Yêu Cầu Báo Giá & Cam Kết SLA 24h — FixNear Admin";
+$pageTitle = "Yêu Cầu Sửa Chữa — FixNear Admin";
 require_once __DIR__ . '/../includes/header.php';
 require_once __DIR__ . '/../includes/navbar.php';
 ?>
 
 <div class="fn-admin-layout">
     <!-- Sidebar Quản Trị -->
-    <div class="fn-admin-sidebar">
-        <div style="font-size: 11px; font-weight: 800; color: var(--fn-text-light); text-transform: uppercase; padding: 0 12px 8px;">
-            Quản Trị Hệ Thống
-        </div>
-        <a href="index.php" class="fn-admin-menu-item">
-            📊 Bảng thống kê
-        </a>
-        <a href="requests.php" class="fn-admin-menu-item active">
-            📋 Yêu cầu báo giá (<?= $totalReqs ?>)
-        </a>
-        <a href="shops.php" class="fn-admin-menu-item">
-            🏪 Quản lý cửa hàng (<?= $stats['total_shops'] ?>)
-        </a>
-        <a href="services.php" class="fn-admin-menu-item">
-            🏷️ Dịch vụ & Bảng giá
-        </a>
-        <a href="reviews.php" class="fn-admin-menu-item">
-            ⭐ Quản lý đánh giá (<?= $stats['total_reviews'] ?>)
-        </a>
-        <a href="reports.php" class="fn-admin-menu-item">
-            🚩 Báo cáo sai sót (<?= $stats['pending_reports'] ?>)
-        </a>
-        <a href="contacts.php" class="fn-admin-menu-item">
-            💬 Tin nhắn liên hệ (<?= $stats['total_contacts'] ?? 0 ?>)
-        </a>
-        <div style="margin-top: auto; padding-top: 20px; border-top: 1px solid var(--fn-border);">
-            <a href="../index.php" class="fn-btn fn-btn-secondary fn-btn-sm" style="width: 100%;">
-                &larr; Xem giao diện web
-            </a>
-        </div>
-    </div>
+    <?php require __DIR__ . '/_sidebar.php'; ?>
 
-    <!-- Nội dung chính -->
     <div class="fn-admin-content">
-        <div style="display: flex; justify-content: space-between; align-items: flex-start; margin-bottom: 24px; flex-wrap: wrap; gap: 12px;">
+        <div class="fn-admin-page-head" style="display: flex; justify-content: space-between; align-items: flex-start; margin-bottom: 24px; flex-wrap: wrap; gap: 12px;">
             <div>
                 <h1 style="font-family: var(--fn-font-heading); font-size: 24px; font-weight: 900; color: var(--fn-dark); line-height: 1.3;">
-                    Quản Lý Yêu Cầu Báo Giá & Cam Kết Phản Hồi SLA 24h
+                    Yêu cầu sửa chữa
                 </h1>
                 <p style="font-size: 13.5px; color: var(--fn-dark-muted); margin-top: 4px;">
-                    Quy chuẩn dịch vụ: Tiếp nhận pan bệnh, ước tính giá và liên hệ hỗ trợ khách hàng trong vòng 24 giờ.
+                    Xem thông tin khách gửi, liên hệ để xác nhận và cập nhật trạng thái xử lý.
                 </p>
             </div>
             <div style="display: flex; gap: 8px;">
                 <span style="display: inline-flex; align-items: center; gap: 6px; background: #ecfdf5; border: 1px solid #a7f3d0; color: #047857; padding: 6px 14px; border-radius: 20px; font-size: 12.5px; font-weight: 800;">
-                    🛡️ SLA Cam Kết: Trong vòng 24 giờ
+                    ◷ Mốc theo dõi: 24 giờ
                 </span>
             </div>
         </div>
@@ -106,13 +75,13 @@ require_once __DIR__ . '/../includes/navbar.php';
             <div style="background: var(--fn-surface); border: 1px solid #fed7aa; border-radius: 12px; padding: 18px;">
                 <div style="font-size: 12px; font-weight: 700; color: #ea580c; text-transform: uppercase;">Chờ Phản Hồi (Cần xử lý)</div>
                 <div style="font-size: 26px; font-weight: 900; color: #ea580c; margin-top: 4px;"><?= $pendingReqs ?></div>
-                <div style="font-size: 11.5px; color: #c2410c; margin-top: 4px;">Đang trong khung kiểm soát SLA 24h</div>
+                <div style="font-size: 11.5px; color: #c2410c; margin-top: 4px;">Cần kiểm tra và liên hệ khách</div>
             </div>
 
             <div style="background: var(--fn-surface); border: 1px solid #bbf7d0; border-radius: 12px; padding: 18px;">
                 <div style="font-size: 12px; font-weight: 700; color: #16a34a; text-transform: uppercase;">Đã Hoàn Tất Hỗ Trợ</div>
                 <div style="font-size: 26px; font-weight: 900; color: #16a34a; margin-top: 4px;"><?= $contactedReqs + $completedReqs ?></div>
-                <div style="font-size: 11.5px; color: #15803d; margin-top: 4px;">Đã gọi Zalo / Gửi báo giá qua Gmail</div>
+                <div style="font-size: 11.5px; color: #15803d; margin-top: 4px;">Theo trạng thái quản trị đã cập nhật</div>
             </div>
         </div>
 
@@ -125,7 +94,7 @@ require_once __DIR__ . '/../includes/navbar.php';
                         <th style="width: 180px;">Khách Hàng</th>
                         <th style="width: 220px;">Thiết Bị & Pan Bệnh</th>
                         <th style="width: 170px;">Khung Giá & Hẹn</th>
-                        <th style="width: 160px;">Tiến Độ SLA 24h</th>
+                        <th style="width: 160px;">Trạng thái xử lý</th>
                         <th style="text-align: right; width: 150px;">Phản Hồi Nhanh</th>
                     </tr>
                 </thead>
@@ -214,14 +183,14 @@ require_once __DIR__ . '/../includes/navbar.php';
                                         </span>
                                     <?php elseif ($hoursLeft > 0): ?>
                                         <div style="display: inline-flex; align-items: center; gap: 4px; background: #ecfdf5; border: 1px solid #a7f3d0; color: #047857; font-size: 11.5px; font-weight: 800; padding: 4px 8px; border-radius: 6px;">
-                                            <span>⏳</span> Còn <?= round($hoursLeft, 1) ?>h phản hồi
+                                            <span>⏳</span> Còn <?= round($hoursLeft, 1) ?>h theo dõi
                                         </div>
                                         <div style="font-size: 10.5px; color: #64748b; margin-top: 2px;">
-                                            Cam kết SLA 24h
+                                            Mốc nội bộ 24 giờ
                                         </div>
                                     <?php else: ?>
                                         <div style="display: inline-flex; align-items: center; gap: 4px; background: #fee2e2; border: 1px solid #fca5a5; color: #b91c1c; font-size: 11.5px; font-weight: 800; padding: 4px 8px; border-radius: 6px;">
-                                            <span>⚠️</span> Quá hạn 24h!
+                                            <span>⚠️</span> Qua mốc 24 giờ
                                         </div>
                                         <div style="font-size: 10.5px; color: #ef4444; margin-top: 2px; font-weight: 700;">
                                             Cần phản hồi ngay

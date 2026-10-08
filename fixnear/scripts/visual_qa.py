@@ -69,8 +69,10 @@ def main():
                     routes = (
                         ("prices", "prices.php"), ("home", "index.php"), ("models", "models.php"),
                         ("model-detail", "model_detail.php?id=apple-iphone-13"),
+                        ("model-detail-tablet", "model_detail.php?id=apple-ipad-air-11-m2-2024"),
                         ("shops", "shops.php"), ("shop-detail", "shop_detail.php?id=1"),
-                        ("map", "map.php"), ("request", "request_repair.php"),
+                        ("map", "map.php"), ("search", "search.php"),
+                        ("request", "request_repair.php"), ("contact", "contact.php"),
                         ("login", "login.php"), ("register", "register.php"),
                         ("tracking", "track_request.php"),
                     )
@@ -82,10 +84,22 @@ def main():
                         assert metrics["scroll"] <= width + 2, (route, metrics)
                         screenshot = page.call("Page.captureScreenshot", {"format": "png", "captureBeyondViewport": False})
                         (OUTPUT / f"qa-{slug}-{label}.png").write_bytes(b64decode(screenshot["data"]))
-                        if slug == "model-detail":
+                        if slug.startswith("model-detail"):
                             page.evaluate("document.getElementById('bang-gia').scrollIntoView({block:'start'})")
                             screenshot = page.call("Page.captureScreenshot", {"format": "png", "captureBeyondViewport": False})
-                            (OUTPUT / f"qa-model-price-list-{label}.png").write_bytes(b64decode(screenshot["data"]))
+                            (OUTPUT / f"qa-{slug}-price-list-{label}.png").write_bytes(b64decode(screenshot["data"]))
+                            shop_layout = page.evaluate("""[...document.querySelectorAll('.fn-model-shop-card')].map(card => {
+                                const title = card.querySelector('h3').getBoundingClientRect();
+                                const facts = card.querySelector('.fn-model-shop-facts').getBoundingClientRect();
+                                const actions = card.querySelector('.fn-model-shop-actions').getBoundingClientRect();
+                                const bounds = card.getBoundingClientRect();
+                                return {padding: Math.round(title.left - bounds.left), gap: Math.round(facts.top - title.bottom), actionGap: Math.round(actions.top - facts.bottom)};
+                            })""")
+                            assert len(shop_layout) == 3 and all(item["padding"] >= 14 and item["gap"] >= 0 and item["actionGap"] >= 0 for item in shop_layout), (label, shop_layout)
+                            page.evaluate("document.querySelector('.fn-model-shops').scrollIntoView({block:'start'})")
+                            page.evaluate("Promise.all([...document.querySelectorAll('.fn-model-shop-media img')].map(img => img.decode().catch(() => null)))")
+                            screenshot = page.call("Page.captureScreenshot", {"format": "png", "captureBeyondViewport": False})
+                            (OUTPUT / f"qa-{slug}-shops-{label}.png").write_bytes(b64decode(screenshot["data"]))
                         if slug == "shops" and label == "desktop":
                             phone_tops = page.evaluate("[...document.querySelectorAll('.fn-shop-list .fn-shop-list-phone')].slice(0,3).map(el=>Math.round(el.getBoundingClientRect().top))")
                             assert len(phone_tops) == 3 and max(phone_tops) - min(phone_tops) <= 2, phone_tops

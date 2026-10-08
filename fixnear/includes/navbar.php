@@ -1,6 +1,28 @@
 <?php
 $currentPage = basename($_SERVER['PHP_SELF']);
 ?>
+<?php if ($assetPrefix === '../' && isAdmin()): ?>
+<nav class="fn-navbar fn-admin-navbar" aria-label="Thanh điều hướng quản trị">
+    <div class="fn-nav-container">
+        <a href="../index.php" class="fn-logo" aria-label="FixNear, về trang web">
+            <img src="../assets/images/fixnear_logo_icon.svg" alt="" width="32" height="32">
+            <span class="fn-logo-text"><span>Fix</span><span>Near</span></span>
+        </a>
+        <span class="fn-admin-navbar-title">Quản trị <small>Điều hành dữ liệu FixNear</small></span>
+        <div class="fn-admin-navbar-actions">
+            <a href="../index.php">Xem trang web ↗</a>
+            <span class="fn-admin-navbar-user"><?= htmlspecialchars($currentUser['name'] ?? 'Quản trị viên') ?></span>
+            <form method="post" action="../logout.php">
+                <?= csrfField() ?>
+                <button type="submit">Đăng xuất</button>
+            </form>
+        </div>
+    </div>
+</nav>
+<div id="fn-admin-live-status" class="fn-admin-live-status" role="status" aria-live="polite">Đang kiểm tra cập nhật quản trị…</div>
+<script defer src="../assets/js/admin-live.js?v=<?= filemtime(__DIR__ . '/../assets/js/admin-live.js') ?>"></script>
+<script defer src="../assets/js/admin-tables.js?v=<?= filemtime(__DIR__ . '/../assets/js/admin-tables.js') ?>"></script>
+<?php return; endif; ?>
 <nav class="fn-navbar">
     <div class="fn-nav-container">
         <!-- Logo -->

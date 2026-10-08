@@ -259,25 +259,9 @@ class FixNearDB {
 
             if (!empty($filters['device'])) {
                 $dev = strtolower(trim($filters['device']));
-                if ($dev === 'win_laptop' || $dev === 'laptop') {
-                    $sql .= " AND (devices LIKE :dev OR devices LIKE '%laptop%')";
-                    $params[':dev'] = '%laptop%';
-                } elseif ($dev === 'mac' || $dev === 'macbook') {
-                    $sql .= " AND (devices LIKE :dev OR devices LIKE '%mac%' OR devices LIKE '%laptop%')";
-                    $params[':dev'] = '%mac%';
-                } elseif ($dev === 'pc' || $dev === 'pc_desktop') {
-                    $sql .= " AND (devices LIKE :dev OR devices LIKE '%pc%' OR devices LIKE '%laptop%')";
-                    $params[':dev'] = '%pc%';
-                } elseif ($dev === 'tablet') {
-                    $sql .= " AND (devices LIKE :dev OR devices LIKE '%tablet%' OR devices LIKE '%phone%')";
-                    $params[':dev'] = '%tablet%';
-                } elseif ($dev === 'smartwatch') {
-                    $sql .= " AND (devices LIKE :dev OR devices LIKE '%smartwatch%')";
-                    $params[':dev'] = '%smartwatch%';
-                } else {
-                    $sql .= " AND devices LIKE :dev";
-                    $params[':dev'] = '%' . $dev . '%';
-                }
+                $dev = ['win_laptop' => 'laptop', 'macbook' => 'mac', 'pc_desktop' => 'pc'][$dev] ?? $dev;
+                $sql .= " AND FIND_IN_SET(:dev, REPLACE(devices, ' ', '')) > 0";
+                $params[':dev'] = $dev;
             }
 
             if (!empty($filters['district'])) {
@@ -366,24 +350,10 @@ class FixNearDB {
 
         if (!empty($filters['device'])) {
             $device = strtolower($filters['device']);
+            $device = ['win_laptop' => 'laptop', 'macbook' => 'mac', 'pc_desktop' => 'pc'][$device] ?? $device;
             $shops = array_filter($shops, function($s) use ($device) {
                 $devs = $s['devices'] ?? [];
-                if ($device === 'win_laptop' || $device === 'laptop') {
-                    return in_array('laptop', $devs);
-                }
-                if ($device === 'mac' || $device === 'macbook') {
-                    return in_array('mac', $devs) || in_array('laptop', $devs);
-                }
-                if ($device === 'pc' || $device === 'pc_desktop') {
-                    return in_array('pc', $devs) || in_array('laptop', $devs);
-                }
-                if ($device === 'tablet') {
-                    return in_array('tablet', $devs) || in_array('phone', $devs);
-                }
-                if ($device === 'smartwatch') {
-                    return in_array('smartwatch', $devs);
-                }
-                return in_array($device, $devs);
+                return in_array($device, $devs, true);
             });
         }
 

@@ -44,40 +44,8 @@ require_once __DIR__ . '/../includes/navbar.php';
 
 <div class="fn-admin-layout">
     <!-- Sidebar Quản Trị -->
-    <div class="fn-admin-sidebar">
-        <div style="font-size: 11px; font-weight: 800; color: var(--fn-text-light); text-transform: uppercase; padding: 0 12px 8px;">
-            Quản Trị Hệ Thống
-        </div>
-        <a href="index.php" class="fn-admin-menu-item">
-            📊 Bảng thống kê
-        </a>
-        <a href="requests.php" class="fn-admin-menu-item">
-            📋 Yêu cầu báo giá (<?= $stats['total_requests'] ?? 0 ?>)
-        </a>
-        <a href="shops.php" class="fn-admin-menu-item">
-            🏪 Quản lý cửa hàng (<?= $stats['total_shops'] ?? 0 ?>)
-        </a>
-        <a href="services.php" class="fn-admin-menu-item">
-            🏷️ Dịch vụ & Bảng giá (<?= $stats['total_services'] ?? 0 ?>)
-        </a>
-        <a href="reviews.php" class="fn-admin-menu-item">
-            ⭐ Quản lý đánh giá (<?= $stats['total_reviews'] ?? 0 ?>)
-        </a>
-        <a href="reports.php" class="fn-admin-menu-item">
-            🚩 Báo cáo sai sót (<?= $stats['pending_reports'] ?? 0 ?>)
-        </a>
-        <a href="contacts.php" class="fn-admin-menu-item active">
-            💬 Tin nhắn liên hệ (<?= $stats['total_contacts'] ?? 0 ?>)
-        </a>
-        
-        <div style="margin-top: auto; padding-top: 20px; border-top: 1px solid var(--fn-border);">
-            <a href="../index.php" class="fn-btn fn-btn-secondary fn-btn-sm" style="width: 100%;">
-                &larr; Xem giao diện web
-            </a>
-        </div>
-    </div>
+    <?php require __DIR__ . '/_sidebar.php'; ?>
 
-    <!-- Nội dung chính -->
     <div class="fn-admin-content">
         <div style="display: flex; justify-content: space-between; align-items: flex-start; margin-bottom: 24px; flex-wrap: wrap; gap: 12px;">
             <div>

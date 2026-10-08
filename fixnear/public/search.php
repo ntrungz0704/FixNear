@@ -269,14 +269,12 @@ $allServicesFull = db()->getServices(null);
                                         <?= htmlspecialchars($shop['name']) ?>
                                     </a>
                                 </h3>
-                                <div style="display: flex; flex-direction: column; align-items: flex-end; flex-shrink: 0;">
-                                    <?php if (!empty($shop['google_rating_verified'])): ?>
+                                <?php if (!empty($shop['google_rating_verified'])): ?>
+                                    <div style="display: flex; flex-direction: column; align-items: flex-end; flex-shrink: 0;">
                                         <span style="background:#fffbeb;border:1px solid #fde68a;padding:2px 8px;border-radius:6px;font-size:12.5px;font-weight:800;color:#b45309;">⭐ <?= htmlspecialchars($shop['google_rating']) ?></span>
                                         <span style="font-size:10.5px;color:#94a3b8;margin-top:2px;"><?= number_format($shop['google_reviews_count']) ?> Google</span>
-                                    <?php else: ?>
-                                        <span style="font-size:10.5px;color:#64748b;">Google: chưa đối soát</span>
-                                    <?php endif; ?>
-                                </div>
+                                    </div>
+                                <?php endif; ?>
                             </div>
 
                             <!-- Địa chỉ -->
@@ -495,7 +493,8 @@ document.addEventListener('DOMContentLoaded', () => {
         const studentHtml = shop.student_discount_verified ? '<span style="background:#fff7ed; color:#c2410c; border:1px solid #fed7aa; padding:2px 7px; border-radius:5px; font-size:11px; font-weight:600;">🎓 SV đã đối soát</span>' : '';
         const ratingHtml = shop.google_rating_verified
             ? `<span style="background:#fffbeb;border:1px solid #fde68a;padding:2px 8px;border-radius:6px;font-size:12.5px;font-weight:800;color:#b45309;">⭐ ${escapeResultText(shop.google_rating)}</span><span style="font-size:10.5px;color:#94a3b8;margin-top:2px;">${Number(shop.google_reviews_count || 0).toLocaleString('vi-VN')} Google</span>`
-            : '<span style="font-size:10.5px;color:#64748b;">Google: chưa đối soát</span>';
+            : '';
+        const ratingBlock = ratingHtml ? `<div style="display:flex; flex-direction:column; align-items:flex-end; flex-shrink:0; margin-left:8px;">${ratingHtml}</div>` : '';
         const watchHtml = shop.service_policy_verified && shop.allows_onsite_watch ? '<span style="background:#eff6ff; color:#1d4ed8; border:1px solid #bfdbfe; padding:2px 7px; border-radius:5px; font-size:11px; font-weight:600;">✓ Xem trực tiếp</span>' : '';
         const signHtml = shop.service_policy_verified && shop.requires_component_signing ? '<span style="background:#f0fdf4; color:#15803c; border:1px solid #bbf7d0; padding:2px 7px; border-radius:5px; font-size:11px; font-weight:600;">✓ Ký linh kiện</span>' : '';
         
@@ -512,9 +511,7 @@ document.addEventListener('DOMContentLoaded', () => {
                 <h3 style="font-weight:800; font-size:16px; color:var(--fn-dark); line-height:1.35; margin:0; flex:1;">
                     <a href="shop_detail.php?id=${shopId}" target="_blank" rel="noopener noreferrer" style="color:inherit; text-decoration:none;">${escapeResultText(shop.name)}</a>
                 </h3>
-                <div style="display:flex; flex-direction:column; align-items:flex-end; flex-shrink:0; margin-left:8px;">
-                    ${ratingHtml}
-                </div>
+                ${ratingBlock}
             </div>
             
             <div style="font-size:12.5px; color:#64748b; margin-bottom:6px; display:flex; align-items:flex-start; gap:5px; line-height:1.45;">

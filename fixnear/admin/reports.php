@@ -23,34 +23,8 @@ require_once __DIR__ . '/../includes/navbar.php';
 ?>
 
 <div class="fn-admin-layout">
-    <div class="fn-admin-sidebar">
-        <a href="index.php" class="fn-admin-menu-item">
-            📊 Bảng thống kê
-        </a>
-        <a href="requests.php" class="fn-admin-menu-item">
-            📋 Yêu cầu báo giá
-        </a>
-        <a href="shops.php" class="fn-admin-menu-item">
-            🏪 Quản lý cửa hàng
-        </a>
-        <a href="services.php" class="fn-admin-menu-item">
-            🏷️ Dịch vụ & Bảng giá
-        </a>
-        <a href="reviews.php" class="fn-admin-menu-item">
-            ⭐ Quản lý đánh giá
-        </a>
-        <a href="reports.php" class="fn-admin-menu-item active">
-            🚩 Báo cáo sai sót (<?= count($reports) ?>)
-        </a>
-        <a href="contacts.php" class="fn-admin-menu-item">
-            💬 Tin nhắn liên hệ
-        </a>
-        <div style="margin-top: auto; padding-top: 20px; border-top: 1px solid var(--fn-border);">
-            <a href="../index.php" class="fn-btn fn-btn-secondary fn-btn-sm" style="width: 100%;">
-                &larr; Xem giao diện web
-            </a>
-        </div>
-    </div>
+    <?php require __DIR__ . '/_sidebar.php'; ?>
+
 
     <div class="fn-admin-content">
         <div style="margin-bottom: 24px;">

@@ -74,9 +74,9 @@ $msg = $_GET['msg'] ?? '';
                     <h1 style="font-family: var(--fn-font-heading); font-size: 24px; font-weight: 900; color: var(--fn-dark);">
                         <?= htmlspecialchars($shop['name']) ?>
                     </h1>
-                    <div class="fn-shop-rating" style="font-size: 14px; padding: 4px 10px;">
-                        <?= !empty($shop['google_rating_verified']) ? '⭐ ' . htmlspecialchars($shop['google_rating']) . ' (' . number_format($shop['google_reviews_count']) . ' đánh giá Google)' : 'Google: chưa đối soát' ?>
-                    </div>
+                    <?php if (!empty($shop['google_rating_verified'])): ?>
+                        <div class="fn-shop-rating" style="font-size: 14px; padding: 4px 10px;">⭐ <?= htmlspecialchars($shop['google_rating']) ?> (<?= number_format($shop['google_reviews_count']) ?> đánh giá Google)</div>
+                    <?php endif; ?>
                 </div>
 
                 <div style="font-size: 14px; color: var(--fn-dark-muted); margin-bottom: 8px; display: flex; align-items: center; gap: 8px;">
