@@ -4,6 +4,12 @@ title FixNear Server
 echo ========================================================
 echo       FIXNEAR - NỀN TẢNG TRA CỨU SỬA CHỮA MIỀN NAM
 echo ========================================================
+where php >nul 2>&1
+if errorlevel 1 (
+    if exist "%LOCALAPPDATA%\Microsoft\WinGet\Packages\PHP.PHP.8.2_Microsoft.Winget.Source_8wekyb3d8bbwe\php.exe" (
+        set "PATH=%LOCALAPPDATA%\Microsoft\WinGet\Packages\PHP.PHP.8.2_Microsoft.Winget.Source_8wekyb3d8bbwe;%PATH%"
+    )
+)
 echo Đang kiểm tra cổng kết nối...
 set PORT=8080
 netstat -ano | findstr /R /C:":8000 " >nul

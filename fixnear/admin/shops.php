@@ -15,7 +15,13 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST' && isset($_POST['delete'])) {
     exit;
 }
 
-$shops = db()->getShops();
+$searchKw = trim($_GET['q'] ?? '');
+$filterDistrict = trim($_GET['district'] ?? '');
+
+$filterParams = [];
+if (!empty($searchKw)) $filterParams['keyword'] = $searchKw;
+if (!empty($filterDistrict)) $filterParams['district'] = $filterDistrict;
+$shops = db()->getShops($filterParams);
 $stats = db()->getStats();
 
 $pageTitle = "Quản Lý Cửa Hàng — FixNear Admin";
@@ -77,6 +83,27 @@ require_once __DIR__ . '/../includes/navbar.php';
                 ✓ Đã xóa cửa hàng khỏi hệ thống!
             </div>
         <?php endif; ?>
+
+        <!-- Thanh tìm kiếm & lọc nhanh cửa hàng -->
+        <form method="GET" action="shops.php" style="background: var(--fn-surface); border: 1px solid var(--fn-border); border-radius: var(--fn-radius); padding: 14px 16px; margin-bottom: 20px; display: flex; gap: 12px; align-items: center; flex-wrap: wrap;">
+            <div style="flex: 1; min-width: 220px;">
+                <input type="text" name="q" class="fn-input" style="padding: 8px 12px; font-size: 13.5px;" value="<?= htmlspecialchars($searchKw) ?>" placeholder="🔍 Tìm theo tên cửa hàng, địa chỉ, mô tả...">
+            </div>
+            <div style="width: 200px;">
+                <select name="district" class="fn-select" style="padding: 8px 12px; font-size: 13.5px;">
+                    <option value="">-- Tất cả quận/huyện --</option>
+                    <?php 
+                    $districtsList = ['Quận 1', 'Quận 3', 'Quận 4', 'Quận 5', 'Quận 6', 'Quận 7', 'Quận 8', 'Quận 10', 'Quận 11', 'Quận 12', 'Quận Bình Tân', 'Quận Bình Thạnh', 'Quận Gò Vấp', 'Quận Phú Nhuận', 'Quận Tân Bình', 'Quận Tân Phú', 'TP. Thủ Đức', 'Huyện Hóc Môn'];
+                    foreach ($districtsList as $dst): ?>
+                        <option value="<?= htmlspecialchars($dst) ?>" <?= $filterDistrict === $dst ? 'selected' : '' ?>><?= htmlspecialchars($dst) ?></option>
+                    <?php endforeach; ?>
+                </select>
+            </div>
+            <button type="submit" class="fn-btn fn-btn-primary fn-btn-sm" style="padding: 8px 18px; font-size: 13px;">Lọc</button>
+            <?php if (!empty($searchKw) || !empty($filterDistrict)): ?>
+                <a href="shops.php" class="fn-btn fn-btn-secondary fn-btn-sm" style="padding: 8px 12px; font-size: 13px;">Đặt lại</a>
+            <?php endif; ?>
+        </form>
 
         <div style="background: var(--fn-surface); border: 1px solid var(--fn-border); border-radius: var(--fn-radius); overflow: hidden; box-shadow: var(--fn-shadow-sm);">
             <table class="fn-price-table">

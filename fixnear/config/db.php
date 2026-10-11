@@ -594,6 +594,8 @@ class FixNearDB {
                     ':note' => $data['note'] ?? ''
                 ]);
             } else {
+                $warranty = $data['warranty_text'] ?? $data['warranty'] ?? '6 - 12 tháng';
+                $turnaround = $data['turnaround_text'] ?? $data['turnaround'] ?? '30 - 60 phút';
                 $stmt = $this->pdo->prepare("
                     INSERT INTO shop_services (shop_id, service_id, min_price, max_price, warranty_text, turnaround_text, note)
                     VALUES (:shop_id, :service_id, :min_price, :max_price, :warranty_text, :turnaround_text, :note)
@@ -603,8 +605,8 @@ class FixNearDB {
                     ':service_id' => (int)$data['service_id'],
                     ':min_price' => (int)($data['min_price'] ?? 0),
                     ':max_price' => (int)($data['max_price'] ?? 0),
-                    ':warranty_text' => $data['warranty_text'] ?? '6 - 12 tháng',
-                    ':turnaround_text' => $data['turnaround_text'] ?? '30 - 60 phút',
+                    ':warranty_text' => $warranty,
+                    ':turnaround_text' => $turnaround,
                     ':note' => $data['note'] ?? ''
                 ]);
                 $data['id'] = (int)$this->pdo->lastInsertId();
@@ -643,6 +645,48 @@ class FixNearDB {
             $newItems = array_filter($items, fn($it) => $it['id'] != $id);
             return $this->writeJson('shop_services.json', array_values($newItems));
         });
+    }
+
+    public function getAllShopServices($shop_id = 0, $limit = 50) {
+        if ($this->isUsingMySQL()) {
+            $sql = "
+                SELECT ss.*, s.name as service_name, s.device_type, sh.name as shop_name 
+                FROM shop_services ss 
+                JOIN services s ON ss.service_id = s.id 
+                JOIN shops sh ON ss.shop_id = sh.id 
+            ";
+            $params = [];
+            if ($shop_id > 0) {
+                $sql .= " WHERE ss.shop_id = :shop_id";
+                $params[':shop_id'] = (int)$shop_id;
+            }
+            $sql .= " ORDER BY ss.id DESC LIMIT " . (int)$limit;
+            $stmt = $this->pdo->prepare($sql);
+            $stmt->execute($params);
+            return $stmt->fetchAll(PDO::FETCH_ASSOC);
+        }
+
+        $shop_services = $this->readJson('shop_services.json');
+        $services = $this->readJson('services.json');
+        $shops = $this->readJson('shops.json');
+        $srvMap = [];
+        foreach ($services as $s) $srvMap[$s['id']] = $s;
+        $shpMap = [];
+        foreach ($shops as $sh) $shpMap[$sh['id']] = $sh['name'];
+
+        $result = [];
+        $reversed = array_reverse($shop_services);
+        foreach ($reversed as $ss) {
+            if ($shop_id > 0 && $ss['shop_id'] != $shop_id) continue;
+            $srv = $srvMap[$ss['service_id']] ?? null;
+            $result[] = array_merge($ss, [
+                'service_name' => $srv ? $srv['name'] : 'Dịch vụ #' . $ss['service_id'],
+                'device_type' => $srv ? $srv['device_type'] : 'phone',
+                'shop_name' => $shpMap[$ss['shop_id']] ?? 'Cửa hàng #' . $ss['shop_id']
+            ]);
+            if (count($result) >= $limit) break;
+        }
+        return $result;
     }
 
     // ================= ĐÁNH GIÁ (REVIEWS) =================
@@ -686,7 +730,7 @@ class FixNearDB {
         if ($this->isUsingMySQL()) {
             $stmt = $this->pdo->prepare("
                 INSERT INTO reviews (shop_id, user_id, user_name, rating, device_name, service_repaired, comment, is_hidden, admin_reply, created_at)
-                VALUES (:shop_id, :user_id, :user_name, :rating, :device_name, :service_repaired, :comment, 0, NULL, NOW())
+                VALUES (:shop_id, :user_id, :user_name, :rating, :device_name, :service_repaired, :comment, 1, NULL, NOW())
             ");
             $stmt->execute([
                 ':shop_id' => (int)$data['shop_id'],
@@ -706,7 +750,7 @@ class FixNearDB {
             $maxId = 0;
             foreach ($reviews as $r) $maxId = max($maxId, (int)$r['id']);
             $data['id'] = $maxId + 1;
-            $data['is_hidden'] = false;
+            $data['is_hidden'] = true;
             $data['created_at'] = date('Y-m-d H:i:s');
             $reviews[] = $data;
             return $this->writeJson('reviews.json', $reviews) ? $data : false;

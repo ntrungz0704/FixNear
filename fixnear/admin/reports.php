@@ -11,11 +11,17 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST' && isset($_POST['status'], $_POST['id'
     $id = (int)$_POST['id'];
     $st = in_array($_POST['status'], ['pending', 'resolved'], true) ? $_POST['status'] : 'pending';
     db()->updateReportStatus($id, $st);
-    header("Location: reports.php");
+    header("Location: reports.php?msg=" . $st);
     exit;
 }
 
 $reports = db()->getReports();
+$filterStatus = $_GET['filter'] ?? 'all';
+if ($filterStatus === 'pending') {
+    $reports = array_filter($reports, fn($r) => ($r['status'] ?? 'pending') !== 'resolved');
+} elseif ($filterStatus === 'resolved') {
+    $reports = array_filter($reports, fn($r) => ($r['status'] ?? 'pending') === 'resolved');
+}
 
 $pageTitle = "Quản Lý Báo Cáo Thông Tin Sai — FixNear Admin";
 require_once __DIR__ . '/../includes/header.php';
@@ -50,16 +56,35 @@ require_once __DIR__ . '/../includes/navbar.php';
     </div>
 
     <div class="fn-admin-content">
-        <div style="margin-bottom: 24px;">
-            <h1 style="font-family: var(--fn-font-heading); font-size: 24px; font-weight: 900; color: var(--fn-dark);">
-                Xử Lý Báo Cáo Thông Tin Sai Từ Người Dùng
-            </h1>
-            <p style="font-size: 13.5px; color: var(--fn-dark-muted);">
-                Người dùng phản ánh giá không khớp thực tế, tiệm chuyển chỗ hoặc đổi giờ mở cửa.
-            </p>
+        <div style="display: flex; justify-content: space-between; align-items: center; margin-bottom: 24px; flex-wrap: wrap; gap: 12px;">
+            <div>
+                <h1 style="font-family: var(--fn-font-heading); font-size: 24px; font-weight: 900; color: var(--fn-dark);">
+                    Xử Lý Báo Cáo Thông Tin Sai Từ Người Dùng
+                </h1>
+                <p style="font-size: 13.5px; color: var(--fn-dark-muted);">
+                    Người dùng phản ánh giá không khớp thực tế, tiệm chuyển chỗ hoặc đổi giờ mở cửa.
+                </p>
+            </div>
+
+            <!-- Bộ lọc trạng thái -->
+            <div style="display: flex; gap: 6px;">
+                <a href="reports.php?filter=all" class="fn-btn fn-btn-sm <?= $filterStatus === 'all' ? 'fn-btn-primary' : 'fn-btn-secondary' ?>" style="font-size: 12px; padding: 6px 12px;">Tất cả</a>
+                <a href="reports.php?filter=pending" class="fn-btn fn-btn-sm <?= $filterStatus === 'pending' ? 'fn-btn-primary' : 'fn-btn-secondary' ?>" style="font-size: 12px; padding: 6px 12px;">⏳ Chờ kiểm tra</a>
+                <a href="reports.php?filter=resolved" class="fn-btn fn-btn-sm <?= $filterStatus === 'resolved' ? 'fn-btn-primary' : 'fn-btn-secondary' ?>" style="font-size: 12px; padding: 6px 12px;">✓ Đã xử lý</a>
+            </div>
         </div>
 
-        <div style="background: var(--fn-surface); border: 1px solid var(--fn-border); border-radius: var(--fn-radius); overflow: hidden;">
+        <?php if (isset($_GET['msg']) && $_GET['msg'] === 'resolved'): ?>
+            <div style="background: #dcfce7; color: #166534; padding: 10px 16px; border-radius: 6px; font-size: 13.5px; margin-bottom: 16px;">
+                ✓ Đã chuyển trạng thái báo cáo sang "Đã xử lý"!
+            </div>
+        <?php elseif (isset($_GET['msg']) && $_GET['msg'] === 'pending'): ?>
+            <div style="background: #fef3c7; color: #92400e; padding: 10px 16px; border-radius: 6px; font-size: 13.5px; margin-bottom: 16px;">
+                ✓ Đã mở lại báo cáo sang trạng thái "Chờ kiểm tra"!
+            </div>
+        <?php endif; ?>
+
+        <div style="background: var(--fn-surface); border: 1px solid var(--fn-border); border-radius: var(--fn-radius); overflow-x: auto; box-shadow: var(--fn-shadow-sm);">
             <table class="fn-price-table">
                 <thead>
                     <tr>
@@ -75,15 +100,19 @@ require_once __DIR__ . '/../includes/navbar.php';
                 </thead>
                 <tbody>
                     <?php if (empty($reports)): ?>
-                        <tr><td colspan="8" style="text-align:center; padding:30px;">Hiện tại không có phản ánh sai sót nào.</td></tr>
+                        <tr><td colspan="8" style="text-align:center; padding:30px; color: var(--fn-text-light);">Hiện tại không có phản ánh sai sót nào.</td></tr>
                     <?php else: ?>
                         <?php foreach ($reports as $rp): ?>
                             <tr>
                                 <td>#<?= $rp['id'] ?></td>
                                 <td>
-                                    <strong style="color: var(--fn-dark);">
-                                        <?= htmlspecialchars($rp['shop_name'] ?? 'Cửa hàng') ?>
-                                    </strong>
+                                    <?php if (!empty($rp['shop_id'])): ?>
+                                        <a href="../shop_detail.php?id=<?= (int)$rp['shop_id'] ?>" target="_blank" style="font-weight: 800; color: var(--fn-primary); text-decoration: none;">
+                                            <?= htmlspecialchars($rp['shop_name'] ?? 'Cửa hàng #' . $rp['shop_id']) ?> ↗
+                                        </a>
+                                    <?php else: ?>
+                                        <strong style="color: var(--fn-dark);"><?= htmlspecialchars($rp['shop_name'] ?? 'Cửa hàng') ?></strong>
+                                    <?php endif; ?>
                                 </td>
                                 <td>
                                     <?= htmlspecialchars($rp['user_name'] ?? 'Khách vãng lai') ?>

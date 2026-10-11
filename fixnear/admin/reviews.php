@@ -24,14 +24,22 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST' && in_array($_POST['action'] ?? '', ['
     $reviewId = (int)($_POST['review_id'] ?? 0);
     if (($_POST['action'] ?? '') === 'toggle_review') {
         db()->toggleReviewVisibility($reviewId);
+        header("Location: reviews.php?msg=toggled");
+        exit;
     } else {
         db()->deleteReview($reviewId);
+        header("Location: reviews.php?msg=deleted");
+        exit;
     }
-    header("Location: reviews.php");
-    exit;
 }
 
 $reviews = db()->getAllReviews();
+$filterStatus = $_GET['filter'] ?? 'all';
+if ($filterStatus === 'pending') {
+    $reviews = array_filter($reviews, fn($r) => !empty($r['is_hidden']));
+} elseif ($filterStatus === 'approved') {
+    $reviews = array_filter($reviews, fn($r) => empty($r['is_hidden']));
+}
 
 $pageTitle = "Quản Lý Đánh Giá — FixNear Admin";
 require_once __DIR__ . '/../includes/header.php';
@@ -66,16 +74,39 @@ require_once __DIR__ . '/../includes/navbar.php';
     </div>
 
     <div class="fn-admin-content">
-        <div style="margin-bottom: 24px;">
-            <h1 style="font-family: var(--fn-font-heading); font-size: 24px; font-weight: 900; color: var(--fn-dark);">
-                Kiểm Duyệt & Quản Lý Đánh Giá Người Dùng
-            </h1>
-            <p style="font-size: 13.5px; color: var(--fn-dark-muted);">
-                Đảm bảo các nhận xét mang tính xây dựng, trung thực, loại bỏ ngôn từ tục tĩu hoặc spam ảo.
-            </p>
+        <div style="display: flex; justify-content: space-between; align-items: center; margin-bottom: 24px; flex-wrap: wrap; gap: 12px;">
+            <div>
+                <h1 style="font-family: var(--fn-font-heading); font-size: 24px; font-weight: 900; color: var(--fn-dark);">
+                    Kiểm Duyệt & Quản Lý Đánh Giá Người Dùng
+                </h1>
+                <p style="font-size: 13.5px; color: var(--fn-dark-muted);">
+                    Đánh giá mới gửi cần được Ban Quản Trị duyệt trước khi hiển thị công khai trên trang chi tiết cửa hàng.
+                </p>
+            </div>
+
+            <!-- Bộ lọc trạng thái đánh giá -->
+            <div style="display: flex; gap: 6px;">
+                <a href="reviews.php?filter=all" class="fn-btn fn-btn-sm <?= $filterStatus === 'all' ? 'fn-btn-primary' : 'fn-btn-secondary' ?>" style="font-size: 12px; padding: 6px 12px;">Tất cả</a>
+                <a href="reviews.php?filter=pending" class="fn-btn fn-btn-sm <?= $filterStatus === 'pending' ? 'fn-btn-primary' : 'fn-btn-secondary' ?>" style="font-size: 12px; padding: 6px 12px;">⏳ Chờ duyệt (Ẩn)</a>
+                <a href="reviews.php?filter=approved" class="fn-btn fn-btn-sm <?= $filterStatus === 'approved' ? 'fn-btn-primary' : 'fn-btn-secondary' ?>" style="font-size: 12px; padding: 6px 12px;">✓ Đang hiển thị</a>
+            </div>
         </div>
 
-        <div style="background: var(--fn-surface); border: 1px solid var(--fn-border); border-radius: var(--fn-radius); overflow: hidden;">
+        <?php if (isset($_GET['msg']) && $_GET['msg'] === 'toggled'): ?>
+            <div style="background: #dcfce7; color: #166534; padding: 10px 16px; border-radius: 6px; font-size: 13.5px; margin-bottom: 16px;">
+                ✓ Đã cập nhật trạng thái hiển thị của đánh giá!
+            </div>
+        <?php elseif (isset($_GET['msg']) && $_GET['msg'] === 'deleted'): ?>
+            <div style="background: #fee2e2; color: #991b1b; padding: 10px 16px; border-radius: 6px; font-size: 13.5px; margin-bottom: 16px;">
+                ✓ Đã xóa vĩnh viễn đánh giá khỏi hệ thống!
+            </div>
+        <?php elseif (isset($_GET['msg']) && $_GET['msg'] === 'replied'): ?>
+            <div style="background: #dcfce7; color: #166534; padding: 10px 16px; border-radius: 6px; font-size: 13.5px; margin-bottom: 16px;">
+                🛡️ Đã cập nhật phản hồi chính thức từ Ban Quản Trị thành công!
+            </div>
+        <?php endif; ?>
+
+        <div style="background: var(--fn-surface); border: 1px solid var(--fn-border); border-radius: var(--fn-radius); overflow-x: auto; box-shadow: var(--fn-shadow-sm);">
             <table class="fn-price-table">
                 <thead>
                     <tr>
@@ -91,7 +122,7 @@ require_once __DIR__ . '/../includes/navbar.php';
                 </thead>
                 <tbody>
                     <?php if (empty($reviews)): ?>
-                        <tr><td colspan="8" style="text-align:center; padding:30px;">Chưa có đánh giá nào.</td></tr>
+                        <tr><td colspan="8" style="text-align:center; padding:30px; color: var(--fn-text-light);">Chưa có đánh giá nào.</td></tr>
                     <?php else: ?>
                         <?php foreach ($reviews as $r): ?>
                             <tr>
@@ -105,12 +136,16 @@ require_once __DIR__ . '/../includes/navbar.php';
                                     <?php endif; ?>
                                 </td>
                                 <td>
-                                    <span style="font-weight: 700; color: var(--fn-primary);">
-                                        <?= htmlspecialchars($r['shop_name']) ?>
-                                    </span>
+                                    <?php if (!empty($r['shop_id'])): ?>
+                                        <a href="../shop_detail.php?id=<?= (int)$r['shop_id'] ?>" target="_blank" style="font-weight: 700; color: var(--fn-primary); text-decoration: none;">
+                                            <?= htmlspecialchars($r['shop_name']) ?> ↗
+                                        </a>
+                                    <?php else: ?>
+                                        <span style="font-weight: 700; color: var(--fn-primary);"><?= htmlspecialchars($r['shop_name']) ?></span>
+                                    <?php endif; ?>
                                 </td>
                                 <td>
-                                    <span style="color: var(--fn-gold); font-weight: 800;">
+                                    <span style="color: var(--fn-gold); font-weight: 800; white-space: nowrap;">
                                         <?= str_repeat('⭐', $r['rating']) ?>
                                     </span>
                                 </td>
@@ -144,33 +179,41 @@ require_once __DIR__ . '/../includes/navbar.php';
                                         </form>
                                     </details>
                                 </td>
-                                <td style="font-size: 12px; color: var(--fn-text-light);">
+                                <td style="font-size: 12px; color: var(--fn-text-light); white-space: nowrap;">
                                     <?= date('d/m/Y H:i', strtotime($r['created_at'])) ?>
                                 </td>
                                 <td>
                                     <?php if (!empty($r['is_hidden'])): ?>
-                                        <span style="font-size: 11px; padding: 2px 6px; background: #fee2e2; color: #991b1b; border-radius: 4px; font-weight: bold;">
-                                            Đang ẩn
+                                        <span style="font-size: 11px; padding: 3px 8px; background: #fef3c7; color: #92400e; border-radius: 4px; font-weight: bold; white-space: nowrap;">
+                                            ⏳ Chờ duyệt
                                         </span>
                                     <?php else: ?>
-                                        <span style="font-size: 11px; padding: 2px 6px; background: #dcfce7; color: #166534; border-radius: 4px; font-weight: bold;">
-                                            Hiển thị
+                                        <span style="font-size: 11px; padding: 3px 8px; background: #dcfce7; color: #166534; border-radius: 4px; font-weight: bold; white-space: nowrap;">
+                                            ✓ Hiển thị
                                         </span>
                                     <?php endif; ?>
                                 </td>
-                                <td style="text-align: right;">
+                                <td style="text-align: right; white-space: nowrap;">
                                     <div style="display: inline-flex; gap: 6px;">
                                         <form method="post" action="reviews.php" style="display:inline;">
                                             <?= csrfField() ?>
                                             <input type="hidden" name="action" value="toggle_review">
                                             <input type="hidden" name="review_id" value="<?= $r['id'] ?>">
-                                            <button type="submit" class="fn-btn fn-btn-sm fn-btn-secondary" style="padding: 4px 8px; font-size: 11.5px;"><?= !empty($r['is_hidden']) ? 'Hiện' : 'Ẩn' ?></button>
+                                            <?php if (!empty($r['is_hidden'])): ?>
+                                                <button type="submit" class="fn-btn fn-btn-sm" style="padding: 4px 10px; font-size: 11.5px; background: #16a34a; color: #ffffff; border-radius: 6px; font-weight: 700;">
+                                                    ✓ Duyệt
+                                                </button>
+                                            <?php else: ?>
+                                                <button type="submit" class="fn-btn fn-btn-sm fn-btn-secondary" style="padding: 4px 10px; font-size: 11.5px;">
+                                                    Ẩn
+                                                </button>
+                                            <?php endif; ?>
                                         </form>
                                         <form method="post" action="reviews.php" onsubmit="return confirm('Xóa vĩnh viễn đánh giá này?')" style="display:inline;">
                                             <?= csrfField() ?>
                                             <input type="hidden" name="action" value="delete_review">
                                             <input type="hidden" name="review_id" value="<?= $r['id'] ?>">
-                                            <button type="submit" class="fn-btn fn-btn-sm fn-btn-secondary" style="padding: 4px 8px; font-size: 11.5px; color: #ef4444;">Xóa</button>
+                                            <button type="submit" class="fn-btn fn-btn-sm fn-btn-secondary" style="padding: 4px 10px; font-size: 11.5px; color: #ef4444;">Xóa</button>
                                         </form>
                                     </div>
                                 </td>

@@ -4,7 +4,7 @@ $requestPath = rawurldecode(parse_url($_SERVER['REQUEST_URI'] ?? '/', PHP_URL_PA
 $normalized = str_replace('\\', '/', $requestPath);
 $blocked = preg_match('#^/(?:config|data|scripts|tools|outputs)(?:/|$)#i', $normalized)
     || preg_match('#/(?:\.|[^/]+\.(?:sql|log|ini|env|bak|dist|md))$#i', $normalized)
-    || in_array(strtolower($normalized), ['/install.php', '/start_server.bat', '/pasted text.txt'], true);
+    || in_array(strtolower($normalized), ['/start_server.bat', '/pasted text.txt'], true);
 
 if ($blocked) {
     http_response_code(404);
