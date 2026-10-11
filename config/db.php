@@ -1215,6 +1215,7 @@ class FixNearDB {
     }
 
     public function createUser($data) {
+        $data['role'] = 'user';
         if ($this->isUsingMySQL()) {
             if ($this->getUserByEmail($data['email'])) return false;
             $stmt = $this->pdo->prepare("
@@ -1225,7 +1226,7 @@ class FixNearDB {
                 ':name' => $data['name'] ?? '',
                 ':email' => $data['email'] ?? '',
                 ':password' => $data['password'] ?? '',
-                ':role' => $data['role'] ?? 'user',
+                ':role' => 'user',
                 ':phone' => $data['phone'] ?? null
             ]);
             $data['id'] = (int)$this->pdo->lastInsertId();
@@ -1240,7 +1241,7 @@ class FixNearDB {
             $maxId = 0;
             foreach ($users as $user) $maxId = max($maxId, (int)($user['id'] ?? 0));
             $data['id'] = $maxId + 1;
-            $data['role'] = $data['role'] ?? 'user';
+            $data['role'] = 'user';
             $data['created_at'] = date('Y-m-d H:i:s');
             $users[] = $data;
             return $this->writeJson('users.json', $users) ? $data : false;
@@ -1392,39 +1393,55 @@ class FixNearDB {
 
     public function createOrUpdateAdmin(string $email, string $name, string $passwordHash): bool {
         if ($this->isUsingMySQL()) {
-            $existing = $this->getUserByEmail($email);
-            if ($existing) {
-                $stmt = $this->pdo->prepare("UPDATE users SET name = :name, password = :pwd, role = 'admin' WHERE id = :id");
-                return $stmt->execute([':name' => $name, ':pwd' => $passwordHash, ':id' => $existing['id']]);
-            } else {
+            if ((int)$this->pdo->query("SELECT GET_LOCK('fixnear_single_admin', 5)")->fetchColumn() !== 1) {
+                return false;
+            }
+            try {
+                $admins = $this->pdo->query("SELECT id, email FROM users WHERE role = 'admin'")->fetchAll(PDO::FETCH_ASSOC);
+                if (count($admins) > 1 || (count($admins) === 1 && strcasecmp($admins[0]['email'], $email) !== 0)) {
+                    return false;
+                }
+                $existing = $this->getUserByEmail($email);
+                if ($existing) {
+                    $stmt = $this->pdo->prepare("UPDATE users SET name = :name, password = :pwd, role = 'admin' WHERE id = :id");
+                    return $stmt->execute([':name' => $name, ':pwd' => $passwordHash, ':id' => $existing['id']]);
+                }
                 $stmt = $this->pdo->prepare("INSERT INTO users (name, email, password, role, phone, created_at) VALUES (:name, :email, :pwd, 'admin', '', NOW())");
                 return $stmt->execute([':name' => $name, ':email' => $email, ':pwd' => $passwordHash]);
+            } finally {
+                $this->pdo->query("SELECT RELEASE_LOCK('fixnear_single_admin')");
             }
         }
 
-        $users = $this->readJson('users.json');
-        foreach ($users as &$user) {
-            if (strcasecmp(trim((string)($user['email'] ?? '')), $email) === 0) {
-                $user['name'] = $name;
-                $user['password'] = $passwordHash;
-                $user['role'] = 'admin';
-                $user['updated_at'] = date('Y-m-d H:i:s');
-                return $this->writeJson('users.json', $users);
+        return $this->withJsonLock('users.json', function () use ($email, $name, $passwordHash): bool {
+            $users = $this->readJson('users.json');
+            $admins = array_values(array_filter($users, static fn($user) => ($user['role'] ?? '') === 'admin'));
+            if (count($admins) > 1 || (count($admins) === 1 && strcasecmp(trim((string)($admins[0]['email'] ?? '')), $email) !== 0)) {
+                return false;
             }
-        }
-        unset($user);
-        $maxId = 0;
-        foreach ($users as $user) $maxId = max($maxId, (int)($user['id'] ?? 0));
-        $users[] = [
-            'id' => $maxId + 1,
-            'name' => $name,
-            'email' => $email,
-            'password' => $passwordHash,
-            'role' => 'admin',
-            'phone' => '',
-            'created_at' => date('Y-m-d H:i:s')
-        ];
-        return $this->writeJson('users.json', $users);
+            foreach ($users as &$user) {
+                if (strcasecmp(trim((string)($user['email'] ?? '')), $email) === 0) {
+                    $user['name'] = $name;
+                    $user['password'] = $passwordHash;
+                    $user['role'] = 'admin';
+                    $user['updated_at'] = date('Y-m-d H:i:s');
+                    return $this->writeJson('users.json', $users);
+                }
+            }
+            unset($user);
+            $maxId = 0;
+            foreach ($users as $user) $maxId = max($maxId, (int)($user['id'] ?? 0));
+            $users[] = [
+                'id' => $maxId + 1,
+                'name' => $name,
+                'email' => $email,
+                'password' => $passwordHash,
+                'role' => 'admin',
+                'phone' => '',
+                'created_at' => date('Y-m-d H:i:s')
+            ];
+            return $this->writeJson('users.json', $users);
+        });
     }
 }
 
