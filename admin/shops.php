@@ -91,7 +91,8 @@ require_once __DIR__ . '/../includes/navbar.php';
                 </thead>
                 <tbody>
                     <?php foreach ($shops as $s): ?>
-                        <tr data-search="<?= htmlspecialchars(strtolower($s['name'] . ' ' . $s['address'] . ' ' . $s['phone'] . ' ' . $s['ward']), ENT_QUOTES) ?>"
+                        <tr class="fn-shop-row"
+                            data-search="<?= htmlspecialchars(mb_strtolower($s['id'] . ' ' . $s['name'] . ' ' . $s['address'] . ' ' . $s['phone'] . ' ' . $s['ward'] . ' ' . ($s['district'] ?? ''), 'UTF-8'), ENT_QUOTES) ?>"
                             data-district="<?= htmlspecialchars($s['district'] ?? '', ENT_QUOTES) ?>">
                             <td><strong>#<?= $s['id'] ?></strong></td>
                             <td>
@@ -148,6 +149,13 @@ require_once __DIR__ . '/../includes/navbar.php';
                             </td>
                         </tr>
                     <?php endforeach; ?>
+                    <tr id="shops-empty-row" style="display: none;">
+                        <td colspan="7" style="text-align: center; padding: 36px 16px; color: var(--fn-dark-muted);">
+                            <div style="font-size: 28px; margin-bottom: 8px;">🔍</div>
+                            <div style="font-size: 14.5px; font-weight: 700; color: var(--fn-dark);">Không tìm thấy cửa hàng nào</div>
+                            <div style="font-size: 12.5px; margin-top: 4px;">Hãy thử tìm bằng từ khóa khác hoặc bỏ chọn lọc quận/huyện.</div>
+                        </td>
+                    </tr>
                 </tbody>
             </table>
         </div>
@@ -156,20 +164,62 @@ require_once __DIR__ . '/../includes/navbar.php';
 
 <?php require_once __DIR__ . '/../includes/footer.php'; ?>
 <script>
+function normalizeVi(str) {
+    if (!str) return '';
+    return str.toString().toLowerCase()
+        .normalize('NFD')
+        .replace(/[\u0300-\u036f]/g, '')
+        .replace(/[đĐ]/g, 'd')
+        .replace(/[^a-z0-9\s]/g, ' ')
+        .replace(/\s+/g, ' ')
+        .trim();
+}
+
 function filterShops() {
-    var kw       = (document.getElementById('shop-search').value || '').toLowerCase().trim();
-    var district = document.getElementById('district-filter').value;
-    var rows     = document.querySelectorAll('#shops-table tbody tr');
-    var visible  = 0;
+    var rawKw     = (document.getElementById('shop-search').value || '').trim();
+    var kwNorm    = normalizeVi(rawKw);
+    var kwWords   = kwNorm ? kwNorm.split(' ').filter(Boolean) : [];
+    var kwNoSpace = kwNorm.replace(/\s+/g, '');
+    var district  = (document.getElementById('district-filter').value || '').trim();
+    var rows      = document.querySelectorAll('#shops-table tbody tr.fn-shop-row');
+    var visible   = 0;
+
     rows.forEach(function(row) {
-        var matchKw  = !kw || (row.dataset.search || '').indexOf(kw) !== -1;
-        var matchDis = !district || row.dataset.district === district;
+        if (!row._normText) {
+            var rawSearch = (row.dataset.search || '') + ' ' + (row.innerText || '');
+            row._normText = normalizeVi(rawSearch);
+            row._normNoSpace = row._normText.replace(/\s+/g, '');
+        }
+
+        var matchKw = true;
+        if (kwWords.length > 0) {
+            if (row._normText.indexOf(kwNorm) !== -1 || (kwNoSpace && row._normNoSpace.indexOf(kwNoSpace) !== -1)) {
+                matchKw = true;
+            } else {
+                for (var i = 0; i < kwWords.length; i++) {
+                    if (row._normText.indexOf(kwWords[i]) === -1) {
+                        matchKw = false;
+                        break;
+                    }
+                }
+            }
+        }
+
+        var matchDis = !district || ((row.dataset.district || '').trim() === district);
         var show = matchKw && matchDis;
         row.style.display = show ? '' : 'none';
         if (show) visible++;
     });
-    document.getElementById('shop-count-badge').textContent = visible + ' cửa hàng';
+
+    var badge = document.getElementById('shop-count-badge');
+    if (badge) badge.textContent = visible + ' cửa hàng';
+
+    var emptyRow = document.getElementById('shops-empty-row');
+    if (emptyRow) {
+        emptyRow.style.display = (visible === 0) ? '' : 'none';
+    }
 }
+
 // focus search khi ấn Ctrl+F trên trang admin
 document.addEventListener('keydown', function(e) {
     if ((e.ctrlKey || e.metaKey) && e.key === 'f') {

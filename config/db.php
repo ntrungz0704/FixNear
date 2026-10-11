@@ -41,6 +41,23 @@ function requireValidCsrf() {
     }
 }
 
+function fixnearRemoveAccents(string $str): string {
+    $str = mb_strtolower($str, 'UTF-8');
+    $accents = [
+        'a' => '/[àáạảãâầấậẩẫăằắặẳẵ]/u',
+        'e' => '/[èéẹẻẽêềếệểễ]/u',
+        'i' => '/[ìíịỉĩ]/u',
+        'o' => '/[òóọỏõôồốộổỗơờớợởỡ]/u',
+        'u' => '/[ùúụủũưừứựửữ]/u',
+        'y' => '/[ỳýỵỷỹ]/u',
+        'd' => '/[đ]/u',
+    ];
+    foreach ($accents as $nonAccent => $pattern) {
+        $str = preg_replace($pattern, $nonAccent, $str);
+    }
+    return $str;
+}
+
 class FixNearDB {
     private static $instance = null;
     private $pdo = null;
@@ -266,17 +283,30 @@ class FixNearDB {
                 $params[':service_id'] = (int)$filters['service_id'];
             }
 
-            if (!empty($filters['keyword'])) {
-                $kw = '%' . trim($filters['keyword']) . '%';
-                $sql .= " AND (name LIKE :kw1 OR address LIKE :kw2 OR description LIKE :kw3)";
-                $params[':kw1'] = $kw;
-                $params[':kw2'] = $kw;
-                $params[':kw3'] = $kw;
-            }
-
             $stmt = $this->pdo->prepare($sql);
             $stmt->execute($params);
             $shops = $stmt->fetchAll(PDO::FETCH_ASSOC);
+
+            if (!empty($filters['keyword'])) {
+                $kwRaw = mb_strtolower(trim((string)$filters['keyword']), 'UTF-8');
+                $kwNorm = fixnearRemoveAccents($kwRaw);
+                $kwWords = array_filter(explode(' ', $kwNorm));
+                $kwNoSpace = str_replace(' ', '', $kwNorm);
+                $shops = array_values(array_filter($shops, function($s) use ($kwRaw, $kwNorm, $kwWords, $kwNoSpace) {
+                    $rawText = mb_strtolower(($s['name'] ?? '') . ' ' . ($s['address'] ?? '') . ' ' . ($s['description'] ?? '') . ' ' . ($s['phone'] ?? ''), 'UTF-8');
+                    if (mb_stripos($rawText, $kwRaw, 0, 'UTF-8') !== false) return true;
+                    $normText = fixnearRemoveAccents($rawText);
+                    if (strpos($normText, $kwNorm) !== false) return true;
+                    if ($kwNoSpace !== '' && strpos(str_replace(' ', '', $normText), $kwNoSpace) !== false) return true;
+                    if (!empty($kwWords)) {
+                        foreach ($kwWords as $w) {
+                            if (strpos($normText, $w) === false) return false;
+                        }
+                        return true;
+                    }
+                    return false;
+                }));
+            }
 
             foreach ($shops as &$shop) {
                 if (isset($shop['devices']) && is_string($shop['devices'])) {
@@ -370,12 +400,24 @@ class FixNearDB {
         }
 
         if (!empty($filters['keyword'])) {
-            $kw = mb_strtolower($filters['keyword'], 'UTF-8');
-            $shops = array_filter($shops, function($s) use ($kw) {
-                return mb_stripos($s['name'], $kw, 0, 'UTF-8') !== false ||
-                       mb_stripos($s['address'], $kw, 0, 'UTF-8') !== false ||
-                       mb_stripos($s['description'], $kw, 0, 'UTF-8') !== false;
-            });
+            $kwRaw = mb_strtolower(trim((string)$filters['keyword']), 'UTF-8');
+            $kwNorm = fixnearRemoveAccents($kwRaw);
+            $kwWords = array_filter(explode(' ', $kwNorm));
+            $kwNoSpace = str_replace(' ', '', $kwNorm);
+            $shops = array_values(array_filter($shops, function($s) use ($kwRaw, $kwNorm, $kwWords, $kwNoSpace) {
+                $rawText = mb_strtolower(($s['name'] ?? '') . ' ' . ($s['address'] ?? '') . ' ' . ($s['description'] ?? '') . ' ' . ($s['phone'] ?? ''), 'UTF-8');
+                if (mb_stripos($rawText, $kwRaw, 0, 'UTF-8') !== false) return true;
+                $normText = fixnearRemoveAccents($rawText);
+                if (strpos($normText, $kwNorm) !== false) return true;
+                if ($kwNoSpace !== '' && strpos(str_replace(' ', '', $normText), $kwNoSpace) !== false) return true;
+                if (!empty($kwWords)) {
+                    foreach ($kwWords as $w) {
+                        if (strpos($normText, $w) === false) return false;
+                    }
+                    return true;
+                }
+                return false;
+            }));
         }
 
         if (!empty($filters['user_lat']) && !empty($filters['user_lng'])) {
