@@ -1240,10 +1240,20 @@ function triggerDeviceGPS(btn) {
                     btn.innerHTML = '✓ Đã nhận GPS! Đang cập nhật...';
                     btn.style.background = '#16a34a';
                 }
-                setTimeout(() => {
-                    window.FixNearLocation.cleanUrlGPS();
-                    window.location.reload();
-                }, 400);
+                const isMapPage = window.location.pathname.endsWith('map.php') || window.location.pathname.endsWith('/map');
+                if (isMapPage && typeof applyUserLocationToMap === 'function') {
+                    applyUserLocationToMap(locData, true);
+                    if (btn) {
+                        setTimeout(() => {
+                            btn.innerHTML = '✓ Đã bật GPS';
+                        }, 500);
+                    }
+                } else {
+                    setTimeout(() => {
+                        window.FixNearLocation.cleanUrlGPS();
+                        window.location.reload();
+                    }, 400);
+                }
             },
             (err) => {
                 if (btn) {
