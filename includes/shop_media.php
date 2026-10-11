@@ -8,11 +8,7 @@ declare(strict_types=1);
 function fixnearShopMedia(array $shop): string
 {
     $image = trim((string)($shop['image'] ?? ''));
-    if ($image === '' && !empty($shop['raw_image']) && getenv('FIXNEAR_ENV') !== 'test') {
-        $image = trim((string)$shop['raw_image']);
-    }
-
-    if ($image !== '') {
+    if ($image !== '' && ($shop['image_kind'] ?? '') === 'verified_branch') {
         $alt = htmlspecialchars((string)($shop['name'] ?? 'Cửa hàng'), ENT_QUOTES, 'UTF-8');
         $src = htmlspecialchars($image, ENT_QUOTES, 'UTF-8');
         return '<img src="' . $src . '" alt="' . $alt . '" loading="lazy" style="width:100%;height:100%;object-fit:cover;" '
