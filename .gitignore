@@ -1,5 +1,6 @@
 # Temporary locks and logs
 data/*.lock
+data/.shop-image-checkpoint.json
 data/users.json
 data/repair_requests.json
 data/contact_messages.json

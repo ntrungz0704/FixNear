@@ -16,8 +16,6 @@ php -S 127.0.0.1:8000 -t . router.php
 
 Mở `http://127.0.0.1:8000/`. Không cần MySQL để chạy với dữ liệu JSON mẫu. Dữ liệu người dùng, yêu cầu sửa chữa và cấu hình riêng được giữ ngoài Git.
 
-## Kiểm tra
-
 ```bash
 php scripts/preflight.php
 python scripts/validate_catalog.py
@@ -25,6 +23,28 @@ python scripts/validate_price_evidence.py
 python scripts/validate_shop_evidence.py
 python scripts/validate_shop_media.py
 python scripts/test_user_flows.py
+python tests/test_audit_shop_media.py
+```
+
+## Thu thập & Đối soát ảnh cửa hàng (Image Research Engine)
+
+Công cụ tự động thu thập và xác minh ảnh chi nhánh từ website chính thức:
+
+```bash
+# Chạy thử 5 cửa hàng
+python scripts/audit_shop_media.py --limit 5 --dry-run
+
+# Nghiên cứu toàn bộ cửa hàng
+python scripts/audit_shop_media.py --all
+
+# Chỉ kiểm tra lại ảnh lỗi hoặc còn thiếu
+python scripts/audit_shop_media.py --retry-missing
+
+# Xuất dữ liệu CSV cho Google Sheets (tab Ảnh cửa hàng - Gemini)
+python scripts/audit_shop_media.py --export-csv
+
+# Hiển thị thống kê
+python scripts/audit_shop_media.py --report
 ```
 
 ## Triển khai
