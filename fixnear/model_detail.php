@@ -264,6 +264,7 @@ require_once __DIR__ . '/includes/navbar.php';
                             <div style="font-size: 11.5px; color: #2563eb; margin-top: 4px;">Bóc máy zin / Chuẩn hãng • BH 12 tháng</div>
                         </div>
                     </div>
+                </div>
             <?php endforeach; ?>
         </div>
     </div>
