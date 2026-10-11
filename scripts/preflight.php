@@ -6,7 +6,7 @@ if (PHP_SAPI !== 'cli') {
     exit('Not found');
 }
 
-require_once __DIR__ . '/../config/app.php';
+require_once __DIR__ . '/../config/db.php';
 
 $errors = [];
 $warnings = [];
@@ -59,11 +59,12 @@ if ($projectRoot !== false && $resolvedDataDir !== false) {
     }
 }
 
-$usersFile = $dataDir . 'users.json';
 $adminCount = 0;
-if (is_file($usersFile)) {
+if (db()->isUsingMySQL()) {
+    $adminCount = (int)db()->getPdo()->query("SELECT COUNT(*) FROM users WHERE role = 'admin'")->fetchColumn();
+} elseif (is_file($dataDir . 'users.json')) {
     try {
-        $users = json_decode((string) file_get_contents($usersFile), true, 512, JSON_THROW_ON_ERROR);
+        $users = json_decode((string) file_get_contents($dataDir . 'users.json'), true, 512, JSON_THROW_ON_ERROR);
         foreach (is_array($users) ? $users : [] as $user) {
             if (($user['role'] ?? '') === 'admin' && !empty($user['password'])) {
                 $adminCount++;
@@ -73,7 +74,9 @@ if (is_file($usersFile)) {
         $errors[] = "JSON lỗi users.json: {$exception->getMessage()}";
     }
 }
-if ($adminCount === 0) {
+if ($adminCount > 1) {
+    $errors[] = "Có {$adminCount} tài khoản admin; hệ thống chỉ cho phép một admin.";
+} elseif ($adminCount === 0) {
     $warnings[] = 'Chưa có quản trị viên; chạy scripts/create_admin.php sau khi cấu hình thư mục dữ liệu production.';
 } else {
     $passes[] = "Có {$adminCount} tài khoản quản trị trong môi trường hiện tại.";

@@ -26,5 +26,5 @@ if (strlen($password) < 12 || strlen($password) > 200) {
 }
 
 $ok = db()->createOrUpdateAdmin($email, $name, password_hash($password, PASSWORD_DEFAULT));
-fwrite($ok ? STDOUT : STDERR, $ok ? "Đã tạo/cập nhật quản trị viên.\n" : "Không thể ghi dữ liệu quản trị viên.\n");
+fwrite($ok ? STDOUT : STDERR, $ok ? "Đã tạo/cập nhật quản trị viên duy nhất.\n" : "Không thể tạo admin khác khi đã có admin; dùng đúng email hiện tại để đổi mật khẩu.\n");
 exit($ok ? 0 : 1);
