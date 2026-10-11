@@ -31,8 +31,6 @@ Khóa hiện tại trên máy chủ dự án nằm tại `C:\Users\ntrun\.fixnea
 
 Muốn cập nhật bản mã hóa sau khi dữ liệu thay đổi, chạy `php scripts/private_snapshot.php export` với `FIXNEAR_SNAPSHOT_KEY_FILE` đã đặt, kiểm tra bằng `verify`, rồi commit tệp `.enc`. Hệ thống chỉ cho phép một admin; lệnh `create_admin.php` chỉ cập nhật email admin hiện tại hoặc tạo admin khi chưa có.
 
-## Kiểm tra
-
 ```bash
 php scripts/preflight.php
 python scripts/validate_catalog.py
@@ -40,6 +38,28 @@ python scripts/validate_price_evidence.py
 python scripts/validate_shop_evidence.py
 python scripts/validate_shop_media.py
 python scripts/test_user_flows.py
+python tests/test_audit_shop_media.py
+```
+
+## Thu thập & Đối soát ảnh cửa hàng (Image Research Engine)
+
+Công cụ tự động thu thập và xác minh ảnh chi nhánh từ website chính thức:
+
+```bash
+# Chạy thử 5 cửa hàng
+python scripts/audit_shop_media.py --limit 5 --dry-run
+
+# Nghiên cứu toàn bộ cửa hàng
+python scripts/audit_shop_media.py --all
+
+# Chỉ kiểm tra lại ảnh lỗi hoặc còn thiếu
+python scripts/audit_shop_media.py --retry-missing
+
+# Xuất dữ liệu CSV cho Google Sheets (tab Ảnh cửa hàng - Gemini)
+python scripts/audit_shop_media.py --export-csv
+
+# Hiển thị thống kê
+python scripts/audit_shop_media.py --report
 ```
 
 ## Triển khai
