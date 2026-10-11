@@ -77,6 +77,7 @@ class FixNearDB {
         $shop['service_policy_verified'] = !empty($shop['policy_source_url']) && !empty($shop['policy_verified_at']);
         // Cờ seed is_verified cũ không phải bằng chứng độc lập.
         $shop['is_verified'] = $shop['source_verified'];
+        $shop['raw_image'] = trim((string)($shop['image'] ?? ''));
         // Website logos and product-page screenshots are not photos of a branch.
         // Do not display any image as a shop photo without branch-specific evidence.
         $shop['image'] = '';

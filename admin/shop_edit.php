@@ -48,7 +48,7 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
         if ($shopData[$key] === '') $formErrors[] = "Vui lòng nhập {$label}.";
     }
     $phoneDigits = preg_replace('/\D+/', '', $shopData['phone']);
-    if (strlen($phoneDigits) < 9 || strlen($phoneDigits) > 12) $formErrors[] = 'Số điện thoại cần có 9–12 chữ số.';
+    if (strlen($phoneDigits) < 6 || strlen($phoneDigits) > 12) $formErrors[] = 'Số điện thoại cần có 6–12 chữ số (hỗ trợ cả hotline 1800/1900).';
     if ($latitude === false || $longitude === false || $latitude < 8 || $latitude > 24 || $longitude < 102 || $longitude > 110) {
         $formErrors[] = 'Nhập tọa độ thực của cửa hàng tại Việt Nam; không dùng tọa độ mẫu.';
     }
@@ -152,10 +152,26 @@ require_once __DIR__ . '/../includes/navbar.php';
                 </div>
 
                 <div class="fn-form-group">
+                    <?php $currentImg = $shop['raw_image'] ?? $shop['image'] ?? ''; ?>
                     <label class="fn-label" for="shop-image">Ảnh hoặc logo từ website chính thức:</label>
-                    <input id="shop-image" type="url" name="image" class="fn-input" value="<?= htmlspecialchars($shop['image'] ?? '') ?>" placeholder="https://website-cua-hang.vn/anh.jpg" inputmode="url">
+                    <input id="shop-image" type="url" name="image" class="fn-input" value="<?= htmlspecialchars($currentImg) ?>" placeholder="https://website-cua-hang.vn/anh.jpg" inputmode="url" oninput="previewImage(this.value)">
                     <small style="display:block;margin-top:5px;color:#64748b;">Ảnh nhập ở đây được lưu để đối chiếu; trang công khai chỉ dùng ảnh nguồn đã duyệt.</small>
+                    <div id="image-preview-wrap" style="margin-top:10px;<?= !empty($currentImg) ? '' : 'display:none;' ?>">
+                        <img id="image-preview" src="<?= htmlspecialchars($currentImg) ?>"
+                             alt="Preview ảnh cửa hàng"
+                             style="max-width:240px;max-height:160px;border-radius:8px;border:1px solid var(--fn-border);object-fit:cover;"
+                             onerror="this.parentElement.innerHTML='<span style=\'color:#ef4444;font-size:12px;\'>⚠️ Không tải được ảnh từ link này. Kiểm tra lại URL hoặc ảnh bị chặn CORS.</span>'">
+                    </div>
                 </div>
+<script>
+function previewImage(url) {
+    var wrap = document.getElementById('image-preview-wrap');
+    var img  = document.getElementById('image-preview');
+    if (!url || !url.match(/^https?:\/\//i)) { wrap.style.display = 'none'; return; }
+    wrap.style.display = 'block';
+    wrap.innerHTML = '<img id="image-preview" src="' + url.replace(/"/g,'&quot;') + '" alt="Preview" style="max-width:240px;max-height:160px;border-radius:8px;border:1px solid var(--fn-border);object-fit:cover;" onerror="this.parentElement.innerHTML=\'<span style=\\\'color:#ef4444;font-size:12px;\\\'>⚠️ Không tải được ảnh từ link này. Kiểm tra lại URL hoặc ảnh bị chặn CORS.</span>\'">';
+}
+</script>
 
                 <div class="fn-form-group">
                     <label class="fn-label" for="shop-description">Mô tả giới thiệu cửa hàng:</label>

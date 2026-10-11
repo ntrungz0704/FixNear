@@ -83,8 +83,11 @@ class SafeHttpFetcher:
                 )
                 try:
                     res = urlopen(req, timeout=self.timeout, context=self._ssl_default)
-                except ssl.SSLError:
-                    res = urlopen(req, timeout=self.timeout, context=self._ssl_unverified)
+                except Exception as net_err:
+                    if "ssl" in str(net_err).lower() or "certificate" in str(net_err).lower():
+                        res = urlopen(req, timeout=self.timeout, context=self._ssl_unverified)
+                    else:
+                        raise
 
                 with res:
                     final_url = res.url
@@ -150,8 +153,11 @@ class SafeHttpFetcher:
         try:
             try:
                 res = urlopen(req_head, timeout=self.timeout, context=self._ssl_default)
-            except ssl.SSLError:
-                res = urlopen(req_head, timeout=self.timeout, context=self._ssl_unverified)
+            except Exception as net_err:
+                if "ssl" in str(net_err).lower() or "certificate" in str(net_err).lower():
+                    res = urlopen(req_head, timeout=self.timeout, context=self._ssl_unverified)
+                else:
+                    raise
             with res:
                 ct = (res.headers.get("Content-Type") or "").lower()
                 cl = res.headers.get("Content-Length")
@@ -189,8 +195,11 @@ class SafeHttpFetcher:
             )
             try:
                 res = urlopen(req_get, timeout=self.timeout, context=self._ssl_default)
-            except ssl.SSLError:
-                res = urlopen(req_get, timeout=self.timeout, context=self._ssl_unverified)
+            except Exception as net_err:
+                if "ssl" in str(net_err).lower() or "certificate" in str(net_err).lower():
+                    res = urlopen(req_get, timeout=self.timeout, context=self._ssl_unverified)
+                else:
+                    raise
             with res:
                 ct = (res.headers.get("Content-Type") or "").lower()
                 cl = res.headers.get("Content-Length")
