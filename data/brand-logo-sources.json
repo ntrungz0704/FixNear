@@ -1,0 +1,243 @@
+{
+  "checkedAt": "2026-10-08",
+  "simpleIconsCommit": "98820a4dc8c363ca72fa2c0d294ea4a0a9bba75d",
+  "logos": {
+    "acer": {
+      "file": "acer.svg",
+      "kind": "pinned-vector",
+      "assetUrl": "https://raw.githubusercontent.com/simple-icons/simple-icons/98820a4dc8c363ca72fa2c0d294ea4a0a9bba75d/icons/acer.svg",
+      "referenceUrl": "https://www.acer.com",
+      "sha256": "412f02b7b6b468258b8c285f88eb829654d4817fbd510cd2f48c773016f7befb",
+      "brandColor": "#83B81A"
+    },
+    "apple": {
+      "file": "apple.svg",
+      "kind": "pinned-vector",
+      "assetUrl": "https://raw.githubusercontent.com/simple-icons/simple-icons/98820a4dc8c363ca72fa2c0d294ea4a0a9bba75d/icons/apple.svg",
+      "referenceUrl": "https://www.apple.com",
+      "sha256": "cbc36e6e70deb9764f033108a090de80df021a665b6209e4cf44f8bad06fd8db",
+      "brandColor": "#000000"
+    },
+    "asus": {
+      "file": "asus.svg",
+      "kind": "pinned-vector",
+      "assetUrl": "https://raw.githubusercontent.com/simple-icons/simple-icons/98820a4dc8c363ca72fa2c0d294ea4a0a9bba75d/icons/asus.svg",
+      "referenceUrl": "https://www.asus.com",
+      "sha256": "056c49186453c7d7587277945de6cca18e6aba81212b51dfa2bae327b7aab7a1",
+      "brandColor": "#000000"
+    },
+    "dell": {
+      "file": "dell.svg",
+      "kind": "pinned-vector",
+      "assetUrl": "https://raw.githubusercontent.com/simple-icons/simple-icons/98820a4dc8c363ca72fa2c0d294ea4a0a9bba75d/icons/dell.svg",
+      "referenceUrl": "https://www.dell.com",
+      "sha256": "ae54d23986bac617dbfbae0c78dfc88e1630a2ba3b2ca36c904b95c5b10eaa0b",
+      "brandColor": "#007DB8"
+    },
+    "dynabook": {
+      "file": "dynabook.svg",
+      "kind": "brand-website",
+      "assetUrl": "https://us.dynabook.com/images/udc/2026/header/logo.svg",
+      "referenceUrl": "https://us.dynabook.com/",
+      "sha256": "677a9e6d4b8298da66de6c8e45c5b02c901ff4841b2041211ff527111ff0870d"
+    },
+    "garmin": {
+      "file": "garmin.svg",
+      "kind": "pinned-vector",
+      "assetUrl": "https://raw.githubusercontent.com/simple-icons/simple-icons/98820a4dc8c363ca72fa2c0d294ea4a0a9bba75d/icons/garmin.svg",
+      "referenceUrl": "https://creative.garmin.com/styleguide/logo/",
+      "sha256": "cc1e97493a130005e86de1910e7a3a6c685144e7b81823fc9a36d26f8ab70466",
+      "brandColor": "#000000"
+    },
+    "google": {
+      "file": "google.png",
+      "kind": "brand-website",
+      "assetUrl": "https://www.gstatic.com/images/branding/product/2x/googleg_48dp.png",
+      "referenceUrl": "https://developers.google.com/identity/branding-guidelines",
+      "sha256": "3730780f82acd51907c761bf0da9429d18266a9c6b33a03a515c4dd06819a0d9"
+    },
+    "honor": {
+      "file": "honor.svg",
+      "kind": "pinned-vector",
+      "assetUrl": "https://raw.githubusercontent.com/simple-icons/simple-icons/98820a4dc8c363ca72fa2c0d294ea4a0a9bba75d/icons/honor.svg",
+      "referenceUrl": "https://www.hihonor.com",
+      "sha256": "929def36f3f8fac653ce7865e9989ea827565ffd6a1bddd26746a3c46dcbb5c7",
+      "brandColor": "#000000"
+    },
+    "hp": {
+      "file": "hp.svg",
+      "kind": "pinned-vector",
+      "assetUrl": "https://raw.githubusercontent.com/simple-icons/simple-icons/98820a4dc8c363ca72fa2c0d294ea4a0a9bba75d/icons/hp.svg",
+      "referenceUrl": "https://brandcentral.hp.com/us/en/elements/hp-logo.html",
+      "sha256": "cbd2b75c85f651669224aa8fea4fd8cb28299f4eabfc4e71115714c6f7df0868",
+      "brandColor": "#0096D6"
+    },
+    "huawei": {
+      "file": "huawei.svg",
+      "kind": "pinned-vector",
+      "assetUrl": "https://raw.githubusercontent.com/simple-icons/simple-icons/98820a4dc8c363ca72fa2c0d294ea4a0a9bba75d/icons/huawei.svg",
+      "referenceUrl": "https://e.huawei.com/ph/material/partner/0a72728b864949c48b22106454352483",
+      "sha256": "c5b0b049b2022d5b2391e34b7871d2580f97ad67dcae053499da49ff58ac27ac",
+      "brandColor": "#FF0000"
+    },
+    "infinix": {
+      "file": "infinix.png",
+      "kind": "brand-website",
+      "assetUrl": "https://www.infinixmobility.com/_nuxt/img/footerlogo.99b6809.png",
+      "referenceUrl": "https://www.infinixmobility.com/",
+      "sha256": "6e2f1451b471d83d79b392b784e4eba58d9ba7b2b86fcd93fe5726ac83d19993"
+    },
+    "iqoo": {
+      "file": "iqoo.svg",
+      "kind": "brand-website-inline-vector",
+      "assetUrl": "https://www.iqoo.com/en/",
+      "referenceUrl": "https://www.iqoo.com/en/",
+      "sha256": "d78ae6470bf4665e5b87fdda88b5b8308919a682fd45d8001cd09dcef5086fe5"
+    },
+    "lenovo": {
+      "file": "lenovo.svg",
+      "kind": "pinned-vector",
+      "assetUrl": "https://raw.githubusercontent.com/simple-icons/simple-icons/98820a4dc8c363ca72fa2c0d294ea4a0a9bba75d/icons/lenovo.svg",
+      "referenceUrl": "https://news.lenovo.com/press-kits/",
+      "sha256": "3c9f6d789731619ff915008f1aaaae26ea1e0df453acecc53a68fc54103bc8e8",
+      "brandColor": "#E2231A"
+    },
+    "lg": {
+      "file": "lg.svg",
+      "kind": "pinned-vector",
+      "assetUrl": "https://raw.githubusercontent.com/simple-icons/simple-icons/98820a4dc8c363ca72fa2c0d294ea4a0a9bba75d/icons/lg.svg",
+      "referenceUrl": "https://www.lg.com/global/our-brand/brand-expression/elements/logo/index.jsp",
+      "sha256": "e0fac7dd163c4260ea00f2b355fa32e998c4ac37d997d7c9725c3587e93c6e03",
+      "brandColor": "#A50034"
+    },
+    "microsoft": {
+      "file": "microsoft.svg",
+      "kind": "brand-website",
+      "assetUrl": "https://learn.microsoft.com/en-us/entra/identity-platform/media/howto-add-branding-in-apps/ms-symbollockup_mssymbol_19.svg",
+      "referenceUrl": "https://learn.microsoft.com/en-us/entra/identity-platform/howto-add-branding-in-apps",
+      "sha256": "929f48f88c8ca7f3f5d294be47ec4caf51acc28ac25340c19a903125d7ecd84a"
+    },
+    "motorola": {
+      "file": "motorola.svg",
+      "kind": "pinned-vector",
+      "assetUrl": "https://raw.githubusercontent.com/simple-icons/simple-icons/98820a4dc8c363ca72fa2c0d294ea4a0a9bba75d/icons/motorola.svg",
+      "referenceUrl": "https://motorola-global-portal-de.custhelp.com",
+      "sha256": "307983d10b95774f9c5082209dd23f3236d412b00a5096d6c6e9e11a541c3776",
+      "brandColor": "#E1140A"
+    },
+    "msi": {
+      "file": "msi.svg",
+      "kind": "pinned-vector",
+      "assetUrl": "https://raw.githubusercontent.com/simple-icons/simple-icons/98820a4dc8c363ca72fa2c0d294ea4a0a9bba75d/icons/msi.svg",
+      "referenceUrl": "https://www.msi.com/page/brochure",
+      "sha256": "968bfe8c0e7e77f8c482f71c95f1cf8d269ebf1e6e93ac2d33b6483bcc481184",
+      "brandColor": "#FF0000"
+    },
+    "nokia": {
+      "file": "nokia.svg",
+      "kind": "pinned-vector",
+      "assetUrl": "https://raw.githubusercontent.com/simple-icons/simple-icons/98820a4dc8c363ca72fa2c0d294ea4a0a9bba75d/icons/nokia.svg",
+      "referenceUrl": "https://www.nokia.com",
+      "sha256": "a248b16e2bcdc77a4d008c3061453f85ba5784cf46abd7fd1828575004d93ba7",
+      "brandColor": "#005AFF"
+    },
+    "nothing": {
+      "file": "nothing.png",
+      "kind": "brand-website",
+      "assetUrl": "https://cdn.shopify.com/s/files/1/0376/5420/0459/files/LOGO_400X200_0b0683f1-5666-4cc5-9b12-996061e29fd1.png?v=1666624074",
+      "referenceUrl": "https://nothing.tech/",
+      "sha256": "45f621723d1344883361f5b53b54793218bd8da9d1ac6f8f210a7f817f574b31"
+    },
+    "oneplus": {
+      "file": "oneplus.svg",
+      "kind": "pinned-vector",
+      "assetUrl": "https://raw.githubusercontent.com/simple-icons/simple-icons/98820a4dc8c363ca72fa2c0d294ea4a0a9bba75d/icons/oneplus.svg",
+      "referenceUrl": "https://www.oneplus.com/ca_en/brand/asset",
+      "sha256": "b2b6fb97344a5e55670cce1b60aa7bce0ecd3c5e4400b7746c9ef9057ec82cf6",
+      "brandColor": "#F5010C"
+    },
+    "oppo": {
+      "file": "oppo.svg",
+      "kind": "pinned-vector",
+      "assetUrl": "https://raw.githubusercontent.com/simple-icons/simple-icons/98820a4dc8c363ca72fa2c0d294ea4a0a9bba75d/icons/oppo.svg",
+      "referenceUrl": "https://www.figma.com/community/file/832815970641696814/OPPO-Media-Kit",
+      "sha256": "ab421915ee077573ff8bd59e52fbcdfba8fff8a78fa52742e6c63e44f74c0e94",
+      "brandColor": "#2D683D"
+    },
+    "poco": {
+      "file": "poco.png",
+      "kind": "brand-website",
+      "assetUrl": "https://i01.appmifile.com/webfile/globalimg/i18n/poco/POCO.png",
+      "referenceUrl": "https://www.po.co/global/index.html",
+      "sha256": "4468a8d1e39d55654577ee927bae4d3a2b26d2cae6f46d90268ac584e04f6d53"
+    },
+    "razer": {
+      "file": "razer.svg",
+      "kind": "pinned-vector",
+      "assetUrl": "https://raw.githubusercontent.com/simple-icons/simple-icons/98820a4dc8c363ca72fa2c0d294ea4a0a9bba75d/icons/razer.svg",
+      "referenceUrl": "https://press.razer.com",
+      "sha256": "a5a3e773684e7bbddfe862e9fd58508727c8f5371c712b5960fb10119db27ff1",
+      "brandColor": "#00FF00"
+    },
+    "realme": {
+      "file": "realme.png",
+      "kind": "brand-website",
+      "assetUrl": "https://image01.realme.net/general/20181218/1545105227803.png",
+      "referenceUrl": "https://www.realme.com/global/",
+      "sha256": "ad7b4342680f8e706441bc5498a172aa056aa3d020fa448bf7e2da93ffacd401"
+    },
+    "redmi": {
+      "file": "redmi.svg",
+      "kind": "current-redmi-vector",
+      "assetUrl": "https://commons.wikimedia.org/wiki/Special:FilePath/REDMI_New_Logo_(Red).svg",
+      "referenceUrl": "https://www.mi.com/global/product-list/redmi/",
+      "sha256": "9136503fe1252942a431bd08eda8667c1b6b81d8f1e662d3439e7565efe0c08a"
+    },
+    "samsung": {
+      "file": "samsung.svg",
+      "kind": "pinned-vector",
+      "assetUrl": "https://raw.githubusercontent.com/simple-icons/simple-icons/98820a4dc8c363ca72fa2c0d294ea4a0a9bba75d/icons/samsung.svg",
+      "referenceUrl": "https://www.samsung.com/us/about-us/brand-identity/logo/",
+      "sha256": "f187e2e69fcdc4f119707652bcd97a1516d796442d7790e8d7a129f771c1e36e",
+      "brandColor": "#1428A0"
+    },
+    "sony": {
+      "file": "sony.svg",
+      "kind": "pinned-vector",
+      "assetUrl": "https://raw.githubusercontent.com/simple-icons/simple-icons/98820a4dc8c363ca72fa2c0d294ea4a0a9bba75d/icons/sony.svg",
+      "referenceUrl": "https://www.sony.com",
+      "sha256": "c8eadea914bea66a9c56261ff6552aa6d3fef3af9bce1a68d2e24d6a7c008f6e",
+      "brandColor": "#000000"
+    },
+    "tecno": {
+      "file": "tecno.svg",
+      "kind": "brand-website",
+      "assetUrl": "https://d13pvy8xd75yde.cloudfront.net/global/x_new/logo.svg",
+      "referenceUrl": "https://www.tecno-mobile.com/",
+      "sha256": "61b1f74b61ecafa10c528e8c3992164c59f6e010e58b704c37e7e2a38483862b"
+    },
+    "vivo": {
+      "file": "vivo.svg",
+      "kind": "pinned-vector",
+      "assetUrl": "https://raw.githubusercontent.com/simple-icons/simple-icons/98820a4dc8c363ca72fa2c0d294ea4a0a9bba75d/icons/vivo.svg",
+      "referenceUrl": "https://www.vivo.com",
+      "sha256": "a51642915344085261ade98d2b8e0372676fe75da00486de3d0ab6505498ef99",
+      "brandColor": "#415FFF"
+    },
+    "xiaomi": {
+      "file": "xiaomi.svg",
+      "kind": "pinned-vector",
+      "assetUrl": "https://raw.githubusercontent.com/simple-icons/simple-icons/98820a4dc8c363ca72fa2c0d294ea4a0a9bba75d/icons/xiaomi.svg",
+      "referenceUrl": "https://www.mi.com/global",
+      "sha256": "20fb26a3565ed90895c0f29ad006301a5dd9cede687b3ff4a27a0758ad0f9ede",
+      "brandColor": "#FF6900"
+    },
+    "zte": {
+      "file": "zte.png",
+      "kind": "brand-website",
+      "assetUrl": "https://www.zte.com.cn/content/dam/zte-site/res-www-zte-com-cn/navigator/global/main/img/logo-en.png",
+      "referenceUrl": "https://www.zte.com.cn/global/new_events/media.html",
+      "sha256": "92aea76efc16df57dc57e2ccba3debd62f3634c7cbb1c5cd01e30f50473a1cad"
+    }
+  }
+}

@@ -1,0 +1,732 @@
+[
+  {
+    "id": "xiaomi-14-ultra",
+    "name": "Xiaomi 14 Ultra",
+    "brand": "xiaomi",
+    "deviceType": "phone",
+    "tier": "P4",
+    "releaseYear": 2024,
+    "specs": {
+      "screen": "6.73 inch LTPO AMOLED 120Hz 3000 nits",
+      "chip": "Snapdragon 8 Gen 3",
+      "battery": "5000 mAh",
+      "charging": "90W HyperCharge, 80W Wireless"
+    },
+    "supportedFaults": [
+      "screen",
+      "glass-press",
+      "battery",
+      "charging-port",
+      "water-damage",
+      "mainboard",
+      "camera",
+      "speaker",
+      "mic",
+      "back-glass",
+      "data-recovery",
+      "diagnostic"
+    ],
+    "knownIssues": [
+      {
+        "id": "camera-fogging-lens",
+        "title": "Đọng hơi nước sương mù bên trong thấu kính camera Leica",
+        "severity": "medium",
+        "confidence": "high",
+        "symptoms": "Khi chụp ảnh ngoài trời lạnh hoặc phòng điều hòa, ống kính chính 1 inch bị mờ sương bên trong.",
+        "solution": "Hút ẩm chân không, sấy khô buồng quang học và thay ron cao su làm kín cụm camera Leica."
+      },
+      {
+        "id": "heavy-module-crack",
+        "title": "Nứt kính bảo vệ cụm camera tròn khổng lồ sau va đập",
+        "severity": "medium",
+        "confidence": "high",
+        "symptoms": "Kính tròn bảo vệ ống kính bị nứt vỡ đường chéo gây lóa đèn ban đêm.",
+        "solution": "Thay mặt kính bảo vệ camera sapphire chính hãng."
+      }
+    ]
+  },
+  {
+    "id": "xiaomi-14",
+    "name": "Xiaomi 14",
+    "brand": "xiaomi",
+    "deviceType": "phone",
+    "tier": "P4",
+    "releaseYear": 2023,
+    "specs": {
+      "screen": "6.36 inch LTPO OLED 120Hz phẳng viền siêu mỏng",
+      "chip": "Snapdragon 8 Gen 3",
+      "battery": "4610 mAh",
+      "charging": "90W"
+    },
+    "supportedFaults": [
+      "screen",
+      "glass-press",
+      "battery",
+      "charging-port",
+      "water-damage",
+      "mainboard",
+      "camera",
+      "speaker",
+      "mic",
+      "back-glass",
+      "data-recovery",
+      "diagnostic"
+    ],
+    "knownIssues": [
+      {
+        "id": "foggy-lens-x14",
+        "title": "Hơi nước đọng nhẹ thấu kính camera khi quay video 8K",
+        "severity": "low",
+        "confidence": "high",
+        "symptoms": "Mặt kính camera chính bị sương mờ trong vài phút đầu quay phim nặng.",
+        "solution": "Tháo nắp lưng sấy buồng máy và phủ keo chống ẩm chuyên dụng."
+      }
+    ]
+  },
+  {
+    "id": "xiaomi-13-pro",
+    "name": "Xiaomi 13 Pro",
+    "brand": "xiaomi",
+    "deviceType": "phone",
+    "tier": "P4",
+    "releaseYear": 2022,
+    "specs": {
+      "screen": "6.73 inch LTPO AMOLED 120Hz cong viền, lưng gốm Ceramic",
+      "chip": "Snapdragon 8 Gen 2",
+      "battery": "4820 mAh",
+      "charging": "120W"
+    },
+    "supportedFaults": [
+      "screen",
+      "glass-press",
+      "battery",
+      "charging-port",
+      "water-damage",
+      "mainboard",
+      "camera",
+      "speaker",
+      "mic",
+      "back-glass",
+      "data-recovery",
+      "diagnostic"
+    ],
+    "knownIssues": [
+      {
+        "id": "ceramic-weight-crack",
+        "title": "Lưng gốm nặng dễ nứt mẻ góc khi rơi không có ốp",
+        "severity": "medium",
+        "confidence": "high",
+        "symptoms": "Mặt lưng nứt chân chim cạnh góc máy.",
+        "solution": "Thay nắp lưng gốm chính hãng hoặc nắp lưng kính tương thích."
+      }
+    ]
+  },
+  {
+    "id": "xiaomi-13",
+    "name": "Xiaomi 13",
+    "brand": "xiaomi",
+    "deviceType": "phone",
+    "tier": "P3",
+    "releaseYear": 2022,
+    "specs": {
+      "screen": "6.36 inch AMOLED 120Hz phẳng",
+      "chip": "Snapdragon 8 Gen 2",
+      "battery": "4500 mAh",
+      "charging": "67W"
+    },
+    "supportedFaults": [
+      "screen",
+      "glass-press",
+      "battery",
+      "charging-port",
+      "water-damage",
+      "mainboard",
+      "camera",
+      "speaker",
+      "mic",
+      "back-glass",
+      "data-recovery",
+      "diagnostic"
+    ],
+    "knownIssues": [
+      {
+        "id": "battery-aged-x13",
+        "title": "Pin chai sau thời gian dài sử dụng sạc nhanh 67W",
+        "severity": "medium",
+        "confidence": "high",
+        "symptoms": "Thời lượng pin giảm, sạc nhanh nóng máy.",
+        "solution": "Thay pin cell niken chất lượng cao bảo hành 6 tháng."
+      }
+    ]
+  },
+  {
+    "id": "xiaomi-13t-pro",
+    "name": "Xiaomi 13T Pro",
+    "brand": "xiaomi",
+    "deviceType": "phone",
+    "tier": "P3",
+    "releaseYear": 2023,
+    "specs": {
+      "screen": "6.67 inch CrystalRes AMOLED 144Hz",
+      "chip": "MediaTek Dimensity 9200+",
+      "battery": "5000 mAh",
+      "charging": "120W HyperCharge"
+    },
+    "supportedFaults": [
+      "screen",
+      "glass-press",
+      "battery",
+      "charging-port",
+      "water-damage",
+      "mainboard",
+      "camera",
+      "speaker",
+      "mic",
+      "back-glass",
+      "data-recovery",
+      "diagnostic"
+    ],
+    "knownIssues": [
+      {
+        "id": "120w-charging-port-wear",
+        "title": "Chân sạc Type-C quá nhiệt lỏng ngàm do dòng sạc 120W cực lớn",
+        "severity": "high",
+        "confidence": "high",
+        "symptoms": "Cắm củ sạc 120W không kích hoạt được chế độ HyperCharge mà chỉ nhận sạc thường.",
+        "solution": "Hàn thay cụm chân sạc Type-C tải cao chuyên dụng chịu dòng 6A."
+      }
+    ]
+  },
+  {
+    "id": "xiaomi-13t",
+    "name": "Xiaomi 13T",
+    "brand": "xiaomi",
+    "deviceType": "phone",
+    "tier": "P3",
+    "releaseYear": 2023,
+    "specs": {
+      "screen": "6.67 inch AMOLED 144Hz",
+      "chip": "Dimensity 8200-Ultra",
+      "battery": "5000 mAh",
+      "charging": "67W"
+    },
+    "supportedFaults": [
+      "screen",
+      "glass-press",
+      "battery",
+      "charging-port",
+      "water-damage",
+      "mainboard",
+      "camera",
+      "speaker",
+      "mic",
+      "back-glass",
+      "data-recovery",
+      "diagnostic"
+    ],
+    "knownIssues": [
+      {
+        "id": "lens-fog-13t",
+        "title": "Đọng sương thấu kính camera Leica khi trời mưa lạnh",
+        "severity": "medium",
+        "confidence": "high",
+        "symptoms": "Ảnh chụp bị mờ đục như có lớp khói.",
+        "solution": "Hút ẩm buồng camera và thay ron chống ẩm mới."
+      }
+    ]
+  },
+  {
+    "id": "xiaomi-12-pro",
+    "name": "Xiaomi 12 Pro",
+    "brand": "xiaomi",
+    "deviceType": "phone",
+    "tier": "P3",
+    "releaseYear": 2021,
+    "specs": {
+      "screen": "6.73 inch LTPO AMOLED 120Hz",
+      "chip": "Snapdragon 8 Gen 1",
+      "battery": "4600 mAh",
+      "charging": "120W"
+    },
+    "supportedFaults": [
+      "screen",
+      "glass-press",
+      "battery",
+      "charging-port",
+      "water-damage",
+      "mainboard",
+      "camera",
+      "speaker",
+      "mic",
+      "back-glass",
+      "data-recovery",
+      "diagnostic"
+    ],
+    "knownIssues": [
+      {
+        "id": "snap-8gen1-hot",
+        "title": "Nhiệt độ nóng và tụt pin nhanh do chip Snapdragon 8 Gen 1",
+        "severity": "high",
+        "confidence": "high",
+        "symptoms": "Thân máy nóng ran khi chơi game hoặc xem video liên tục.",
+        "solution": "Vệ sinh tản nhiệt, bôi lại gel tản nhiệt và thay pin mới."
+      }
+    ]
+  },
+  {
+    "id": "xiaomi-12",
+    "name": "Xiaomi 12",
+    "brand": "xiaomi",
+    "deviceType": "phone",
+    "tier": "P2",
+    "releaseYear": 2021,
+    "specs": {
+      "screen": "6.28 inch AMOLED 120Hz nhỏ gọn",
+      "chip": "Snapdragon 8 Gen 1",
+      "battery": "4500 mAh",
+      "charging": "67W"
+    },
+    "supportedFaults": [
+      "screen",
+      "glass-press",
+      "battery",
+      "charging-port",
+      "water-damage",
+      "mainboard",
+      "camera",
+      "speaker",
+      "mic",
+      "back-glass",
+      "data-recovery",
+      "diagnostic"
+    ],
+    "knownIssues": [
+      {
+        "id": "battery-swelling-x12",
+        "title": "Pin phồng đội nắp lưng",
+        "severity": "high",
+        "confidence": "high",
+        "symptoms": "Hở mép viền lưng máy.",
+        "solution": "Thay pin zin dung lượng cao."
+      }
+    ]
+  },
+  {
+    "id": "xiaomi-redmi-note-13-pro-plus",
+    "name": "Redmi Note 13 Pro+",
+    "brand": "xiaomi",
+    "deviceType": "phone",
+    "tier": "P3",
+    "releaseYear": 2023,
+    "specs": {
+      "screen": "6.67 inch 1.5K AMOLED 120Hz cong viền, kháng nước IP68",
+      "chip": "Dimensity 7200-Ultra",
+      "battery": "5000 mAh",
+      "charging": "120W"
+    },
+    "supportedFaults": [
+      "screen",
+      "glass-press",
+      "battery",
+      "charging-port",
+      "water-damage",
+      "mainboard",
+      "camera",
+      "speaker",
+      "mic",
+      "back-glass",
+      "data-recovery",
+      "diagnostic"
+    ],
+    "knownIssues": [
+      {
+        "id": "curved-screen-crack",
+        "title": "Mặt kính màn hình cong dễ nứt mép viền",
+        "severity": "medium",
+        "confidence": "high",
+        "symptoms": "Kính vỡ mép nhưng cảm ứng và màn hình 1.5K bên trong hiển thị bình thường.",
+        "solution": "Ép kính cong bằng máy ép nhiệt chuyên dụng."
+      }
+    ]
+  },
+  {
+    "id": "xiaomi-redmi-note-13-pro",
+    "name": "Redmi Note 13 Pro 5G / 4G",
+    "brand": "xiaomi",
+    "deviceType": "phone",
+    "tier": "P2",
+    "releaseYear": 2023,
+    "specs": {
+      "screen": "6.67 inch 1.5K AMOLED 120Hz phẳng",
+      "chip": "Snapdragon 7s Gen 2 / Helio G99-Ultra",
+      "battery": "5100 mAh",
+      "charging": "67W"
+    },
+    "supportedFaults": [
+      "screen",
+      "glass-press",
+      "battery",
+      "charging-port",
+      "water-damage",
+      "mainboard",
+      "camera",
+      "speaker",
+      "mic",
+      "back-glass",
+      "data-recovery",
+      "diagnostic"
+    ],
+    "knownIssues": [
+      {
+        "id": "camera-200mp-focus",
+        "title": "Lấy nét camera 200MP chậm trong điều kiện thiếu sáng",
+        "severity": "low",
+        "confidence": "high",
+        "symptoms": "Chụp đêm bị out nét nhẹ.",
+        "solution": "Cập nhật ứng dụng máy ảnh hoặc cân chỉnh thấu kính OIS."
+      }
+    ]
+  },
+  {
+    "id": "xiaomi-redmi-note-13",
+    "name": "Redmi Note 13",
+    "brand": "xiaomi",
+    "deviceType": "phone",
+    "tier": "P2",
+    "releaseYear": 2023,
+    "specs": {
+      "screen": "6.67 inch AMOLED 120Hz phẳng viền mỏng",
+      "chip": "Snapdragon 685 / Dimensity 6080",
+      "battery": "5000 mAh",
+      "charging": "33W"
+    },
+    "supportedFaults": [
+      "screen",
+      "glass-press",
+      "battery",
+      "charging-port",
+      "water-damage",
+      "mainboard",
+      "camera",
+      "speaker",
+      "mic",
+      "back-glass",
+      "data-recovery",
+      "diagnostic"
+    ],
+    "knownIssues": [
+      {
+        "id": "screen-touch-ghost",
+        "title": "Loạn cảm ứng khi cắm sạc bằng củ sạc kém chất lượng",
+        "severity": "medium",
+        "confidence": "high",
+        "symptoms": "Cắm sạc bàn phím tự nhảy chữ loạn xạ.",
+        "solution": "Thay đổi củ cáp sạc chuẩn dòng và thay màng cảm ứng nếu bị rò điện."
+      }
+    ]
+  },
+  {
+    "id": "xiaomi-redmi-note-12-pro",
+    "name": "Redmi Note 12 Pro 5G",
+    "brand": "xiaomi",
+    "deviceType": "phone",
+    "tier": "P2",
+    "releaseYear": 2022,
+    "specs": {
+      "screen": "6.67 inch OLED 120Hz",
+      "chip": "Dimensity 1080",
+      "battery": "5000 mAh",
+      "charging": "67W"
+    },
+    "supportedFaults": [
+      "screen",
+      "glass-press",
+      "battery",
+      "charging-port",
+      "water-damage",
+      "mainboard",
+      "camera",
+      "speaker",
+      "mic",
+      "back-glass",
+      "data-recovery",
+      "diagnostic"
+    ],
+    "knownIssues": [
+      {
+        "id": "battery-aged-rn12p",
+        "title": "Pin sụt nhanh sau 2 năm onscreen 4 tiếng",
+        "severity": "medium",
+        "confidence": "high",
+        "symptoms": "Máy mau hết pin, sạc chậm hơn trước.",
+        "solution": "Thay pin mới bảo hành 6 tháng."
+      }
+    ]
+  },
+  {
+    "id": "xiaomi-redmi-note-12",
+    "name": "Redmi Note 12",
+    "brand": "xiaomi",
+    "deviceType": "phone",
+    "tier": "P2",
+    "releaseYear": 2022,
+    "specs": {
+      "screen": "6.67 inch AMOLED 120Hz",
+      "chip": "Snapdragon 685",
+      "battery": "5000 mAh",
+      "charging": "33W"
+    },
+    "supportedFaults": [
+      "screen",
+      "glass-press",
+      "battery",
+      "charging-port",
+      "water-damage",
+      "mainboard",
+      "camera",
+      "speaker",
+      "mic",
+      "back-glass",
+      "data-recovery",
+      "diagnostic"
+    ],
+    "knownIssues": [
+      {
+        "id": "earpiece-volume-low",
+        "title": "Loa trong nghe nhỏ tiếng",
+        "severity": "low",
+        "confidence": "high",
+        "symptoms": "Đàm thoại nơi ồn ào rất khó nghe.",
+        "solution": "Vệ sinh màng loa thoại hoặc thay loa trong."
+      }
+    ]
+  },
+  {
+    "id": "xiaomi-redmi-13c",
+    "name": "Redmi 13C",
+    "brand": "xiaomi",
+    "deviceType": "phone",
+    "tier": "P1",
+    "releaseYear": 2023,
+    "specs": {
+      "screen": "6.74 inch IPS LCD 90Hz giọt nước",
+      "chip": "Helio G85",
+      "battery": "5000 mAh",
+      "charging": "18W"
+    },
+    "supportedFaults": [
+      "screen",
+      "glass-press",
+      "battery",
+      "charging-port",
+      "water-damage",
+      "mainboard",
+      "camera",
+      "speaker",
+      "mic",
+      "back-glass",
+      "data-recovery",
+      "diagnostic"
+    ],
+    "knownIssues": [
+      {
+        "id": "lcd-shatter-r13c",
+        "title": "Nứt vỡ màn hình hiển thị sau khi rơi",
+        "severity": "high",
+        "confidence": "high",
+        "symptoms": "Màn hình nứt vỡ sọc kẻ hoặc chảy mực đen góc.",
+        "solution": "Thay cụm màn hình IPS LCD mới chi phí rẻ lấy ngay."
+      }
+    ]
+  },
+  {
+    "id": "xiaomi-redmi-12",
+    "name": "Redmi 12",
+    "brand": "xiaomi",
+    "deviceType": "phone",
+    "tier": "P1",
+    "releaseYear": 2023,
+    "specs": {
+      "screen": "6.79 inch IPS LCD 90Hz, lưng kính",
+      "chip": "Helio G88",
+      "battery": "5000 mAh",
+      "charging": "18W"
+    },
+    "supportedFaults": [
+      "screen",
+      "glass-press",
+      "battery",
+      "charging-port",
+      "water-damage",
+      "mainboard",
+      "camera",
+      "speaker",
+      "mic",
+      "back-glass",
+      "data-recovery",
+      "diagnostic"
+    ],
+    "knownIssues": [
+      {
+        "id": "back-glass-crack-r12",
+        "title": "Nứt vỡ mặt lưng kính sau khi cấn chìa khóa",
+        "severity": "low",
+        "confidence": "high",
+        "symptoms": "Mặt lưng rạn nứt.",
+        "solution": "Thay nắp lưng kính mới."
+      }
+    ]
+  },
+  {
+    "id": "xiaomi-poco-f6-pro",
+    "name": "POCO F6 Pro",
+    "brand": "xiaomi",
+    "deviceType": "phone",
+    "tier": "P3",
+    "releaseYear": 2024,
+    "specs": {
+      "screen": "6.67 inch WQHD+ AMOLED 120Hz 4000 nits",
+      "chip": "Snapdragon 8 Gen 2",
+      "battery": "5000 mAh",
+      "charging": "120W"
+    },
+    "supportedFaults": [
+      "screen",
+      "glass-press",
+      "battery",
+      "charging-port",
+      "water-damage",
+      "mainboard",
+      "camera",
+      "speaker",
+      "mic",
+      "back-glass",
+      "data-recovery",
+      "diagnostic"
+    ],
+    "knownIssues": [
+      {
+        "id": "gaming-high-temp",
+        "title": "Nhiệt độ nóng vùng cụm camera khi cày game đồ họa nặng",
+        "severity": "low",
+        "confidence": "high",
+        "symptoms": "Khung nhôm nóng trên 43 độ C khi chơi Genshin Impact 60fps.",
+        "solution": "Vệ sinh tản nhiệt buồng hơi LiquidCool và tối ưu xung nhịp hệ điều hành."
+      }
+    ]
+  },
+  {
+    "id": "xiaomi-poco-f6",
+    "name": "POCO F6",
+    "brand": "xiaomi",
+    "deviceType": "phone",
+    "tier": "P3",
+    "releaseYear": 2024,
+    "specs": {
+      "screen": "6.67 inch 1.5K AMOLED 120Hz",
+      "chip": "Snapdragon 8s Gen 3",
+      "battery": "5000 mAh",
+      "charging": "90W"
+    },
+    "supportedFaults": [
+      "screen",
+      "glass-press",
+      "battery",
+      "charging-port",
+      "water-damage",
+      "mainboard",
+      "camera",
+      "speaker",
+      "mic",
+      "back-glass",
+      "data-recovery",
+      "diagnostic"
+    ],
+    "knownIssues": [
+      {
+        "id": "battery-fast-drain-f6",
+        "title": "Pin tụt nhanh khi chơi game liên tục",
+        "severity": "medium",
+        "confidence": "high",
+        "symptoms": "Sụt pin 25% mỗi giờ chơi game nặng.",
+        "solution": "Kiểm tra chu kỳ sạc và tối ưu HyperOS."
+      }
+    ]
+  },
+  {
+    "id": "xiaomi-poco-x6-pro",
+    "name": "POCO X6 Pro",
+    "brand": "xiaomi",
+    "deviceType": "phone",
+    "tier": "P2",
+    "releaseYear": 2024,
+    "specs": {
+      "screen": "6.67 inch 1.5K AMOLED 120Hz",
+      "chip": "Dimensity 8300-Ultra",
+      "battery": "5000 mAh",
+      "charging": "67W"
+    },
+    "supportedFaults": [
+      "screen",
+      "glass-press",
+      "battery",
+      "charging-port",
+      "water-damage",
+      "mainboard",
+      "camera",
+      "speaker",
+      "mic",
+      "back-glass",
+      "data-recovery",
+      "diagnostic"
+    ],
+    "knownIssues": [
+      {
+        "id": "fingerprint-speed-x6p",
+        "title": "Cảm biến vân tay dưới màn hình kém nhạy khi tay ẩm",
+        "severity": "low",
+        "confidence": "high",
+        "symptoms": "Mở khóa nhiều lần không nhận vân tay.",
+        "solution": "Cân chỉnh lại cảm biến quang học hoặc dán cường lực cao cấp."
+      }
+    ]
+  },
+  {
+    "id": "xiaomi-poco-m6-pro",
+    "name": "POCO M6 Pro",
+    "brand": "xiaomi",
+    "deviceType": "phone",
+    "tier": "P2",
+    "releaseYear": 2024,
+    "specs": {
+      "screen": "6.67 inch Flow AMOLED 120Hz",
+      "chip": "Helio G99-Ultra",
+      "battery": "5000 mAh",
+      "charging": "67W"
+    },
+    "supportedFaults": [
+      "screen",
+      "glass-press",
+      "battery",
+      "charging-port",
+      "water-damage",
+      "mainboard",
+      "camera",
+      "speaker",
+      "mic",
+      "back-glass",
+      "data-recovery",
+      "diagnostic"
+    ],
+    "knownIssues": [
+      {
+        "id": "charging-board-m6p",
+        "title": "Chân sạc Type-C cắm lỏng lẻo sau va chạm",
+        "severity": "medium",
+        "confidence": "high",
+        "symptoms": "Sạc ngắt quãng chập chờn.",
+        "solution": "Thay cụm bo sạc phụ."
+      }
+    ]
+  }
+]

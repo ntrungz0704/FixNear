@@ -1,0 +1,117 @@
+[
+  {
+    "id": "lenovo-tab-p11-pro-gen-2",
+    "name": "Lenovo Tab P11 Pro Gen 2",
+    "brand": "others",
+    "deviceType": "tablet",
+    "tier": "T2",
+    "releaseYear": 2022,
+    "specs": {
+      "screen": "11.2 inch 2.5K OLED 120Hz HDR10+",
+      "chip": "MediaTek Kompanio 1300T",
+      "battery": "8200 mAh",
+      "charging": "30W"
+    },
+    "supportedFaults": [
+      "screen",
+      "glass-press",
+      "battery",
+      "charging-port",
+      "mainboard",
+      "camera",
+      "speaker",
+      "mic",
+      "water-damage",
+      "data-recovery",
+      "diagnostic",
+      "pencil-charging"
+    ],
+    "knownIssues": [
+      {
+        "id": "pen-precision-p11",
+        "title": "Bút Lenovo Precision Pen 3 chập chờn kết nối",
+        "severity": "low",
+        "confidence": "high",
+        "symptoms": "Viết vẽ bị đứt nét.",
+        "solution": "Thay ngòi bút hoặc cân chỉnh Bluetooth."
+      }
+    ]
+  },
+  {
+    "id": "microsoft-surface-pro-8",
+    "name": "Microsoft Surface Pro 8",
+    "brand": "others",
+    "deviceType": "tablet",
+    "tier": "T3",
+    "releaseYear": 2021,
+    "specs": {
+      "screen": "13.0 inch PixelSense Flow 120Hz Cảm ứng",
+      "chip": "Core i5-1135G7 / i7-1185G7",
+      "battery": "51.5 Wh",
+      "ports": "2x Thunderbolt 4, Surface Connect"
+    },
+    "supportedFaults": [
+      "screen",
+      "glass-press",
+      "battery",
+      "charging-port",
+      "mainboard",
+      "camera",
+      "speaker",
+      "mic",
+      "hinge-body",
+      "water-damage",
+      "data-recovery",
+      "diagnostic",
+      "pencil-charging"
+    ],
+    "knownIssues": [
+      {
+        "id": "surface-battery-swell-p8",
+        "title": "Pin phồng đội hở màn hình PixelSense",
+        "severity": "critical",
+        "confidence": "high",
+        "symptoms": "Viền màn hình bị kênh nứt keo.",
+        "solution": "Bóc tách màn hình bằng bàn nhiệt thay pin Surface chính hãng."
+      }
+    ]
+  },
+  {
+    "id": "huawei-matepad-11-5-papermatte",
+    "name": "Huawei MatePad 11.5 PaperMatte",
+    "brand": "others",
+    "deviceType": "tablet",
+    "tier": "T2",
+    "releaseYear": 2023,
+    "specs": {
+      "screen": "11.5 inch 2.2K 120Hz màn nhám chống chói như giấy",
+      "chip": "Snapdragon 7 Gen 1",
+      "battery": "7700 mAh",
+      "charging": "22.5W"
+    },
+    "supportedFaults": [
+      "screen",
+      "glass-press",
+      "battery",
+      "charging-port",
+      "mainboard",
+      "camera",
+      "speaker",
+      "mic",
+      "water-damage",
+      "data-recovery",
+      "diagnostic",
+      "pencil-charging"
+    ],
+    "knownIssues": [
+      {
+        "id": "papermatte-coating-wear",
+        "title": "Mòn lớp nhám PaperMatte tại vùng hay viết bút nhiều",
+        "severity": "low",
+        "confidence": "medium",
+        "symptoms": "Bề mặt nhám bị bóng nhẹ sau thời gian dài ghi chú.",
+        "solution": "Dán film Paperlike phục hồi cảm giác viết như giấy."
+      }
+    ]
+  }
+]
