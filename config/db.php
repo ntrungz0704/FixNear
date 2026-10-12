@@ -587,6 +587,28 @@ class FixNearDB {
         });
     }
 
+    public function toggleShopStatus($id) {
+        $id = (int)$id;
+        if ($id <= 0) return false;
+
+        if ($this->isUsingMySQL()) {
+            $stmt = $this->pdo->prepare("UPDATE shops SET is_active = CASE WHEN is_active = 0 THEN 1 ELSE 0 END WHERE id = :id");
+            return $stmt->execute([':id' => $id]);
+        }
+
+        return $this->withJsonLock('shops.json', function() use ($id) {
+            $shops = $this->readJson('shops.json');
+            foreach ($shops as $idx => $s) {
+                if ((int)$s['id'] === $id) {
+                    $currentActive = isset($s['is_active']) ? (int)$s['is_active'] : 1;
+                    $shops[$idx]['is_active'] = $currentActive === 1 ? 0 : 1;
+                    return $this->writeJson('shops.json', $shops) ? $shops[$idx]['is_active'] : false;
+                }
+            }
+            return false;
+        });
+    }
+
     // ================= DỊCH VỤ SỬA CHỮA (SERVICES) =================
     public function getServices($device_type = null) {
         $deviceAliases = ['win_laptop' => 'laptop', 'macbook' => 'mac', 'pc_desktop' => 'pc'];
