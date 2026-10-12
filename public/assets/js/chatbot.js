@@ -1,17 +1,53 @@
 /**
- * Trợ lý Chẩn đoán & Hướng dẫn Kỹ thuật FixNear (Client-side Rule Engine).
- * Hệ thống tự động phân tích triệu chứng hư hỏng thiết bị từ dữ liệu nhập của người dùng,
- * đưa ra cảnh báo an toàn khẩn cấp, mức độ nghiêm trọng, khoảng giá thị trường và liên kết trực tiếp
- * đến danh mục cửa hàng uy tín phù hợp nhất.
+ * Trợ lý Chăm Sóc Khách Hàng & Hỗ Trợ Kỹ Thuật FixNear
+ * Hệ thống tự động phân loại ý định, nhận diện triệu chứng, tư vấn bảng giá
+ * và lưu trữ phiên hội thoại theo tab hiện tại (Session Storage).
  */
+
+const FIXNEAR_STORAGE_MESSAGES_KEY = 'fixnear_chat_session_messages';
+const FIXNEAR_STORAGE_HISTORY_KEY = 'fixnear_chat_session_history';
+const FIXNEAR_STORAGE_OPEN_KEY = 'fixnear_chat_session_is_open';
+
+// Khôi phục mảng lịch sử hội thoại nhiều lượt từ sessionStorage
+window.fixnearChatHistory = (function() {
+    try {
+        const stored = sessionStorage.getItem(FIXNEAR_STORAGE_HISTORY_KEY);
+        if (stored) {
+            const parsed = JSON.parse(stored);
+            if (Array.isArray(parsed)) return parsed;
+        }
+    } catch (e) {}
+    return [];
+})();
+
+function saveSessionHistory() {
+    try {
+        sessionStorage.setItem(FIXNEAR_STORAGE_HISTORY_KEY, JSON.stringify(window.fixnearChatHistory));
+    } catch (e) {}
+}
+
+function saveRenderedMessage(content, isUser, isHtml, timeStr) {
+    try {
+        let list = [];
+        const stored = sessionStorage.getItem(FIXNEAR_STORAGE_MESSAGES_KEY);
+        if (stored) list = JSON.parse(stored);
+        list.push({ content, isUser, isHtml, time: timeStr });
+        if (list.length > 25) list = list.slice(-25);
+        sessionStorage.setItem(FIXNEAR_STORAGE_MESSAGES_KEY, JSON.stringify(list));
+    } catch (e) {}
+}
 
 function toggleFixnearAIChat() {
     const windowEl = document.getElementById('fn-ai-chat-window');
     const bubble = document.getElementById('fn-ai-chat-bubble');
     if (!windowEl) return;
     windowEl.classList.toggle('active');
-    if (bubble) bubble.setAttribute('aria-expanded', windowEl.classList.contains('active') ? 'true' : 'false');
-    if (windowEl.classList.contains('active')) {
+    const isActive = windowEl.classList.contains('active');
+    try {
+        sessionStorage.setItem(FIXNEAR_STORAGE_OPEN_KEY, isActive ? '1' : '0');
+    } catch (e) {}
+    if (bubble) bubble.setAttribute('aria-expanded', isActive ? 'true' : 'false');
+    if (isActive) {
         const input = document.getElementById('fn-ai-chat-input');
         if (input) setTimeout(() => input.focus(), 100);
         scrollGuideToBottom();
@@ -34,6 +70,13 @@ function handleAIChatSubmit(event) {
     input.value = '';
     appendGuideMessage(message, true);
 
+    // Ghi nhận vào lịch sử hội thoại nhiều lượt
+    window.fixnearChatHistory.push({ role: 'user', content: message });
+    if (window.fixnearChatHistory.length > 10) {
+        window.fixnearChatHistory = window.fixnearChatHistory.slice(-10);
+    }
+    saveSessionHistory();
+
     // Hiển thị trạng thái AI đang phân tích dữ liệu 68 cửa hàng & kho linh kiện
     const loadingId = 'ai-loading-' + Date.now();
     const container = document.getElementById('fn-ai-chat-messages');
@@ -45,7 +88,7 @@ function handleAIChatSubmit(event) {
             <img src="assets/images/ai_avatar.png" alt="" width="1024" height="1024" class="fn-ai-msg-avatar">
             <div class="fn-ai-msg-content" style="color:#64748b;font-size:12px;font-style:italic;display:flex;align-items:center;gap:8px;">
                 <span style="display:inline-block;width:8px;height:8px;background:#ea580c;border-radius:50%;animation:pulse 1s infinite;"></span>
-                Trợ lý AI đang tra cứu 68 cửa hàng & kho 319 dòng máy...
+                Trợ lý CSKH FixNear đang kiểm tra yêu cầu của bạn...
             </div>
         `;
         container.appendChild(loadRow);
@@ -71,6 +114,7 @@ function handleAIChatSubmit(event) {
         },
         body: JSON.stringify({
             query: message,
+            history: window.fixnearChatHistory,
             lat: userLat,
             lng: userLng
         })
@@ -82,19 +126,34 @@ function handleAIChatSubmit(event) {
 
         if (data && data.success && data.html) {
             appendGuideMessage(data.html, false, true);
+            const botReplyText = data.text || (function() {
+                const tmp = document.createElement('div');
+                tmp.innerHTML = data.html;
+                return tmp.textContent.trim();
+            })();
+            if (botReplyText) {
+                window.fixnearChatHistory.push({ role: 'assistant', content: botReplyText });
+                saveSessionHistory();
+            }
         } else {
-            appendGuideMessage(buildDiagnosticResponse(message), false, true);
+            const fallbackResp = buildDiagnosticResponse(message);
+            appendGuideMessage(fallbackResp, false, true);
+            window.fixnearChatHistory.push({ role: 'assistant', content: 'Mình đã ghi nhận yêu cầu của bạn.' });
+            saveSessionHistory();
         }
     })
     .catch(() => {
         const loadEl = document.getElementById(loadingId);
         if (loadEl) loadEl.remove();
         // Fallback Client-side nếu mạng gián đoạn
-        appendGuideMessage(buildDiagnosticResponse(message), false, true);
+        const fallbackResp = buildDiagnosticResponse(message);
+        appendGuideMessage(fallbackResp, false, true);
+        window.fixnearChatHistory.push({ role: 'assistant', content: 'Hệ thống đang tạm thời gián đoạn kết nối.' });
+        saveSessionHistory();
     });
 }
 
-function appendGuideMessage(content, isUser, isHtml = false) {
+function renderMessageElement(content, isUser, isHtml, timeStr) {
     const container = document.getElementById('fn-ai-chat-messages');
     if (!container) return;
     const row = document.createElement('div');
@@ -114,11 +173,75 @@ function appendGuideMessage(content, isUser, isHtml = false) {
     else body.textContent = content;
     const time = document.createElement('div');
     time.className = 'fn-ai-msg-time';
-    time.textContent = new Date().toLocaleTimeString('vi-VN', {hour: '2-digit', minute: '2-digit'});
+    time.textContent = timeStr || new Date().toLocaleTimeString('vi-VN', {hour: '2-digit', minute: '2-digit'});
     body.appendChild(time);
     row.appendChild(body);
     container.appendChild(row);
     scrollGuideToBottom();
+}
+
+function appendGuideMessage(content, isUser, isHtml = false) {
+    const nowTime = new Date().toLocaleTimeString('vi-VN', {hour: '2-digit', minute: '2-digit'});
+    renderMessageElement(content, isUser, isHtml, nowTime);
+    saveRenderedMessage(content, isUser, isHtml, nowTime);
+}
+
+// Khôi phục phiên làm việc khi tải lại trang hoặc chuyển trang trong cùng tab
+function restoreChatSessionHistory() {
+    const container = document.getElementById('fn-ai-chat-messages');
+    if (!container) return;
+
+    try {
+        const stored = sessionStorage.getItem(FIXNEAR_STORAGE_MESSAGES_KEY);
+        if (stored) {
+            const list = JSON.parse(stored);
+            if (Array.isArray(list) && list.length > 0) {
+                list.forEach(item => {
+                    renderMessageElement(item.content, item.isUser, item.isHtml, item.time);
+                });
+                scrollGuideToBottom();
+            }
+        }
+
+        // Tự động mở lại khung chat nếu trước đó người dùng đang mở trong tab này
+        const wasOpen = sessionStorage.getItem(FIXNEAR_STORAGE_OPEN_KEY);
+        if (wasOpen === '1') {
+            const windowEl = document.getElementById('fn-ai-chat-window');
+            const bubble = document.getElementById('fn-ai-chat-bubble');
+            if (windowEl && !windowEl.classList.contains('active')) {
+                windowEl.classList.add('active');
+                if (bubble) bubble.setAttribute('aria-expanded', 'true');
+                scrollGuideToBottom();
+            }
+        }
+    } catch (e) {}
+}
+
+// Xóa lịch sử hội thoại trong tab hiện tại
+function clearFixnearChatHistory() {
+    try {
+        sessionStorage.removeItem(FIXNEAR_STORAGE_MESSAGES_KEY);
+        sessionStorage.removeItem(FIXNEAR_STORAGE_HISTORY_KEY);
+        window.fixnearChatHistory = [];
+        const container = document.getElementById('fn-ai-chat-messages');
+        if (container) {
+            container.innerHTML = `
+                <div class="fn-ai-msg bot">
+                    <img src="assets/images/ai_avatar.png" alt="" width="1024" height="1024" class="fn-ai-msg-avatar">
+                    <div class="fn-ai-msg-content">
+                        Xin chào bạn! 👋 Mình là Trợ lý Kỹ thuật FixNear. Bạn đang gặp vấn đề gì với điện thoại hay máy tính, hãy nhắn cho mình (kèm tên máy hoặc khu vực nếu có) để mình hỗ trợ chẩn đoán và báo giá tham khảo ngay nhé!
+                        <div class="fn-ai-msg-time">Vừa xong</div>
+                    </div>
+                </div>
+            `;
+        }
+    } catch (e) {}
+}
+
+if (document.readyState === 'loading') {
+    document.addEventListener('DOMContentLoaded', restoreChatSessionHistory);
+} else {
+    restoreChatSessionHistory();
 }
 
 /**

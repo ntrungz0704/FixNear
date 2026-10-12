@@ -1,4 +1,5 @@
 <?php
+
 declare(strict_types=1);
 
 /**
@@ -37,6 +38,12 @@ define('DB_NAME', (string) fixnearConfig('DB_NAME', 'db_name', 'fixnear_db'));
 define('DB_USER', (string) fixnearConfig('DB_USER', 'db_user', 'root'));
 define('DB_PASS', (string) fixnearConfig('DB_PASS', 'db_pass', ''));
 define('DB_TIMEOUT', (int) fixnearConfig('DB_TIMEOUT', 'db_timeout', 1));
+
+// ================= GEMINI AI API =================
+define('GEMINI_API_KEY', (string) fixnearConfig('GEMINI_API_KEY', 'gemini_api_key', ''));
+define('GEMINI_ENABLED', GEMINI_API_KEY !== '');
+define('GEMINI_MODEL', 'gemini-3.8-flash');
+
 
 date_default_timezone_set((string) fixnearConfig('FIXNEAR_TIMEZONE', 'timezone', 'Asia/Ho_Chi_Minh'));
 error_reporting(E_ALL);
@@ -151,4 +158,3 @@ function getUserLocation(): ?array
 
     return null;
 }
-
