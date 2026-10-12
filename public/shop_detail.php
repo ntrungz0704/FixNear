@@ -126,8 +126,8 @@ $msg = $_GET['msg'] ?? '';
             📌 Giá có nguồn niêm yết được gắn liên kết riêng. Các khoảng còn lại là ước tính trong dữ liệu FixNear; bảo hành và thời gian chỉ hiển thị khi có nguồn xác nhận.
         </div>
 
-        <div class="fn-table-wrapper">
-            <table class="fn-price-table">
+        <div class="fn-table-wrapper fn-shop-service-wrapper">
+            <table class="fn-price-table fn-shop-service-table">
                 <thead>
                     <tr>
                         <th>Tên Dịch Vụ / Lỗi</th>
@@ -147,8 +147,8 @@ $msg = $_GET['msg'] ?? '';
                         </tr>
                     <?php else: ?>
                         <?php foreach ($services as $srv): $priceVerified = !empty($srv['source_url']) && !empty($srv['verified_at']); ?>
-                            <tr>
-                                <td>
+                            <tr class="<?= $priceVerified ? 'fn-service-sourced' : 'fn-service-estimate' ?>">
+                                <td data-label="Dịch vụ">
                                     <div style="font-weight: 700; color: var(--fn-dark); font-size: 14.5px;">
                                         <?= htmlspecialchars($srv['service_name']) ?>
                                     </div>
@@ -156,12 +156,12 @@ $msg = $_GET['msg'] ?? '';
                                         <?= htmlspecialchars($srv['description'] ?? $srv['service_desc'] ?? '') ?>
                                     </div>
                                 </td>
-                                <td>
+                                <td data-label="Thiết bị">
                                     <span style="font-size: 12px; font-weight: 700; padding: 2px 8px; border-radius: 4px; background: <?= $srv['device_type'] === 'laptop' ? '#e0f2fe; color:#0369a1;' : '#fce7f3; color:#be185d;' ?>">
                                         <?= $srv['device_type'] === 'laptop' ? '💻 Laptop' : '📱 Điện thoại' ?>
                                     </span>
                                 </td>
-                                <td>
+                                <td data-label="Giá tham khảo">
                                     <?php if ($priceVerified && !empty($srv['min_price']) && !empty($srv['max_price'])): ?>
                                         <span class="fn-price-range"><?= formatPrice($srv['min_price']) ?> – <?= formatPrice($srv['max_price']) ?></span>
                                         <br><a href="<?= htmlspecialchars($srv['source_url']) ?>" target="_blank" rel="noopener noreferrer" style="font-size:11px;">Nguồn · <?= htmlspecialchars($srv['verified_at']) ?></a>
@@ -174,17 +174,17 @@ $msg = $_GET['msg'] ?? '';
                                         <?php endif; ?>
                                     <?php endif; ?>
                                 </td>
-                                <td>
+                                <td data-label="Bảo hành">
                                     <span style="font-weight: 600; font-size: 13px; color: var(--fn-dark);">
                                         <?= $priceVerified ? htmlspecialchars($srv['warranty_text'] ?? $srv['warranty'] ?? '—') : '—' ?>
                                     </span>
                                 </td>
-                                <td>
+                                <td data-label="Thời gian sửa">
                                     <span style="font-size: 13px; color: var(--fn-dark-muted);">
                                         <?= $priceVerified ? '⏱️ ' . htmlspecialchars($srv['turnaround_text'] ?? $srv['turnaround'] ?? '—') : '—' ?>
                                     </span>
                                 </td>
-                                <td>
+                                <td data-label="Ghi chú">
                                     <span style="font-size: 12.5px; color: var(--fn-text-light);">
                                         <?= $priceVerified ? htmlspecialchars($srv['note'] ?? '') : 'Giá chi tiết theo model cần cửa hàng xác nhận' ?>
                                     </span>

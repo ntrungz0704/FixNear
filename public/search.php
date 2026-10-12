@@ -235,11 +235,11 @@ $allServicesFull = db()->getServices(null);
         <?php endif; ?>
 
         <!-- Tiêu đề kết quả -->
-        <div style="display: flex; justify-content: space-between; align-items: center;">
+        <div class="fn-search-results-heading" style="display: flex; justify-content: space-between; align-items: center;">
             <h2 id="fn-shop-count" style="font-family: var(--fn-font-heading); font-size: 18px; font-weight: 800; color: var(--fn-dark);">
                 <?= count($shops) ?> Cửa Hàng Phù Hợp
             </h2>
-            <div style="font-size: 12px; color: var(--fn-text-light); display: flex; align-items: center; gap: 4px;">
+            <div class="fn-search-location-control" style="font-size: 12px; color: var(--fn-text-light); display: flex; align-items: center; gap: 4px;">
                 <span><?= $loc_name ? '📍 ' . htmlspecialchars($loc_name) : ($user_lat ? '📍 GPS gần bạn nhất' : '📍 Tất cả khu vực') ?></span>
                 <button type="button" onclick="openLocationModal()" style="background: none; border: none; color: #ea580c; text-decoration: underline; cursor: pointer; font-weight: 700; font-size: 11.5px;">[Đổi Vị Trí ⚙️]</button>
             </div>
@@ -265,7 +265,7 @@ $allServicesFull = db()->getServices(null);
                             <!-- Tên + Rating -->
                             <div style="display: flex; justify-content: space-between; align-items: flex-start; gap: 8px; margin-bottom: 6px;">
                                 <h3 style="font-family: var(--fn-font-heading); font-size: 15.5px; font-weight: 800; color: #0f172a; line-height: 1.35; margin: 0; flex: 1;">
-                                    <a href="shop_detail.php?id=<?= $shop['id'] ?>" target="_blank" style="color: inherit; text-decoration: none;">
+                                    <a href="shop_detail.php?id=<?= $shop['id'] ?>" style="color: inherit; text-decoration: none;">
                                         <?= htmlspecialchars($shop['name']) ?>
                                     </a>
                                 </h3>
