@@ -16,7 +16,7 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST' && isset($_POST['delete'])) {
 }
 
 $shops = db()->getShops(['include_unverified' => true]);
-$publishedShopCount = count(array_filter($shops, static fn($shop) => !empty($shop['address_verified'])));
+$sourcedShopCount = count(array_filter($shops, static fn($shop) => !empty($shop['address_verified'])));
 $stats = db()->getStats();
 
 $pageTitle = "Quản Lý Cửa Hàng — FixNear Admin";
@@ -32,10 +32,10 @@ require_once __DIR__ . '/../includes/navbar.php';
         <div class="fn-admin-page-head" style="display: flex; justify-content: space-between; align-items: center; margin-bottom: 24px;">
             <div>
                 <h1 style="font-family: var(--fn-font-heading); font-size: 24px; font-weight: 900; color: var(--fn-dark);">
-                    Cửa hàng: <?= $publishedShopCount ?> công khai / <?= count($shops) ?> bản ghi
+                    Cửa hàng: <?= count($shops) ?> hiển thị / <?= $sourcedShopCount ?> địa chỉ có nguồn
                 </h1>
                 <p style="font-size: 13.5px; color: var(--fn-dark-muted);">
-                    Chỉ chi nhánh có địa chỉ và số liên hệ đối chiếu từ website chính thức mới xuất hiện trên trang công khai. <?= count($shops) - $publishedShopCount ?> bản ghi đang chờ rà soát.
+                    Tất cả bản ghi xuất hiện trên trang người dùng. <?= count($shops) - $sourcedShopCount ?> địa chỉ còn cần đối chiếu và được gắn cảnh báo; số gọi chưa có nguồn sẽ được ẩn.
                 </p>
             </div>
             <a href="shop_edit.php" class="fn-btn fn-btn-primary">
@@ -97,15 +97,9 @@ require_once __DIR__ . '/../includes/navbar.php';
                             <td><strong>#<?= $s['id'] ?></strong></td>
                             <td>
                                 <div style="font-weight: 800; color: var(--fn-dark); font-size: 14.5px;">
-                                    <?php if (!empty($s['address_verified'])): ?>
-                                        <a href="../shop_detail.php?id=<?= (int) $s['id'] ?>" target="_blank" rel="noopener noreferrer" style="color: var(--fn-primary);">
-                                            <?= htmlspecialchars($s['name']) ?> ↗
-                                        </a>
-                                    <?php else: ?>
-                                        <a href="shop_edit.php?id=<?= (int) $s['id'] ?>" style="color: var(--fn-primary);">
-                                            <?= htmlspecialchars($s['name']) ?> · Chỉnh sửa
-                                        </a>
-                                    <?php endif; ?>
+                                    <a href="../shop_detail.php?id=<?= (int) $s['id'] ?>" target="_blank" rel="noopener noreferrer" style="color: var(--fn-primary);">
+                                        <?= htmlspecialchars($s['name']) ?> ↗
+                                    </a>
                                 </div>
                                 <div style="font-size: 12px; color: var(--fn-text-light);">
                                     <?= implode(', ', array_map('ucfirst', $s['devices'] ?? [])) ?>
@@ -119,12 +113,12 @@ require_once __DIR__ . '/../includes/navbar.php';
                                     <?= htmlspecialchars($s['ward']) ?>, <?= htmlspecialchars($s['district']) ?>
                                 </span>
                                 <div style="margin-top:6px;font-size:11px;font-weight:800;color:<?= !empty($s['address_verified']) ? '#c2410c' : '#64748b' ?>;">
-                                    <?php if (!empty($s['address_verified'])): ?><a href="<?= htmlspecialchars($s['address_source_url']) ?>" target="_blank" rel="noopener noreferrer" style="color:#c2410c;">✓ Công khai · nguồn địa chỉ ↗</a><?php else: ?>Chưa đối soát · ẩn khỏi trang công khai<?php endif; ?>
+                                    <?php if (!empty($s['address_verified'])): ?><a href="<?= htmlspecialchars($s['address_source_url']) ?>" target="_blank" rel="noopener noreferrer" style="color:#c2410c;">✓ Địa chỉ có nguồn ↗</a><?php else: ?>Đang hiển thị kèm cảnh báo · cần đối chiếu địa chỉ<?php endif; ?>
                                 </div>
                             </td>
                             <td>
                                 <span style="font-size: 13px; font-family: monospace; font-weight: bold;">
-                                    <?= htmlspecialchars($s['phone']) ?>
+                                    <?= !empty($s['phone_verified']) ? htmlspecialchars($s['phone']) : 'Chưa có số đối chiếu' ?>
                                 </span>
                             </td>
                             <td>

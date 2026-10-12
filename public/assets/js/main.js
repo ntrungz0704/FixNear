@@ -595,8 +595,7 @@ document.addEventListener('DOMContentLoaded', () => {
     initLiveTicker();
     initRepairWizard();
     initModalHandlers();
-    checkSmartLocationOnEntry();
-    // Chưa tự mở thông báo ưu đãi khi chưa có chương trình được đối soát theo chi nhánh.
+    // Location is chosen from the visible buttons; do not interrupt browsing.
 
     // Preserve keyboard access for legacy clickable cards while their markup is
     // progressively migrated to native buttons/links.
@@ -1278,76 +1277,7 @@ function triggerDeviceGPS(btn) {
     }
 }
 
-// ================= 5. KIỂM TRA ĐỊNH VỊ THÔNG MINH (CHƯA BẬT THÌ HỎI 1 LẦN DUY NHẤT, BẬT RỒI KHÔNG HỎI) =================
-function checkSmartLocationOnEntry() {
-    const hasLocation = window.FixNearLocation ? window.FixNearLocation.hasLocation() : (localStorage.getItem('fixnear_user_lat') || (document.cookie.includes('fixnear_lat=') && !document.cookie.includes('fixnear_lat=;')));
-
-    // Nếu đã có vị trí -> TUYỆT ĐỐI không bật modal
-    if (hasLocation) {
-        return;
-    }
-
-    // Không bật modal trên các trang admin, login, register, request_repair, contact
-    const p = window.location.pathname;
-    if (p.includes('/admin') || p.includes('login.php') || p.includes('register.php') || p.includes('request_repair.php') || p.includes('contact.php')) {
-        return;
-    }
-
-    // Kiểm tra nếu trong phiên này người dùng đã bấm đóng modal hoặc từ chối thì không hỏi lại liên tục
-    if (sessionStorage.getItem('fixnear_loc_prompt_dismissed')) {
-        return;
-    }
-
-    // Chỉ gợi ý nhẹ sau khi người dùng vào trang chủ lần đầu
-    setTimeout(() => {
-        const locModal = document.getElementById('fn-location-modal');
-        if (locModal && !hasLocation) {
-            locModal.classList.add('active');
-            document.body.style.overflow = 'hidden';
-            sessionStorage.setItem('fixnear_loc_prompt_dismissed', '1');
-        }
-    }, 1500);
-}
-
-// ================= 6. BANNER QUẢNG CÁO XUẤT HIỆN SAU 3S =================
-function initPromoBanner3s() {
-    const p = window.location.pathname;
-    if (p.includes('/admin') || p.includes('login.php') || p.includes('register.php')) {
-        return;
-    }
-
-    // Check if user dismissed the banner today
-    const today = new Date().toISOString().slice(0, 10); // YYYY-MM-DD
-    const dismissedDate = localStorage.getItem('fixnear_promo_dismissed_date');
-    if (dismissedDate === today) {
-        return;
-    }
-
-    setTimeout(() => {
-        const promoModal = document.getElementById('fn-promo-modal');
-        const locModal = document.getElementById('fn-location-modal');
-
-        if (promoModal) {
-            const showBanner = () => {
-                promoModal.classList.add('active');
-                document.body.style.overflow = 'hidden';
-            };
-
-            if (locModal && locModal.classList.contains('active')) {
-                const interval = setInterval(() => {
-                    if (!locModal.classList.contains('active')) {
-                        clearInterval(interval);
-                        showBanner();
-                    }
-                }, 800);
-            } else {
-                showBanner();
-            }
-        }
-    }, 2000);
-}
-
-// ================= 7. QUẢN LÝ CỬA HÀNG YÊU THÍCH (FAVORITES) =================
+// ================= 5. QUẢN LÝ CỬA HÀNG YÊU THÍCH (FAVORITES) =================
 function syncFavoritesUI() {
     document.querySelectorAll('.fn-fav-btn').forEach(btn => {
         const shopId = parseInt(btn.getAttribute('data-shop-id'), 10);

@@ -8,8 +8,7 @@ if (!isAdmin()) {
 
 $stats = db()->getStats();
 $shops = db()->getShops(['include_unverified' => true]);
-$publicShops = array_values(array_filter($shops, static fn($shop) => !empty($shop['address_verified'])));
-$publicDistricts = count(array_unique(array_map(static fn($shop) => (string) ($shop['district'] ?? ''), $publicShops)));
+$sourcedShops = array_values(array_filter($shops, static fn($shop) => !empty($shop['address_verified'])));
 $reviews = db()->getAllReviews();
 $reports = db()->getReports();
 
@@ -54,7 +53,7 @@ require_once __DIR__ . '/../includes/navbar.php';
                     <?php endif; ?>
                 </div>
                 <p style="font-size: 13.5px; color: var(--fn-dark-muted); margin-top: 4px;">
-                    <?= (int)$stats['total_shops'] ?> bản ghi tại <?= (int)$stats['total_districts'] ?> khu vực; <?= count($publicShops) ?> cửa hàng công khai tại <?= $publicDistricts ?> khu vực. <?= count($shops) - count($publicShops) ?> bản ghi cần bổ sung nguồn địa chỉ.
+                    <?= (int)$stats['total_shops'] ?> cửa hàng hiển thị tại <?= (int)$stats['total_districts'] ?> khu vực; <?= count($sourcedShops) ?> địa chỉ có nguồn. <?= count($shops) - count($sourcedShops) ?> địa chỉ cần đối chiếu thêm.
                 </p>
             </div>
             <div class="fn-admin-head-actions" style="display: flex; gap: 10px;">
@@ -72,7 +71,7 @@ require_once __DIR__ . '/../includes/navbar.php';
             <div style="background: var(--fn-surface); border: 1px solid var(--fn-border); border-radius: var(--fn-radius); padding: 20px;">
                 <div style="font-size: 12px; font-weight: 700; color: var(--fn-text-light); text-transform: uppercase;">Tổng Cửa Hàng</div>
                 <div style="font-size: 28px; font-weight: 900; color: var(--fn-primary); margin-top: 6px;"><?= $stats['total_shops'] ?></div>
-                <div style="font-size: 11.5px; color: #9a3412; margin-top: 4px;"><?= count($publicShops) ?> công khai · <?= count($shops) - count($publicShops) ?> chờ đối soát</div>
+                <div style="font-size: 11.5px; color: #9a3412; margin-top: 4px;"><?= count($sourcedShops) ?> địa chỉ có nguồn · <?= count($shops) - count($sourcedShops) ?> cần đối chiếu</div>
             </div>
 
             <div style="background: var(--fn-surface); border: 1px solid var(--fn-border); border-radius: var(--fn-radius); padding: 20px;">
