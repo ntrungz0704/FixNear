@@ -65,9 +65,11 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
     }
 
     if (!$formErrors) {
-        db()->saveShop($shopData);
-        header("Location: shops.php?msg=saved");
-        exit;
+        if (db()->saveShop($shopData) !== false) {
+            header("Location: shops.php?msg=saved");
+            exit;
+        }
+        $formErrors[] = 'Không thể lưu cửa hàng lúc này. Vui lòng thử lại.';
     }
 }
 
