@@ -110,7 +110,7 @@ require_once __DIR__ . '/../includes/navbar.php';
                     </p>
                     <p style="font-size:11px;color:#92400e;margin:0 0 6px;">Pin tham khảo; bấm Google Maps để xác nhận vị trí theo địa chỉ.</p>
                     <div style="font-size: 12px; color: #475569;">
-                        ⏰ <?= htmlspecialchars($focusShop['opening_hours']) ?> • 📞 <a href="tel:<?= preg_replace('/\s+/', '', $focusShop['phone']) ?>" style="color: #16a34a; font-weight: 700; text-decoration: none;"><?= htmlspecialchars($focusShop['phone']) ?></a>
+                        ⏰ <?= htmlspecialchars($focusShop['opening_hours']) ?><?php if (!empty($focusShop['phone_verified'])): ?> • 📞 <a href="tel:<?= preg_replace('/\s+/', '', $focusShop['phone']) ?>" style="color: #16a34a; font-weight: 700; text-decoration: none;"><?= htmlspecialchars($focusShop['phone']) ?></a><?php endif; ?>
                     </div>
                 </div>
             </div>
@@ -147,13 +147,14 @@ require_once __DIR__ . '/../includes/navbar.php';
         wrap.innerHTML = `
             <div style="display: inline-flex; align-items: center; gap: 6px; background: #ecfdf5; border: 1px solid #a7f3d0; color: #059669; padding: 6px 14px; border-radius: 20px; font-size: 12.5px; font-weight: 700;">
                 <span class="fn-pulse-dot" style="background:#10b981;"></span>
-                <span>📍 ${name}</span>
+                <span>📍 <span id="fn-map-location-name"></span></span>
                 ${distBadge}
             </div>
             <button type="button" onclick="openLocationModal()" style="display: inline-flex; align-items: center; gap: 4px; background: #ffffff; border: 1px solid #cbd5e1; color: #475569; padding: 6px 12px; border-radius: 20px; font-size: 12px; font-weight: 700; cursor: pointer;">
                 ⚙️ Đổi vị trí
             </button>
         `;
+        wrap.querySelector('#fn-map-location-name').textContent = name;
     }
 
     function applyUserLocationToMap(loc, panToUser) {

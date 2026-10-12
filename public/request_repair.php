@@ -253,6 +253,7 @@ require_once __DIR__ . '/../includes/navbar.php';
                             <?php if (!empty($shop['google_rating_verified'])): ?><div class="fn-shop-rating">⭐ <?= htmlspecialchars($shop['google_rating']) ?> (<?= number_format($shop['google_reviews_count']) ?> đánh giá Google)</div><?php endif; ?>
                             <h3 class="fn-shop-name" style="text-align: left;"><?= htmlspecialchars($shop['name']) ?></h3>
                             <p class="fn-shop-address" style="text-align: left;">📌 <?= htmlspecialchars($shop['address']) ?></p>
+                            <?php if (empty($shop['address_verified'])): ?><p style="font-size:12px;color:#9a3412;margin:6px 0;">Địa chỉ cần kiểm tra trước khi đến</p><?php endif; ?>
                             <div style="font-size: 13px; color: #64748b; font-weight: 700; margin: 8px 0; text-align: left;">
                                 Chính sách sửa chữa: vui lòng gọi cửa hàng xác nhận
                             </div>
@@ -260,9 +261,9 @@ require_once __DIR__ . '/../includes/navbar.php';
                                 <a href="shop_detail.php?id=<?= $shop['id'] ?>" class="fn-btn fn-btn-primary" style="flex: 1; text-align: center; text-decoration: none; font-size: 13px;">
                                     Xem Dịch Vụ & Chi Tiết ➔
                                 </a>
-                                <a href="tel:<?= preg_replace('/[^0-9]/', '', $shop['phone']) ?>" class="fn-btn fn-btn-secondary" style="font-size: 13px; padding: 0 14px;" title="Gọi hotline">
+                                <?php if (!empty($shop['phone_verified'])): ?><a href="tel:<?= preg_replace('/[^0-9]/', '', $shop['phone']) ?>" class="fn-btn fn-btn-secondary" style="font-size: 13px; padding: 0 14px;" title="Gọi hotline">
                                     📞
-                                </a>
+                                </a><?php endif; ?>
                             </div>
                         </div>
                     </div>

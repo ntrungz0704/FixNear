@@ -162,6 +162,7 @@ if ($isLocated) {
 }
 
 $shopCount = count($filteredShops);
+$shopSourcedCount = count(array_filter($filteredShops, static fn($shop) => !empty($shop['address_verified'])));
 $hasVerifiedRating = (bool)array_filter($filteredShops, static fn($shop) => !empty($shop['google_rating_verified']));
 $shopsPerPage = 9;
 $shopPageCount = max(1, (int)ceil($shopCount / $shopsPerPage));
@@ -218,7 +219,8 @@ require_once __DIR__ . '/../includes/navbar.php';
                     Tìm thấy <span style="color: #ea580c;"><?= count($filteredShops) ?></span> Cửa Hàng Phù Hợp
                 </h1>
                 <p style="font-size: 14px; color: #64748b; margin: 0; line-height: 1.5;">
-                    <?= $isResultMode ? 'Dưới đây là danh sách cửa hàng hỗ trợ sửa chữa theo đúng thiết bị và lỗi bạn đã chọn.' : 'Bộ dữ liệu các cơ sở sửa chữa công nghệ tại TP.HCM kèm chính sách minh bạch.' ?>
+                    <?= $isResultMode ? 'Danh sách trong dữ liệu dự án theo thiết bị và lỗi đã chọn.' : 'Bộ dữ liệu các cơ sở sửa chữa công nghệ tại TP.HCM.' ?>
+                    <?= $shopSourcedCount ?>/<?= $shopCount ?> địa chỉ có nguồn từ website của cửa hàng; các địa chỉ còn lại cần kiểm tra trước khi đến.
                 </p>
             </div>
 
@@ -520,6 +522,9 @@ require_once __DIR__ . '/../includes/navbar.php';
                         <p class="fn-shop-list-address" style="font-size: 13px; color: #334155; line-height: 1.5; margin: 0 0 8px 0;">
                             📌 <?= htmlspecialchars($shop['address']) ?>
                         </p>
+                        <?php if (empty($shop['address_verified'])): ?>
+                            <p style="font-size:12px;color:#9a3412;margin:0 0 8px;">Địa chỉ trong dữ liệu dự án; chưa tìm được nguồn chính thức. Hãy kiểm tra trước khi đến.</p>
+                        <?php endif; ?>
                         <?php if (isset($shop['distance_km'])): ?>
                             <div class="fn-shop-list-facts">
                                 <span class="fn-shop-list-distance" style="display: inline-flex; align-items: center; gap: 4px; background: #ecfdf5; color: #047857; border: 1px solid #a7f3d0; padding: 2px 8px; border-radius: 6px; font-size: 12px; font-weight: 800;">
@@ -545,10 +550,10 @@ require_once __DIR__ . '/../includes/navbar.php';
                         <div style="margin-top: auto; padding-top: 6px;">
                             <!-- Hàng 1: Gọi ngay 50% & Xem địa chỉ trên Map 50% -->
                             <div style="display: flex; gap: 8px; margin-bottom: 8px;">
-                                <a href="tel:<?= preg_replace('/[^0-9]/', '', $shop['phone']) ?>" class="fn-btn fn-btn-secondary fn-btn-sm" style="flex: 1; display: inline-flex; align-items: center; justify-content: center; gap: 6px; padding: 9px 8px; font-size: 12.5px; font-weight: 700; color: #16a34a; border-color: #bbf7d0; background: #f0fdf4; border-radius: 8px; text-decoration: none;">
+                                <?php if (!empty($shop['phone_verified'])): ?><a href="tel:<?= preg_replace('/[^0-9]/', '', $shop['phone']) ?>" class="fn-btn fn-btn-secondary fn-btn-sm" style="flex: 1; display: inline-flex; align-items: center; justify-content: center; gap: 6px; padding: 9px 8px; font-size: 12.5px; font-weight: 700; color: #16a34a; border-color: #bbf7d0; background: #f0fdf4; border-radius: 8px; text-decoration: none;">
                                     📞 Gọi ngay
-                                </a>
-                                <a href="map.php?shop_id=<?= $shop['id'] ?>" class="fn-btn fn-btn-secondary fn-btn-sm" style="flex: 1; display: inline-flex; align-items: center; justify-content: center; gap: 6px; padding: 9px 8px; font-size: 12.5px; font-weight: 700; color: #2563eb; border-color: #bfdbfe; background: #eff6ff; border-radius: 8px; text-decoration: none;" title="Xem vị trí cửa hàng trên bản đồ FixNear">
+                                </a><?php endif; ?>
+                                <a href="<?= !empty($shop['address_verified']) ? 'map.php?shop_id=' . (int)$shop['id'] : htmlspecialchars($shop['map_url']) ?>" <?= empty($shop['address_verified']) ? 'target="_blank" rel="noopener noreferrer"' : '' ?> class="fn-btn fn-btn-secondary fn-btn-sm" style="flex: 1; display: inline-flex; align-items: center; justify-content: center; gap: 6px; padding: 9px 8px; font-size: 12.5px; font-weight: 700; color: #2563eb; border-color: #bfdbfe; background: #eff6ff; border-radius: 8px; text-decoration: none;" title="Tìm địa chỉ cửa hàng trên bản đồ">
                                     🗺️ Xem địa chỉ
                                 </a>
                             </div>

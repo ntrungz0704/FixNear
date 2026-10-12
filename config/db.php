@@ -79,15 +79,19 @@ class FixNearDB {
         $shop['address_source_url'] = $sourceKey !== '' ? ($addressEvidence['sources'][$sourceKey] ?? '') : '';
         $shop['address_verified_at'] = $shop['address_source_url'] !== '' ? ($addressEvidence['checkedAt'] ?? '') : '';
         $shop['address_verified'] = $shop['address_source_url'] !== '' && $shop['address_verified_at'] !== '';
-        if ($shop['address_verified']) {
-            // Tìm theo địa chỉ đã đối chiếu; URL/pin lưu trong dữ liệu mẫu có thể đã cũ.
-            $shop['map_url'] = 'https://www.google.com/maps/search/?api=1&query=' . rawurlencode(($shop['name'] ?? '') . ', ' . ($shop['address'] ?? ''));
-        }
+        // Always search the named branch and street; seed map links and coordinates may be stale.
+        $shop['map_url'] = 'https://www.google.com/maps/search/?api=1&query=' . rawurlencode(($shop['name'] ?? '') . ', ' . ($shop['address'] ?? ''));
         $shop['coordinates_verified'] = false;
         if (isset($addressEvidence['phoneOverrides'][(string) ($shop['id'] ?? '')])) {
             $shop['phone'] = $addressEvidence['phoneOverrides'][(string) $shop['id']];
         }
-        $shop['phone_verified'] = $shop['address_verified'];
+        $shop['phone_verified'] = $shop['address_verified'] && preg_match('/^[0-9]{8,11}$/', preg_replace('/[^0-9]/', '', (string)$shop['phone'])) === 1;
+        if (!$shop['phone_verified']) {
+            $shop['phone'] = '';
+        }
+        if (str_contains((string)($shop['website'] ?? ''), 'google.com/maps/search/')) {
+            $shop['website'] = '';
+        }
         $shop['source_verified'] = !empty($shop['source_url']) && !empty($shop['verified_at']);
         $shop['google_rating_verified'] = !empty($shop['google_place_id']) && !empty($shop['google_verified_at']);
         $shop['student_discount_verified'] = !empty($shop['student_discount_source_url']) && !empty($shop['student_discount_verified_at']);
@@ -315,7 +319,7 @@ class FixNearDB {
                 $shop = $this->annotateShopVerification($shop);
             }
             unset($shop);
-            if (empty($filters['include_unverified'])) {
+            if (!empty($filters['verified_only'])) {
                 $shops = array_values(array_filter($shops, static fn($shop) => !empty($shop['address_verified'])));
             }
 
@@ -453,7 +457,7 @@ class FixNearDB {
         }
 
         $shops = array_values(array_map([$this, 'annotateShopVerification'], $shops));
-        if (empty($filters['include_unverified'])) {
+        if (!empty($filters['verified_only'])) {
             $shops = array_values(array_filter($shops, static fn($shop) => !empty($shop['address_verified'])));
         }
         return $shops;
@@ -472,7 +476,7 @@ class FixNearDB {
                 $shop['distance_km'] = $this->calculateDistance((float)$user_lat, (float)$user_lng, (float)$shop['latitude'], (float)$shop['longitude']);
             }
             $shop = $this->annotateShopVerification($shop);
-            return isAdmin() || !empty($shop['address_verified']) ? $shop : null;
+            return $shop;
         }
 
         $shops = $this->readJson('shops.json');
@@ -482,7 +486,7 @@ class FixNearDB {
                     $s['distance_km'] = $this->calculateDistance((float)$user_lat, (float)$user_lng, (float)$s['latitude'], (float)$s['longitude']);
                 }
                 $s = $this->annotateShopVerification($s);
-                return isAdmin() || !empty($s['address_verified']) ? $s : null;
+                return $s;
             }
         }
         return null;
@@ -729,6 +733,61 @@ class FixNearDB {
             $newItems = array_filter($items, fn($it) => $it['id'] != $id);
             return $this->writeJson('shop_services.json', array_values($newItems));
         });
+    }
+
+    public function countShopServices($shopId = 0) {
+        $shopId = max(0, (int)$shopId);
+        if ($this->isUsingMySQL()) {
+            $sql = 'SELECT COUNT(*) FROM shop_services';
+            $params = [];
+            if ($shopId > 0) {
+                $sql .= ' WHERE shop_id = :shop_id';
+                $params[':shop_id'] = $shopId;
+            }
+            $stmt = $this->pdo->prepare($sql);
+            $stmt->execute($params);
+            return (int)$stmt->fetchColumn();
+        }
+
+        $items = $this->readJson('shop_services.json');
+        return $shopId > 0
+            ? count(array_filter($items, static fn($item) => (int)($item['shop_id'] ?? 0) === $shopId))
+            : count($items);
+    }
+
+    public function getAllShopServices($shopId = 0, $limit = 25, $offset = 0) {
+        $shopId = max(0, (int)$shopId);
+        $limit = min(100, max(1, (int)$limit));
+        $offset = max(0, (int)$offset);
+        if ($this->isUsingMySQL()) {
+            $sql = 'SELECT ss.*, s.name AS service_name, s.device_type, sh.name AS shop_name
+                    FROM shop_services ss
+                    JOIN services s ON s.id = ss.service_id
+                    JOIN shops sh ON sh.id = ss.shop_id';
+            $params = [];
+            if ($shopId > 0) {
+                $sql .= ' WHERE ss.shop_id = :shop_id';
+                $params[':shop_id'] = $shopId;
+            }
+            $sql .= ' ORDER BY ss.id DESC LIMIT ' . $limit . ' OFFSET ' . $offset;
+            $stmt = $this->pdo->prepare($sql);
+            $stmt->execute($params);
+            return $stmt->fetchAll(PDO::FETCH_ASSOC);
+        }
+
+        $services = array_column($this->readJson('services.json'), null, 'id');
+        $shops = array_column($this->readJson('shops.json'), null, 'id');
+        $items = array_filter($this->readJson('shop_services.json'),
+            static fn($item) => $shopId === 0 || (int)($item['shop_id'] ?? 0) === $shopId);
+        usort($items, static fn($a, $b) => (int)($b['id'] ?? 0) <=> (int)($a['id'] ?? 0));
+        return array_map(static function ($item) use ($services, $shops) {
+            $service = $services[$item['service_id'] ?? 0] ?? [];
+            $shop = $shops[$item['shop_id'] ?? 0] ?? [];
+            $item['service_name'] = $service['name'] ?? 'Dịch vụ không còn trong danh mục';
+            $item['device_type'] = $service['device_type'] ?? '';
+            $item['shop_name'] = $shop['name'] ?? 'Cửa hàng không còn trong danh mục';
+            return $item;
+        }, array_slice($items, $offset, $limit));
     }
 
     // ================= ĐÁNH GIÁ (REVIEWS) =================
@@ -1258,6 +1317,7 @@ class FixNearDB {
     }
 
     public function createUser($data) {
+        $data['role'] = 'user';
         if ($this->isUsingMySQL()) {
             if ($this->getUserByEmail($data['email'])) return false;
             $stmt = $this->pdo->prepare("
@@ -1268,7 +1328,7 @@ class FixNearDB {
                 ':name' => $data['name'] ?? '',
                 ':email' => $data['email'] ?? '',
                 ':password' => $data['password'] ?? '',
-                ':role' => $data['role'] ?? 'user',
+                ':role' => 'user',
                 ':phone' => $data['phone'] ?? null
             ]);
             $data['id'] = (int)$this->pdo->lastInsertId();
@@ -1283,7 +1343,7 @@ class FixNearDB {
             $maxId = 0;
             foreach ($users as $user) $maxId = max($maxId, (int)($user['id'] ?? 0));
             $data['id'] = $maxId + 1;
-            $data['role'] = $data['role'] ?? 'user';
+            $data['role'] = 'user';
             $data['created_at'] = date('Y-m-d H:i:s');
             $users[] = $data;
             return $this->writeJson('users.json', $users) ? $data : false;
@@ -1402,6 +1462,7 @@ class FixNearDB {
         }
         $stats['total_shops'] = count($shops);
         $stats['total_districts'] = count($districts);
+        $stats['address_sourced_shops'] = count(array_filter($shops, static fn($shop) => !empty($shop['address_verified'])));
         return $stats;
     }
 
@@ -1435,39 +1496,55 @@ class FixNearDB {
 
     public function createOrUpdateAdmin(string $email, string $name, string $passwordHash): bool {
         if ($this->isUsingMySQL()) {
-            $existing = $this->getUserByEmail($email);
-            if ($existing) {
-                $stmt = $this->pdo->prepare("UPDATE users SET name = :name, password = :pwd, role = 'admin' WHERE id = :id");
-                return $stmt->execute([':name' => $name, ':pwd' => $passwordHash, ':id' => $existing['id']]);
-            } else {
+            if ((int)$this->pdo->query("SELECT GET_LOCK('fixnear_single_admin', 5)")->fetchColumn() !== 1) {
+                return false;
+            }
+            try {
+                $admins = $this->pdo->query("SELECT id, email FROM users WHERE role = 'admin'")->fetchAll(PDO::FETCH_ASSOC);
+                if (count($admins) > 1 || (count($admins) === 1 && strcasecmp($admins[0]['email'], $email) !== 0)) {
+                    return false;
+                }
+                $existing = $this->getUserByEmail($email);
+                if ($existing) {
+                    $stmt = $this->pdo->prepare("UPDATE users SET name = :name, password = :pwd, role = 'admin' WHERE id = :id");
+                    return $stmt->execute([':name' => $name, ':pwd' => $passwordHash, ':id' => $existing['id']]);
+                }
                 $stmt = $this->pdo->prepare("INSERT INTO users (name, email, password, role, phone, created_at) VALUES (:name, :email, :pwd, 'admin', '', NOW())");
                 return $stmt->execute([':name' => $name, ':email' => $email, ':pwd' => $passwordHash]);
+            } finally {
+                $this->pdo->query("SELECT RELEASE_LOCK('fixnear_single_admin')");
             }
         }
 
-        $users = $this->readJson('users.json');
-        foreach ($users as &$user) {
-            if (strcasecmp(trim((string)($user['email'] ?? '')), $email) === 0) {
-                $user['name'] = $name;
-                $user['password'] = $passwordHash;
-                $user['role'] = 'admin';
-                $user['updated_at'] = date('Y-m-d H:i:s');
-                return $this->writeJson('users.json', $users);
+        return $this->withJsonLock('users.json', function () use ($email, $name, $passwordHash): bool {
+            $users = $this->readJson('users.json');
+            $admins = array_values(array_filter($users, static fn($user) => ($user['role'] ?? '') === 'admin'));
+            if (count($admins) > 1 || (count($admins) === 1 && strcasecmp(trim((string)($admins[0]['email'] ?? '')), $email) !== 0)) {
+                return false;
             }
-        }
-        unset($user);
-        $maxId = 0;
-        foreach ($users as $user) $maxId = max($maxId, (int)($user['id'] ?? 0));
-        $users[] = [
-            'id' => $maxId + 1,
-            'name' => $name,
-            'email' => $email,
-            'password' => $passwordHash,
-            'role' => 'admin',
-            'phone' => '',
-            'created_at' => date('Y-m-d H:i:s')
-        ];
-        return $this->writeJson('users.json', $users);
+            foreach ($users as &$user) {
+                if (strcasecmp(trim((string)($user['email'] ?? '')), $email) === 0) {
+                    $user['name'] = $name;
+                    $user['password'] = $passwordHash;
+                    $user['role'] = 'admin';
+                    $user['updated_at'] = date('Y-m-d H:i:s');
+                    return $this->writeJson('users.json', $users);
+                }
+            }
+            unset($user);
+            $maxId = 0;
+            foreach ($users as $user) $maxId = max($maxId, (int)($user['id'] ?? 0));
+            $users[] = [
+                'id' => $maxId + 1,
+                'name' => $name,
+                'email' => $email,
+                'password' => $passwordHash,
+                'role' => 'admin',
+                'phone' => '',
+                'created_at' => date('Y-m-d H:i:s')
+            ];
+            return $this->writeJson('users.json', $users);
+        });
     }
 }
 

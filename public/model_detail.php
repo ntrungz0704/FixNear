@@ -279,6 +279,7 @@ require_once __DIR__ . '/../includes/navbar.php';
                                 <p><span aria-hidden="true">📍</span><span><?= htmlspecialchars($sAddress) ?></span></p>
                                 <p><span aria-hidden="true">◷</span><span><?= $sHours !== '' ? 'Giờ tham khảo: ' . htmlspecialchars($sHours) : 'Giờ mở cửa: cần xác nhận' ?></span></p>
                             </div>
+                            <?php if (empty($shop['address_verified'])): ?><p style="font-size:12px;color:#9a3412;margin:4px 0 8px;">Địa chỉ cần kiểm tra trước khi đến</p><?php endif; ?>
                             <div class="fn-model-shop-actions">
                                 <a class="fn-model-shop-detail" href="shop_detail.php?id=<?= (int) $shop['id'] ?>">Xem cửa hàng &amp; phản hồi →</a>
                                 <?php if ($phoneDigits !== ''): ?><a href="tel:<?= $phoneDigits ?>">Gọi cửa hàng</a><?php endif; ?>

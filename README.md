@@ -14,7 +14,22 @@ Yêu cầu PHP 8.1+ với `mbstring`, `json`, `openssl`.
 php -S 127.0.0.1:8000 -t . router.php
 ```
 
-Mở `http://127.0.0.1:8000/`. Không cần MySQL để chạy với dữ liệu JSON mẫu. Dữ liệu người dùng, yêu cầu sửa chữa và cấu hình riêng được giữ ngoài Git.
+Mở `http://127.0.0.1:8000/`. Bản clone dùng JSON mặc định ở môi trường phát triển, nên giao diện và dữ liệu công khai giống bản trên GitHub mà không cần MySQL.
+
+### Khôi phục đúng dữ liệu riêng đang có
+
+GitHub có `data/private-snapshot.enc`, là bản sao **đã mã hóa** của 6 tệp tài khoản, yêu cầu sửa chữa, liên hệ, đánh giá, yêu thích và báo sai tại thời điểm xuất. Để bản clone hiện đúng các dữ liệu này, chép riêng tệp khóa do chủ dự án giữ tới máy mới, rồi chạy trong PowerShell trước khi dùng website:
+
+```powershell
+$env:FIXNEAR_SNAPSHOT_KEY_FILE = 'C:\duong-dan-rieng\snapshot.key'
+php scripts/private_snapshot.php verify
+php scripts/private_snapshot.php restore
+php -S 127.0.0.1:8000 -t . router.php
+```
+
+Khóa hiện tại trên máy chủ dự án nằm tại `C:\Users\ntrun\.fixnear\snapshot.key`, **không nằm trong Git**. Không gửi khóa cùng mã nguồn và không đăng khóa công khai. Lệnh khôi phục chỉ chạy vào thư mục dữ liệu chưa có 6 tệp riêng, để tránh ghi đè dữ liệu mới. Mọi thay đổi sau thời điểm xuất cần xuất lại bản mã hóa; Git clone không tự đồng bộ dữ liệu đang phát sinh. Bản mã hóa không thay thế sao lưu riêng có kiểm soát truy cập. Nếu không có khóa, bản clone vẫn chạy với dữ liệu công khai và có thể tạo một admin riêng bằng `scripts/create_admin.php`.
+
+Muốn cập nhật bản mã hóa sau khi dữ liệu thay đổi, chạy `php scripts/private_snapshot.php export` với `FIXNEAR_SNAPSHOT_KEY_FILE` đã đặt, kiểm tra bằng `verify`, rồi commit tệp `.enc`. Hệ thống chỉ cho phép một admin; lệnh `create_admin.php` chỉ cập nhật email admin hiện tại hoặc tạo admin khi chưa có.
 
 ```bash
 php scripts/preflight.php

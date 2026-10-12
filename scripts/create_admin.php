@@ -20,11 +20,11 @@ if (mb_strlen($name) < 2 || mb_strlen($name) > 100) {
     fwrite(STDERR, "FIXNEAR_ADMIN_NAME cần từ 2 đến 100 ký tự.\n");
     exit(1);
 }
-if (strlen($password) < 12 || strlen($password) > 200) {
-    fwrite(STDERR, "FIXNEAR_ADMIN_PASSWORD cần từ 12 đến 200 ký tự.\n");
+if (strlen($password) < 10 || strlen($password) > 200) {
+    fwrite(STDERR, "FIXNEAR_ADMIN_PASSWORD cần từ 10 đến 200 ký tự.\n");
     exit(1);
 }
 
 $ok = db()->createOrUpdateAdmin($email, $name, password_hash($password, PASSWORD_DEFAULT));
-fwrite($ok ? STDOUT : STDERR, $ok ? "Đã tạo/cập nhật quản trị viên.\n" : "Không thể ghi dữ liệu quản trị viên.\n");
+fwrite($ok ? STDOUT : STDERR, $ok ? "Đã tạo/cập nhật quản trị viên duy nhất.\n" : "Không thể tạo admin khác khi đã có admin; dùng đúng email hiện tại để đổi mật khẩu.\n");
 exit($ok ? 0 : 1);

@@ -320,6 +320,7 @@ function fnToggleMobileMenu() {
     const navLinks = document.getElementById('fn-nav-links');
     const hamburger = document.getElementById('fn-hamburger-btn');
     const backdrop = document.getElementById('fn-mobile-backdrop');
+    const navbar = document.querySelector('.fn-navbar');
     
     if (!navLinks) return;
     
@@ -331,14 +332,19 @@ function fnToggleMobileMenu() {
         if (hamburger) hamburger.classList.remove('active');
         if (hamburger) hamburger.setAttribute('aria-expanded', 'false');
         if (backdrop) backdrop.classList.remove('active');
+        if (navbar) navbar.classList.remove('menu-open');
         document.body.style.overflow = '';
+        if (hamburger) hamburger.focus();
     } else {
         // Mở menu
         navLinks.classList.add('active');
         if (hamburger) hamburger.classList.add('active');
         if (hamburger) hamburger.setAttribute('aria-expanded', 'true');
         if (backdrop) backdrop.classList.add('active');
+        if (navbar) navbar.classList.add('menu-open');
         document.body.style.overflow = 'hidden';
+        const closeButton = navLinks.querySelector('.fn-mobile-close-btn');
+        if (closeButton) closeButton.focus();
     }
 }
 
@@ -358,10 +364,12 @@ window.addEventListener('resize', function() {
         const navLinks = document.getElementById('fn-nav-links');
         const hamburger = document.getElementById('fn-hamburger-btn');
         const backdrop = document.getElementById('fn-mobile-backdrop');
+        const navbar = document.querySelector('.fn-navbar');
         if (navLinks) navLinks.classList.remove('active');
         if (hamburger) hamburger.classList.remove('active');
         if (hamburger) hamburger.setAttribute('aria-expanded', 'false');
         if (backdrop) backdrop.classList.remove('active');
+        if (navbar) navbar.classList.remove('menu-open');
         document.body.style.overflow = '';
     }
 });

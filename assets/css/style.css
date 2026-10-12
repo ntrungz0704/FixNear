@@ -1305,6 +1305,47 @@ textarea:focus-visible,
 }
 
 /* ================= 2-STEP REPAIR FINDER WIZARD (REPAIRBOOKINGS STYLE) ================= */
+/* Keep the sticky header and its drawer above the dimming layer. */
+.fn-mobile-account-actions { display: none; }
+@media (max-width: 900px) {
+  .fn-navbar.menu-open { z-index: 10001; }
+  .fn-mobile-backdrop.active { z-index: 10000; }
+  .fn-nav-links {
+    height: 100dvh;
+    visibility: hidden;
+    pointer-events: none;
+    overscroll-behavior: contain;
+  }
+  .fn-nav-links.active { visibility: visible; pointer-events: auto; }
+  .fn-mobile-account-actions {
+    display: grid;
+    gap: 10px;
+    margin-top: 20px;
+    padding-top: 20px;
+    border-top: 1px solid #e2e8f0;
+  }
+  .fn-mobile-account-name { color: #475569; font-size: 13px; font-weight: 700; }
+  .fn-mobile-account-actions form { margin: 0; }
+  .fn-mobile-account-link {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    width: 100%;
+    min-height: 44px;
+    padding: 10px 14px;
+    border: 1px solid #cbd5e1;
+    border-radius: 10px;
+    background: #fff;
+    color: #0f172a;
+    font-size: 14px;
+    font-weight: 700;
+    text-decoration: none;
+    cursor: pointer;
+  }
+  .fn-mobile-account-primary { border-color: #ea580c; background: #ea580c; color: #fff; }
+}
+
+/* ================= 2-STEP REPAIR FINDER WIZARD (REPAIRBOOKINGS STYLE) ================= */
 .fn-wizard-box {
   background: var(--fn-surface);
   border: 1px solid var(--fn-border);
@@ -3310,9 +3351,13 @@ textarea:focus-visible,
 /* 3. Shop Detail Header Grid */
 .fn-shop-header-grid {
     display: grid;
-    grid-template-columns: 340px 1fr;
+    grid-template-columns: minmax(300px, 28%) minmax(0, 1fr);
     gap: 24px;
+    height: 280px;
+    overflow: hidden;
 }
+.fn-shop-hero-media { position:relative; min-width:0; min-height:0; height:100%; overflow:hidden; background:#fff7ed; }
+.fn-shop-hero-media img { display:block; width:100%; height:100%; object-fit:cover; object-position:center 42%; }
 .fn-shop-report-link { border: 0; background: transparent; color: #c2410c; font: inherit; font-size: 12px; font-weight: 800; padding: 0; cursor: pointer; align-self: flex-start; }
 .fn-shop-report-link:hover { text-decoration: underline; }
 .fn-shop-report-link:focus-visible { outline: 3px solid #fb923c; outline-offset: 3px; }
@@ -3337,10 +3382,12 @@ textarea:focus-visible,
     .fn-shop-header-grid {
         grid-template-columns: 1fr;
         gap: 0;
+        height: auto;
+        overflow: visible;
     }
-    .fn-shop-header-grid > div:first-child {
-        height: 220px !important;
-        min-height: 220px !important;
+    .fn-shop-header-grid > .fn-shop-hero-media {
+        height: 220px;
+        min-height: 0;
     }
     .fn-shop-header-grid > div:last-child {
         padding: 20px 16px !important;
@@ -3505,3 +3552,32 @@ textarea:focus-visible,
   .fn-admin-page .fn-price-table tbody td[colspan]::before{display:none}
 }
 @media(max-width:380px){.fn-admin-navbar-title{display:none}.fn-admin-navbar-actions{margin-left:auto}}
+
+@media (max-width: 640px) {
+  .fn-search-results-heading { flex-wrap: wrap; gap: 6px; align-items: flex-start !important; }
+  .fn-search-results-heading h2 { flex: 1 0 100%; margin: 0; }
+  .fn-search-location-control { flex-wrap: wrap; min-width: 0; }
+  #fn-ai-chat-bubble { width: 42px; height: 42px; right: 8px; bottom: calc(12px + env(safe-area-inset-bottom)); border-width: 2px; }
+  #fn-ai-chat-bubble img { width: 30px; height: 30px; }
+}
+
+/* Shop service prices: readable cards instead of a six-column table on phones. */
+@media (max-width: 700px) {
+  .fn-shop-service-wrapper { overflow: visible; border: 0; background: transparent; box-shadow: none; }
+  .fn-shop-service-table { display: block; width: 100%; min-width: 0; border: 0; background: transparent; }
+  .fn-shop-service-table thead { position: absolute; width: 1px; height: 1px; padding: 0; margin: -1px; overflow: hidden; clip: rect(0, 0, 0, 0); white-space: nowrap; border: 0; }
+  .fn-shop-service-table tbody { display: grid; gap: 12px; }
+  .fn-shop-service-table tbody tr { display: grid; grid-template-columns: minmax(0, 1fr) auto; gap: 8px 12px; min-width: 0; padding: 16px; border: 1px solid var(--fn-border); border-radius: 14px; background: #fff; box-shadow: 0 3px 12px rgba(15, 23, 42, .04); }
+  .fn-shop-service-table tbody td { display: block; width: auto; min-width: 0; padding: 0; border: 0; white-space: normal; overflow-wrap: anywhere; }
+  .fn-shop-service-table tbody td::before { content: attr(data-label); display: block; margin-bottom: 3px; color: #64748b; font-size: 10px; font-weight: 800; letter-spacing: .04em; text-transform: uppercase; }
+  .fn-shop-service-table tbody td:first-child { grid-column: 1 / -1; }
+  .fn-shop-service-table tbody td:first-child::before,
+  .fn-shop-service-table tbody td:nth-child(2)::before { display: none; }
+  .fn-shop-service-table tbody td:nth-child(2) { align-self: start; }
+  .fn-shop-service-table tbody td:nth-child(3) { grid-column: 1 / -1; padding-top: 9px; border-top: 1px solid #f1f5f9; }
+  .fn-shop-service-table .fn-price-range { display: block; font-size: 17px; line-height: 1.35; }
+  .fn-shop-service-table tbody td:nth-child(3) small { line-height: 1.45; margin-top: 4px; }
+  .fn-shop-service-table .fn-service-estimate td:nth-child(n+4) { display: none; }
+  .fn-shop-service-table .fn-service-sourced td:nth-child(n+4) { grid-column: 1 / -1; }
+  .fn-shop-service-table td[colspan] { grid-column: 1 / -1; }
+}

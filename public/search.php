@@ -235,11 +235,11 @@ $allServicesFull = db()->getServices(null);
         <?php endif; ?>
 
         <!-- Tiêu đề kết quả -->
-        <div style="display: flex; justify-content: space-between; align-items: center;">
+        <div class="fn-search-results-heading" style="display: flex; justify-content: space-between; align-items: center;">
             <h2 id="fn-shop-count" style="font-family: var(--fn-font-heading); font-size: 18px; font-weight: 800; color: var(--fn-dark);">
                 <?= count($shops) ?> Cửa Hàng Phù Hợp
             </h2>
-            <div style="font-size: 12px; color: var(--fn-text-light); display: flex; align-items: center; gap: 4px;">
+            <div class="fn-search-location-control" style="font-size: 12px; color: var(--fn-text-light); display: flex; align-items: center; gap: 4px;">
                 <span><?= $loc_name ? '📍 ' . htmlspecialchars($loc_name) : ($user_lat ? '📍 GPS gần bạn nhất' : '📍 Tất cả khu vực') ?></span>
                 <button type="button" onclick="openLocationModal()" style="background: none; border: none; color: #ea580c; text-decoration: underline; cursor: pointer; font-weight: 700; font-size: 11.5px;">[Đổi Vị Trí ⚙️]</button>
             </div>
@@ -265,7 +265,7 @@ $allServicesFull = db()->getServices(null);
                             <!-- Tên + Rating -->
                             <div style="display: flex; justify-content: space-between; align-items: flex-start; gap: 8px; margin-bottom: 6px;">
                                 <h3 style="font-family: var(--fn-font-heading); font-size: 15.5px; font-weight: 800; color: #0f172a; line-height: 1.35; margin: 0; flex: 1;">
-                                    <a href="shop_detail.php?id=<?= $shop['id'] ?>" target="_blank" style="color: inherit; text-decoration: none;">
+                                    <a href="shop_detail.php?id=<?= $shop['id'] ?>" style="color: inherit; text-decoration: none;">
                                         <?= htmlspecialchars($shop['name']) ?>
                                     </a>
                                 </h3>
@@ -282,6 +282,7 @@ $allServicesFull = db()->getServices(null);
                                 <span style="flex-shrink: 0;">🏢</span>
                                 <span><?= htmlspecialchars($shop['address']) ?></span>
                             </div>
+                            <?php if (empty($shop['address_verified'])): ?><p style="font-size:12px;color:#9a3412;margin:0 0 8px;">Địa chỉ cần kiểm tra trước khi đến</p><?php endif; ?>
 
                             <!-- Khoảng cách + Giờ -->
                             <div style="display: flex; align-items: center; gap: 12px; flex-wrap: wrap; font-size: 12px; margin-bottom: 8px;">
@@ -318,9 +319,9 @@ $allServicesFull = db()->getServices(null);
                             <div style="margin-top: 14px;">
                                 <!-- Hàng trên: Gọi ngay & Chỉ đường chia đều 50% / 50% -->
                                 <div style="display: flex; gap: 8px; margin-bottom: 8px;">
-                                    <a href="tel:<?= preg_replace('/\s+/', '', $shop['phone']) ?>" target="_blank" rel="noopener noreferrer" class="fn-btn fn-btn-secondary fn-btn-sm" style="flex: 1; display: inline-flex; align-items: center; justify-content: center; gap: 6px; padding: 10px 8px; font-size: 13px; font-weight: 700; color: #16a34a; border-color: #bbf7d0; background: #f0fdf4; border-radius: 8px; text-decoration: none; text-align: center; box-sizing: border-box;">
+                                    <?php if (!empty($shop['phone_verified'])): ?><a href="tel:<?= preg_replace('/\s+/', '', $shop['phone']) ?>" target="_blank" rel="noopener noreferrer" class="fn-btn fn-btn-secondary fn-btn-sm" style="flex: 1; display: inline-flex; align-items: center; justify-content: center; gap: 6px; padding: 10px 8px; font-size: 13px; font-weight: 700; color: #16a34a; border-color: #bbf7d0; background: #f0fdf4; border-radius: 8px; text-decoration: none; text-align: center; box-sizing: border-box;">
                                         📞 Gọi ngay
-                                    </a>
+                                    </a><?php endif; ?>
                                     <a href="<?= htmlspecialchars($shop['map_url'] ?: 'https://maps.google.com') ?>" target="_blank" rel="noopener noreferrer" class="fn-btn fn-btn-secondary fn-btn-sm" style="flex: 1; display: inline-flex; align-items: center; justify-content: center; gap: 6px; padding: 10px 8px; font-size: 13px; font-weight: 700; color: #2563eb; border-color: #bfdbfe; background: #eff6ff; border-radius: 8px; text-decoration: none; text-align: center; box-sizing: border-box;" title="Chỉ đường Google Maps">
                                         🗺️ Chỉ đường
                                     </a>

@@ -29,7 +29,8 @@ define('FIXNEAR_IS_PRODUCTION', FIXNEAR_ENV === 'production');
 define('FIXNEAR_DATA_DIR', rtrim((string) fixnearConfig('FIXNEAR_DATA_DIR', 'data_dir', dirname(__DIR__) . '/data'), "/\\") . DIRECTORY_SEPARATOR);
 
 // Cấu hình kết nối Cơ sở dữ liệu MySQL (Chuẩn XAMPP / Laragon)
-define('ENABLE_MYSQL', (bool) fixnearConfig('ENABLE_MYSQL', 'enable_mysql', true));
+// Bản clone chạy JSON mặc định; production giữ MySQL khi đã cấu hình.
+define('ENABLE_MYSQL', filter_var(fixnearConfig('ENABLE_MYSQL', 'enable_mysql', FIXNEAR_IS_PRODUCTION), FILTER_VALIDATE_BOOLEAN));
 define('DB_HOST', (string) fixnearConfig('DB_HOST', 'db_host', '127.0.0.1'));
 define('DB_PORT', (int) fixnearConfig('DB_PORT', 'db_port', 3306));
 define('DB_NAME', (string) fixnearConfig('DB_NAME', 'db_name', 'fixnear_db'));

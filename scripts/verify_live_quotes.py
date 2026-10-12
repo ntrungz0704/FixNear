@@ -40,7 +40,7 @@ def fetch(url):
     with urlopen(request, timeout=20) as response:
         parser = VisibleText()
         parser.feed(response.read().decode("utf-8", "ignore"))
-        return " ".join(parser.parts)
+        return re.sub(r"\s+", " ", " ".join(parser.parts))
 
 
 urls = sorted({item["sourceUrl"] for item in quotes})

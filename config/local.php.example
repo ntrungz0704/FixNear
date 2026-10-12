@@ -17,7 +17,7 @@ return [
 
     // ================= CẤU HÌNH CƠ SỞ DỮ LIỆU MYSQL =================
     // Bật/tắt kết nối MySQL (true: ưu tiên MySQL -> fallback JSON; false: dùng trực tiếp JSON không chờ timeout)
-    'enable_mysql' => true,
+    'enable_mysql' => false,
 
     // Địa chỉ máy chủ MySQL (mặc định localhost/127.0.0.1 đối với XAMPP, Laragon)
     'db_host' => '127.0.0.1',

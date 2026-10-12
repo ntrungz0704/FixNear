@@ -13,9 +13,9 @@
 3. Đặt `environment` thành `production`.
 4. Đặt `data_dir` tới thư mục nằm **ngoài** `public_html`, ví dụ `/home/ACCOUNT/fixnear-data`.
 5. Sao chép dữ liệu cần dùng trong `data/` sang thư mục đó. Không sao chép tài khoản/yêu cầu thử nghiệm lên production.
-   Các tệp phát sinh `users.json`, `repair_requests.json`, `contact_messages.json`, `reviews.json`, `favorites.json` và `reports.json` không còn được theo dõi trong Git. Nếu chuyển một hệ thống đang dùng, hãy sao lưu và chuyển riêng các bản ghi thật qua kênh bảo mật; bản cài đặt mới có thể bắt đầu với các tệp này vắng mặt.
+   Các tệp phát sinh `users.json`, `repair_requests.json`, `contact_messages.json`, `reviews.json`, `favorites.json` và `reports.json` không được theo dõi trực tiếp trong Git. Bản mã hóa `data/private-snapshot.enc` có thể khôi phục đúng một thời điểm dữ liệu nếu có khóa riêng. Sao chép khóa qua kênh riêng, đặt `FIXNEAR_SNAPSHOT_KEY_FILE`, rồi chạy `php scripts/private_snapshot.php verify` và `php scripts/private_snapshot.php restore` **trước khi website nhận dữ liệu mới**. Không commit khóa và không dùng bản thử nghiệm trên production nếu chưa kiểm tra nội dung.
 6. Cấp quyền tối thiểu đủ để PHP đọc/ghi thư mục dữ liệu (thường 750 cho thư mục, 640/660 cho file tùy cấu hình host).
-7. `data/users.json` là dữ liệu riêng của máy chạy và không nằm trong Git. Tạo quản trị viên bằng terminal host, dùng biến môi trường tạm thời để mật khẩu không nằm trong source:
+7. Nếu không khôi phục dữ liệu, tạo admin duy nhất bằng terminal host, dùng biến môi trường tạm thời để mật khẩu không nằm trong source:
 
    ```bash
    FIXNEAR_ADMIN_EMAIL="admin@domain.vn" FIXNEAR_ADMIN_NAME="Quản trị viên" FIXNEAR_ADMIN_PASSWORD="mat-khau-rieng-it-nhat-12-ky-tu" php scripts/create_admin.php

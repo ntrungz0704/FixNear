@@ -93,10 +93,11 @@ function buildShopPopupContent(shop, userLoc) {
     const latitude = Number(shop.latitude);
     const longitude = Number(shop.longitude);
 
-    let distance = Number(shop.distance_km);
-    if (!Number.isFinite(distance) && userLoc && typeof userLoc.lat === 'number') {
-        distance = calculateHaversineKm(userLoc.lat, userLoc.lng, latitude, longitude);
-    }
+    const savedDistance = shop.distance_km === null || shop.distance_km === undefined || shop.distance_km === ''
+        ? NaN : Number(shop.distance_km);
+    const distance = userLoc && typeof userLoc.lat === 'number' && typeof userLoc.lng === 'number'
+        ? calculateHaversineKm(userLoc.lat, userLoc.lng, latitude, longitude)
+        : savedDistance;
     const distanceText = Number.isFinite(distance) ? `Khoảng cách ước tính: <b>${formatDistanceKm(distance)}</b><br>` : '';
     const ratingText = shop.google_rating_verified
         ? `⭐ <b>${escapeMapText(shop.google_rating)}</b> (${escapeMapText(shop.google_reviews_count)} Google)<br>`
@@ -107,7 +108,7 @@ function buildShopPopupContent(shop, userLoc) {
             <div style="font-weight:800;font-size:14px;color:#0f172a;margin-bottom:4px;">${escapeMapText(shop.name)}</div>
             <div style="font-size:12px;color:#64748b;margin-bottom:6px;">${escapeMapText(shop.address)}</div>
             <div style="font-size:12px;color:#ea580c;margin-bottom:8px;">${ratingText}${distanceText}</div>
-            <div style="font-size:11px;color:#92400e;margin-bottom:8px;">Pin tham khảo; mở chỉ đường để xác nhận vị trí.</div>
+            <div style="font-size:11px;color:#92400e;margin-bottom:8px;">${shop.address_verified ? 'Pin tham khảo; mở chỉ đường để xác nhận vị trí.' : 'Địa chỉ chưa có nguồn chính thức; kiểm tra trước khi đến.'}</div>
             <div style="display:flex;gap:6px;">
                 <a href="shop_detail.php?id=${shopId}" target="_blank" rel="noopener noreferrer" style="display:inline-block;padding:6px 12px;background:#ea580c;color:#fff;border-radius:6px;font-size:11.5px;font-weight:bold;text-decoration:none;box-shadow:0 2px 6px rgba(234,88,12,0.3);">Xem chi tiết ↗</a>
                 <a href="${safeMapUrl(shop.map_url)}" target="_blank" rel="noopener noreferrer" style="display:inline-block;padding:6px 10px;background:#f1f5f9;color:#334155;border-radius:6px;font-size:11.5px;font-weight:bold;text-decoration:none;">Chỉ đường</a>
@@ -307,7 +308,6 @@ function addFixnearShopMarker(shop) {
     if (!fixnearMap || !Number.isFinite(latitude) || !Number.isFinite(longitude)) return;
     const shopId = Number.parseInt(shop.id, 10);
     if (!Number.isInteger(shopId) || shopId <= 0) return;
-
     const popupContent = buildShopPopupContent(shop, currentUserLocation);
     const marker = L.marker([latitude, longitude], { icon: fixnearShopIcon })
         .addTo(fixnearMap)
