@@ -1,5 +1,6 @@
 <?php
 require_once __DIR__ . '/../includes/pricing_engine.php';
+require_once __DIR__ . '/../includes/shop_search.php';
 $pageTitle = "Khám Phá Cửa Hàng & Bản Đồ Số — FixNear";
 $pageStyles = ['assets/css/search.css'];
 require_once __DIR__ . '/../includes/header.php';
@@ -15,7 +16,7 @@ $issue_name = $_GET['issue_name'] ?? '';
 $district = $_GET['district'] ?? '';
 $ward = $_GET['ward'] ?? '';
 $keyword = $_GET['keyword'] ?? '';
-$sort = $_GET['sort'] ?? 'name';
+$sort = in_array($_GET['sort'] ?? 'name', ['name', 'rating', 'distance'], true) ? ($_GET['sort'] ?? 'name') : 'name';
 // Tương thích liên kết cũ: tên model không phải từ khóa tìm tên cửa hàng.
 if ($model === '' && $keyword !== '') {
     foreach (RepairAtlasPricing::searchModels($keyword, $device ?: null, 10) as $candidate) {
@@ -49,10 +50,12 @@ $filters = [
     'keyword' => $keyword,
     'user_lat' => $user_lat,
     'user_lng' => $user_lng,
-    'radius_km' => $radius_km
+    'radius_km' => $radius_km,
+    'strict_radius' => true
 ];
 
 $shops = db()->getShops($filters);
+fixnearSortSearchShops($shops, $sort, $user_lat !== null && $user_lng !== null);
 $initialVisibleShops = array_slice($shops, 0, 24);
 $allServices = db()->getServices($device ? $device : null);
 $allServicesFull = db()->getServices(null);
@@ -85,6 +88,9 @@ $allServicesFull = db()->getServices(null);
                 <?php endif; ?>
                 <?php if ($model): ?>
                     <input type="hidden" name="model" value="<?= htmlspecialchars($model) ?>">
+                <?php endif; ?>
+                <?php if ($ward): ?>
+                    <input type="hidden" name="ward" value="<?= htmlspecialchars($ward) ?>">
                 <?php endif; ?>
                 <?php if ($issue_name): ?>
                     <input type="hidden" name="issue_name" value="<?= htmlspecialchars($issue_name) ?>">
@@ -355,7 +361,7 @@ $allServicesFull = db()->getServices(null);
 <!-- Nạp script khởi tạo map -->
 <script>
 document.addEventListener('DOMContentLoaded', () => {
-    const shopsData = <?= json_encode($shops, JSON_UNESCAPED_UNICODE) ?>;
+    const shopsData = <?= json_encode($shops, JSON_UNESCAPED_UNICODE | JSON_HEX_TAG | JSON_HEX_AMP | JSON_HEX_APOS | JSON_HEX_QUOT) ?>;
     const userLocation = <?= ($user_lat && $user_lng) ? json_encode(['lat' => (float)$user_lat, 'lng' => (float)$user_lng, 'name' => $loc_name ?: 'Vị trí của bạn'], JSON_UNESCAPED_UNICODE) : 'null' ?>;
     initFixnearMap(shopsData, [10.7769, 106.7009], userLocation);
 });
@@ -374,11 +380,11 @@ document.addEventListener('DOMContentLoaded', () => {
     const shopCountEl = document.getElementById('fn-shop-count');
     const sortSelect = document.getElementById('fn-sort-select');
     const PAGE_SIZE = 24;
-    let currentResults = <?= json_encode($shops, JSON_UNESCAPED_UNICODE) ?>;
+    let currentResults = <?= json_encode($shops, JSON_UNESCAPED_UNICODE | JSON_HEX_TAG | JSON_HEX_AMP | JSON_HEX_APOS | JSON_HEX_QUOT) ?>;
     let visibleResultCount = PAGE_SIZE;
 
     // Toàn bộ từ điển dịch vụ để lọc động khi đổi thiết bị (Không bành trướng lĩnh vực)
-    const ALL_SERVICES_CATALOG = <?= json_encode($allServicesFull, JSON_UNESCAPED_UNICODE) ?>;
+    const ALL_SERVICES_CATALOG = <?= json_encode($allServicesFull, JSON_UNESCAPED_UNICODE | JSON_HEX_TAG | JSON_HEX_AMP | JSON_HEX_APOS | JSON_HEX_QUOT) ?>;
 
     function updateServiceOptions(selectedDevice) {
         if (!serviceSelect) return;
@@ -398,7 +404,7 @@ document.addEventListener('DOMContentLoaded', () => {
         let html = `<option value="">Tất cả các lỗi (${filtered.length})</option>`;
         filtered.forEach(s => {
             const isSel = (String(s.id) === String(currentVal)) ? 'selected' : '';
-            html += `<option value="${s.id}" ${isSel}>${s.name}</option>`;
+            html += `<option value="${Number(s.id)}" ${isSel}>${escapeResultText(s.name)}</option>`;
         });
         serviceSelect.innerHTML = html;
     }
@@ -410,13 +416,15 @@ document.addEventListener('DOMContentLoaded', () => {
     }
     
     function getFilters() {
-        const lat = localStorage.getItem('fixnear_user_lat') || '';
-        const lng = localStorage.getItem('fixnear_user_lng') || '';
+        const lat = <?= json_encode($user_lat) ?> ?? '';
+        const lng = <?= json_encode($user_lng) ?> ?? '';
         const brandInput = document.querySelector('input[name="brand"]');
         const modelInput = document.querySelector('input[name="model"]');
+        const wardInput = document.querySelector('input[name="ward"]');
         return {
             q: searchInput ? searchInput.value : '',
             district: districtSelect ? districtSelect.value : '',
+            ward: wardInput ? wardInput.value : '',
             device: deviceSelect ? deviceSelect.value : '',
             service_id: serviceSelect ? serviceSelect.value : '',
             brand: brandInput ? brandInput.value : '',

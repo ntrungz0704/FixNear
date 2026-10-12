@@ -106,6 +106,19 @@ def main():
             assert 0 < len(re.findall(r'class="fn-shop-card" data-shop-id="(\d+)"', last_page)) <= 9
             status, _, located_page = request(guest, base, "/shops.php?device=phone&user_lat=10.76&user_lng=106.68&loc_name=Q1")
             assert status == 200 and 'user_lat=10.76&amp;user_lng=106.68&amp;loc_name=Q1&amp;page=2#shop-results' in located_page
+            search_guest = build_opener(HTTPCookieProcessor(CookieJar()))
+            query = "/search.php?district=Qu%E1%BA%ADn%201&ward=Ph%E1%BA%A1m%20Ng%C5%A9%20L%C3%A3o&keyword=dien%20thoai%20vui&sort=name"
+            status, _, search_page = request(search_guest, base, query)
+            assert status == 200
+            initial_match = re.search(r"const shopsData = (\[.*?\]);", search_page)
+            assert initial_match, "Initial search data missing"
+            initial_ids = [int(shop["id"]) for shop in json.loads(initial_match.group(1))]
+            status, _, live_search = request(search_guest, base, "/api/search_shops.php?q=dien%20thoai%20vui&district=Qu%E1%BA%ADn%201&ward=Ph%E1%BA%A1m%20Ng%C5%A9%20L%C3%A3o&sort=name")
+            assert status == 200 and initial_ids
+            assert initial_ids == [int(shop["id"]) for shop in json.loads(live_search)["shops"]]
+            far_guest = build_opener(HTTPCookieProcessor(CookieJar()))
+            status, _, narrow_search = request(far_guest, base, "/api/search_shops.php?user_lat=21.03&user_lng=105.85&radius_km=3")
+            assert status == 200 and json.loads(narrow_search)["total"] == 0
             status, _, prices = request(guest, base, "/prices.php?device=phone&brand=apple&model=apple-iphone-16e&mode=estimate")
             assert status == 200 and "iPhone 16e" in prices and "13 kết quả" in prices
             status, _, watch_detail = request(guest, base, "/model_detail.php?id=apple-watch-ultra-2")
@@ -161,13 +174,13 @@ def main():
             status, _, form = request(user, base, "/register.php")
             assert status == 200
             status, url, _ = request(user, base, "/register.php", {
-                "csrf_token": csrf(form), "name": "Test User", "email": "user-e2e@example.invalid",
-                "phone": "0901234568", "password": "Test-user-password-2026",
-                "confirm_password": "Test-user-password-2026"
+                "csrf_token": csrf(form), "name": "Test User", "email": "USER-E2E@example.invalid",
+                "phone": "0901234568", "password": " Test-user-password-2026 ",
+                "confirm_password": " Test-user-password-2026 "
             })
             assert status == 200 and url.endswith("/index.php")
             users = json.loads((data_dir / "users.json").read_text(encoding="utf-8"))
-            assert len(users) == 2 and users[-1]["role"] == "user"
+            assert len(users) == 2 and users[-1]["role"] == "user" and users[-1]["email"] == "user-e2e@example.invalid"
 
             status, _, home = request(user, base, "/index.php")
             assert status == 200
@@ -176,7 +189,7 @@ def main():
             status, _, form = request(user, base, "/login.php")
             assert status == 200
             status, url, _ = request(user, base, "/login.php", {
-                "csrf_token": csrf(form), "email": "user-e2e@example.invalid", "password": "Test-user-password-2026"
+                "csrf_token": csrf(form), "email": "user-e2e@example.invalid", "password": " Test-user-password-2026 "
             })
             assert status == 200 and url.endswith("/index.php")
 
