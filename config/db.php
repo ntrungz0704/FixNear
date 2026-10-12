@@ -79,15 +79,19 @@ class FixNearDB {
         $shop['address_source_url'] = $sourceKey !== '' ? ($addressEvidence['sources'][$sourceKey] ?? '') : '';
         $shop['address_verified_at'] = $shop['address_source_url'] !== '' ? ($addressEvidence['checkedAt'] ?? '') : '';
         $shop['address_verified'] = $shop['address_source_url'] !== '' && $shop['address_verified_at'] !== '';
-        if ($shop['address_verified']) {
-            // Tìm theo địa chỉ đã đối chiếu; URL/pin lưu trong dữ liệu mẫu có thể đã cũ.
-            $shop['map_url'] = 'https://www.google.com/maps/search/?api=1&query=' . rawurlencode(($shop['name'] ?? '') . ', ' . ($shop['address'] ?? ''));
-        }
+        // Always search the named branch and street; seed map links and coordinates may be stale.
+        $shop['map_url'] = 'https://www.google.com/maps/search/?api=1&query=' . rawurlencode(($shop['name'] ?? '') . ', ' . ($shop['address'] ?? ''));
         $shop['coordinates_verified'] = false;
         if (isset($addressEvidence['phoneOverrides'][(string) ($shop['id'] ?? '')])) {
             $shop['phone'] = $addressEvidence['phoneOverrides'][(string) $shop['id']];
         }
-        $shop['phone_verified'] = $shop['address_verified'];
+        $shop['phone_verified'] = $shop['address_verified'] && preg_match('/^[0-9]{8,11}$/', preg_replace('/[^0-9]/', '', (string)$shop['phone'])) === 1;
+        if (!$shop['phone_verified']) {
+            $shop['phone'] = '';
+        }
+        if (str_contains((string)($shop['website'] ?? ''), 'google.com/maps/search/')) {
+            $shop['website'] = '';
+        }
         $shop['source_verified'] = !empty($shop['source_url']) && !empty($shop['verified_at']);
         $shop['google_rating_verified'] = !empty($shop['google_place_id']) && !empty($shop['google_verified_at']);
         $shop['student_discount_verified'] = !empty($shop['student_discount_source_url']) && !empty($shop['student_discount_verified_at']);
@@ -315,7 +319,7 @@ class FixNearDB {
                 $shop = $this->annotateShopVerification($shop);
             }
             unset($shop);
-            if (empty($filters['include_unverified'])) {
+            if (!empty($filters['verified_only'])) {
                 $shops = array_values(array_filter($shops, static fn($shop) => !empty($shop['address_verified'])));
             }
 
@@ -453,7 +457,7 @@ class FixNearDB {
         }
 
         $shops = array_values(array_map([$this, 'annotateShopVerification'], $shops));
-        if (empty($filters['include_unverified'])) {
+        if (!empty($filters['verified_only'])) {
             $shops = array_values(array_filter($shops, static fn($shop) => !empty($shop['address_verified'])));
         }
         return $shops;
@@ -472,7 +476,7 @@ class FixNearDB {
                 $shop['distance_km'] = $this->calculateDistance((float)$user_lat, (float)$user_lng, (float)$shop['latitude'], (float)$shop['longitude']);
             }
             $shop = $this->annotateShopVerification($shop);
-            return isAdmin() || !empty($shop['address_verified']) ? $shop : null;
+            return $shop;
         }
 
         $shops = $this->readJson('shops.json');
@@ -482,7 +486,7 @@ class FixNearDB {
                     $s['distance_km'] = $this->calculateDistance((float)$user_lat, (float)$user_lng, (float)$s['latitude'], (float)$s['longitude']);
                 }
                 $s = $this->annotateShopVerification($s);
-                return isAdmin() || !empty($s['address_verified']) ? $s : null;
+                return $s;
             }
         }
         return null;
@@ -1403,6 +1407,7 @@ class FixNearDB {
         }
         $stats['total_shops'] = count($shops);
         $stats['total_districts'] = count($districts);
+        $stats['address_sourced_shops'] = count(array_filter($shops, static fn($shop) => !empty($shop['address_verified'])));
         return $stats;
     }
 

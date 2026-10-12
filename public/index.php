@@ -251,18 +251,18 @@ $featuredShops = array_slice($featuredShops, 0, 6);
     <div class="fn-stats-bar">
         <div class="fn-stat-item">
             <div class="fn-stat-number"><?= (int)$allStats['total_shops'] ?></div>
-            <div class="fn-stat-label">Bản ghi · <?= (int)$stats['total_shops'] ?> công khai</div>
+            <div class="fn-stat-label">Bản ghi cửa hàng</div>
         </div>
         <div class="fn-stat-item">
             <div class="fn-stat-number"><?= (int)$allStats['total_districts'] ?></div>
-            <div class="fn-stat-label">Khu vực · <?= (int)$stats['total_districts'] ?> công khai</div>
+            <div class="fn-stat-label">Khu vực có dữ liệu</div>
         </div>
         <div class="fn-stat-item">
             <div class="fn-stat-number"><?= $modelCount ?></div>
             <div class="fn-stat-label">Model có mức giá tham khảo</div>
         </div>
         <div class="fn-stat-item">
-            <div class="fn-stat-number"><?= (int)$stats['total_shops'] ?></div>
+            <div class="fn-stat-number"><?= (int)$stats['address_sourced_shops'] ?></div>
             <div class="fn-stat-label">Cửa hàng có nguồn địa chỉ</div>
         </div>
     </div>
@@ -323,6 +323,7 @@ $featuredShops = array_slice($featuredShops, 0, 6);
                         <span>🏢</span>
                         <span style="text-align: left;"><?= htmlspecialchars($shop['address']) ?></span>
                     </div>
+                    <?php if (empty($shop['address_verified'])): ?><p style="font-size:12px;color:#9a3412;margin:4px 0 0;">Địa chỉ cần kiểm tra trước khi đến</p><?php endif; ?>
 
                     <div style="display: flex; gap: 16px; flex-wrap: wrap; margin-top: 6px;">
                         <div class="fn-shop-hours" style="text-align: left; justify-content: flex-start; margin: 0;">
@@ -348,9 +349,9 @@ $featuredShops = array_slice($featuredShops, 0, 6);
                     <!-- Nhóm nút hành động: Hàng trên 50/50, Hàng dưới 100% full width -->
                     <div style="margin-top: auto; padding-top: 10px;">
                         <div style="display: flex; gap: 8px; margin-bottom: 8px;">
-                            <a href="tel:<?= preg_replace('/\s+/', '', $shop['phone']) ?>" target="_blank" rel="noopener noreferrer" class="fn-btn fn-btn-secondary fn-btn-sm" style="flex: 1; display: inline-flex; align-items: center; justify-content: center; gap: 6px; padding: 10px 8px; font-size: 13px; font-weight: 700; color: #16a34a; border-color: #bbf7d0; background: #f0fdf4; border-radius: 8px; text-decoration: none; text-align: center; box-sizing: border-box;">
+                            <?php if (!empty($shop['phone_verified'])): ?><a href="tel:<?= preg_replace('/\s+/', '', $shop['phone']) ?>" target="_blank" rel="noopener noreferrer" class="fn-btn fn-btn-secondary fn-btn-sm" style="flex: 1; display: inline-flex; align-items: center; justify-content: center; gap: 6px; padding: 10px 8px; font-size: 13px; font-weight: 700; color: #16a34a; border-color: #bbf7d0; background: #f0fdf4; border-radius: 8px; text-decoration: none; text-align: center; box-sizing: border-box;">
                                 📞 Gọi ngay
-                            </a>
+                            </a><?php endif; ?>
                             <a href="<?= htmlspecialchars($shop['map_url'] ?: ('https://www.google.com/maps/dir/?api=1&destination=' . urlencode($shop['latitude'] . ',' . $shop['longitude']))) ?>" target="_blank" rel="noopener noreferrer" class="fn-btn fn-btn-secondary fn-btn-sm" style="flex: 1; display: inline-flex; align-items: center; justify-content: center; gap: 6px; padding: 10px 8px; font-size: 13px; font-weight: 700; color: #2563eb; border-color: #bfdbfe; background: #eff6ff; border-radius: 8px; text-decoration: none; text-align: center; box-sizing: border-box;" title="Chỉ đường Google Maps">
                                 🗺️ Chỉ đường
                             </a>

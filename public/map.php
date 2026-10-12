@@ -106,7 +106,7 @@ require_once __DIR__ . '/../includes/navbar.php';
                     </p>
                     <p style="font-size:11px;color:#92400e;margin:0 0 6px;">Pin tham khảo; bấm Google Maps để xác nhận vị trí theo địa chỉ.</p>
                     <div style="font-size: 12px; color: #475569;">
-                        ⏰ <?= htmlspecialchars($focusShop['opening_hours']) ?> • 📞 <a href="tel:<?= preg_replace('/\s+/', '', $focusShop['phone']) ?>" style="color: #16a34a; font-weight: 700; text-decoration: none;"><?= htmlspecialchars($focusShop['phone']) ?></a>
+                        ⏰ <?= htmlspecialchars($focusShop['opening_hours']) ?><?php if (!empty($focusShop['phone_verified'])): ?> • 📞 <a href="tel:<?= preg_replace('/\s+/', '', $focusShop['phone']) ?>" style="color: #16a34a; font-weight: 700; text-decoration: none;"><?= htmlspecialchars($focusShop['phone']) ?></a><?php endif; ?>
                     </div>
                 </div>
             </div>
