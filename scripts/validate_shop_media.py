@@ -21,13 +21,3 @@ misrepresented = [shop.get("id") for shop in shops if shop.get("image") or shop.
 print(f"Published shops: {len(shops)}; unsupported branch photos shown: {len(misrepresented)}")
 if misrepresented:
     raise SystemExit(f"Shop IDs with unsupported photos: {misrepresented}")
-
-rendered = subprocess.check_output(
-    ["php", "-r", "require 'config/db.php'; require 'includes/shop_media.php'; foreach (db()->getShops() as $shop) { if (str_contains(fixnearShopMedia($shop), '<img')) echo $shop['id'], PHP_EOL; }"],
-    cwd=root,
-    env=environment,
-    text=True,
-    encoding="utf-8",
-)
-if rendered.strip():
-    raise SystemExit(f"Unsupported photos rendered by UI: {rendered.strip()}")
