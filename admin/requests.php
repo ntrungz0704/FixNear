@@ -17,70 +17,9 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST' && isset($_POST['status'], $_POST['id'
 }
 
 $requests = db()->getRepairRequests();
-
-// Nếu chưa có nhiều yêu cầu trong DB để hiển thị phong phú như Mockup Figma, thêm các yêu cầu mẫu trực quan
 $displayRequests = $requests;
-if (count($displayRequests) < 3) {
-    $demoRequests = [
-        [
-            'id' => 'FN-250401-001',
-            'customer_name' => 'Nguyễn Văn An',
-            'customer_phone' => '0901234567',
-            'customer_email' => 'an.nguyen@gmail.com',
-            'customer_zalo' => '0901234567',
-            'device_type' => 'Điện thoại',
-            'brand_model' => 'iPhone 11',
-            'issue_type' => 'Thay màn hình',
-            'symptom' => 'Màn hình bị sọc xanh sau khi rơi, cảm ứng góc phải bị liệt',
-            'district' => 'Quận 1, TP.HCM',
-            'preferred_time' => 'Sáng mai (09:00 - 11:30)',
-            'estimated_price' => '1.200.000đ - 1.500.000đ',
-            'status' => 'pending',
-            'created_at' => date('Y-m-d H:i:s', strtotime('-2 hours')),
-        ],
-        [
-            'id' => 'FN-250401-002',
-            'customer_name' => 'Trần Thị Mai',
-            'customer_phone' => '0912345678',
-            'customer_email' => 'mai.tran@gmail.com',
-            'customer_zalo' => '0912345678',
-            'device_type' => 'Laptop',
-            'brand_model' => 'MacBook Pro M1',
-            'issue_type' => 'Lỗi sạc pin',
-            'symptom' => 'Cắm sạc không vào điện, máy nóng nhanh ở khu vực cổng Type-C',
-            'district' => 'Quận 3, TP.HCM',
-            'preferred_time' => 'Chiều nay sau 14:00',
-            'estimated_price' => '800.000đ - 1.200.000đ',
-            'status' => 'contacted',
-            'created_at' => date('Y-m-d H:i:s', strtotime('-5 hours')),
-        ],
-        [
-            'id' => 'FN-250401-003',
-            'customer_name' => 'Lê Hoàng Nam',
-            'customer_phone' => '0987654321',
-            'customer_email' => 'nam.le@gmail.com',
-            'customer_zalo' => '0987654321',
-            'device_type' => 'Điện thoại',
-            'brand_model' => 'Samsung Galaxy S21',
-            'issue_type' => 'Thay pin',
-            'symptom' => 'Pin chai 72%, sập nguồn khi còn 20%',
-            'district' => 'Quận 10, TP.HCM',
-            'preferred_time' => 'Cuối tuần',
-            'estimated_price' => '450.000đ - 650.000đ',
-            'status' => 'completed',
-            'created_at' => date('Y-m-d H:i:s', strtotime('-1 day')),
-        ]
-    ];
-    foreach ($demoRequests as $dr) {
-        $found = false;
-        foreach ($displayRequests as $er) {
-            if ($er['id'] === $dr['id']) { $found = true; break; }
-        }
-        if (!$found) $displayRequests[] = $dr;
-    }
-}
 
-// Thống kê nhanh theo 3 trạng thái của mockup
+// Thống kê động theo trạng thái thực tế từ CSDL
 $pendingCount = 0;
 $processingCount = 0;
 $completedCount = 0;
@@ -128,7 +67,7 @@ require_once __DIR__ . '/../includes/navbar.php';
             <div class="bg-white rounded-xl border border-slate-200/80 p-5 shadow-sm">
                 <div class="flex items-center justify-between">
                     <div>
-                        <div class="text-3xl font-black text-slate-900 leading-none"><?= max(12, $pendingCount) ?></div>
+                        <div class="text-3xl font-black text-slate-900 leading-none"><?= $pendingCount ?></div>
                         <div class="text-xs font-bold text-slate-500 mt-2">Mới nhận</div>
                     </div>
                     <div class="w-12 h-12 rounded-xl bg-orange-50 text-orange-600 flex items-center justify-center">
@@ -137,9 +76,9 @@ require_once __DIR__ . '/../includes/navbar.php';
                 </div>
                 <div class="mt-4 pt-3 border-t border-slate-100 flex items-center text-xs">
                     <span class="text-emerald-600 font-bold flex items-center gap-0.5">
-                        +3
+                        <?= $pendingCount ?>
                     </span>
-                    <span class="text-slate-400 ml-1.5">so với hôm qua</span>
+                    <span class="text-slate-400 ml-1.5">yêu cầu cần xử lý</span>
                 </div>
             </div>
 
@@ -147,7 +86,7 @@ require_once __DIR__ . '/../includes/navbar.php';
             <div class="bg-white rounded-xl border border-slate-200/80 p-5 shadow-sm">
                 <div class="flex items-center justify-between">
                     <div>
-                        <div class="text-3xl font-black text-slate-900 leading-none"><?= max(28, $processingCount) ?></div>
+                        <div class="text-3xl font-black text-slate-900 leading-none"><?= $processingCount ?></div>
                         <div class="text-xs font-bold text-slate-500 mt-2">Đang xử lý</div>
                     </div>
                     <div class="w-12 h-12 rounded-xl bg-blue-50 text-blue-600 flex items-center justify-center">
@@ -155,10 +94,10 @@ require_once __DIR__ . '/../includes/navbar.php';
                     </div>
                 </div>
                 <div class="mt-4 pt-3 border-t border-slate-100 flex items-center text-xs">
-                    <span class="text-emerald-600 font-bold flex items-center gap-0.5">
-                        +5
+                    <span class="text-blue-600 font-bold flex items-center gap-0.5">
+                        <?= $processingCount ?>
                     </span>
-                    <span class="text-slate-400 ml-1.5">so với hôm qua</span>
+                    <span class="text-slate-400 ml-1.5">đã liên hệ / đang sửa</span>
                 </div>
             </div>
 
@@ -166,7 +105,7 @@ require_once __DIR__ . '/../includes/navbar.php';
             <div class="bg-white rounded-xl border border-slate-200/80 p-5 shadow-sm">
                 <div class="flex items-center justify-between">
                     <div>
-                        <div class="text-3xl font-black text-slate-900 leading-none"><?= max(102, $completedCount) ?></div>
+                        <div class="text-3xl font-black text-slate-900 leading-none"><?= $completedCount ?></div>
                         <div class="text-xs font-bold text-slate-500 mt-2">Đã hoàn thành</div>
                     </div>
                     <div class="w-12 h-12 rounded-xl bg-emerald-50 text-emerald-600 flex items-center justify-center">
@@ -175,9 +114,9 @@ require_once __DIR__ . '/../includes/navbar.php';
                 </div>
                 <div class="mt-4 pt-3 border-t border-slate-100 flex items-center text-xs">
                     <span class="text-emerald-600 font-bold flex items-center gap-0.5">
-                        +12
+                        <?= $completedCount ?>
                     </span>
-                    <span class="text-slate-400 ml-1.5">so với hôm qua</span>
+                    <span class="text-slate-400 ml-1.5">yêu cầu đã xử lý xong</span>
                 </div>
             </div>
         </div>
@@ -401,8 +340,6 @@ require_once __DIR__ . '/../includes/navbar.php';
     </div>
 </div>
 
-<?php require_once __DIR__ . '/../includes/footer.php'; ?>
-
 <script>
 function filterRequests() {
     var kw = (document.getElementById('req-search').value || '').toLowerCase().trim();
@@ -466,3 +403,5 @@ function closeRequestDrawer() {
     document.getElementById('request-drawer').classList.add('translate-x-full');
 }
 </script>
+
+<?php require_once __DIR__ . '/../includes/footer.php'; ?>

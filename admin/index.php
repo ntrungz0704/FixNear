@@ -69,32 +69,6 @@ require_once __DIR__ . '/../includes/navbar.php';
     <?php require __DIR__ . '/_sidebar.php'; ?>
 
     <div class="fn-admin-content !p-6 !bg-[#f8fafc]">
-        <!-- TOP SEARCH & USER HEADER BAR (như hình mẫu) -->
-        <div class="bg-white rounded-xl border border-slate-200/80 px-5 py-3 mb-6 shadow-sm flex flex-col md:flex-row items-center justify-between gap-4">
-            <div class="relative w-full md:w-96">
-                <span class="absolute inset-y-0 left-0 pl-3.5 flex items-center pointer-events-none text-slate-400">
-                    <svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M21 21l-6-6m2-5a7 7 0 11-14 0 7 7 0 0114 0z"></path></svg>
-                </span>
-                <input type="text" placeholder="Tìm cửa hàng, khu vực, model, yêu cầu..." class="w-full pl-10 pr-4 py-2 text-sm bg-slate-50 border border-slate-200 rounded-lg focus:outline-none focus:ring-2 focus:ring-orange-500/20 focus:border-orange-500 text-slate-700 transition">
-            </div>
-            <div class="flex items-center gap-4 w-full md:w-auto justify-end">
-                <button class="relative p-2 text-slate-500 hover:text-slate-700 hover:bg-slate-100 rounded-lg transition" title="Thông báo">
-                    <svg class="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M15 17h5l-1.405-1.405A2.032 2.032 0 0118 14.158V11a6.002 6.002 0 00-4-5.659V5a2 2 0 10-4 0v.341C7.67 6.165 6 8.388 6 11v3.159c0 .538-.214 1.055-.595 1.436L4 17h5m6 0v1a3 3 0 11-6 0v-1m6 0H9"></path></svg>
-                    <span class="absolute top-1.5 right-1.5 w-4 h-4 bg-orange-500 text-white text-[10px] font-bold rounded-full flex items-center justify-center">3</span>
-                </button>
-                <div class="h-6 w-[1px] bg-slate-200"></div>
-                <div class="flex items-center gap-3">
-                    <div class="w-8 h-8 rounded-full bg-orange-500 text-white font-bold text-sm flex items-center justify-center shadow-sm">
-                        A
-                    </div>
-                    <div class="text-left hidden sm:block">
-                        <div class="text-xs font-bold text-slate-800 leading-tight">Admin</div>
-                        <div class="text-[11px] text-slate-500 leading-tight">Quản trị viên</div>
-                    </div>
-                </div>
-            </div>
-        </div>
-
         <!-- PAGE TITLE & DATE FILTER -->
         <div class="flex flex-col sm:flex-row sm:items-center justify-between gap-4 mb-6">
             <div>

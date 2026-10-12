@@ -294,8 +294,6 @@ require_once __DIR__ . '/../includes/navbar.php';
     <?= csrfField() ?>
 </form>
 
-<?php require_once __DIR__ . '/../includes/footer.php'; ?>
-
 <script>
 var PAGE_SIZE = 10;
 var currentPage = 1;
@@ -471,3 +469,5 @@ document.addEventListener('DOMContentLoaded', function() {
     applyFilters();
 });
 </script>
+
+<?php require_once __DIR__ . '/../includes/footer.php'; ?>

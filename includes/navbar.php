@@ -8,13 +8,26 @@ $currentPage = basename($_SERVER['PHP_SELF']);
             <img src="../assets/images/fixnear_logo_icon.svg" alt="" width="32" height="32">
             <span class="fn-logo-text"><span>Fix</span><span>Near</span></span>
         </a>
-        <span class="fn-admin-navbar-title">Quản trị <small>Điều hành dữ liệu FixNear</small></span>
-        <div class="fn-admin-navbar-actions">
-            <a href="../index.php">Xem trang web ↗</a>
-            <span class="fn-admin-navbar-user"><?= htmlspecialchars($currentUser['name'] ?? 'Quản trị viên') ?></span>
-            <form method="post" action="../logout.php">
+        <span class="fn-admin-navbar-title">Quản trị viên <small>FixNear</small></span>
+        <div class="fn-admin-navbar-actions" style="display:flex;align-items:center;gap:12px;">
+            <a href="../index.php" class="fn-btn-site" style="font-size:13px;font-weight:700;color:var(--fn-primary,#ea580c);text-decoration:none;display:inline-flex;align-items:center;gap:4px;">
+                Xem trang web ↗
+            </a>
+            <!-- Nút thông báo chuyển lên header -->
+            <button type="button" class="fn-admin-notif-btn" style="position:relative;background:transparent;border:none;cursor:pointer;padding:6px;display:flex;align-items:center;justify-content:center;color:#64748b;" title="Thông báo hệ thống">
+                <svg style="width:20px;height:20px;" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M15 17h5l-1.405-1.405A2.032 2.032 0 0118 14.158V11a6.002 6.002 0 00-4-5.659V5a2 2 0 10-4 0v.341C7.67 6.165 6 8.388 6 11v3.159c0 .538-.214 1.055-.595 1.436L4 17h5m6 0v1a3 3 0 11-6 0v-1m6 0H9"></path></svg>
+                <span style="position:absolute;top:2px;right:2px;width:16px;height:16px;background:#ea580c;color:#ffffff;font-size:10px;font-weight:800;border-radius:999px;display:flex;align-items:center;justify-content:center;">3</span>
+            </button>
+            <div style="height:20px;width:1px;background:#e2e8f0;"></div>
+            <div style="display:flex;align-items:center;gap:8px;">
+                <div style="width:30px;height:30px;border-radius:999px;background:#ea580c;color:#fff;font-weight:800;font-size:12px;display:flex;align-items:center;justify-content:center;">
+                    A
+                </div>
+                <span class="fn-admin-navbar-user" style="font-weight:700;font-size:13px;color:#1e293b;"><?= htmlspecialchars($currentUser['name'] ?? 'Quản trị viên') ?></span>
+            </div>
+            <form method="post" action="../logout.php" style="margin:0;">
                 <?= csrfField() ?>
-                <button type="submit">Đăng xuất</button>
+                <button type="submit" style="background:#fee2e2;color:#b91c1c;border:1px solid #fecaca;border-radius:6px;padding:5px 12px;font-size:12px;font-weight:700;cursor:pointer;transition:all 0.15s;">Đăng xuất</button>
             </form>
         </div>
     </div>
