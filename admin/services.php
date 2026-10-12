@@ -30,7 +30,7 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST' && isset($_POST['add_price'])) {
     } elseif ($warranty === '' || $turnaround === '') {
         $priceFormError = 'Nhập điều kiện bảo hành và thời gian sửa đã được cửa hàng xác nhận.';
     } else {
-        db()->saveShopService([
+        $savedPrice = db()->saveShopService([
             'shop_id' => $shop_id,
             'service_id' => $service_id,
             'min_price' => $min_price,
@@ -39,8 +39,11 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST' && isset($_POST['add_price'])) {
             'turnaround_text' => $turnaround,
             'note' => $note
         ]);
-        header("Location: services.php?msg=price_added");
-        exit;
+        if ($savedPrice !== false) {
+            header("Location: services.php?msg=price_added");
+            exit;
+        }
+        $priceFormError = 'Không thể lưu mức giá lúc này. Vui lòng thử lại.';
     }
 }
 
@@ -49,11 +52,13 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST' && isset($_POST['action']) && $_POST['
     requireValidCsrf();
     $price_id = (int)($_POST['price_id'] ?? 0);
     if ($price_id > 0) {
-        db()->deleteShopService($price_id);
-        $returnShop = max(0, (int)($_POST['return_shop_id'] ?? 0));
-        $returnPage = max(1, (int)($_POST['return_page'] ?? 1));
-        header('Location: services.php?' . http_build_query(['shop_id' => $returnShop, 'page' => $returnPage, 'msg' => 'deleted']));
-        exit;
+        if (db()->deleteShopService($price_id)) {
+            $returnShop = max(0, (int)($_POST['return_shop_id'] ?? 0));
+            $returnPage = max(1, (int)($_POST['return_page'] ?? 1));
+            header('Location: services.php?' . http_build_query(['shop_id' => $returnShop, 'page' => $returnPage, 'msg' => 'deleted']));
+            exit;
+        }
+        $priceFormError = 'Không thể xóa mức giá lúc này. Vui lòng thử lại.';
     }
 }
 

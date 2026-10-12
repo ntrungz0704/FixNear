@@ -164,7 +164,8 @@ $msg = $_GET['msg'] ?? '';
                                 <td data-label="Giá tham khảo">
                                     <?php if ($priceVerified && !empty($srv['min_price']) && !empty($srv['max_price'])): ?>
                                         <span class="fn-price-range"><?= formatPrice($srv['min_price']) ?> – <?= formatPrice($srv['max_price']) ?></span>
-                                        <br><a href="<?= htmlspecialchars($srv['source_url']) ?>" target="_blank" rel="noopener noreferrer" style="font-size:11px;">Nguồn · <?= htmlspecialchars($srv['verified_at']) ?></a>
+                                        <small style="display:block;color:#c2410c;font-size:11.5px;font-weight:700;margin-top:2px;">Mức giữa tham khảo: <?= formatPrice((int) round(((int) $srv['min_price'] + (int) $srv['max_price']) / 2 / 10000) * 10000) ?></small>
+                                        <a href="<?= htmlspecialchars($srv['source_url']) ?>" target="_blank" rel="noopener noreferrer" style="font-size:11px;color:#2563eb;">Nguồn · <?= htmlspecialchars($srv['verified_at']) ?></a>
                                     <?php else: ?>
                                         <?php if (!empty($srv['min_price']) && !empty($srv['max_price'])): ?>
                                             <span class="fn-price-range"><?= formatPrice($srv['min_price']) ?> – <?= formatPrice($srv['max_price']) ?></span>
