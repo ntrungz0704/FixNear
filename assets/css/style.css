@@ -1305,6 +1305,47 @@ textarea:focus-visible,
 }
 
 /* ================= 2-STEP REPAIR FINDER WIZARD (REPAIRBOOKINGS STYLE) ================= */
+/* Keep the sticky header and its drawer above the dimming layer. */
+.fn-mobile-account-actions { display: none; }
+@media (max-width: 900px) {
+  .fn-navbar.menu-open { z-index: 10001; }
+  .fn-mobile-backdrop.active { z-index: 10000; }
+  .fn-nav-links {
+    height: 100dvh;
+    visibility: hidden;
+    pointer-events: none;
+    overscroll-behavior: contain;
+  }
+  .fn-nav-links.active { visibility: visible; pointer-events: auto; }
+  .fn-mobile-account-actions {
+    display: grid;
+    gap: 10px;
+    margin-top: 20px;
+    padding-top: 20px;
+    border-top: 1px solid #e2e8f0;
+  }
+  .fn-mobile-account-name { color: #475569; font-size: 13px; font-weight: 700; }
+  .fn-mobile-account-actions form { margin: 0; }
+  .fn-mobile-account-link {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    width: 100%;
+    min-height: 44px;
+    padding: 10px 14px;
+    border: 1px solid #cbd5e1;
+    border-radius: 10px;
+    background: #fff;
+    color: #0f172a;
+    font-size: 14px;
+    font-weight: 700;
+    text-decoration: none;
+    cursor: pointer;
+  }
+  .fn-mobile-account-primary { border-color: #ea580c; background: #ea580c; color: #fff; }
+}
+
+/* ================= 2-STEP REPAIR FINDER WIZARD (REPAIRBOOKINGS STYLE) ================= */
 .fn-wizard-box {
   background: var(--fn-surface);
   border: 1px solid var(--fn-border);
