@@ -203,14 +203,14 @@ require_once __DIR__ . '/../includes/navbar.php';
                 <table class="w-full text-left border-collapse text-xs" id="shops-table">
                     <thead>
                         <tr class="bg-slate-50/75 border-b border-slate-200/80 text-[11px] font-bold text-slate-500 uppercase tracking-wider">
-                            <th class="py-3 px-4 w-12 text-center">#</th>
-                            <th class="py-3 px-4">Tên cửa hàng</th>
-                            <th class="py-3 px-4">Quận / Huyện</th>
-                            <th class="py-3 px-4">Địa chỉ</th>
-                            <th class="py-3 px-4">Hình ảnh</th>
-                            <th class="py-3 px-4 text-center">Trạng thái (Bật/Tắt)</th>
-                            <th class="py-3 px-4">Cập nhật</th>
-                            <th class="py-3 px-4 text-right">Thao tác</th>
+                            <th class="py-3 px-4 w-12 text-center whitespace-nowrap">#</th>
+                            <th class="py-3 px-4 min-w-[180px] whitespace-nowrap">Tên cửa hàng</th>
+                            <th class="py-3 px-4 min-w-[120px] whitespace-nowrap">Quận / Huyện</th>
+                            <th class="py-3 px-4 min-w-[220px]">Địa chỉ</th>
+                            <th class="py-3 px-4 whitespace-nowrap">Hình ảnh</th>
+                            <th class="py-3 px-4 text-center whitespace-nowrap min-w-[150px]">Trạng thái (Bật/Tắt)</th>
+                            <th class="py-3 px-4 whitespace-nowrap min-w-[100px]">Cập nhật</th>
+                            <th class="py-3 px-4 text-right whitespace-nowrap min-w-[110px]">Thao tác</th>
                         </tr>
                     </thead>
                     <tbody class="divide-y divide-slate-100 text-slate-700">
@@ -234,32 +234,32 @@ require_once __DIR__ . '/../includes/navbar.php';
                                 <td class="py-3 px-4 text-slate-600 max-w-xs truncate" title="<?= htmlspecialchars($s['address']) ?>">
                                     <?= htmlspecialchars($s['address']) ?>
                                 </td>
-                                <td class="py-3 px-4">
+                                <td class="py-3 px-4 whitespace-nowrap align-middle">
                                     <?php if ($imgCount > 0): ?>
-                                        <span class="inline-flex items-center gap-1 text-[11px] font-bold text-slate-700 bg-slate-100 px-2 py-0.5 rounded">
+                                        <span class="inline-flex items-center gap-1.5 text-[11px] font-bold text-slate-700 bg-slate-100 px-2.5 py-1 rounded whitespace-nowrap">
                                             📷 <?= $imgCount ?> ảnh
                                         </span>
                                     <?php else: ?>
-                                        <span class="text-[11px] text-slate-400">Không có</span>
+                                        <span class="text-[11px] text-slate-400 whitespace-nowrap">Không có</span>
                                     <?php endif; ?>
                                 </td>
                                 <!-- Cột Trạng thái: Nút Bật / Tắt trực tiếp -->
-                                <td class="py-3 px-4 text-center">
-                                    <label class="inline-flex items-center gap-2 cursor-pointer select-none">
+                                <td class="py-3 px-4 text-center whitespace-nowrap align-middle">
+                                    <label class="inline-flex items-center gap-2 cursor-pointer select-none whitespace-nowrap">
                                         <input type="checkbox" 
                                                class="sr-only peer status-toggle" 
                                                data-id="<?= (int)$s['id'] ?>"
                                                <?= $isActive ? 'checked' : '' ?>
                                                onchange="toggleShopStatus(<?= (int)$s['id'] ?>, this)">
-                                        <div class="w-10 h-5 bg-slate-200 peer-focus:outline-none rounded-full peer peer-checked:after:translate-x-full peer-checked:after:border-white after:content-[''] after:absolute after:top-[2px] after:left-[2px] after:bg-white after:border-slate-300 after:border after:rounded-full after:h-4 after:w-4 after:transition-all peer-checked:bg-emerald-600 relative"></div>
-                                        <span class="status-label text-[11px] font-bold <?= $isActive ? 'text-emerald-600' : 'text-slate-400' ?>">
+                                        <div class="w-10 h-5 bg-slate-200 peer-focus:outline-none rounded-full peer peer-checked:after:translate-x-full peer-checked:after:border-white after:content-[''] after:absolute after:top-[2px] after:left-[2px] after:bg-white after:border-slate-300 after:border after:rounded-full after:h-4 after:w-4 after:transition-all peer-checked:bg-emerald-600 relative flex-shrink-0"></div>
+                                        <span class="status-label text-[11px] font-bold inline-block min-w-[52px] text-left <?= $isActive ? 'text-emerald-600' : 'text-slate-400' ?>">
                                             <?= $isActive ? 'Hiển thị' : 'Đang ẩn' ?>
                                         </span>
                                     </label>
                                 </td>
-                                <td class="py-3 px-4 text-slate-500"><?= $formattedDate ?></td>
-                                <td class="py-3 px-4 text-right">
-                                    <a href="shop_edit.php?id=<?= $s['id'] ?>" class="inline-flex items-center gap-1 px-3 py-1 bg-white hover:bg-slate-100 text-slate-700 border border-slate-200 rounded-lg text-xs font-bold transition">
+                                <td class="py-3 px-4 text-slate-500 whitespace-nowrap align-middle"><?= $formattedDate ?></td>
+                                <td class="py-3 px-4 text-right whitespace-nowrap align-middle">
+                                    <a href="shop_edit.php?id=<?= $s['id'] ?>" class="inline-flex items-center gap-1 px-3 py-1.5 bg-white hover:bg-slate-100 text-slate-700 border border-slate-200 rounded-lg text-xs font-bold transition whitespace-nowrap">
                                         ✏️ Chỉnh sửa
                                     </a>
                                 </td>
