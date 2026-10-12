@@ -93,11 +93,11 @@ function buildShopPopupContent(shop, userLoc) {
     const latitude = Number(shop.latitude);
     const longitude = Number(shop.longitude);
 
-    let distance = shop.distance_km === null || shop.distance_km === undefined || shop.distance_km === ''
+    const savedDistance = shop.distance_km === null || shop.distance_km === undefined || shop.distance_km === ''
         ? NaN : Number(shop.distance_km);
-    if (!Number.isFinite(distance) && userLoc && typeof userLoc.lat === 'number') {
-        distance = calculateHaversineKm(userLoc.lat, userLoc.lng, latitude, longitude);
-    }
+    const distance = userLoc && typeof userLoc.lat === 'number' && typeof userLoc.lng === 'number'
+        ? calculateHaversineKm(userLoc.lat, userLoc.lng, latitude, longitude)
+        : savedDistance;
     const distanceText = Number.isFinite(distance) ? `Khoảng cách ước tính: <b>${formatDistanceKm(distance)}</b><br>` : '';
     const ratingText = shop.google_rating_verified
         ? `⭐ <b>${escapeMapText(shop.google_rating)}</b> (${escapeMapText(shop.google_reviews_count)} Google)<br>`

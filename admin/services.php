@@ -44,6 +44,26 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST' && isset($_POST['add_price'])) {
     }
 }
 
+// Xóa mức giá đã gán cho cửa hàng
+if ($_SERVER['REQUEST_METHOD'] === 'POST' && isset($_POST['action']) && $_POST['action'] === 'delete_price') {
+    requireValidCsrf();
+    $price_id = (int)($_POST['price_id'] ?? 0);
+    if ($price_id > 0) {
+        db()->deleteShopService($price_id);
+        $returnShop = max(0, (int)($_POST['return_shop_id'] ?? 0));
+        $returnPage = max(1, (int)($_POST['return_page'] ?? 1));
+        header('Location: services.php?' . http_build_query(['shop_id' => $returnShop, 'page' => $returnPage, 'msg' => 'deleted']));
+        exit;
+    }
+}
+
+$selectedShopFilter = max(0, (int)($_GET['shop_id'] ?? 0));
+$pricePageSize = 25;
+$priceTotal = db()->countShopServices($selectedShopFilter);
+$pricePageCount = max(1, (int)ceil($priceTotal / $pricePageSize));
+$pricePage = min($pricePageCount, max(1, (int)($_GET['page'] ?? 1)));
+$shopPrices = db()->getAllShopServices($selectedShopFilter, $pricePageSize, ($pricePage - 1) * $pricePageSize);
+
 $pageTitle = "Quản Lý Dịch Vụ & Bảng Giá — FixNear Admin";
 require_once __DIR__ . '/../includes/header.php';
 require_once __DIR__ . '/../includes/navbar.php';
@@ -65,7 +85,11 @@ require_once __DIR__ . '/../includes/navbar.php';
             </div>
         </div>
 
-        <?php if (isset($_GET['msg'])): ?>
+        <?php if (isset($_GET['msg']) && $_GET['msg'] === 'deleted'): ?>
+            <div style="background: #fee2e2; color: #991b1b; padding: 10px 16px; border-radius: 6px; font-size: 13.5px; margin-bottom: 20px;">
+                ✓ Đã xóa mức giá thành công!
+            </div>
+        <?php elseif (isset($_GET['msg'])): ?>
             <div style="background: #dcfce7; color: #166534; padding: 10px 16px; border-radius: 6px; font-size: 13.5px; margin-bottom: 20px;">
                 ✓ Đã cập nhật bảng giá tham khảo thành công!
             </div>
@@ -132,6 +156,95 @@ require_once __DIR__ . '/../includes/navbar.php';
                     </div>
                 </div>
             </form>
+        </div>
+
+        <!-- Bảng giá thực tế đã gán cho từng cửa hàng -->
+        <div style="margin-bottom: 40px;">
+            <div style="display: flex; justify-content: space-between; align-items: center; margin-bottom: 12px; flex-wrap: wrap; gap: 10px;">
+                <h2 style="font-family: var(--fn-font-heading); font-size: 18px; font-weight: 800; color: var(--fn-dark); margin: 0;">
+                    📋 Bảng Giá Đã Gán Tại Các Cửa Hàng (<?= $priceTotal ?>)
+                </h2>
+                <form method="GET" action="services.php" style="display: flex; gap: 8px; align-items: center;">
+                    <select name="shop_id" class="fn-select" onchange="this.form.submit()" style="font-size: 12.5px; padding: 6px 10px;">
+                        <option value="0">-- Tất cả cửa hàng --</option>
+                        <?php foreach ($shops as $sh): ?>
+                            <option value="<?= $sh['id'] ?>" <?= $selectedShopFilter === (int)$sh['id'] ? 'selected' : '' ?>>
+                                <?= htmlspecialchars($sh['name']) ?>
+                            </option>
+                        <?php endforeach; ?>
+                    </select>
+                </form>
+            </div>
+
+            <div style="background: var(--fn-surface); border: 1px solid var(--fn-border); border-radius: var(--fn-radius); overflow-x: auto; box-shadow: var(--fn-shadow-sm);">
+                <table class="fn-price-table">
+                    <thead>
+                        <tr>
+                            <th style="width: 50px;">ID</th>
+                            <th>Cửa Hàng</th>
+                            <th>Dịch Vụ / Lỗi</th>
+                            <th>Khoảng Giá</th>
+                            <th>Mức Giữa</th>
+                            <th>Bảo Hành</th>
+                            <th>Thời Gian</th>
+                            <th style="text-align: right;">Thao Tác</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        <?php if (empty($shopPrices)): ?>
+                            <tr>
+                                <td colspan="8" style="text-align: center; padding: 24px; color: var(--fn-text-light);">
+                                    Không có bảng giá nào phù hợp.
+                                </td>
+                            </tr>
+                        <?php else: ?>
+                            <?php foreach ($shopPrices as $sp): ?>
+                                <tr>
+                                    <td>#<?= $sp['id'] ?></td>
+                                    <td>
+                                        <strong style="color: var(--fn-dark);"><?= htmlspecialchars($sp['shop_name']) ?></strong>
+                                    </td>
+                                    <td>
+                                        <span style="font-size: 11px; padding: 2px 6px; border-radius: 4px; background: <?= ($sp['device_type'] ?? '') === 'laptop' ? '#e0f2fe; color:#0369a1;' : '#fce7f3; color:#be185d;' ?>">
+                                            <?= ($sp['device_type'] ?? '') === 'laptop' ? 'Laptop' : 'Điện thoại' ?>
+                                        </span>
+                                        <span style="font-weight: 700; margin-left: 4px;"><?= htmlspecialchars($sp['service_name']) ?></span>
+                                    </td>
+                                    <td>
+                                        <span class="fn-price-range"><?= formatPrice($sp['min_price'] ?? 0) ?> – <?= formatPrice($sp['max_price'] ?? 0) ?></span>
+                                    </td>
+                                    <td>
+                                        <span style="color: #c2410c; font-weight: 700; font-size: 12.5px;">
+                                            <?= formatPrice((int) round(((int) ($sp['min_price'] ?? 0) + (int) ($sp['max_price'] ?? 0)) / 2 / 10000) * 10000) ?>
+                                        </span>
+                                    </td>
+                                    <td><?= htmlspecialchars($sp['warranty_text'] ?? $sp['warranty'] ?? '—') ?></td>
+                                    <td>⏱️ <?= htmlspecialchars($sp['turnaround_text'] ?? $sp['turnaround'] ?? '—') ?></td>
+                                    <td style="text-align: right;">
+                                        <form method="POST" action="services.php" onsubmit="return confirm('Bạn có chắc muốn xóa mức giá này?')" style="display: inline;">
+                                            <?= csrfField() ?>
+                                            <input type="hidden" name="action" value="delete_price">
+                                            <input type="hidden" name="price_id" value="<?= $sp['id'] ?>">
+                                            <input type="hidden" name="return_shop_id" value="<?= $selectedShopFilter ?>">
+                                            <input type="hidden" name="return_page" value="<?= $pricePage ?>">
+                                            <button type="submit" class="fn-btn fn-btn-sm fn-btn-secondary" style="padding: 4px 8px; font-size: 11px; color: #ef4444;">
+                                                🗑️ Xóa
+                                            </button>
+                                        </form>
+                                    </td>
+                                </tr>
+                            <?php endforeach; ?>
+                        <?php endif; ?>
+                    </tbody>
+                </table>
+            </div>
+            <?php if ($pricePageCount > 1): ?>
+                <nav aria-label="Phân trang bảng giá cửa hàng" style="display:flex;align-items:center;justify-content:flex-end;gap:12px;margin-top:14px;">
+                    <?php if ($pricePage > 1): ?><a class="fn-btn fn-btn-sm fn-btn-secondary" href="services.php?<?= htmlspecialchars(http_build_query(['shop_id' => $selectedShopFilter, 'page' => $pricePage - 1])) ?>">← Trước</a><?php endif; ?>
+                    <span>Trang <?= $pricePage ?> / <?= $pricePageCount ?></span>
+                    <?php if ($pricePage < $pricePageCount): ?><a class="fn-btn fn-btn-sm fn-btn-secondary" href="services.php?<?= htmlspecialchars(http_build_query(['shop_id' => $selectedShopFilter, 'page' => $pricePage + 1])) ?>">Sau →</a><?php endif; ?>
+                </nav>
+            <?php endif; ?>
         </div>
 
         <!-- Danh mục dịch vụ trong dữ liệu -->
