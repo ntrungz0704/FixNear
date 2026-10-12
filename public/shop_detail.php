@@ -41,9 +41,36 @@ $msg = $_GET['msg'] ?? '';
     </div>
 
     <?php if ($msg === 'review_added'): ?>
-        <div style="background: #fef3c7; border-left: 4px solid #f59e0b; padding: 12px 16px; border-radius: 4px; color: #92400e; font-size: 14px; margin-bottom: 20px;">
-            ✅ Cảm ơn bạn! Đánh giá của bạn đã được ghi nhận và đang chờ Ban Quản Trị FixNear duyệt trước khi hiển thị công khai.
+        <div id="fn-review-success-modal" class="fn-modal-overlay active" style="z-index: 9999;" onclick="if(event.target === this) fnCloseReviewModal();">
+            <div class="fn-modal-card" style="text-align: center; max-width: 440px; padding: 28px 24px; border-radius: 16px; box-shadow: 0 10px 30px rgba(0,0,0,0.15);">
+                <div style="width: 56px; height: 56px; border-radius: 50%; background: #dcfce7; color: #166534; font-size: 28px; display: inline-flex; align-items: center; justify-content: center; margin: 0 auto 16px;">
+                    ✅
+                </div>
+                <h3 style="font-family: var(--fn-font-heading); font-size: 19px; font-weight: 800; color: var(--fn-dark); margin: 0 0 10px;">
+                    Gửi Đánh Giá Thành Công!
+                </h3>
+                <p style="font-size: 14px; color: var(--fn-dark-muted); line-height: 1.6; margin: 0 0 22px;">
+                    Cảm ơn bạn! Đánh giá của bạn đã được ghi nhận và đang chờ Ban Quản Trị FixNear duyệt trước khi hiển thị công khai.
+                </p>
+                <button type="button" class="fn-btn fn-btn-primary" style="width: 100%; height: 42px; font-weight: 800; border-radius: 9px; cursor: pointer;" onclick="fnCloseReviewModal()">
+                    Đã hiểu &amp; Đóng
+                </button>
+            </div>
         </div>
+        <script>
+        function fnCloseReviewModal() {
+            const modal = document.getElementById('fn-review-success-modal');
+            if (modal) {
+                modal.classList.remove('active');
+                setTimeout(() => modal.remove(), 250);
+            }
+            try {
+                const url = new URL(window.location);
+                url.searchParams.delete('msg');
+                window.history.replaceState({}, '', url);
+            } catch(e) {}
+        }
+        </script>
     <?php elseif ($msg === 'report_added'): ?>
         <div style="background: #fef3c7; border-left: 4px solid #f59e0b; padding: 12px 16px; border-radius: 4px; color: #92400e; font-size: 14px; margin-bottom: 20px;">
             ✅ Nhóm quản trị viên FixNear đã ghi nhận thông tin phản ánh và sẽ tiến hành kiểm tra cập nhật sớm nhất!
