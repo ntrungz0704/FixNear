@@ -10,10 +10,10 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
         $error = 'Bạn đã gửi quá nhiều yêu cầu đăng ký. Vui lòng thử lại sau.';
     }
     $name = trim($_POST['name'] ?? '');
-    $email = trim($_POST['email'] ?? '');
+    $email = mb_strtolower(trim((string)($_POST['email'] ?? '')), 'UTF-8');
     $phone = trim($_POST['phone'] ?? '');
-    $password = trim($_POST['password'] ?? '');
-    $confirm_password = trim($_POST['confirm_password'] ?? '');
+    $password = (string)($_POST['password'] ?? '');
+    $confirm_password = (string)($_POST['confirm_password'] ?? '');
 
     if ($error !== '') {
         // Giữ thông báo giới hạn đã đặt ở trên.
