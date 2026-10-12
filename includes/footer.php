@@ -40,6 +40,11 @@
                 <textarea name="details" class="fn-textarea" rows="3" placeholder="Ví dụ: Giá ép kính thực tế ở tiệm là 350k, tiệm đóng cửa chủ nhật..." required></textarea>
             </div>
 
+            <div class="fn-form-group">
+                <label class="fn-label" style="font-size: 12.5px; color: var(--fn-dark-muted);">Số điện thoại liên hệ (không bắt buộc):</label>
+                <input type="tel" name="reporter_phone" class="fn-input" placeholder="Để BQT liên hệ xác minh nếu cần" style="font-size: 13px; padding: 7px 12px;">
+            </div>
+
             <div style="display: flex; gap: 10px; justify-content: flex-end; margin-top: 20px;">
                 <button type="button" class="fn-btn fn-btn-secondary fn-close-modal">Hủy bỏ</button>
                 <button type="submit" class="fn-btn fn-btn-primary">Gửi báo cáo</button>

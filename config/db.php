@@ -394,8 +394,8 @@ class FixNearDB {
         if (!empty($filters['ward'])) {
             $ward = $filters['ward'];
             $shops = array_filter($shops, function($s) use ($ward) {
-                return stripos($s['ward'], $ward) !== false || 
-                       stripos($s['district'], $ward) !== false || 
+                return stripos($s['ward'], $ward) !== false ||
+                       stripos($s['district'], $ward) !== false ||
                        stripos($s['address'], $ward) !== false;
             });
         }
@@ -506,11 +506,11 @@ class FixNearDB {
             $devStr = is_array($data['devices'] ?? null) ? implode(',', $data['devices']) : ($data['devices'] ?? 'laptop,phone');
             if (!empty($data['id'])) {
                 $stmt = $this->pdo->prepare("
-                    UPDATE shops SET 
-                        name = :name, address = :address, ward = :ward, district = :district, phone = :phone, 
-                        opening_hours = :opening_hours, map_url = :map_url, latitude = :latitude, longitude = :longitude, 
-                        description = :description, devices = :devices, is_verified = :is_verified, 
-                        allows_onsite_watch = :allows_onsite_watch, requires_component_signing = :requires_component_signing, 
+                    UPDATE shops SET
+                        name = :name, address = :address, ward = :ward, district = :district, phone = :phone,
+                        opening_hours = :opening_hours, map_url = :map_url, latitude = :latitude, longitude = :longitude,
+                        description = :description, devices = :devices, is_verified = :is_verified,
+                        allows_onsite_watch = :allows_onsite_watch, requires_component_signing = :requires_component_signing,
                         student_discount = :student_discount, image = :image, website = :website
                     WHERE id = :id
                 ");
@@ -637,8 +637,8 @@ class FixNearDB {
             $services = array_filter($services, function($s) use ($device_type) {
                 $devs = $s['devices'] ?? [];
                 if (is_string($devs)) $devs = explode(',', $devs);
-                return ($s['device_type'] ?? '') === $device_type || 
-                       in_array($device_type, $devs) || 
+                return ($s['device_type'] ?? '') === $device_type ||
+                       in_array($device_type, $devs) ||
                        ($s['device_type'] ?? '') === 'all';
             });
         }
@@ -662,10 +662,10 @@ class FixNearDB {
     public function getServicesByShop($shop_id) {
         if ($this->isUsingMySQL()) {
             $stmt = $this->pdo->prepare("
-                SELECT ss.*, s.name as service_name, s.device_type, s.icon, s.description as service_desc, s.description 
-                FROM shop_services ss 
-                JOIN services s ON ss.service_id = s.id 
-                WHERE ss.shop_id = :shop_id 
+                SELECT ss.*, s.name as service_name, s.device_type, s.icon, s.description as service_desc, s.description
+                FROM shop_services ss
+                JOIN services s ON ss.service_id = s.id
+                WHERE ss.shop_id = :shop_id
                 ORDER BY ss.id ASC
             ");
             $stmt->execute([':shop_id' => (int)$shop_id]);
@@ -699,8 +699,8 @@ class FixNearDB {
         if ($this->isUsingMySQL()) {
             if (!empty($data['id'])) {
                 $stmt = $this->pdo->prepare("
-                    UPDATE shop_services SET 
-                        shop_id = :shop_id, service_id = :service_id, min_price = :min_price, 
+                    UPDATE shop_services SET
+                        shop_id = :shop_id, service_id = :service_id, min_price = :min_price,
                         max_price = :max_price, warranty_text = :warranty_text, turnaround_text = :turnaround_text, note = :note
                     WHERE id = :id
                 ");
@@ -844,9 +844,9 @@ class FixNearDB {
     public function getAllReviews() {
         if ($this->isUsingMySQL()) {
             $stmt = $this->pdo->query("
-                SELECT r.*, s.name as shop_name 
-                FROM reviews r 
-                LEFT JOIN shops s ON r.shop_id = s.id 
+                SELECT r.*, s.name as shop_name
+                FROM reviews r
+                LEFT JOIN shops s ON r.shop_id = s.id
                 ORDER BY r.created_at DESC
             ");
             return $stmt->fetchAll(PDO::FETCH_ASSOC);
@@ -1009,7 +1009,7 @@ class FixNearDB {
         return $this->withJsonLock('repair_requests.json', function() use ($data) {
             $reqs = $this->readJson('repair_requests.json');
             if (!is_array($reqs)) $reqs = [];
-            
+
             if (empty($data['id'])) {
                 $data['id'] = 'FN-' . rand(1000, 9999);
             }
@@ -1019,7 +1019,7 @@ class FixNearDB {
             if (empty($data['status'])) {
                 $data['status'] = 'pending';
             }
-            
+
             array_unshift($reqs, $data);
             return $this->writeJson('repair_requests.json', $reqs) ? $data : false;
         });
@@ -1098,15 +1098,16 @@ class FixNearDB {
         if ($this->isUsingMySQL()) {
             try {
                 $stmt = $this->pdo->prepare("
-                    INSERT INTO contact_messages (name, email, phone, subject, message, created_at)
-                    VALUES (:name, :email, :phone, :subject, :message, NOW())
+                    INSERT INTO contact_messages (name, email, phone, subject, message, status, created_at)
+                    VALUES (:name, :email, :phone, :subject, :message, :status, NOW())
                 ");
                 $ok = $stmt->execute([
                     ':name' => $name,
                     ':email' => $email,
                     ':phone' => $phone,
                     ':subject' => $subject,
-                    ':message' => $message
+                    ':message' => $message,
+                    ':status' => $status
                 ]);
                 if ($ok) {
                     $data['id'] = (int)$this->pdo->lastInsertId();
@@ -1116,6 +1117,28 @@ class FixNearDB {
                 }
                 return false;
             } catch (Exception $e) {
+                // Fallback nếu bảng chưa có cột status
+                try {
+                    $stmt = $this->pdo->prepare("
+                        INSERT INTO contact_messages (name, email, phone, subject, message, created_at)
+                        VALUES (:name, :email, :phone, :subject, :message, NOW())
+                    ");
+                    $ok = $stmt->execute([
+                        ':name' => $name,
+                        ':email' => $email,
+                        ':phone' => $phone,
+                        ':subject' => $subject,
+                        ':message' => $message
+                    ]);
+                    if ($ok) {
+                        $data['id'] = (int)$this->pdo->lastInsertId();
+                        $data['subject'] = $subject;
+                        $data['status'] = $status;
+                        return $data;
+                    }
+                } catch (Exception $e2) {
+                    error_log("addContactMessage MySQL fallback error: " . $e2->getMessage());
+                }
                 error_log("addContactMessage MySQL error: " . $e->getMessage());
                 return false;
             }
@@ -1177,6 +1200,35 @@ class FixNearDB {
             foreach ($msgs as &$m) {
                 if (((int)($m['id'] ?? 0)) === (int)$id) {
                     $m['status'] = $status;
+                    return $this->writeJson('contact_messages.json', $msgs);
+                }
+            }
+            return false;
+        });
+    }
+
+    public function replyContactMessage($id, $replyText) {
+        if ($this->isUsingMySQL()) {
+            try {
+                $stmt = $this->pdo->prepare("
+                    UPDATE contact_messages
+                    SET admin_reply = :reply, status = 'replied', replied_at = NOW()
+                    WHERE id = :id
+                ");
+                return $stmt->execute([':reply' => $replyText, ':id' => (int)$id]);
+            } catch (Exception $e) {
+                return false;
+            }
+        }
+
+        return $this->withJsonLock('contact_messages.json', function() use ($id, $replyText) {
+            $msgs = $this->readJson('contact_messages.json');
+            if (!is_array($msgs)) return false;
+            foreach ($msgs as &$m) {
+                if (((int)($m['id'] ?? 0)) === (int)$id) {
+                    $m['admin_reply'] = $replyText;
+                    $m['status'] = 'replied';
+                    $m['replied_at'] = date('Y-m-d H:i:s');
                     return $this->writeJson('contact_messages.json', $msgs);
                 }
             }
@@ -1289,16 +1341,63 @@ class FixNearDB {
 
     public function getReports() {
         if ($this->isUsingMySQL()) {
-            $stmt = $this->pdo->query("SELECT * FROM wrong_info_reports ORDER BY created_at DESC");
-            return $stmt->fetchAll(PDO::FETCH_ASSOC);
+            try {
+                $stmt = $this->pdo->query("
+                    SELECT r.*,
+                           s.name AS current_shop_name,
+                           s.address AS shop_address,
+                           s.district AS shop_district,
+                           s.phone AS shop_phone,
+                           s.opening_hours AS shop_opening_hours,
+                           s.map_url AS shop_map_url,
+                           u.email AS user_email,
+                           u.phone AS registered_user_phone
+                    FROM wrong_info_reports r
+                    LEFT JOIN shops s ON r.shop_id = s.id
+                    LEFT JOIN users u ON r.user_id = u.id
+                    ORDER BY r.created_at DESC
+                ");
+                return $stmt->fetchAll(PDO::FETCH_ASSOC);
+            } catch (Exception $e) {
+                $stmt = $this->pdo->query("SELECT * FROM wrong_info_reports ORDER BY created_at DESC");
+                return $stmt->fetchAll(PDO::FETCH_ASSOC);
+            }
         }
 
         $reports = $this->readJson('reports.json');
-        usort($reports, fn($a, $b) => strtotime($b['created_at']) - strtotime($a['created_at']));
+        if (!is_array($reports)) $reports = [];
+        $shops = $this->readJson('shops.json');
+        $shopMap = [];
+        if (is_array($shops)) {
+            foreach ($shops as $s) $shopMap[$s['id']] = $s;
+        }
+        $users = $this->readJson('users.json');
+        $userMap = [];
+        if (is_array($users)) {
+            foreach ($users as $u) $userMap[$u['id']] = $u;
+        }
+
+        foreach ($reports as &$r) {
+            $s = $shopMap[$r['shop_id'] ?? 0] ?? [];
+            $u = $userMap[$r['user_id'] ?? 0] ?? [];
+            $r['current_shop_name'] = $s['name'] ?? ($r['shop_name'] ?? '');
+            $r['shop_address'] = $s['address'] ?? '';
+            $r['shop_district'] = $s['district'] ?? '';
+            $r['shop_phone'] = $s['phone'] ?? '';
+            $r['shop_opening_hours'] = $s['opening_hours'] ?? '';
+            $r['shop_map_url'] = $s['map_url'] ?? '';
+            $r['user_email'] = $u['email'] ?? '';
+            $r['registered_user_phone'] = $u['phone'] ?? '';
+        }
+        unset($r);
+
+        usort($reports, fn($a, $b) => strtotime($b['created_at'] ?? '1970-01-01') - strtotime($a['created_at'] ?? '1970-01-01'));
         return $reports;
     }
 
     public function updateReportStatus($id, $status) {
+        $allowed = ['pending', 'verifying', 'resolved'];
+        $status = in_array($status, $allowed, true) ? $status : 'pending';
         if ($this->isUsingMySQL()) {
             $stmt = $this->pdo->prepare("UPDATE wrong_info_reports SET status = :status WHERE id = :id");
             return $stmt->execute([':status' => $status, ':id' => (int)$id]);
@@ -1306,6 +1405,7 @@ class FixNearDB {
 
         return $this->withJsonLock('reports.json', function() use ($id, $status) {
             $reports = $this->readJson('reports.json');
+            if (!is_array($reports)) $reports = [];
             foreach ($reports as &$r) {
                 if ($r['id'] == $id) {
                     $r['status'] = $status;
@@ -1313,6 +1413,60 @@ class FixNearDB {
                 }
             }
             return false;
+        });
+    }
+
+    public function updateReportNote($id, $adminNote) {
+        if ($this->isUsingMySQL()) {
+            $stmt = $this->pdo->prepare("UPDATE wrong_info_reports SET admin_note = :note WHERE id = :id");
+            return $stmt->execute([':note' => $adminNote, ':id' => (int)$id]);
+        }
+
+        return $this->withJsonLock('reports.json', function() use ($id, $adminNote) {
+            $reports = $this->readJson('reports.json');
+            if (!is_array($reports)) $reports = [];
+            foreach ($reports as &$r) {
+                if ($r['id'] == $id) {
+                    $r['admin_note'] = $adminNote;
+                    return $this->writeJson('reports.json', $reports);
+                }
+            }
+            return false;
+        });
+    }
+
+    public function updateReportPriority($id, $priority) {
+        $allowed = ['high', 'medium', 'low'];
+        $priority = in_array($priority, $allowed, true) ? $priority : 'medium';
+        if ($this->isUsingMySQL()) {
+            $stmt = $this->pdo->prepare("UPDATE wrong_info_reports SET priority = :priority WHERE id = :id");
+            return $stmt->execute([':priority' => $priority, ':id' => (int)$id]);
+        }
+
+        return $this->withJsonLock('reports.json', function() use ($id, $priority) {
+            $reports = $this->readJson('reports.json');
+            if (!is_array($reports)) $reports = [];
+            foreach ($reports as &$r) {
+                if ($r['id'] == $id) {
+                    $r['priority'] = $priority;
+                    return $this->writeJson('reports.json', $reports);
+                }
+            }
+            return false;
+        });
+    }
+
+    public function deleteReport($id) {
+        if ($this->isUsingMySQL()) {
+            $stmt = $this->pdo->prepare("DELETE FROM wrong_info_reports WHERE id = :id");
+            return $stmt->execute([':id' => (int)$id]);
+        }
+
+        return $this->withJsonLock('reports.json', function() use ($id) {
+            $reports = $this->readJson('reports.json');
+            if (!is_array($reports)) $reports = [];
+            $newReports = array_values(array_filter($reports, fn($r) => $r['id'] != $id));
+            return $this->writeJson('reports.json', $newReports);
         });
     }
 
