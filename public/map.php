@@ -54,14 +54,15 @@ require_once __DIR__ . '/../includes/navbar.php';
         </div>
 
         <!-- Trạng thái vị trí người dùng -->
-        <div style="display: flex; align-items: center; gap: 10px; flex-wrap: wrap;">
+        <div id="fn-map-loc-container" style="display: flex; align-items: center; gap: 10px; flex-wrap: wrap;">
             <span style="font-size:11px;color:#9a3412;font-weight:700;">Ghim tham khảo · xác nhận địa chỉ trước khi đến</span>
+            <div id="fn-map-loc-badge-wrap" style="display: inline-flex; align-items: center; gap: 10px; flex-wrap: wrap;">
             <?php if ($isLocated): ?>
                 <div style="display: inline-flex; align-items: center; gap: 6px; background: #ecfdf5; border: 1px solid #a7f3d0; color: #059669; padding: 6px 14px; border-radius: 20px; font-size: 12.5px; font-weight: 700;">
                     <span class="fn-pulse-dot" style="background:#10b981;"></span>
                     <span>📍 <?= htmlspecialchars($loc_name ?: 'Vị trí của bạn') ?></span>
                     <?php if ($focusShop && isset($focusShop['distance_km'])): ?>
-                        <span style="color: #047857; font-weight: 800; margin-left: 4px;">(Ước tính ~<?= $focusShop['distance_km'] < 1 ? round($focusShop['distance_km'] * 1000) . 'm' : $focusShop['distance_km'] . ' km' ?>)</span>
+                        <span id="fn-map-top-distance-text" style="color: #047857; font-weight: 800; margin-left: 4px;">(Ước tính ~<?= $focusShop['distance_km'] < 1 ? round($focusShop['distance_km'] * 1000) . 'm' : $focusShop['distance_km'] . ' km' ?>)</span>
                     <?php endif; ?>
                 </div>
                 <button type="button" onclick="openLocationModal()" style="display: inline-flex; align-items: center; gap: 4px; background: #ffffff; border: 1px solid #cbd5e1; color: #475569; padding: 6px 12px; border-radius: 20px; font-size: 12px; font-weight: 700; cursor: pointer;">
@@ -71,13 +72,14 @@ require_once __DIR__ . '/../includes/navbar.php';
                 <div style="display: inline-flex; align-items: center; gap: 6px; background: #fff7ed; border: 1px solid #fed7aa; color: #c2410c; padding: 6px 14px; border-radius: 20px; font-size: 12.5px; font-weight: 700;">
                     <span>📍 Chưa bật GPS định vị</span>
                 </div>
-                <button type="button" onclick="triggerDeviceGPS(this)" style="display: inline-flex; align-items: center; gap: 6px; background: #ea580c; border: 1px solid #ea580c; color: #ffffff; padding: 6px 14px; border-radius: 20px; font-size: 12px; font-weight: 800; cursor: pointer; box-shadow: 0 2px 8px rgba(234,88,12,0.3);">
+                <button type="button" id="fn-map-top-gps-btn" onclick="triggerDeviceGPS(this)" style="display: inline-flex; align-items: center; gap: 6px; background: #ea580c; border: 1px solid #ea580c; color: #ffffff; padding: 6px 14px; border-radius: 20px; font-size: 12px; font-weight: 800; cursor: pointer; box-shadow: 0 2px 8px rgba(234,88,12,0.3);">
                     🛰️ Bật GPS
                 </button>
                 <button type="button" onclick="openLocationModal()" style="display: inline-flex; align-items: center; gap: 4px; background: #ffffff; border: 1px solid #cbd5e1; color: #475569; padding: 6px 12px; border-radius: 20px; font-size: 12px; font-weight: 700; cursor: pointer;">
                     🏙️ Chọn quận
                 </button>
             <?php endif; ?>
+            </div>
         </div>
     </div>
 
@@ -93,9 +95,11 @@ require_once __DIR__ . '/../includes/navbar.php';
                     <div style="display: flex; align-items: center; gap: 6px; margin-bottom: 4px;">
                         <?php if (!empty($focusShop['google_rating_verified'])): ?><span style="color: #ea580c; font-weight: 800; font-size: 13px;">★ <?= htmlspecialchars($focusShop['google_rating']) ?></span><?php endif; ?>
                         <?php if (isset($focusShop['distance_km'])): ?>
-                        <span style="font-size: 11px; background: #eff6ff; color: #1d4ed8; padding: 2px 7px; border-radius: 6px; font-weight: 700;">
+                        <span id="fn-map-card-distance-badge" style="font-size: 11px; background: #eff6ff; color: #1d4ed8; padding: 2px 7px; border-radius: 6px; font-weight: 700;">
                             📍 Ước tính ~<?= $focusShop['distance_km'] < 1 ? round($focusShop['distance_km'] * 1000) . 'm' : $focusShop['distance_km'] . ' km' ?>
                         </span>
+                        <?php else: ?>
+                        <span id="fn-map-card-distance-badge" style="display: none; font-size: 11px; background: #eff6ff; color: #1d4ed8; padding: 2px 7px; border-radius: 6px; font-weight: 700;"></span>
                         <?php endif; ?>
                     </div>
                     <h3 style="font-family: var(--fn-font-heading); font-size: 16px; font-weight: 800; color: #0f172a; margin: 0 0 4px 0; line-height: 1.3; white-space: nowrap; overflow: hidden; text-overflow: ellipsis;">
@@ -135,7 +139,47 @@ require_once __DIR__ . '/../includes/navbar.php';
         'name' => $loc_name ?: 'Vị trí của bạn'
     ], JSON_UNESCAPED_UNICODE) : 'null' ?>;
 
+    function updateMapLocationBadge(loc, distText) {
+        const wrap = document.getElementById('fn-map-loc-badge-wrap');
+        if (!wrap || !loc) return;
+        const name = String(loc.name || 'Vị trí GPS của bạn').trim() || 'Vị trí GPS của bạn';
+        const distBadge = distText ? `<span id="fn-map-top-distance-text" style="color: #047857; font-weight: 800; margin-left: 4px;">(${distText})</span>` : '';
+        wrap.innerHTML = `
+            <div style="display: inline-flex; align-items: center; gap: 6px; background: #ecfdf5; border: 1px solid #a7f3d0; color: #059669; padding: 6px 14px; border-radius: 20px; font-size: 12.5px; font-weight: 700;">
+                <span class="fn-pulse-dot" style="background:#10b981;"></span>
+                <span>📍 <span id="fn-map-location-name"></span></span>
+                ${distBadge}
+            </div>
+            <button type="button" onclick="openLocationModal()" style="display: inline-flex; align-items: center; gap: 4px; background: #ffffff; border: 1px solid #cbd5e1; color: #475569; padding: 6px 12px; border-radius: 20px; font-size: 12px; font-weight: 700; cursor: pointer;">
+                ⚙️ Đổi vị trí
+            </button>
+        `;
+        wrap.querySelector('#fn-map-location-name').textContent = name;
+    }
+
+    function applyUserLocationToMap(loc, panToUser) {
+        if (!loc || typeof loc.lat !== 'number' || typeof loc.lng !== 'number') return;
+        if (typeof updateUserLocationOnMap === 'function') {
+            const res = updateUserLocationOnMap(loc, { panToUser: panToUser });
+            let distText = '';
+            if (res && res.distanceToFocus !== null && typeof res.distanceToFocus === 'number') {
+                const formatted = (typeof formatDistanceKm === 'function') ? formatDistanceKm(res.distanceToFocus) : `~${res.distanceToFocus.toFixed(1)} km`;
+                distText = `Ước tính ${formatted}`;
+                const cardBadge = document.getElementById('fn-map-card-distance-badge');
+                if (cardBadge) {
+                    cardBadge.textContent = `📍 ${distText}`;
+                    cardBadge.style.display = 'inline-block';
+                }
+            }
+            updateMapLocationBadge(loc, distText);
+        }
+    }
+
     document.addEventListener('DOMContentLoaded', function () {
+        // 1. Phối hợp nguồn vị trí: ưu tiên Server, fallback LocalStorage client
+        const clientLoc = (typeof FixNearLocation !== 'undefined') ? FixNearLocation.get() : null;
+        const initialUserLoc = FIXNEAR_USER_LOCATION || clientLoc;
+
         // Tọa độ trung tâm mặc định (Trung tâm TP.HCM hoặc vị trí cửa hàng focus)
         let defaultCenter = [10.7769, 106.7009];
         let defaultZoom = 12;
@@ -145,44 +189,58 @@ require_once __DIR__ . '/../includes/navbar.php';
             defaultZoom = 16;
         <?php elseif ($isLocated): ?>
             defaultCenter = [<?= (float)$user_lat ?>, <?= (float)$user_lng ?>];
-            defaultZoom = 13;
+            defaultZoom = 14;
         <?php endif; ?>
+
+        if (!FIXNEAR_FOCUS_SHOP_ID && initialUserLoc && typeof initialUserLoc.lat === 'number') {
+            defaultCenter = [initialUserLoc.lat, initialUserLoc.lng];
+            defaultZoom = 14;
+        }
 
         // Khởi tạo bản đồ thông qua initFixnearMap từ map.js
         if (typeof initFixnearMap === 'function') {
-            initFixnearMap(FIXNEAR_SHOPS_DATA, defaultCenter, FIXNEAR_USER_LOCATION);
+            initFixnearMap(FIXNEAR_SHOPS_DATA, defaultCenter, initialUserLoc, defaultZoom, FIXNEAR_FOCUS_SHOP_ID);
+        }
 
-            // Nếu đang xem 1 shop cụ thể, pan tới vị trí và mở popup
-            if (FIXNEAR_FOCUS_SHOP_ID && fixnearMap && shopMarkers[FIXNEAR_FOCUS_SHOP_ID]) {
-                const marker = shopMarkers[FIXNEAR_FOCUS_SHOP_ID];
-                fixnearMap.setView(marker.getLatLng(), 16);
-                setTimeout(() => {
-                    marker.openPopup();
-                }, 300);
-
-                // Vẽ đường nối giữa người dùng và cửa hàng (nếu có vị trí người dùng)
-                if (FIXNEAR_USER_LOCATION && typeof FIXNEAR_USER_LOCATION.lat === 'number') {
-                    const userLatLng = [FIXNEAR_USER_LOCATION.lat, FIXNEAR_USER_LOCATION.lng];
-                    const shopLatLng = marker.getLatLng();
-
-                    // Vẽ đường nét đứt biểu thị lộ trình hướng tới tiệm
-                    const pathLine = L.polyline([userLatLng, shopLatLng], {
-                        color: '#2563eb',
-                        weight: 3,
-                        opacity: 0.75,
-                        dashArray: '8, 8'
-                    }).addTo(fixnearMap);
-
-                    // Tự động căn chỉnh màn hình hiển thị cả người dùng và cửa hàng nếu khoảng cách < 30km
-                    <?php if ($focusShop && isset($focusShop['distance_km']) && $focusShop['distance_km'] <= 30): ?>
-                        fixnearMap.fitBounds([userLatLng, shopLatLng], {
-                            padding: [60, 60],
-                            maxZoom: 16
-                        });
-                    <?php endif; ?>
-                }
+        // Nếu server chưa có vị trí nhưng client đã có (từ localStorage / session trước)
+        if (!FIXNEAR_USER_LOCATION && clientLoc) {
+            applyUserLocationToMap(clientLoc, !FIXNEAR_FOCUS_SHOP_ID);
+            if (typeof FixNearLocation !== 'undefined') {
+                FixNearLocation.syncToServer(clientLoc);
             }
         }
+
+        // 2. Tự động kiểm tra quyền Geolocation của trình duyệt (nếu người dùng đã "Cho phép")
+        if (navigator.permissions && navigator.permissions.query) {
+            navigator.permissions.query({ name: 'geolocation' }).then(function (result) {
+                if (result.state === 'granted') {
+                    if (typeof FixNearLocation !== 'undefined') {
+                        FixNearLocation.requestGPS(function (loc) {
+                            applyUserLocationToMap(loc, !FIXNEAR_FOCUS_SHOP_ID);
+                        }, null, { timeout: 8000 });
+                    }
+                }
+            }).catch(function () {});
+        }
+
+        // 3. Lắng nghe sự kiện cập nhật vị trí toàn cục (từ Modal hoặc GPS)
+        window.addEventListener('fixnear:location-updated', function (e) {
+            if (e && e.detail) {
+                applyUserLocationToMap(e.detail, !FIXNEAR_FOCUS_SHOP_ID);
+            }
+        });
+
+        // 4. Invalidate size để bảo đảm Leaflet hiển thị toàn vẹn không bị lệch map tile
+        setTimeout(function () {
+            if (typeof fixnearMap !== 'undefined' && fixnearMap) {
+                fixnearMap.invalidateSize();
+            }
+        }, 200);
+        setTimeout(function () {
+            if (typeof fixnearMap !== 'undefined' && fixnearMap) {
+                fixnearMap.invalidateSize();
+            }
+        }, 600);
     });
 </script>
 

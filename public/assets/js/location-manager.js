@@ -244,11 +244,11 @@
          * @param {Object} loc
          */
         syncToServer: function (loc) {
-            if (!loc) return;
+            if (!loc) return Promise.resolve(null);
             const prefix = this._getAssetPrefix();
             const endpoint = prefix + 'api/sync_location.php';
 
-            fetch(endpoint, {
+            return fetch(endpoint, {
                 method: 'POST',
                 headers: {
                     'Content-Type': 'application/json',
@@ -263,6 +263,7 @@
                 })
             }).catch(err => {
                 console.warn('[FixNearLocation] Không thể đồng bộ vị trí lên server:', err);
+                return null;
             });
         },
 
@@ -357,25 +358,36 @@
                     const parsed = JSON.parse(stored);
                     if (parsed && typeof parsed.lat === 'number' && typeof parsed.lng === 'number') {
                         this._state = parsed;
-                        return;
                     }
                 }
 
                 // Fallback: Kiểm tra key cũ
-                const oldLat = localStorage.getItem('fixnear_user_lat');
-                const oldLng = localStorage.getItem('fixnear_user_lng');
-                const oldName = localStorage.getItem('fixnear_loc_name');
-                if (oldLat && oldLng && !isNaN(Number(oldLat)) && !isNaN(Number(oldLng))) {
-                    this._state = {
-                        lat: Number(oldLat),
-                        lng: Number(oldLng),
-                        name: oldName || 'Vị trí đã lưu',
-                        accuracy: null,
-                        timestamp: Math.floor(Date.now() / 1000),
-                        source: 'localStorage_migration',
-                        status: 'granted'
-                    };
-                    localStorage.setItem(STORAGE_KEY, JSON.stringify(this._state));
+                if (!this._state) {
+                    const oldLat = localStorage.getItem('fixnear_user_lat');
+                    const oldLng = localStorage.getItem('fixnear_user_lng');
+                    const oldName = localStorage.getItem('fixnear_loc_name');
+                    if (oldLat && oldLng && !isNaN(Number(oldLat)) && !isNaN(Number(oldLng))) {
+                        this._state = {
+                            lat: Number(oldLat),
+                            lng: Number(oldLng),
+                            name: oldName || 'Vị trí đã lưu',
+                            accuracy: null,
+                            timestamp: Math.floor(Date.now() / 1000),
+                            source: 'localStorage_migration',
+                            status: 'granted'
+                        };
+                        localStorage.setItem(STORAGE_KEY, JSON.stringify(this._state));
+                    }
+                }
+
+                // Đảm bảo cookies luôn sẵn sàng cho PHP backend khi localStorage có dữ liệu
+                if (this._state && typeof this._state.lat === 'number' && typeof this._state.lng === 'number') {
+                    const maxAge = 86400 * 30;
+                    if (!document.cookie.includes('fixnear_lat=')) {
+                        document.cookie = `fixnear_lat=${this._state.lat}; path=/; max-age=${maxAge}; SameSite=Lax`;
+                        document.cookie = `fixnear_lng=${this._state.lng}; path=/; max-age=${maxAge}; SameSite=Lax`;
+                        document.cookie = `fixnear_loc=${encodeURIComponent(this._state.name)}; path=/; max-age=${maxAge}; SameSite=Lax`;
+                    }
                 }
             } catch (e) {
                 this._state = null;
