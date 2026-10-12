@@ -96,7 +96,8 @@ def main():
             assert status == 200 and len(first_ids) == 9 and 'aria-label="Phân trang cửa hàng"' in first_page
             assert 'shops.php?device=phone&amp;page=2#shop-results' in first_page
             assert "Nguồn địa chỉ" not in first_page and "Địa chỉ có nguồn" not in first_page
-            assert "Logo từ website hệ thống" not in first_page and "Chưa có ảnh đúng chi nhánh" in first_page
+            assert "Logo từ website hệ thống" not in first_page
+            assert 'loading="lazy" referrerpolicy="no-referrer"' in first_page
             status, _, second_page = request(guest, base, "/shops.php?device=phone&page=2")
             second_ids = re.findall(r'class="fn-shop-card" data-shop-id="(\d+)"', second_page)
             assert status == 200 and len(second_ids) == 9 and not set(first_ids).intersection(second_ids)
@@ -243,7 +244,7 @@ def main():
                 "devices[]": ["phone", "tablet", "smartwatch"],
             }
             status, _, invalid_shop = request(admin, base, "/admin/shop_edit.php", shop_fields)
-            assert status == 200 and "Chưa lưu được cửa hàng" in invalid_shop
+            assert status == 200 and "Chưa lưu được thông tin cửa hàng" in invalid_shop
             assert not any(shop["name"] == "Xưởng kiểm thử" for shop in json.loads((data_dir / "shops.json").read_text(encoding="utf-8")))
             shop_fields["latitude"] = "10.711111"
             status, url, _ = request(admin, base, "/admin/shop_edit.php", shop_fields)

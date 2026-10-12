@@ -199,6 +199,7 @@ require_once __DIR__ . '/../includes/navbar.php';
                                 'id' => $req['id'],
                                 'name' => $req['customer_name'] ?? 'Khách hàng',
                                 'phone' => $req['customer_phone'] ?? '',
+                                'zalo' => $req['customer_zalo'] ?? '',
                                 'email' => $req['customer_email'] ?? '',
                                 'address' => $req['district'] ?? 'TP.HCM',
                                 'device' => $req['brand_model'] ?? ($req['device_type'] ?? 'Thiết bị'),
@@ -262,6 +263,7 @@ require_once __DIR__ . '/../includes/navbar.php';
                     <div class="bg-[#fffaf5] border border-orange-100 rounded-lg p-3 space-y-1.5">
                         <div class="flex justify-between"><span class="text-slate-400">Họ và tên:</span> <span class="font-bold text-slate-800" id="drawer-cust-name">Nguyễn Văn An</span></div>
                         <div class="flex justify-between"><span class="text-slate-400">Số điện thoại:</span> <span class="font-bold text-slate-800" id="drawer-cust-phone">0901234567</span></div>
+                        <div class="flex justify-between"><span class="text-slate-400">Zalo:</span> <span class="font-bold text-slate-800" id="drawer-cust-zalo">—</span></div>
                         <div class="flex justify-between"><span class="text-slate-400">Email:</span> <span class="font-medium text-slate-600" id="drawer-cust-email">an.nguyen@gmail.com</span></div>
                         <div class="flex justify-between"><span class="text-slate-400">Địa chỉ / Khu vực:</span> <span class="font-medium text-slate-600" id="drawer-cust-address">Quận 1, TP.HCM</span></div>
                     </div>
@@ -368,6 +370,7 @@ function openRequestDrawer(data) {
     document.getElementById('drawer-req-id').innerText = data.id;
     document.getElementById('drawer-cust-name').innerText = data.name;
     document.getElementById('drawer-cust-phone').innerText = data.phone;
+    document.getElementById('drawer-cust-zalo').innerText = data.zalo || 'Chưa cung cấp';
     document.getElementById('drawer-cust-email').innerText = data.email || 'Chưa cung cấp';
     document.getElementById('drawer-cust-address').innerText = data.address;
     document.getElementById('drawer-device').innerText = data.device;
@@ -378,7 +381,7 @@ function openRequestDrawer(data) {
     document.getElementById('drawer-form-id').value = data.id;
     document.getElementById('drawer-form-status').value = data.status;
 
-    var cleanPhone = (data.phone || '').replace(/\D+/g, '');
+    var cleanPhone = (data.zalo || data.phone || '').replace(/\D+/g, '');
     document.getElementById('drawer-contact-btn').href = cleanPhone ? ('https://zalo.me/' + cleanPhone) : '#';
 
     var badge = document.getElementById('drawer-req-status-badge');
