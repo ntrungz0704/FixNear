@@ -49,6 +49,19 @@ $currentPage = basename($_SERVER['PHP_SELF']);
             <a href="<?= $assetPrefix ?>request_repair.php" class="fn-nav-link <?= $currentPage === 'request_repair.php' ? 'active' : '' ?>">GỬI YÊU CẦU</a>
             <a href="<?= $assetPrefix ?>shops.php" class="fn-nav-link <?= $currentPage === 'shops.php' ? 'active' : '' ?>">CỬA HÀNG</a>
             <a href="<?= $assetPrefix ?>contact.php" class="fn-nav-link <?= $currentPage === 'contact.php' ? 'active' : '' ?>">LIÊN HỆ</a>
+            <div class="fn-mobile-account-actions">
+                <?php if (isLoggedIn()): ?>
+                    <span class="fn-mobile-account-name"><?= htmlspecialchars($currentUser['name'] ?? 'Thành viên') ?></span>
+                    <?php if (isAdmin()): ?><a href="<?= $assetPrefix ?>admin/index.php" class="fn-mobile-account-link">Trang quản trị</a><?php endif; ?>
+                    <form method="post" action="<?= $assetPrefix ?>logout.php">
+                        <?= csrfField() ?>
+                        <button type="submit" class="fn-mobile-account-link">Đăng xuất</button>
+                    </form>
+                <?php else: ?>
+                    <a href="<?= $assetPrefix ?>login.php" class="fn-mobile-account-link">Đăng nhập</a>
+                    <a href="<?= $assetPrefix ?>register.php" class="fn-mobile-account-link fn-mobile-account-primary">Đăng ký</a>
+                <?php endif; ?>
+            </div>
         </div>
 
         <!-- Actions -->
