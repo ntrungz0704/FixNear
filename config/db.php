@@ -735,6 +735,61 @@ class FixNearDB {
         });
     }
 
+    public function countShopServices($shopId = 0) {
+        $shopId = max(0, (int)$shopId);
+        if ($this->isUsingMySQL()) {
+            $sql = 'SELECT COUNT(*) FROM shop_services';
+            $params = [];
+            if ($shopId > 0) {
+                $sql .= ' WHERE shop_id = :shop_id';
+                $params[':shop_id'] = $shopId;
+            }
+            $stmt = $this->pdo->prepare($sql);
+            $stmt->execute($params);
+            return (int)$stmt->fetchColumn();
+        }
+
+        $items = $this->readJson('shop_services.json');
+        return $shopId > 0
+            ? count(array_filter($items, static fn($item) => (int)($item['shop_id'] ?? 0) === $shopId))
+            : count($items);
+    }
+
+    public function getAllShopServices($shopId = 0, $limit = 25, $offset = 0) {
+        $shopId = max(0, (int)$shopId);
+        $limit = min(100, max(1, (int)$limit));
+        $offset = max(0, (int)$offset);
+        if ($this->isUsingMySQL()) {
+            $sql = 'SELECT ss.*, s.name AS service_name, s.device_type, sh.name AS shop_name
+                    FROM shop_services ss
+                    JOIN services s ON s.id = ss.service_id
+                    JOIN shops sh ON sh.id = ss.shop_id';
+            $params = [];
+            if ($shopId > 0) {
+                $sql .= ' WHERE ss.shop_id = :shop_id';
+                $params[':shop_id'] = $shopId;
+            }
+            $sql .= ' ORDER BY ss.id DESC LIMIT ' . $limit . ' OFFSET ' . $offset;
+            $stmt = $this->pdo->prepare($sql);
+            $stmt->execute($params);
+            return $stmt->fetchAll(PDO::FETCH_ASSOC);
+        }
+
+        $services = array_column($this->readJson('services.json'), null, 'id');
+        $shops = array_column($this->readJson('shops.json'), null, 'id');
+        $items = array_filter($this->readJson('shop_services.json'),
+            static fn($item) => $shopId === 0 || (int)($item['shop_id'] ?? 0) === $shopId);
+        usort($items, static fn($a, $b) => (int)($b['id'] ?? 0) <=> (int)($a['id'] ?? 0));
+        return array_map(static function ($item) use ($services, $shops) {
+            $service = $services[$item['service_id'] ?? 0] ?? [];
+            $shop = $shops[$item['shop_id'] ?? 0] ?? [];
+            $item['service_name'] = $service['name'] ?? 'Dịch vụ không còn trong danh mục';
+            $item['device_type'] = $service['device_type'] ?? '';
+            $item['shop_name'] = $shop['name'] ?? 'Cửa hàng không còn trong danh mục';
+            return $item;
+        }, array_slice($items, $offset, $limit));
+    }
+
     // ================= ĐÁNH GIÁ (REVIEWS) =================
     public function getReviewsByShop($shop_id) {
         if ($this->isUsingMySQL()) {
