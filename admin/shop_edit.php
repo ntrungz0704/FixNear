@@ -83,14 +83,14 @@ require_once __DIR__ . '/../includes/navbar.php';
     <!-- Sidebar Quản Trị (Giữ nguyên không thay đổi) -->
     <?php require __DIR__ . '/_sidebar.php'; ?>
 
-    <div class="fn-admin-content !p-6 !bg-[#f8fafc]">
+    <div class="fn-admin-content !p-6 !bg-[#fffaf5]">
         <!-- Breadcrumb & Head -->
         <div class="flex flex-col sm:flex-row sm:items-center justify-between gap-4 mb-6">
             <div>
                 <div class="flex items-center gap-2 text-xs font-semibold text-slate-400 mb-1">
                     <a href="shops.php" class="hover:text-orange-600 transition">Quản lý cửa hàng</a>
                     <span>/</span>
-                    <span class="text-slate-600"><?= $id > 0 ? 'Chỉnh sửa #' . $id : 'Thêm mới' ?></span>
+                    <span class="text-orange-800 font-bold"><?= $id > 0 ? 'Chỉnh sửa #' . $id : 'Thêm mới' ?></span>
                 </div>
                 <h1 class="text-2xl font-black text-slate-900 tracking-tight">
                     <?= $id > 0 ? 'Chỉnh sửa thông tin cửa hàng' : 'Thêm cửa hàng mới' ?>
@@ -100,7 +100,7 @@ require_once __DIR__ . '/../includes/navbar.php';
                 </p>
             </div>
             <div class="flex items-center gap-2">
-                <a href="shops.php" class="px-4 py-2 bg-white border border-slate-200 rounded-lg text-xs font-bold text-slate-700 hover:bg-slate-50 transition">
+                <a href="shops.php" class="px-4 py-2 bg-white border border-orange-200 rounded-lg text-xs font-bold text-orange-700 hover:bg-orange-50 transition">
                     &larr; Quay lại danh sách
                 </a>
             </div>
@@ -124,10 +124,10 @@ require_once __DIR__ . '/../includes/navbar.php';
             <?= csrfField() ?>
 
             <!-- KHỐI 1: THÔNG TIN CƠ BẢN & LIÊN HỆ -->
-            <div class="bg-white rounded-xl border border-slate-200/80 p-6 shadow-sm">
-                <div class="flex items-center justify-between pb-4 mb-5 border-b border-slate-100">
+            <div class="bg-white rounded-xl border border-orange-100 p-6 shadow-sm">
+                <div class="flex items-center justify-between pb-4 mb-5 border-b border-orange-100">
                     <div class="flex items-center gap-2.5">
-                        <span class="w-7 h-7 rounded-lg bg-orange-50 text-orange-600 flex items-center justify-center font-bold text-sm">1</span>
+                        <span class="w-7 h-7 rounded-lg bg-orange-100 text-orange-700 flex items-center justify-center font-bold text-sm">1</span>
                         <h2 class="text-sm font-black text-slate-900 uppercase tracking-wide">Thông tin nhận diện & Liên hệ</h2>
                     </div>
                     <!-- Switch trạng thái hiển thị -->
@@ -145,43 +145,43 @@ require_once __DIR__ . '/../includes/navbar.php';
                         <label class="block text-xs font-bold text-slate-700 mb-1.5" for="shop-name">
                             Tên cửa hàng <span class="text-red-500">*</span>
                         </label>
-                        <input id="shop-name" type="text" name="name" value="<?= htmlspecialchars($shop['name'] ?? '') ?>" placeholder="Ví dụ: FASTCARE Tô Ký" class="w-full text-xs bg-slate-50 border border-slate-200 rounded-lg px-3.5 py-2.5 text-slate-800 focus:outline-none focus:ring-2 focus:ring-orange-500/20 focus:border-orange-500" required>
+                        <input id="shop-name" type="text" name="name" value="<?= htmlspecialchars($shop['name'] ?? '') ?>" placeholder="Ví dụ: FASTCARE Tô Ký" class="w-full text-xs bg-[#fffcf9] border border-orange-200 rounded-lg px-3.5 py-2.5 text-slate-800 focus:outline-none focus:ring-2 focus:ring-orange-500/20 focus:border-orange-500" required>
                     </div>
 
                     <div>
                         <label class="block text-xs font-bold text-slate-700 mb-1.5" for="shop-phone">
                             Số điện thoại hotline <span class="text-red-500">*</span>
                         </label>
-                        <input id="shop-phone" type="tel" name="phone" value="<?= htmlspecialchars($shop['phone'] ?? '') ?>" placeholder="Ví dụ: 0908 123 456 hoặc 1800 2057" class="w-full text-xs bg-slate-50 border border-slate-200 rounded-lg px-3.5 py-2.5 text-slate-800 focus:outline-none focus:ring-2 focus:ring-orange-500/20 focus:border-orange-500" required>
+                        <input id="shop-phone" type="tel" name="phone" value="<?= htmlspecialchars($shop['phone'] ?? '') ?>" placeholder="Ví dụ: 0908 123 456 hoặc 1800 2057" class="w-full text-xs bg-[#fffcf9] border border-orange-200 rounded-lg px-3.5 py-2.5 text-slate-800 focus:outline-none focus:ring-2 focus:ring-orange-500/20 focus:border-orange-500" required>
                     </div>
 
                     <div>
                         <label class="block text-xs font-bold text-slate-700 mb-1.5" for="shop-hours">
                             Giờ mở cửa <span class="text-red-500">*</span>
                         </label>
-                        <input id="shop-hours" type="text" name="opening_hours" value="<?= htmlspecialchars($shop['opening_hours'] ?? '') ?>" placeholder="Ví dụ: T2–CN 08:00–21:00" class="w-full text-xs bg-slate-50 border border-slate-200 rounded-lg px-3.5 py-2.5 text-slate-800 focus:outline-none focus:ring-2 focus:ring-orange-500/20 focus:border-orange-500" required>
+                        <input id="shop-hours" type="text" name="opening_hours" value="<?= htmlspecialchars($shop['opening_hours'] ?? '') ?>" placeholder="Ví dụ: T2–CN 08:00–21:00" class="w-full text-xs bg-[#fffcf9] border border-orange-200 rounded-lg px-3.5 py-2.5 text-slate-800 focus:outline-none focus:ring-2 focus:ring-orange-500/20 focus:border-orange-500" required>
                     </div>
 
                     <div>
                         <label class="block text-xs font-bold text-slate-700 mb-1.5" for="shop-website">
                             Website chính thức
                         </label>
-                        <input id="shop-website" type="url" name="website" value="<?= htmlspecialchars($shop['website'] ?? '') ?>" placeholder="https://fastcare.vn" class="w-full text-xs bg-slate-50 border border-slate-200 rounded-lg px-3.5 py-2.5 text-slate-800 focus:outline-none focus:ring-2 focus:ring-orange-500/20 focus:border-orange-500">
+                        <input id="shop-website" type="url" name="website" value="<?= htmlspecialchars($shop['website'] ?? '') ?>" placeholder="https://fastcare.vn" class="w-full text-xs bg-[#fffcf9] border border-orange-200 rounded-lg px-3.5 py-2.5 text-slate-800 focus:outline-none focus:ring-2 focus:ring-orange-500/20 focus:border-orange-500">
                     </div>
 
                     <div>
                         <label class="block text-xs font-bold text-slate-700 mb-1.5" for="shop-discount">
                             Ưu đãi học sinh / sinh viên (nếu có)
                         </label>
-                        <input id="shop-discount" type="text" name="student_discount" value="<?= htmlspecialchars($shop['student_discount'] ?? '') ?>" placeholder="Ví dụ: Giảm 10% tối đa 100k cho HSSV" class="w-full text-xs bg-slate-50 border border-slate-200 rounded-lg px-3.5 py-2.5 text-slate-800 focus:outline-none focus:ring-2 focus:ring-orange-500/20 focus:border-orange-500">
+                        <input id="shop-discount" type="text" name="student_discount" value="<?= htmlspecialchars($shop['student_discount'] ?? '') ?>" placeholder="Ví dụ: Giảm 10% tối đa 100k cho HSSV" class="w-full text-xs bg-[#fffcf9] border border-orange-200 rounded-lg px-3.5 py-2.5 text-slate-800 focus:outline-none focus:ring-2 focus:ring-orange-500/20 focus:border-orange-500">
                     </div>
                 </div>
             </div>
 
             <!-- KHỐI 2: ĐỊA CHỈ & TỌA ĐỘ BẢN ĐỒ -->
-            <div class="bg-white rounded-xl border border-slate-200/80 p-6 shadow-sm">
-                <div class="flex items-center gap-2.5 pb-4 mb-5 border-b border-slate-100">
-                    <span class="w-7 h-7 rounded-lg bg-orange-50 text-orange-600 flex items-center justify-center font-bold text-sm">2</span>
+            <div class="bg-white rounded-xl border border-orange-100 p-6 shadow-sm">
+                <div class="flex items-center gap-2.5 pb-4 mb-5 border-b border-orange-100">
+                    <span class="w-7 h-7 rounded-lg bg-orange-100 text-orange-700 flex items-center justify-center font-bold text-sm">2</span>
                     <h2 class="text-sm font-black text-slate-900 uppercase tracking-wide">Địa chỉ & Tọa độ bản đồ</h2>
                 </div>
 
@@ -190,50 +190,50 @@ require_once __DIR__ . '/../includes/navbar.php';
                         <label class="block text-xs font-bold text-slate-700 mb-1.5" for="shop-address">
                             Địa chỉ chi tiết (Số nhà, tên đường) <span class="text-red-500">*</span>
                         </label>
-                        <input id="shop-address" type="text" name="address" value="<?= htmlspecialchars($shop['address'] ?? '') ?>" placeholder="Số nhà, tên đường" class="w-full text-xs bg-slate-50 border border-slate-200 rounded-lg px-3.5 py-2.5 text-slate-800 focus:outline-none focus:ring-2 focus:ring-orange-500/20 focus:border-orange-500" required>
+                        <input id="shop-address" type="text" name="address" value="<?= htmlspecialchars($shop['address'] ?? '') ?>" placeholder="Số nhà, tên đường" class="w-full text-xs bg-[#fffcf9] border border-orange-200 rounded-lg px-3.5 py-2.5 text-slate-800 focus:outline-none focus:ring-2 focus:ring-orange-500/20 focus:border-orange-500" required>
                     </div>
 
                     <div>
                         <label class="block text-xs font-bold text-slate-700 mb-1.5" for="shop-ward">
                             Phường / Xã <span class="text-red-500">*</span>
                         </label>
-                        <input id="shop-ward" type="text" name="ward" value="<?= htmlspecialchars($shop['ward'] ?? '') ?>" placeholder="Ví dụ: Phường 14" class="w-full text-xs bg-slate-50 border border-slate-200 rounded-lg px-3.5 py-2.5 text-slate-800 focus:outline-none focus:ring-2 focus:ring-orange-500/20 focus:border-orange-500" required>
+                        <input id="shop-ward" type="text" name="ward" value="<?= htmlspecialchars($shop['ward'] ?? '') ?>" placeholder="Ví dụ: Phường 14" class="w-full text-xs bg-[#fffcf9] border border-orange-200 rounded-lg px-3.5 py-2.5 text-slate-800 focus:outline-none focus:ring-2 focus:ring-orange-500/20 focus:border-orange-500" required>
                     </div>
 
                     <div>
                         <label class="block text-xs font-bold text-slate-700 mb-1.5" for="shop-district">
                             Quận / Huyện <span class="text-red-500">*</span>
                         </label>
-                        <input id="shop-district" type="text" name="district" value="<?= htmlspecialchars($shop['district'] ?? '') ?>" placeholder="Ví dụ: Quận 10" class="w-full text-xs bg-slate-50 border border-slate-200 rounded-lg px-3.5 py-2.5 text-slate-800 focus:outline-none focus:ring-2 focus:ring-orange-500/20 focus:border-orange-500" required>
+                        <input id="shop-district" type="text" name="district" value="<?= htmlspecialchars($shop['district'] ?? '') ?>" placeholder="Ví dụ: Quận 10" class="w-full text-xs bg-[#fffcf9] border border-orange-200 rounded-lg px-3.5 py-2.5 text-slate-800 focus:outline-none focus:ring-2 focus:ring-orange-500/20 focus:border-orange-500" required>
                     </div>
 
                     <div>
                         <label class="block text-xs font-bold text-slate-700 mb-1.5" for="shop-latitude">
                             Vĩ độ (Latitude) <span class="text-red-500">*</span>
                         </label>
-                        <input id="shop-latitude" type="number" step="0.000001" name="latitude" value="<?= htmlspecialchars((string) ($shop['latitude'] ?? '')) ?>" placeholder="Ví dụ: 10.7769" class="w-full text-xs bg-slate-50 border border-slate-200 rounded-lg px-3.5 py-2.5 text-slate-800 focus:outline-none focus:ring-2 focus:ring-orange-500/20 focus:border-orange-500" required>
+                        <input id="shop-latitude" type="number" step="0.000001" name="latitude" value="<?= htmlspecialchars((string) ($shop['latitude'] ?? '')) ?>" placeholder="Ví dụ: 10.7769" class="w-full text-xs bg-[#fffcf9] border border-orange-200 rounded-lg px-3.5 py-2.5 text-slate-800 focus:outline-none focus:ring-2 focus:ring-orange-500/20 focus:border-orange-500" required>
                     </div>
 
                     <div>
                         <label class="block text-xs font-bold text-slate-700 mb-1.5" for="shop-longitude">
                             Kinh độ (Longitude) <span class="text-red-500">*</span>
                         </label>
-                        <input id="shop-longitude" type="number" step="0.000001" name="longitude" value="<?= htmlspecialchars((string) ($shop['longitude'] ?? '')) ?>" placeholder="Ví dụ: 106.7009" class="w-full text-xs bg-slate-50 border border-slate-200 rounded-lg px-3.5 py-2.5 text-slate-800 focus:outline-none focus:ring-2 focus:ring-orange-500/20 focus:border-orange-500" required>
+                        <input id="shop-longitude" type="number" step="0.000001" name="longitude" value="<?= htmlspecialchars((string) ($shop['longitude'] ?? '')) ?>" placeholder="Ví dụ: 106.7009" class="w-full text-xs bg-[#fffcf9] border border-orange-200 rounded-lg px-3.5 py-2.5 text-slate-800 focus:outline-none focus:ring-2 focus:ring-orange-500/20 focus:border-orange-500" required>
                     </div>
 
                     <div class="md:col-span-2">
                         <label class="block text-xs font-bold text-slate-700 mb-1.5" for="shop-map">
                             Link Google Maps chỉ đường
                         </label>
-                        <input id="shop-map" type="url" name="map_url" value="<?= htmlspecialchars($shop['map_url'] ?? '') ?>" placeholder="https://maps.google.com/?q=..." class="w-full text-xs bg-slate-50 border border-slate-200 rounded-lg px-3.5 py-2.5 text-slate-800 focus:outline-none focus:ring-2 focus:ring-orange-500/20 focus:border-orange-500">
+                        <input id="shop-map" type="url" name="map_url" value="<?= htmlspecialchars($shop['map_url'] ?? '') ?>" placeholder="https://maps.google.com/?q=..." class="w-full text-xs bg-[#fffcf9] border border-orange-200 rounded-lg px-3.5 py-2.5 text-slate-800 focus:outline-none focus:ring-2 focus:ring-orange-500/20 focus:border-orange-500">
                     </div>
                 </div>
             </div>
 
             <!-- KHỐI 3: HÌNH ẢNH & MÔ TẢ -->
-            <div class="bg-white rounded-xl border border-slate-200/80 p-6 shadow-sm">
-                <div class="flex items-center gap-2.5 pb-4 mb-5 border-b border-slate-100">
-                    <span class="w-7 h-7 rounded-lg bg-orange-50 text-orange-600 flex items-center justify-center font-bold text-sm">3</span>
+            <div class="bg-white rounded-xl border border-orange-100 p-6 shadow-sm">
+                <div class="flex items-center gap-2.5 pb-4 mb-5 border-b border-orange-100">
+                    <span class="w-7 h-7 rounded-lg bg-orange-100 text-orange-700 flex items-center justify-center font-bold text-sm">3</span>
                     <h2 class="text-sm font-black text-slate-900 uppercase tracking-wide">Hình ảnh & Mô tả</h2>
                 </div>
 
@@ -243,11 +243,11 @@ require_once __DIR__ . '/../includes/navbar.php';
                         <label class="block text-xs font-bold text-slate-700 mb-1.5" for="shop-image">
                             Link ảnh mặt tiền cửa hàng
                         </label>
-                        <input id="shop-image" type="url" name="image" value="<?= htmlspecialchars($currentImg) ?>" placeholder="https://website-cua-hang.vn/anh-mat-tien.jpg" class="w-full text-xs bg-slate-50 border border-slate-200 rounded-lg px-3.5 py-2.5 text-slate-800 focus:outline-none focus:ring-2 focus:ring-orange-500/20 focus:border-orange-500" oninput="previewImage(this.value)">
+                        <input id="shop-image" type="url" name="image" value="<?= htmlspecialchars($currentImg) ?>" placeholder="https://website-cua-hang.vn/anh-mat-tien.jpg" class="w-full text-xs bg-[#fffcf9] border border-orange-200 rounded-lg px-3.5 py-2.5 text-slate-800 focus:outline-none focus:ring-2 focus:ring-orange-500/20 focus:border-orange-500" oninput="previewImage(this.value)">
                         
                         <div id="image-preview-wrap" class="mt-3 <?= !empty($currentImg) ? '' : 'hidden' ?>">
                             <div class="text-[11px] font-bold text-slate-500 mb-1">Xem trước ảnh:</div>
-                            <img id="image-preview" src="<?= htmlspecialchars($currentImg) ?>" alt="Preview" class="h-36 w-64 object-cover rounded-lg border border-slate-200 shadow-xs">
+                            <img id="image-preview" src="<?= htmlspecialchars($currentImg) ?>" alt="Preview" class="h-36 w-64 object-cover rounded-lg border border-orange-200 shadow-xs">
                         </div>
                     </div>
 
@@ -255,15 +255,15 @@ require_once __DIR__ . '/../includes/navbar.php';
                         <label class="block text-xs font-bold text-slate-700 mb-1.5" for="shop-description">
                             Mô tả giới thiệu dịch vụ
                         </label>
-                        <textarea id="shop-description" name="description" rows="3" placeholder="Nhập giới thiệu tóm tắt về năng lực, chuyên môn sửa chữa..." class="w-full text-xs bg-slate-50 border border-slate-200 rounded-lg px-3.5 py-2.5 text-slate-800 focus:outline-none focus:ring-2 focus:ring-orange-500/20 focus:border-orange-500 leading-relaxed"><?= htmlspecialchars($shop['description'] ?? '') ?></textarea>
+                        <textarea id="shop-description" name="description" rows="3" placeholder="Nhập giới thiệu tóm tắt về năng lực, chuyên môn sửa chữa..." class="w-full text-xs bg-[#fffcf9] border border-orange-200 rounded-lg px-3.5 py-2.5 text-slate-800 focus:outline-none focus:ring-2 focus:ring-orange-500/20 focus:border-orange-500 leading-relaxed"><?= htmlspecialchars($shop['description'] ?? '') ?></textarea>
                     </div>
                 </div>
             </div>
 
             <!-- KHỐI 4: THIẾT BỊ HỖ TRỢ & CHÍNH SÁCH -->
-            <div class="bg-white rounded-xl border border-slate-200/80 p-6 shadow-sm">
-                <div class="flex items-center gap-2.5 pb-4 mb-5 border-b border-slate-100">
-                    <span class="w-7 h-7 rounded-lg bg-orange-50 text-orange-600 flex items-center justify-center font-bold text-sm">4</span>
+            <div class="bg-white rounded-xl border border-orange-100 p-6 shadow-sm">
+                <div class="flex items-center gap-2.5 pb-4 mb-5 border-b border-orange-100">
+                    <span class="w-7 h-7 rounded-lg bg-orange-100 text-orange-700 flex items-center justify-center font-bold text-sm">4</span>
                     <h2 class="text-sm font-black text-slate-900 uppercase tracking-wide">Nhóm thiết bị & Chính sách</h2>
                 </div>
 
@@ -273,7 +273,7 @@ require_once __DIR__ . '/../includes/navbar.php';
                     </div>
                     <div class="grid grid-cols-2 sm:grid-cols-3 gap-3">
                         <?php foreach ($deviceChoices as $key => $label): ?>
-                            <label class="flex items-center gap-2.5 p-3 rounded-lg border border-slate-200/90 hover:border-orange-300 hover:bg-orange-50/30 cursor-pointer transition text-xs font-semibold text-slate-700">
+                            <label class="flex items-center gap-2.5 p-3 rounded-lg border border-orange-100/90 hover:border-orange-300 hover:bg-orange-50/40 cursor-pointer transition text-xs font-semibold text-slate-700 bg-white">
                                 <input type="checkbox" name="devices[]" value="<?= $key ?>" <?= in_array($key, (array) ($shop['devices'] ?? []), true) ? 'checked' : '' ?> class="w-4 h-4 rounded text-orange-600 focus:ring-orange-500">
                                 <span><?= htmlspecialchars($label) ?></span>
                             </label>
@@ -281,14 +281,14 @@ require_once __DIR__ . '/../includes/navbar.php';
                     </div>
                 </div>
 
-                <div class="pt-4 border-t border-slate-100">
+                <div class="pt-4 border-t border-orange-100">
                     <div class="text-xs font-bold text-slate-700 mb-2.5">Chính sách minh bạch</div>
                     <div class="grid grid-cols-1 sm:grid-cols-2 gap-3">
-                        <label class="flex items-center gap-2.5 p-3 rounded-lg border border-slate-200/90 hover:bg-slate-50 cursor-pointer transition text-xs font-semibold text-slate-700">
+                        <label class="flex items-center gap-2.5 p-3 rounded-lg border border-orange-100/90 hover:bg-orange-50/40 cursor-pointer transition text-xs font-semibold text-slate-700 bg-white">
                             <input type="checkbox" name="allows_onsite_watch" value="1" <?= !empty($shop['allows_onsite_watch']) ? 'checked' : '' ?> class="w-4 h-4 rounded text-orange-600 focus:ring-orange-500">
                             <span>Cho phép khách xem sửa chữa trực tiếp</span>
                         </label>
-                        <label class="flex items-center gap-2.5 p-3 rounded-lg border border-slate-200/90 hover:bg-slate-50 cursor-pointer transition text-xs font-semibold text-slate-700">
+                        <label class="flex items-center gap-2.5 p-3 rounded-lg border border-orange-100/90 hover:bg-orange-50/40 cursor-pointer transition text-xs font-semibold text-slate-700 bg-white">
                             <input type="checkbox" name="requires_component_signing" value="1" <?= !empty($shop['requires_component_signing']) ? 'checked' : '' ?> class="w-4 h-4 rounded text-orange-600 focus:ring-orange-500">
                             <span>Hỗ trợ ký tên niêm phong linh kiện</span>
                         </label>
@@ -298,7 +298,7 @@ require_once __DIR__ . '/../includes/navbar.php';
 
             <!-- NÚT LƯU & HỦY BỎ -->
             <div class="flex items-center justify-end gap-3 pt-2">
-                <a href="shops.php" class="px-5 py-2.5 bg-white border border-slate-200 hover:bg-slate-50 text-slate-700 text-xs font-bold rounded-lg transition">
+                <a href="shops.php" class="px-5 py-2.5 bg-white border border-orange-200 hover:bg-orange-50 text-orange-700 text-xs font-bold rounded-lg transition">
                     Hủy bỏ
                 </a>
                 <button type="submit" class="px-6 py-2.5 bg-orange-600 hover:bg-orange-700 text-white text-xs font-bold rounded-lg shadow-sm transition flex items-center gap-2">

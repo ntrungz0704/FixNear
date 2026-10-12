@@ -258,6 +258,9 @@ class FixNearDB {
     public function getShops($filters = []) {
         if ($this->isUsingMySQL()) {
             $sql = "SELECT * FROM shops WHERE 1=1";
+            if (empty($filters['include_inactive'])) {
+                $sql .= " AND (is_active IS NULL OR is_active = 1)";
+            }
             $params = [];
 
             if (!empty($filters['device'])) {
@@ -363,6 +366,12 @@ class FixNearDB {
 
         // --- Fallback JSON ---
         $shops = $this->readJson('shops.json');
+
+        if (empty($filters['include_inactive'])) {
+            $shops = array_filter($shops, function($s) {
+                return !isset($s['is_active']) || (int)$s['is_active'] === 1;
+            });
+        }
 
         if (!empty($filters['device'])) {
             $device = strtolower($filters['device']);
