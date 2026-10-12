@@ -160,11 +160,10 @@ function initFixnearMap(shopsData, defaultCenter = [10.7769, 106.7009], userLoca
 
     fixnearMap = L.map('leaflet-map').setView(center, zoom);
 
-    // Sử dụng tile layer CartoDB Voyager mượt mà, độ tin cậy cao, hiển thị bản đồ rõ nét tại VN
-    L.tileLayer('https://{s}.basemaps.cartocdn.com/rastertiles/voyager/{z}/{x}/{y}{r}.png', {
+    // Sử dụng tile layer OpenStreetMap miễn phí chất lượng cao
+    L.tileLayer('https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png', {
         maxZoom: 19,
-        subdomains: 'abcd',
-        attribution: '&copy; <a href="https://www.openstreetmap.org/copyright">OpenStreetMap</a> contributors &copy; <a href="https://carto.com/">CARTO</a>'
+        attribution: '&copy; <a href="https://www.openstreetmap.org/">OpenStreetMap</a> contributors'
     }).addTo(fixnearMap);
 
     // Custom icon cho cửa hàng

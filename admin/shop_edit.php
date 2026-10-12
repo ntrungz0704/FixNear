@@ -41,7 +41,7 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
         'devices' => $devices,
         'allows_onsite_watch' => !empty($_POST['allows_onsite_watch']),
         'requires_component_signing' => !empty($_POST['requires_component_signing']),
-        'is_verified' => !empty($_POST['is_verified']) ? 1 : 0
+        'is_verified' => !empty($shop['is_verified'])
     ];
 
     foreach (['name' => 'tên cửa hàng', 'address' => 'địa chỉ', 'ward' => 'phường/xã', 'district' => 'quận/huyện', 'opening_hours' => 'giờ mở cửa'] as $key => $label) {
@@ -195,7 +195,6 @@ function previewImage(url) {
                 <div class="fn-admin-device-options fn-admin-policy-options">
                     <label><input type="checkbox" name="allows_onsite_watch" value="1" <?= !empty($shop['allows_onsite_watch']) ? 'checked' : '' ?>> Cho xem sửa trực tiếp</label>
                     <label><input type="checkbox" name="requires_component_signing" value="1" <?= !empty($shop['requires_component_signing']) ? 'checked' : '' ?>> Cho ký tên linh kiện</label>
-                    <label style="color: #15803d; font-weight: 700;"><input type="checkbox" name="is_verified" value="1" <?= !empty($shop['is_verified']) ? 'checked' : '' ?>> ✓ Đã xác minh địa chỉ & hotline</label>
                 </div>
 
                 <div style="display: flex; gap: 12px;">
