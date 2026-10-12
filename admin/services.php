@@ -50,13 +50,19 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST' && isset($_POST['action']) && $_POST['
     $price_id = (int)($_POST['price_id'] ?? 0);
     if ($price_id > 0) {
         db()->deleteShopService($price_id);
-        header("Location: services.php?msg=deleted");
+        $returnShop = max(0, (int)($_POST['return_shop_id'] ?? 0));
+        $returnPage = max(1, (int)($_POST['return_page'] ?? 1));
+        header('Location: services.php?' . http_build_query(['shop_id' => $returnShop, 'page' => $returnPage, 'msg' => 'deleted']));
         exit;
     }
 }
 
-$selectedShopFilter = isset($_GET['shop_id']) ? (int)$_GET['shop_id'] : 0;
-$shopPrices = db()->getAllShopServices($selectedShopFilter, 100);
+$selectedShopFilter = max(0, (int)($_GET['shop_id'] ?? 0));
+$pricePageSize = 25;
+$priceTotal = db()->countShopServices($selectedShopFilter);
+$pricePageCount = max(1, (int)ceil($priceTotal / $pricePageSize));
+$pricePage = min($pricePageCount, max(1, (int)($_GET['page'] ?? 1)));
+$shopPrices = db()->getAllShopServices($selectedShopFilter, $pricePageSize, ($pricePage - 1) * $pricePageSize);
 
 $pageTitle = "Quản Lý Dịch Vụ & Bảng Giá — FixNear Admin";
 require_once __DIR__ . '/../includes/header.php';
@@ -156,7 +162,7 @@ require_once __DIR__ . '/../includes/navbar.php';
         <div style="margin-bottom: 40px;">
             <div style="display: flex; justify-content: space-between; align-items: center; margin-bottom: 12px; flex-wrap: wrap; gap: 10px;">
                 <h2 style="font-family: var(--fn-font-heading); font-size: 18px; font-weight: 800; color: var(--fn-dark); margin: 0;">
-                    📋 Bảng Giá Đã Gán Tại Các Cửa Hàng (Gần nhất)
+                    📋 Bảng Giá Đã Gán Tại Các Cửa Hàng (<?= $priceTotal ?>)
                 </h2>
                 <form method="GET" action="services.php" style="display: flex; gap: 8px; align-items: center;">
                     <select name="shop_id" class="fn-select" onchange="this.form.submit()" style="font-size: 12.5px; padding: 6px 10px;">
@@ -219,6 +225,8 @@ require_once __DIR__ . '/../includes/navbar.php';
                                             <?= csrfField() ?>
                                             <input type="hidden" name="action" value="delete_price">
                                             <input type="hidden" name="price_id" value="<?= $sp['id'] ?>">
+                                            <input type="hidden" name="return_shop_id" value="<?= $selectedShopFilter ?>">
+                                            <input type="hidden" name="return_page" value="<?= $pricePage ?>">
                                             <button type="submit" class="fn-btn fn-btn-sm fn-btn-secondary" style="padding: 4px 8px; font-size: 11px; color: #ef4444;">
                                                 🗑️ Xóa
                                             </button>
@@ -230,6 +238,13 @@ require_once __DIR__ . '/../includes/navbar.php';
                     </tbody>
                 </table>
             </div>
+            <?php if ($pricePageCount > 1): ?>
+                <nav aria-label="Phân trang bảng giá cửa hàng" style="display:flex;align-items:center;justify-content:flex-end;gap:12px;margin-top:14px;">
+                    <?php if ($pricePage > 1): ?><a class="fn-btn fn-btn-sm fn-btn-secondary" href="services.php?<?= htmlspecialchars(http_build_query(['shop_id' => $selectedShopFilter, 'page' => $pricePage - 1])) ?>">← Trước</a><?php endif; ?>
+                    <span>Trang <?= $pricePage ?> / <?= $pricePageCount ?></span>
+                    <?php if ($pricePage < $pricePageCount): ?><a class="fn-btn fn-btn-sm fn-btn-secondary" href="services.php?<?= htmlspecialchars(http_build_query(['shop_id' => $selectedShopFilter, 'page' => $pricePage + 1])) ?>">Sau →</a><?php endif; ?>
+                </nav>
+            <?php endif; ?>
         </div>
 
         <!-- Danh mục dịch vụ trong dữ liệu -->

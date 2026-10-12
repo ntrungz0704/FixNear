@@ -684,8 +684,6 @@ class FixNearDB {
                     ':note' => $data['note'] ?? ''
                 ]);
             } else {
-                $warranty = $data['warranty_text'] ?? $data['warranty'] ?? '6 - 12 tháng';
-                $turnaround = $data['turnaround_text'] ?? $data['turnaround'] ?? '30 - 60 phút';
                 $stmt = $this->pdo->prepare("
                     INSERT INTO shop_services (shop_id, service_id, min_price, max_price, warranty_text, turnaround_text, note)
                     VALUES (:shop_id, :service_id, :min_price, :max_price, :warranty_text, :turnaround_text, :note)
@@ -695,8 +693,8 @@ class FixNearDB {
                     ':service_id' => (int)$data['service_id'],
                     ':min_price' => (int)($data['min_price'] ?? 0),
                     ':max_price' => (int)($data['max_price'] ?? 0),
-                    ':warranty_text' => $warranty,
-                    ':turnaround_text' => $turnaround,
+                    ':warranty_text' => $data['warranty_text'] ?? '6 - 12 tháng',
+                    ':turnaround_text' => $data['turnaround_text'] ?? '30 - 60 phút',
                     ':note' => $data['note'] ?? ''
                 ]);
                 $data['id'] = (int)$this->pdo->lastInsertId();
@@ -737,46 +735,59 @@ class FixNearDB {
         });
     }
 
-    public function getAllShopServices($shop_id = 0, $limit = 50) {
+    public function countShopServices($shopId = 0) {
+        $shopId = max(0, (int)$shopId);
         if ($this->isUsingMySQL()) {
-            $sql = "
-                SELECT ss.*, s.name as service_name, s.device_type, sh.name as shop_name 
-                FROM shop_services ss 
-                JOIN services s ON ss.service_id = s.id 
-                JOIN shops sh ON ss.shop_id = sh.id 
-            ";
+            $sql = 'SELECT COUNT(*) FROM shop_services';
             $params = [];
-            if ($shop_id > 0) {
-                $sql .= " WHERE ss.shop_id = :shop_id";
-                $params[':shop_id'] = (int)$shop_id;
+            if ($shopId > 0) {
+                $sql .= ' WHERE shop_id = :shop_id';
+                $params[':shop_id'] = $shopId;
             }
-            $sql .= " ORDER BY ss.id DESC LIMIT " . (int)$limit;
+            $stmt = $this->pdo->prepare($sql);
+            $stmt->execute($params);
+            return (int)$stmt->fetchColumn();
+        }
+
+        $items = $this->readJson('shop_services.json');
+        return $shopId > 0
+            ? count(array_filter($items, static fn($item) => (int)($item['shop_id'] ?? 0) === $shopId))
+            : count($items);
+    }
+
+    public function getAllShopServices($shopId = 0, $limit = 25, $offset = 0) {
+        $shopId = max(0, (int)$shopId);
+        $limit = min(100, max(1, (int)$limit));
+        $offset = max(0, (int)$offset);
+        if ($this->isUsingMySQL()) {
+            $sql = 'SELECT ss.*, s.name AS service_name, s.device_type, sh.name AS shop_name
+                    FROM shop_services ss
+                    JOIN services s ON s.id = ss.service_id
+                    JOIN shops sh ON sh.id = ss.shop_id';
+            $params = [];
+            if ($shopId > 0) {
+                $sql .= ' WHERE ss.shop_id = :shop_id';
+                $params[':shop_id'] = $shopId;
+            }
+            $sql .= ' ORDER BY ss.id DESC LIMIT ' . $limit . ' OFFSET ' . $offset;
             $stmt = $this->pdo->prepare($sql);
             $stmt->execute($params);
             return $stmt->fetchAll(PDO::FETCH_ASSOC);
         }
 
-        $shop_services = $this->readJson('shop_services.json');
-        $services = $this->readJson('services.json');
-        $shops = $this->readJson('shops.json');
-        $srvMap = [];
-        foreach ($services as $s) $srvMap[$s['id']] = $s;
-        $shpMap = [];
-        foreach ($shops as $sh) $shpMap[$sh['id']] = $sh['name'];
-
-        $result = [];
-        $reversed = array_reverse($shop_services);
-        foreach ($reversed as $ss) {
-            if ($shop_id > 0 && $ss['shop_id'] != $shop_id) continue;
-            $srv = $srvMap[$ss['service_id']] ?? null;
-            $result[] = array_merge($ss, [
-                'service_name' => $srv ? $srv['name'] : 'Dịch vụ #' . $ss['service_id'],
-                'device_type' => $srv ? $srv['device_type'] : 'phone',
-                'shop_name' => $shpMap[$ss['shop_id']] ?? 'Cửa hàng #' . $ss['shop_id']
-            ]);
-            if (count($result) >= $limit) break;
-        }
-        return $result;
+        $services = array_column($this->readJson('services.json'), null, 'id');
+        $shops = array_column($this->readJson('shops.json'), null, 'id');
+        $items = array_filter($this->readJson('shop_services.json'),
+            static fn($item) => $shopId === 0 || (int)($item['shop_id'] ?? 0) === $shopId);
+        usort($items, static fn($a, $b) => (int)($b['id'] ?? 0) <=> (int)($a['id'] ?? 0));
+        return array_map(static function ($item) use ($services, $shops) {
+            $service = $services[$item['service_id'] ?? 0] ?? [];
+            $shop = $shops[$item['shop_id'] ?? 0] ?? [];
+            $item['service_name'] = $service['name'] ?? 'Dịch vụ không còn trong danh mục';
+            $item['device_type'] = $service['device_type'] ?? '';
+            $item['shop_name'] = $shop['name'] ?? 'Cửa hàng không còn trong danh mục';
+            return $item;
+        }, array_slice($items, $offset, $limit));
     }
 
     // ================= ĐÁNH GIÁ (REVIEWS) =================
