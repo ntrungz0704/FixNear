@@ -259,18 +259,9 @@ require_once __DIR__ . '/../includes/navbar.php';
                                 </td>
                                 <td class="py-3 px-4 text-slate-500"><?= $formattedDate ?></td>
                                 <td class="py-3 px-4 text-right">
-                                    <div class="inline-flex items-center gap-1.5">
-                                        <a href="shop_edit.php?id=<?= $s['id'] ?>" class="inline-flex items-center gap-1 px-3 py-1 bg-white hover:bg-slate-100 text-slate-700 border border-slate-200 rounded-lg text-xs font-bold transition">
-                                            ✏️ Chỉnh sửa
-                                        </a>
-                                        <form method="post" action="shops.php" onsubmit="return confirm('Bạn có chắc chắn muốn xóa cửa hàng này khỏi hệ thống?')" style="display:inline;">
-                                            <?= csrfField() ?>
-                                            <input type="hidden" name="delete" value="<?= $s['id'] ?>">
-                                            <button type="submit" class="inline-flex items-center gap-1 px-2.5 py-1 bg-white hover:bg-red-50 text-red-600 border border-slate-200 rounded-lg text-xs font-bold transition">
-                                                🗑️
-                                            </button>
-                                        </form>
-                                    </div>
+                                    <a href="shop_edit.php?id=<?= $s['id'] ?>" class="inline-flex items-center gap-1 px-3 py-1 bg-white hover:bg-slate-100 text-slate-700 border border-slate-200 rounded-lg text-xs font-bold transition">
+                                        ✏️ Chỉnh sửa
+                                    </a>
                                 </td>
                             </tr>
                         <?php endforeach; ?>
