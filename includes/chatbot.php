@@ -18,16 +18,10 @@
                 </div>
             </div>
         </div>
-        <button type="button" class="fn-ai-chat-close-btn" onclick="toggleFixnearAIChat()" title="Thu nhỏ hướng dẫn" aria-label="Đóng trợ lý hướng dẫn">&times;</button>
-    </div>
-
-    <!-- Banner giới thiệu 4 năng lực cốt lõi -->
-    <div class="fn-ai-capabilities-card">
-        🩺 <strong>Trợ lý chẩn đoán & tư vấn kỹ thuật:</strong><br>
-        • Nhận diện triệu chứng pan bệnh (sập nguồn, sọc màn, chai pin, vô nước...).<br>
-        • Cảnh báo an toàn và hướng dẫn sơ cứu thiết bị khẩn cấp.<br>
-        • Ước tính khoảng giá thị trường chuẩn sinh viên và liên kết tiệm uy tín.<br>
-        • Khuyến nghị kiểm tra trực tiếp tại tiệm trước khi chốt phương án sửa.
+        <div style="display:flex;align-items:center;gap:6px;">
+            <button type="button" class="fn-ai-chat-clear-btn" onclick="clearFixnearChatHistory()" title="Bắt đầu hội thoại mới (xóa lịch sử chat)" aria-label="Bắt đầu hội thoại mới" style="background:transparent;border:none;color:#94a3b8;cursor:pointer;font-size:14px;padding:4px 6px;border-radius:4px;transition:color 0.2s;" onmouseover="this.style.color='#fff'" onmouseout="this.style.color='#94a3b8'">🔄</button>
+            <button type="button" class="fn-ai-chat-close-btn" onclick="toggleFixnearAIChat()" title="Thu nhỏ hướng dẫn" aria-label="Đóng trợ lý hướng dẫn">&times;</button>
+        </div>
     </div>
 
     <!-- Khu vực tin nhắn -->
@@ -35,7 +29,7 @@
         <div class="fn-ai-msg bot">
             <img src="<?= $assetPrefix ?>assets/images/ai_avatar.png" alt="" width="1024" height="1024" class="fn-ai-msg-avatar">
             <div class="fn-ai-msg-content">
-                Xin chào! 👋 Hãy mô tả thiết bị và triệu chứng. Trợ lý sẽ giúp bạn tìm bản ghi phù hợp và nhắc những thông tin cần hỏi cửa hàng trước khi sửa.
+                Xin chào bạn! 👋 Mình là Trợ lý Kỹ thuật FixNear. Bạn đang gặp vấn đề gì với điện thoại hay máy tính, hãy nhắn cho mình (kèm tên máy hoặc khu vực nếu có) để mình hỗ trợ chẩn đoán và báo giá tham khảo ngay nhé!
                 <div class="fn-ai-msg-time">Vừa xong</div>
             </div>
         </div>
@@ -43,8 +37,8 @@
 
     <!-- Gợi ý câu hỏi nhanh (Quick Chips) -->
     <div class="fn-ai-quick-chips">
-        <button type="button" class="fn-ai-chip" onclick="sendQuickPrompt('iPhone 13 Pro Max bị sọc màn hình thay hết bao nhiêu?')">
-            📱 iPhone 13 Pro Max sọc màn
+        <button type="button" class="fn-ai-chip" onclick="sendQuickPrompt('iPhone 13 bị bể màn hình thay hết bao nhiêu?')">
+            📱 iPhone 13 bể màn
         </button>
         <button type="button" class="fn-ai-chip" onclick="sendQuickPrompt('Thay pin Laptop Dell Inspiron ở Quận 10')">
             🔋 Thay pin Dell Inspiron Q.10
@@ -52,14 +46,14 @@
         <button type="button" class="fn-ai-chip" onclick="sendQuickPrompt('Máy vô nước mở không lên cấp cứu thế nào?')">
             💧 Cấp cứu máy vô nước
         </button>
-        <button type="button" class="fn-ai-chip" onclick="sendQuickPrompt('Máy sập nguồn mở không lên phải làm sao?')">
-            ⚡ Máy sập nguồn
-        </button>
         <button type="button" class="fn-ai-chip" onclick="sendQuickPrompt('Làm sao để tránh bị tráo linh kiện (luộc đồ)?')">
             🛡️ Tránh luộc đồ
         </button>
-        <button type="button" class="fn-ai-chip" onclick="sendQuickPrompt('Tìm tiệm sửa chữa uy tín gần Quận 12')">
-            📍 Tiệm uy tín Quận 12
+        <button type="button" class="fn-ai-chip" onclick="sendQuickPrompt('Tôi muốn tra cứu tiến độ yêu cầu sửa chữa')">
+            📋 Tra cứu yêu cầu sửa
+        </button>
+        <button type="button" class="fn-ai-chip" onclick="sendQuickPrompt('Tôi muốn khiếu nại chất lượng của cửa hàng sửa chữa')">
+            ✉️ Khiếu nại cửa hàng
         </button>
     </div>
 
