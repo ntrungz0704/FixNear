@@ -88,6 +88,9 @@ def main():
             status, _, prices = request(guest, base, "/prices.php")
             assert status == 200 and 'id="price-brand"' in prices and 'id="price-model"' in prices
             assert 'Tất cả 319 model' not in prices
+            status, _, all_shops = request(guest, base, "/shops.php")
+            assert status == 200 and "Tìm thấy <span style=\"color: #ea580c;\">68</span>" in all_shops
+            assert "55/68 địa chỉ có nguồn" in all_shops and 'aria-label="Phân trang cửa hàng"' in all_shops
             status, _, first_page = request(guest, base, "/shops.php?device=phone")
             first_ids = re.findall(r'class="fn-shop-card" data-shop-id="(\d+)"', first_page)
             assert status == 200 and len(first_ids) == 9 and 'aria-label="Phân trang cửa hàng"' in first_page
@@ -99,7 +102,7 @@ def main():
             assert status == 200 and len(second_ids) == 9 and not set(first_ids).intersection(second_ids)
             assert 'aria-current="page">2</a>' in second_page
             status, _, last_page = request(guest, base, "/shops.php?device=phone&page=999")
-            assert status == 200 and 'aria-current="page">4</a>' in last_page
+            assert status == 200 and 'aria-current="page">7</a>' in last_page
             assert 0 < len(re.findall(r'class="fn-shop-card" data-shop-id="(\d+)"', last_page)) <= 9
             status, _, located_page = request(guest, base, "/shops.php?device=phone&user_lat=10.76&user_lng=106.68&loc_name=Q1")
             assert status == 200 and 'user_lat=10.76&amp;user_lng=106.68&amp;loc_name=Q1&amp;page=2#shop-results' in located_page
@@ -112,6 +115,9 @@ def main():
             assert "Mức giữa tham khảo" in guest_detail and "Website chính thức" in guest_detail
             assert "Gọi hỏi giá &amp; lịch sửa" in guest_detail and "Xem trên Google Maps" in guest_detail
             assert "Nguồn địa chỉ" not in guest_detail and "Logo từ website hệ thống" not in guest_detail
+            status, _, unverified_detail = request(guest, base, "/shop_detail.php?id=26")
+            assert status == 200 and "Địa chỉ này chưa có nguồn chính thức" in unverified_detail
+            assert 'href="tel:' not in unverified_detail
             assert request(guest, base, "/api/toggle_favorite.php", {"shop_id": "1"})[0] == 401
             assert json.loads((data_dir / "favorites.json").read_text(encoding="utf-8")) == []
             request(guest, base, "/api/add_review.php", {
@@ -165,7 +171,7 @@ def main():
 
             status, _, home = request(user, base, "/index.php")
             assert status == 200
-            assert "Bản ghi · 35 công khai" in home and "Khu vực · 14 công khai" in home
+            assert "Bản ghi cửa hàng" in home and "Khu vực có dữ liệu" in home
             request(user, base, "/logout.php", {"csrf_token": csrf(home)})
             status, _, form = request(user, base, "/login.php")
             assert status == 200

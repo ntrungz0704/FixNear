@@ -59,7 +59,7 @@
         "address": "195 Nguyễn Thái Học, Phường Phạm Ngũ Lão, Quận 1, TP.HCM",
         "ward": "Phạm Ngũ Lão",
         "district": "Quận 1",
-        "phone": "1800 1236",
+        "phone": "0327 998 188",
         "opening_hours": "08:00 - 21:00 (Cả CN & Lễ)",
         "map_url": "https://www.google.com/maps/search/?api=1&query=B%E1%BA%A3o+H%C3%A0nh+One+195+Nguy%E1%BB%85n+Th%C3%A1i+H%E1%BB%8Dc+Qu%E1%BA%ADn+1+TP.HCM",
         "latitude": 10.7645,
@@ -591,8 +591,8 @@
     {
         "id": 23,
         "name": "Viện Di Động - 526 Nguyễn Thị Thập Q.7",
-        "address": "526 Nguyễn Thị Thập, Phường Tân Quy, Quận 7, TP.HCM",
-        "ward": "Tân Quy",
+        "address": "526 Nguyễn Thị Thập, Phường Tân Hưng, Quận 7, TP.HCM",
+        "ward": "Tân Hưng",
         "district": "Quận 7",
         "phone": "0902 698 777",
         "opening_hours": "08:00 - 21:00 (Cả CN & Lễ)",
@@ -700,11 +700,11 @@
     {
         "id": 27,
         "name": "ANT Mobile - 944 Tạ Quang Bửu Q.8",
-        "address": "944 Tạ Quang Bửu, Phường 5, Quận 8, TP.HCM",
-        "ward": "Phường 5",
+        "address": "944 Tạ Quang Bửu, Phường Bình Đông, Quận 8, TP.HCM",
+        "ward": "Bình Đông",
         "district": "Quận 8",
-        "phone": "0981 999 999",
-        "opening_hours": "09:00 - 20:30 (Cả CN)",
+        "phone": "0917 462 026",
+        "opening_hours": "08:30 - 20:00 (Hằng ngày)",
         "map_url": "https://www.google.com/maps/search/?api=1&query=ANT%20Mobile%20-%20944%20T%E1%BA%A1%20Quang%20B%E1%BB%ADu%20Q.8%20944%20T%E1%BA%A1%20Quang%20B%E1%BB%ADu%2C%20Ph%C6%B0%E1%BB%9Dng%205%2C%20Qu%E1%BA%ADn%208%2C%20TP.HCM",
         "latitude": 10.7415,
         "longitude": 106.6745,
@@ -721,7 +721,7 @@
         "requires_component_signing": true,
         "student_discount": "",
         "image": "https://lh3.googleusercontent.com/gps-cs-s/ANWiy9S0qoXhW5ZAOXxp8i1skSkAb4hkmOP_Z8-2M6k8T98KnpVV3Vk4eCJi6T4Eyu-37a_v389-vE5noHszF92Mzt2aVYl2KMOCNEOAi6f07-2aXVExBj-eCbVtLihs2jQjOufK9ImK2RNXATM6=w408-h342-k-no",
-        "website": "https://www.google.com/maps/search/?api=1&query=ANT%20Mobile%20-%20944%20T%E1%BA%A1%20Quang%20B%E1%BB%ADu%20Q.8%20944%20T%E1%BA%A1%20Quang%20B%E1%BB%ADu%2C%20Ph%C6%B0%E1%BB%9Dng%205%2C%20Qu%E1%BA%ADn%208%2C%20TP.HCM"
+        "website": "https://antmobile.com.vn/"
     },
     {
         "id": 28,
@@ -729,8 +729,8 @@
         "address": "1154 Phạm Thế Hiển, Phường 5, Quận 8, TP.HCM",
         "ward": "Phường 5",
         "district": "Quận 8",
-        "phone": "0909 123 456",
-        "opening_hours": "08:30 - 20:00 (Cả CN)",
+        "phone": "0842 401 401",
+        "opening_hours": "T2-T7 09:00 - 19:30, CN 09:00 - 16:00",
         "map_url": "https://www.google.com/maps/search/?api=1&query=Tr%E1%BA%A7n%20Ph%C3%A1t%20Mobile%20-%201154%20Ph%E1%BA%A1m%20Th%E1%BA%BF%20Hi%E1%BB%83n%20Q.8%201154%20Ph%E1%BA%A1m%20Th%E1%BA%BF%20Hi%E1%BB%83n%2C%20Ph%C6%B0%E1%BB%9Dng%205%2C%20Qu%E1%BA%ADn%208%2C%20TP.HCM",
         "latitude": 10.7398,
         "longitude": 106.672,
@@ -746,7 +746,7 @@
         "requires_component_signing": true,
         "student_discount": "",
         "image": "https://images.unsplash.com/photo-1563770660941-20978e870e26?w=600&auto=format&fit=crop&q=80",
-        "website": "https://www.google.com/maps/search/?api=1&query=Tr%E1%BA%A7n%20Ph%C3%A1t%20Mobile%20-%201154%20Ph%E1%BA%A1m%20Th%E1%BA%BF%20Hi%E1%BB%83n%20Q.8%201154%20Ph%E1%BA%A1m%20Th%E1%BA%BF%20Hi%E1%BB%83n%2C%20Ph%C6%B0%E1%BB%9Dng%205%2C%20Qu%E1%BA%ADn%208%2C%20TP.HCM"
+        "website": "https://tranphatmobile.vn/"
     },
     {
         "id": 29,
@@ -837,7 +837,7 @@
         "ward": "Phường 12",
         "district": "Quận 10",
         "phone": "028 7101 0286",
-        "opening_hours": "08:00 - 21:00 (Cả CN & Lễ)",
+        "opening_hours": "T2-T7 08:30 - 20:00, CN 08:30 - 18:00",
         "map_url": "https://www.google.com/maps/search/?api=1&query=CareS%20-%20296%20%C4%90%C6%B0%E1%BB%9Dng%203/2%20Q.10%20296%20%C4%90%C6%B0%E1%BB%9Dng%203%20Th%C3%A1ng%202%2C%20Ph%C6%B0%E1%BB%9Dng%2012%2C%20Qu%E1%BA%ADn%2010%2C%20TP.HCM",
         "latitude": 10.7698,
         "longitude": 106.669,
@@ -889,8 +889,8 @@
         "address": "1092F Đường 3/2, Phường 12, Quận 11, TP.HCM",
         "ward": "Phường 12",
         "district": "Quận 11",
-        "phone": "0901 234 567",
-        "opening_hours": "08:30 - 20:30 (Cả CN)",
+        "phone": "0924 114 115",
+        "opening_hours": "08:00 - 19:30 (Hằng ngày)",
         "map_url": "https://www.google.com/maps/search/?api=1&query=%C4%90%E1%BA%A1i%20T%C3%ADn%20Mobile%20-%201092F%20%C4%90%C6%B0%E1%BB%9Dng%203/2%20Q.11%201092F%20%C4%90%C6%B0%E1%BB%9Dng%203/2%2C%20Ph%C6%B0%E1%BB%9Dng%2012%2C%20Qu%E1%BA%ADn%2011%2C%20TP.HCM",
         "latitude": 10.7635,
         "longitude": 106.6455,
@@ -906,7 +906,7 @@
         "requires_component_signing": true,
         "student_discount": "",
         "image": "https://lh3.googleusercontent.com/gps-cs-s/ANWiy9SVNcs4oLqvUrK74DNtXrgPpnVnF5GtK4la3_kajQ0rBmcfTVFwzWx5IlTQx1GKO__mQMhzNLRIWhB1hz_ov9apLPOKVcFNyRWOm3fpqwvSsHXpKMVGq5TEND_Qt3Y5ZroE2xZx=w408-h272-k-no",
-        "website": "https://www.google.com/maps/search/?api=1&query=%C4%90%E1%BA%A1i%20T%C3%ADn%20Mobile%20-%201092F%20%C4%90%C6%B0%E1%BB%9Dng%203/2%20Q.11%201092F%20%C4%90%C6%B0%E1%BB%9Dng%203/2%2C%20Ph%C6%B0%E1%BB%9Dng%2012%2C%20Qu%E1%BA%ADn%2011%2C%20TP.HCM"
+        "website": "https://daitinmobile.com/"
     },
     {
         "id": 35,
@@ -936,8 +936,8 @@
     {
         "id": 36,
         "name": "Song Thiên Mobile - 52 Tôn Thất Hiệp Q.11",
-        "address": "52 Tôn Thất Hiệp, Phường 15, Quận 11, TP.HCM",
-        "ward": "Phường 15",
+        "address": "52 Tôn Thất Hiệp, Phường 11, Quận 11, TP.HCM",
+        "ward": "11",
         "district": "Quận 11",
         "phone": "0708 333 139",
         "opening_hours": "08:30 - 20:30 (Cả CN)",
@@ -956,7 +956,7 @@
         "requires_component_signing": true,
         "student_discount": "",
         "image": "https://lh3.googleusercontent.com/gps-cs-s/ANWiy9RVrj3Zo1LeV9YPDqyb0689mN-CWCX0Ipx_rjPPKdx2bb_dkdAiiNK3hOI-gJJCdSWZG5Kor6Wgl7OTaMb9l6rpMpj8ARavhYIzu66g4lpA9eRMIkGxfhg6PtdGem2UEPuNwrxs=w408-h544-k-no",
-        "website": "https://www.google.com/maps/search/?api=1&query=Song%20Thi%C3%AAn%20Mobile%20-%2052%20T%C3%B4n%20Th%E1%BA%A5t%20Hi%E1%BB%87p%20Q.11%2052%20T%C3%B4n%20Th%E1%BA%A5t%20Hi%E1%BB%87p%2C%20Ph%C6%B0%E1%BB%9Dng%2015%2C%20Qu%E1%BA%ADn%2011%2C%20TP.HCM"
+        "website": "https://songthienmobile.com/"
     },
     {
         "id": 37,
@@ -1125,8 +1125,8 @@
     {
         "id": 43,
         "name": "Thuận Phát Mobile - CN2 Lê Quang Định Bình Thạnh",
-        "address": "197A Lê Quang Định, Phường 14, Quận Bình Thạnh, TP.HCM",
-        "ward": "Phường 14",
+        "address": "197A Lê Quang Định, Phường 7, Quận Bình Thạnh, TP.HCM",
+        "ward": "7",
         "district": "Quận Bình Thạnh",
         "phone": "093 797 0101",
         "opening_hours": "08:30 - 20:00 (Cả CN)",
@@ -1145,7 +1145,7 @@
         "requires_component_signing": true,
         "student_discount": "",
         "image": "https://lh3.googleusercontent.com/gps-cs-s/ANWiy9QLAEqi_xG9KIrPEg6z91mO2QmlySGYuUFt4JXOSkwhWLgTeHcMLXkfIs5kg2RchaiGy16ig1EvhGZP56o5MmFn53y9UuuiB3OzBiWT3iCVpjR9PaR7fFCFfuMxjnmq_gsF54H9=w408-h544-k-no",
-        "website": "https://www.google.com/maps/search/?api=1&query=Thu%E1%BA%ADn%20Ph%C3%A1t%20Mobile%20-%20CN2%20L%C3%AA%20Quang%20%C4%90%E1%BB%8Bnh%20B%C3%ACnh%20Th%E1%BA%A1nh%20197A%20L%C3%AA%20Quang%20%C4%90%E1%BB%8Bnh%2C%20Ph%C6%B0%E1%BB%9Dng%2014%2C%20Qu%E1%BA%ADn%20B%C3%ACnh%20Th%E1%BA%A1nh%2C%20TP.HCM"
+        "website": "https://thuanphatmobile.vn/"
     },
     {
         "id": 44,
@@ -1260,7 +1260,7 @@
         "address": "1500 Tỉnh Lộ 10, Phường Tân Tạo, Quận Bình Tân, TP.HCM",
         "ward": "Tân Tạo",
         "district": "Quận Bình Tân",
-        "phone": "0978 360 359",
+        "phone": "0966 865 416",
         "opening_hours": "08:00 - 19:30 (T2-T7)",
         "map_url": "https://www.google.com/maps/search/?api=1&query=H%C3%B9ng%20Ph%C3%A1t%20Computer%20-%201500%20T%E1%BB%89nh%20L%E1%BB%99%2010%20B%C3%ACnh%20T%C3%A2n%201500%20T%E1%BB%89nh%20L%E1%BB%99%2010%2C%20Ph%C6%B0%E1%BB%9Dng%20T%C3%A2n%20T%E1%BA%A1o%2C%20Qu%E1%BA%ADn%20B%C3%ACnh%20T%C3%A2n%2C%20TP.HCM",
         "latitude": 10.7505,
@@ -1277,7 +1277,7 @@
         "requires_component_signing": true,
         "student_discount": "",
         "image": "https://lh3.googleusercontent.com/gps-cs-s/ANWiy9SdU0HjDG18mNbUueeRmKotbYVYFzrzausWCEZLnjwc9FeltHs1ybkcdAnJuzeGkYtypnIwvd7CuwcN5YEfZ4CRiJvxKdKivuLlHhoy4-JYLAYgrEs0YqmO6GSnDBAJFP7ff_eUSA=w426-h240-k-no",
-        "website": "https://www.google.com/maps/search/?api=1&query=H%C3%B9ng%20Ph%C3%A1t%20Computer%20-%201500%20T%E1%BB%89nh%20L%E1%BB%99%2010%20B%C3%ACnh%20T%C3%A2n%201500%20T%E1%BB%89nh%20L%E1%BB%99%2010%2C%20Ph%C6%B0%E1%BB%9Dng%20T%C3%A2n%20T%E1%BA%A1o%2C%20Qu%E1%BA%ADn%20B%C3%ACnh%20T%C3%A2n%2C%20TP.HCM"
+        "website": "https://hungphatcomputer.com/"
     },
     {
         "id": 49,
@@ -1651,7 +1651,7 @@
         "requires_component_signing": true,
         "student_discount": "",
         "image": "https://lh3.googleusercontent.com/gps-cs-s/ANWiy9SAKxm-uE4IROxO9PkAwEzBHsDd0JxCmKAu3hcYhd0-8i7LRkoPV-W-1OIiYp6OgOpyk9ry4fQmgLEdMZNVz_dD4ede3LjfudkqdXSDegtdLB67tiUHDpXZkw_WOsNzvkmeAK8=w408-h544-k-no",
-        "website": "https://www.google.com/maps/search/?api=1&query=Thu%E1%BA%ADn%20Ph%C3%A1t%20Mobile%20-%20CN3%20Nguy%E1%BB%85n%20S%C6%A1n%20T%C3%A2n%20Ph%C3%BA%20118%20Nguy%E1%BB%85n%20S%C6%A1n%2C%20Ph%C6%B0%E1%BB%9Dng%20Ph%C3%BA%20Th%E1%BB%8D%20H%C3%B2a%2C%20Qu%E1%BA%ADn%20T%C3%A2n%20Ph%C3%BA%2C%20TP.HCM"
+        "website": "https://thuanphatmobile.vn/"
     },
     {
         "id": 63,

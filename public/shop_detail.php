@@ -83,6 +83,7 @@ $msg = $_GET['msg'] ?? '';
                     <span>🏢</span>
                     <span><?= htmlspecialchars($shop['address']) ?></span>
                 </div>
+                <?php if (empty($shop['address_verified'])): ?><p style="font-size:12px;color:#9a3412;margin:0 0 8px;">Địa chỉ này chưa có nguồn chính thức để đối chiếu. Kiểm tra thông tin cửa hàng trước khi đến.</p><?php endif; ?>
                 <p class="fn-shop-hero-hours">⏰ Giờ tham khảo: <strong><?= htmlspecialchars($shop['opening_hours']) ?></strong></p>
 
                 <?php if (!empty($shop['source_verified']) && !empty($shop['description'])): ?><p style="font-size: 13.5px; color: var(--fn-dark-muted); line-height: 1.6; margin-bottom: 12px;"><?= htmlspecialchars($shop['description']) ?></p><?php endif; ?>
@@ -102,7 +103,7 @@ $msg = $_GET['msg'] ?? '';
                 </div>
 
                 <div class="fn-shop-hero-actions">
-                    <a href="tel:<?= preg_replace('/[^0-9]/', '', $shop['phone']) ?>" class="fn-btn fn-btn-primary">📞 Gọi hỏi giá &amp; lịch sửa</a>
+                    <?php if (!empty($shop['phone_verified'])): ?><a href="tel:<?= preg_replace('/[^0-9]/', '', $shop['phone']) ?>" class="fn-btn fn-btn-primary">📞 Gọi hỏi giá &amp; lịch sửa</a><?php endif; ?>
                     <a href="<?= htmlspecialchars($shop['map_url'] ?: ('https://www.google.com/maps/search/?api=1&query=' . urlencode($shop['name'] . ', ' . $shop['address']))) ?>" target="_blank" rel="noopener noreferrer" class="fn-btn fn-btn-secondary">🗺️ Xem trên Google Maps</a>
                 </div>
                 <div class="fn-shop-hero-links">
