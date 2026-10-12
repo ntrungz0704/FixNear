@@ -57,7 +57,7 @@ $msg = $_GET['msg'] ?? '';
     <!-- Header Thông Tin Cửa Hàng -->
     <div style="background: var(--fn-surface); border: 1px solid var(--fn-border); border-radius: var(--fn-radius-lg); overflow: hidden; box-shadow: var(--fn-shadow-sm); margin-bottom: 30px;">
         <div class="fn-shop-header-grid">
-            <div style="height: 100%; min-height: 240px; position: relative;">
+            <div class="fn-shop-hero-media">
                 <?= fixnearShopMedia($shop) ?>
                 <?php if (isset($shop['distance_km'])): ?>
                     <span class="fn-distance-badge" style="background: #0f172a; color: #38bdf8; font-weight: 800; border: 1px solid #0284c7;">
