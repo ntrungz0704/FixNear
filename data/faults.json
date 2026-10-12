@@ -1,0 +1,244 @@
+[
+  {
+    "id": "screen",
+    "serviceId": 1,
+    "name": "Thay màn hình hiển thị",
+    "nameEn": "Screen Replacement",
+    "icon": "🖥️",
+    "description": "Thay cụm màn hình nguyên bộ khi bị sọc màn, chảy mực, liệt cảm ứng hoặc tối đen.",
+    "isParent": true
+  },
+  {
+    "id": "glass-press",
+    "serviceId": 2,
+    "name": "Ép mặt kính / Kính cảm ứng",
+    "nameEn": "Glass Press / Touch Glass",
+    "icon": "💎",
+    "description": "Màn cảm ứng & hiển thị bình thường, chỉ nứt vỡ mặt kính bảo vệ bên ngoài.",
+    "isParent": true
+  },
+  {
+    "id": "battery",
+    "serviceId": 3,
+    "name": "Thay pin dung lượng cao / Pin Zin",
+    "nameEn": "Battery Replacement",
+    "icon": "🔋",
+    "description": "Khắc phục pin chai dưới 80%, phồng nắp lưng, sạc không vào hoặc sập nguồn đột ngột.",
+    "isParent": true
+  },
+  {
+    "id": "charging-port",
+    "serviceId": 4,
+    "name": "Sửa chân sạc / Cổng kết nối",
+    "nameEn": "Charging Port Repair",
+    "icon": "⚡",
+    "description": "Khắc phục lỏng chân Type-C, Lightning, DC Jack, MagSafe cắm sạc chập chờn.",
+    "isParent": true
+  },
+  {
+    "id": "water-damage",
+    "serviceId": 5,
+    "name": "Cấp cứu máy vô nước / Rớt nước",
+    "nameEn": "Water Damage Recovery",
+    "icon": "💧",
+    "description": "Sấy khô sóng siêu âm, tẩy rỉ sét bo mạch, cứu sống linh kiện khi rơi nước.",
+    "isParent": true
+  },
+  {
+    "id": "mainboard",
+    "serviceId": 6,
+    "name": "Sửa mất nguồn / Lỗi Mainboard",
+    "nameEn": "Logic Board / Mainboard Chip-level",
+    "icon": "⚠️",
+    "description": "Khắc phục chết IC nguồn, chập tụ, kích nguồn không chạy, đèn nhấp nháy, treo logo.",
+    "isParent": true
+  },
+  {
+    "id": "camera",
+    "serviceId": 7,
+    "name": "Thay camera trước / sau",
+    "nameEn": "Camera Replacement",
+    "icon": "📷",
+    "description": "Camera mờ đục, rung giật OIS, đen thui hoặc nứt kính camera ngoài.",
+    "isParent": true
+  },
+  {
+    "id": "speaker",
+    "serviceId": 8,
+    "name": "Loa trong / Loa ngoài rè",
+    "nameEn": "Speaker Repair",
+    "icon": "🔊",
+    "description": "Loa thoại bé, loa ngoài rè chói tai khi nghe nhạc, xem phim hay đàm thoại.",
+    "isParent": true
+  },
+  {
+    "id": "mic",
+    "serviceId": 9,
+    "name": "Hỏng Micro (Nói không nghe)",
+    "nameEn": "Microphone Repair",
+    "icon": "🎙️",
+    "description": "Gọi điện thoại, quay video hoặc gửi tin nhắn thoại đối phương không nghe tiếng.",
+    "isParent": true
+  },
+  {
+    "id": "keyboard",
+    "serviceId": 10,
+    "name": "Bàn phím liệt / Kẹt nút bấm",
+    "nameEn": "Keyboard Replacement",
+    "icon": "⌨️",
+    "description": "Thay bàn phím mới, xử lý liệt phím, kẹt phím, chập nhảy chữ liên tục.",
+    "isParent": true
+  },
+  {
+    "id": "trackpad",
+    "serviceId": 11,
+    "name": "Chuột cảm ứng / Trackpad",
+    "nameEn": "Trackpad Replacement",
+    "icon": "🖱️",
+    "description": "Bàn rê chuột bị đơ, loạn cảm ứng hoặc kẹt cứng không bấm được.",
+    "isParent": true
+  },
+  {
+    "id": "hinge-body",
+    "serviceId": 12,
+    "name": "Sửa gãy bản lề / Vỏ khung sườn",
+    "nameEn": "Hinge & Housing Repair",
+    "icon": "🗜️",
+    "description": "Hàn gia cố chân ốc bản lề laptop, nắn sườn máy cấn móp, thay nắp lưng.",
+    "isParent": true
+  },
+  {
+    "id": "ssd-upgrade",
+    "serviceId": 13,
+    "name": "Nâng cấp ổ cứng SSD siêu tốc",
+    "nameEn": "SSD Upgrade",
+    "icon": "💾",
+    "description": "Nâng SSD NVMe / SATA 256GB/512GB/1TB khởi động chỉ trong 5 giây.",
+    "isParent": true
+  },
+  {
+    "id": "ram-upgrade",
+    "serviceId": 14,
+    "name": "Nâng cấp bộ nhớ RAM",
+    "nameEn": "RAM Upgrade",
+    "icon": "🧠",
+    "description": "Nâng thêm RAM DDR4/DDR5 8GB/16GB/32GB mở mượt tab Chrome & code đa nhiệm.",
+    "isParent": true
+  },
+  {
+    "id": "thermal",
+    "serviceId": 15,
+    "name": "Vệ sinh máy & Tra keo tản nhiệt",
+    "nameEn": "Cleaning & Thermal Paste",
+    "icon": "💨",
+    "description": "Làm sạch quạt bụi, tra keo tản nhiệt MX-4/Kryonaut làm mát sâu, giảm ồn.",
+    "isParent": true
+  },
+  {
+    "id": "software",
+    "serviceId": 16,
+    "name": "Cài Hệ điều hành & Phần mềm",
+    "nameEn": "OS & Software Installation",
+    "icon": "💻",
+    "description": "Cài Win 10/11 sạch, cài macOS, cài full Office, Photoshop, VS Code, đồ họa.",
+    "isParent": true
+  },
+  {
+    "id": "data-recovery",
+    "serviceId": 17,
+    "name": "Cứu dữ liệu ổ cứng & Bo mạch",
+    "nameEn": "Data Recovery",
+    "icon": "📂",
+    "description": "Phục hồi đồ án, tài liệu quan trọng từ máy chết nguồn, hỏng ổ cứng, vô nước.",
+    "isParent": true
+  },
+  {
+    "id": "diagnostic",
+    "serviceId": 18,
+    "name": "Kiểm tra chẩn đoán toàn diện",
+    "nameEn": "Full Diagnostic Inspection",
+    "icon": "🔍",
+    "description": "Kiểm tra thiết bị và xác nhận chi phí chẩn đoán với cửa hàng trước khi tiếp tục.",
+    "isParent": true
+  },
+  {
+    "id": "face-id",
+    "parentFaultId": "screen",
+    "name": "Sửa Face ID / Cảm biến tiệm cận",
+    "nameEn": "Face ID / Proximity Sensor Repair",
+    "icon": "👤",
+    "description": "Sửa mất Face ID do va đập hoặc vô nước làm chập cảm biến TrueDepth, Dot Projector."
+  },
+  {
+    "id": "back-glass",
+    "parentFaultId": "hinge-body",
+    "name": "Thay kính lưng / Bắn laser lưng",
+    "nameEn": "Back Glass Laser Replacement",
+    "icon": "🪞",
+    "description": "Bắn laser bóc tách thay mặt kính lưng vỡ, nứt sườn sau cho iPhone, Samsung, Xiaomi."
+  },
+  {
+    "id": "foldable-cable",
+    "parentFaultId": "mainboard",
+    "name": "Cáp bản lề & Màn hình nếp gấp (Fold/Flip)",
+    "nameEn": "Foldable Hinge Flex Cable Repair",
+    "icon": "📱",
+    "description": "Sửa đứt cáp bản lề gập mất tiếng, hỏng nếp gấp màn trong của dòng màn hình gập."
+  },
+  {
+    "id": "flexgate",
+    "parentFaultId": "screen",
+    "name": "Cáp màn hình Flexgate (MacBook)",
+    "nameEn": "MacBook Flexgate Display Cable Repair",
+    "icon": "💡",
+    "description": "Hàn nối câu cáp đèn nền sân khấu (Stage Light) cho MacBook Pro 2016-2018."
+  },
+  {
+    "id": "pencil-charging",
+    "parentFaultId": "charging-port",
+    "name": "Lỗi sạc nam châm bút cảm ứng (Pencil/S-Pen)",
+    "nameEn": "Stylus Wireless Charging Coil Repair",
+    "icon": "✏️",
+    "description": "Sửa cuộn cảm ứng từ và nam châm hít sạc Apple Pencil 2 bên hông iPad, bút S-Pen."
+  },
+  {
+    "id": "digital-crown",
+    "parentFaultId": "keyboard",
+    "name": "Nút xoay Digital Crown & Bezel xoay",
+    "nameEn": "Digital Crown & Rotating Bezel Repair",
+    "icon": "🔘",
+    "description": "Vệ sinh phục hồi nút xoay Digital Crown kẹt cứng trên Apple Watch, vòng xoay Galaxy Watch."
+  },
+  {
+    "id": "psu-repair",
+    "parentFaultId": "charging-port",
+    "name": "Nguồn máy tính bàn (PSU - Power Supply)",
+    "nameEn": "Desktop Power Supply Repair/Replacement",
+    "icon": "⚡",
+    "description": "Khắc phục nguồn PC sụt áp khi GPU ăn tải nặng, nổ tụ, kích nguồn không chạy."
+  },
+  {
+    "id": "vga-gpu",
+    "parentFaultId": "mainboard",
+    "name": "Sửa Card đồ họa rời (VGA / GPU / VRAM)",
+    "nameEn": "GPU / VRAM Chip-level Repair",
+    "icon": "🎮",
+    "description": "Khắc phục rác hình caro, sọc màn gaming, crash văng game, thay tản nhiệt pad VRAM."
+  },
+  {
+    "id": "aio-liquid-cooler",
+    "parentFaultId": "thermal",
+    "name": "Tản nhiệt nước AIO (Bơm nước & Khối làm mát)",
+    "nameEn": "AIO Liquid Cooler Pump & Loop Service",
+    "icon": "❄️",
+    "description": "Chẩn đoán sửa hỏng bơm tản AIO, thay dung dịch làm mát chống quá nhiệt 100°C."
+  },
+  {
+    "id": "taptic-engine",
+    "parentFaultId": "speaker",
+    "name": "Mô-tơ rung Taptic Engine / Cảm ứng đáy",
+    "nameEn": "Taptic Engine & Heart Rate Sensor Repair",
+    "icon": "💓",
+    "description": "Khắc phục rung liên tục khi vô nước, nứt thấu kính cảm biến nhịp tim & SpO2 đáy đồng hồ."
+  }
+]

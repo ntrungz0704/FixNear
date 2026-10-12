@@ -1,0 +1,230 @@
+[
+  {
+    "id": "sony-xperia-1-vi",
+    "name": "Sony Xperia 1 VI",
+    "brand": "sony",
+    "deviceType": "phone",
+    "tier": "P4",
+    "releaseYear": 2024,
+    "specs": {
+      "screen": "6.5 inch LTPO OLED FHD+ 120Hz (tỉ lệ mới 19.5:9)",
+      "chip": "Snapdragon 8 Gen 3",
+      "battery": "5000 mAh",
+      "charging": "30W USB PD, jack 3.5mm"
+    },
+    "supportedFaults": [
+      "screen",
+      "glass-press",
+      "battery",
+      "charging-port",
+      "water-damage",
+      "mainboard",
+      "camera",
+      "speaker",
+      "mic",
+      "back-glass",
+      "data-recovery",
+      "diagnostic"
+    ],
+    "knownIssues": [
+      {
+        "id": "telephoto-macro-focus",
+        "title": "Lấy nét camera tiềm vọng Telephoto Macro bị kẹt",
+        "severity": "medium",
+        "confidence": "high",
+        "symptoms": "Chụp cận cảnh macro khoảng cách gần bị out nét mô-tơ ống kính.",
+        "solution": "Cân chỉnh mô-tơ lấy nét ống kính telephoto liên tục."
+      }
+    ]
+  },
+  {
+    "id": "sony-xperia-1-v",
+    "name": "Sony Xperia 1 V",
+    "brand": "sony",
+    "deviceType": "phone",
+    "tier": "P4",
+    "releaseYear": 2023,
+    "specs": {
+      "screen": "6.5 inch 4K OLED 120Hz (21:9)",
+      "chip": "Snapdragon 8 Gen 2",
+      "battery": "5000 mAh",
+      "charging": "30W"
+    },
+    "supportedFaults": [
+      "screen",
+      "glass-press",
+      "battery",
+      "charging-port",
+      "water-damage",
+      "mainboard",
+      "camera",
+      "speaker",
+      "mic",
+      "back-glass",
+      "data-recovery",
+      "diagnostic"
+    ],
+    "knownIssues": [
+      {
+        "id": "4k-display-thermal",
+        "title": "Màn hình 4K tự hạ độ phân giải khi thân máy nóng",
+        "severity": "low",
+        "confidence": "high",
+        "symptoms": "Thân máy ấm lên khi quay 4K 120fps liên tục.",
+        "solution": "Vệ sinh tản nhiệt và bôi keo tản nhiệt chuyên sâu."
+      }
+    ]
+  },
+  {
+    "id": "sony-xperia-1-iv",
+    "name": "Sony Xperia 1 IV",
+    "brand": "sony",
+    "deviceType": "phone",
+    "tier": "P3",
+    "releaseYear": 2022,
+    "specs": {
+      "screen": "6.5 inch 4K OLED 120Hz (21:9)",
+      "chip": "Snapdragon 8 Gen 1",
+      "battery": "5000 mAh",
+      "charging": "30W"
+    },
+    "supportedFaults": [
+      "screen",
+      "glass-press",
+      "battery",
+      "charging-port",
+      "water-damage",
+      "mainboard",
+      "camera",
+      "speaker",
+      "mic",
+      "back-glass",
+      "data-recovery",
+      "diagnostic"
+    ],
+    "knownIssues": [
+      {
+        "id": "overheat-camera-shutdown",
+        "title": "Cảnh báo quá nhiệt tự đóng app Camera sau 5 phút quay 4K",
+        "severity": "critical",
+        "confidence": "high",
+        "symptoms": "Báo biểu tượng nhiệt kế và bắt buộc tắt máy ảnh.",
+        "solution": "Vệ sinh tản nhiệt, bôi lại keo tản nhiệt kim loại lỏng/graphene và kiểm tra pin."
+      }
+    ]
+  },
+  {
+    "id": "sony-xperia-5-v",
+    "name": "Sony Xperia 5 V",
+    "brand": "sony",
+    "deviceType": "phone",
+    "tier": "P3",
+    "releaseYear": 2023,
+    "specs": {
+      "screen": "6.1 inch FHD+ OLED 120Hz",
+      "chip": "Snapdragon 8 Gen 2",
+      "battery": "5000 mAh",
+      "charging": "30W"
+    },
+    "supportedFaults": [
+      "screen",
+      "glass-press",
+      "battery",
+      "charging-port",
+      "water-damage",
+      "mainboard",
+      "camera",
+      "speaker",
+      "mic",
+      "back-glass",
+      "data-recovery",
+      "diagnostic"
+    ],
+    "knownIssues": [
+      {
+        "id": "side-fingerprint-sony",
+        "title": "Cảm biến vân tay cạnh bên phím nguồn chập chờn",
+        "severity": "medium",
+        "confidence": "high",
+        "symptoms": "Vân tay không nhận hoặc bị mất mục cài đặt vân tay trong Cài đặt.",
+        "solution": "Thay cụm cáp phím nguồn tích hợp cảm biến vân tay mới."
+      }
+    ]
+  },
+  {
+    "id": "sony-xperia-5-iv",
+    "name": "Sony Xperia 5 IV",
+    "brand": "sony",
+    "deviceType": "phone",
+    "tier": "P3",
+    "releaseYear": 2022,
+    "specs": {
+      "screen": "6.1 inch OLED 120Hz",
+      "chip": "Snapdragon 8 Gen 1",
+      "battery": "5000 mAh",
+      "charging": "30W"
+    },
+    "supportedFaults": [
+      "screen",
+      "glass-press",
+      "battery",
+      "charging-port",
+      "water-damage",
+      "mainboard",
+      "camera",
+      "speaker",
+      "mic",
+      "back-glass",
+      "data-recovery",
+      "diagnostic"
+    ],
+    "knownIssues": [
+      {
+        "id": "green-line-xperia",
+        "title": "Sọc xanh lá cây chỉ đứng trên tấm nền OLED",
+        "severity": "critical",
+        "confidence": "high",
+        "symptoms": "Xuất hiện sọc xanh chỉ thẳng đứng từ trên xuống.",
+        "solution": "Bắn laser vi mạch màn hình hoặc thay màn hình OLED zin."
+      }
+    ]
+  },
+  {
+    "id": "sony-xperia-10-vi",
+    "name": "Sony Xperia 10 VI",
+    "brand": "sony",
+    "deviceType": "phone",
+    "tier": "P2",
+    "releaseYear": 2024,
+    "specs": {
+      "screen": "6.1 inch OLED 60Hz tỉ lệ 21:9",
+      "chip": "Snapdragon 6 Gen 1",
+      "battery": "5000 mAh",
+      "charging": "20W"
+    },
+    "supportedFaults": [
+      "screen",
+      "glass-press",
+      "battery",
+      "charging-port",
+      "water-damage",
+      "mainboard",
+      "camera",
+      "speaker",
+      "mic",
+      "back-glass",
+      "data-recovery",
+      "diagnostic"
+    ],
+    "knownIssues": [
+      {
+        "id": "charging-slow-x10",
+        "title": "Thời gian sạc pin lâu (hơn 2 tiếng đầy pin)",
+        "severity": "low",
+        "confidence": "high",
+        "symptoms": "Sạc đầy 5000mAh mất thời gian do giới hạn công suất sạc.",
+        "solution": "Kiểm tra củ cáp sạc chuẩn PD."
+      }
+    ]
+  }
+]
