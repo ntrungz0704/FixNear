@@ -23,7 +23,7 @@
 | 54 | Điện Thoại Vui - 161 Phan Xích Long Phú Nhuận | 161 Phan Xích Long, Phường 2, Quận Phú Nhuận, TP.HCM |
 | 56 | Giahuymobile - 461 Nguyễn Kiệm Phú Nhuận | 461-463 Nguyễn Kiệm, Phường 9, Quận Phú Nhuận, TP.HCM |
 
-Nguồn tham chiếu đáng tin cậy là trang vị trí/dịch vụ trên website của chính đơn vị. `scripts/validate_shop_evidence.py` kiểm tra số nhà và số điện thoại xuất hiện trên trang dẫn; `scripts/validate_price_evidence.py` kiểm tra cấu trúc giá và mã model/dịch vụ. Phần chưa có nguồn không được đánh dấu đã xác thực.
+Nguồn tham chiếu đáng tin cậy là trang vị trí/dịch vụ trên website của chính đơn vị. `scripts/validate_shop_evidence.py` kiểm tra khóa nguồn và dấu băm bản ghi trong CI; chạy thêm `python scripts/validate_shop_evidence.py --live` để tải trang nguồn và kiểm tra số nhà, số điện thoại. Tách bước kiểm tra trực tuyến vì chứng chỉ hoặc trạng thái của website bên ngoài có thể làm CI lỗi dù dữ liệu dự án không đổi. `scripts/validate_price_evidence.py` kiểm tra cấu trúc giá và mã model/dịch vụ. Phần chưa có nguồn không được đánh dấu đã xác thực.
 
 ## Nguồn đã đối chiếu
 
