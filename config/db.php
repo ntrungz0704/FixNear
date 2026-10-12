@@ -258,6 +258,9 @@ class FixNearDB {
     public function getShops($filters = []) {
         if ($this->isUsingMySQL()) {
             $sql = "SELECT * FROM shops WHERE 1=1";
+            if (empty($filters['include_inactive'])) {
+                $sql .= " AND (is_active IS NULL OR is_active = 1)";
+            }
             $params = [];
 
             if (!empty($filters['device'])) {
@@ -363,6 +366,12 @@ class FixNearDB {
 
         // --- Fallback JSON ---
         $shops = $this->readJson('shops.json');
+
+        if (empty($filters['include_inactive'])) {
+            $shops = array_filter($shops, function($s) {
+                return !isset($s['is_active']) || (int)$s['is_active'] === 1;
+            });
+        }
 
         if (!empty($filters['device'])) {
             $device = strtolower($filters['device']);
@@ -584,6 +593,28 @@ class FixNearDB {
             $shops = $this->readJson('shops.json');
             $newShops = array_filter($shops, fn($s) => $s['id'] != $id);
             return $this->writeJson('shops.json', array_values($newShops));
+        });
+    }
+
+    public function toggleShopStatus($id) {
+        $id = (int)$id;
+        if ($id <= 0) return false;
+
+        if ($this->isUsingMySQL()) {
+            $stmt = $this->pdo->prepare("UPDATE shops SET is_active = CASE WHEN is_active = 0 THEN 1 ELSE 0 END WHERE id = :id");
+            return $stmt->execute([':id' => $id]);
+        }
+
+        return $this->withJsonLock('shops.json', function() use ($id) {
+            $shops = $this->readJson('shops.json');
+            foreach ($shops as $idx => $s) {
+                if ((int)$s['id'] === $id) {
+                    $currentActive = isset($s['is_active']) ? (int)$s['is_active'] : 1;
+                    $shops[$idx]['is_active'] = $currentActive === 1 ? 0 : 1;
+                    return $this->writeJson('shops.json', $shops) ? $shops[$idx]['is_active'] : false;
+                }
+            }
+            return false;
         });
     }
 
