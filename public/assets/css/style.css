@@ -2528,13 +2528,85 @@ textarea:focus-visible,
 
 /* ====== SCROLL ANIMATIONS ====== */
 .fn-animate-on-scroll {
-    opacity: 0;
-    transform: translateY(30px);
-    transition: opacity 0.6s ease, transform 0.6s ease;
-}
-.fn-animate-on-scroll.fn-visible {
     opacity: 1;
-    transform: translateY(0);
+    transform: none;
+}
+
+.fn-motion-ready .fn-motion-item {
+    opacity: 0;
+    transform: translate3d(0, 26px, 0) scale(0.985);
+    transition: opacity 0.62s ease, transform 0.72s cubic-bezier(0.2, 0.7, 0.2, 1);
+    transition-delay: 0ms;
+    will-change: opacity, transform;
+}
+
+.fn-motion-ready .fn-motion-item.fn-motion-from-top:not(.fn-motion-visible) {
+    transform: translate3d(0, -22px, 0) scale(0.985);
+}
+
+.fn-motion-ready .fn-motion-item.fn-motion-visible {
+    opacity: 1;
+    transform: translate3d(0, 0, 0) scale(1);
+    transition-delay: var(--fn-motion-delay, 0ms);
+}
+
+.fn-scroll-progress {
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 3px;
+    z-index: 1500;
+    pointer-events: none;
+    background: linear-gradient(90deg, #fb923c, #ea580c 65%, #facc15);
+    box-shadow: 0 1px 8px rgba(234, 88, 12, 0.35);
+    transform: scaleX(0);
+    transform-origin: left center;
+}
+
+.fn-modal-overlay.active .fn-modal-card {
+    animation: fn-modal-enter 0.42s cubic-bezier(0.2, 0.85, 0.25, 1) both;
+}
+
+@keyframes fn-modal-enter {
+    from { opacity: 0; transform: translateY(22px) scale(0.96); }
+    to { opacity: 1; transform: translateY(0) scale(1); }
+}
+
+@media (hover: hover) {
+    .fn-motion-ready .fn-motion-item.fn-motion-visible.fn-shop-card:hover,
+    .fn-motion-ready .fn-motion-item.fn-motion-visible.fn-process-card:hover,
+    .fn-motion-ready .fn-motion-item.fn-motion-visible.fn-review-card:hover,
+    .fn-motion-ready .fn-motion-item.fn-motion-visible.fn-brand-card:hover {
+        transform: translateY(-6px) scale(1.012);
+    }
+
+    .fn-btn:hover,
+    .fn-footer-cta:hover {
+        filter: brightness(1.05);
+        transform: translateY(-2px);
+    }
+}
+
+@media (max-width: 640px) {
+    #fn-promo-modal .fn-modal-card > div:first-of-type {
+        height: min(42vw, 210px) !important;
+    }
+
+    #fn-promo-modal .fn-promo-actions {
+        flex-direction: column;
+        gap: 9px !important;
+    }
+
+    #fn-promo-modal .fn-promo-actions > a {
+        width: 100%;
+        min-width: 0 !important;
+        flex: none !important;
+        box-sizing: border-box;
+        font-size: 13px !important;
+        line-height: 1.35;
+        text-align: center;
+    }
 }
 
 /* ====== SECTION COMMON ====== */

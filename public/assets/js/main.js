@@ -595,7 +595,8 @@ document.addEventListener('DOMContentLoaded', () => {
     initLiveTicker();
     initRepairWizard();
     initModalHandlers();
-    // Location is chosen from the visible buttons; do not interrupt browsing.
+    initWelcomePopups();
+    initScrollMotion();
 
     // Preserve keyboard access for legacy clickable cards while their markup is
     // progressively migrated to native buttons/links.
@@ -616,21 +617,125 @@ document.addEventListener('DOMContentLoaded', () => {
         window.scrollTo(0, 0);
     }
 
-    // ====== SCROLL ANIMATION OBSERVER ======
-    const animateElements = document.querySelectorAll('.fn-animate-on-scroll');
-    if (animateElements.length > 0) {
-        const observer = new IntersectionObserver((entries) => {
-            entries.forEach(entry => {
-                if (entry.isIntersecting) {
-                    entry.target.classList.add('fn-visible');
-                    observer.unobserve(entry.target);
-                }
-            });
-        }, { threshold: 0.15 });
-        animateElements.forEach(el => observer.observe(el));
+});
+
+function fnStorageGet(storage, key) {
+    try { return storage.getItem(key); } catch (error) { return null; }
+}
+
+function fnStorageSet(storage, key, value) {
+    try { storage.setItem(key, value); } catch (error) { /* Browsing still works without storage. */ }
+}
+
+function fnTodayKey() {
+    const now = new Date();
+    return [now.getFullYear(), String(now.getMonth() + 1).padStart(2, '0'), String(now.getDate()).padStart(2, '0')].join('-');
+}
+
+function initWelcomePopups() {
+    const path = window.location.pathname;
+    if (path !== '/' && !/(?:^|\/)index\.php$/.test(path)) return;
+    const locationModal = document.getElementById('fn-location-modal');
+    const promoModal = document.getElementById('fn-promo-modal');
+    if (!locationModal || !promoModal) return;
+
+    const showPromo = () => {
+        if (fnStorageGet(window.localStorage, 'fixnear_promo_dismissed_date') === fnTodayKey()
+            || fnStorageGet(window.sessionStorage, 'fixnear_promo_seen_session')) return;
+        if (document.querySelector('.fn-modal-overlay.active')) {
+            window.setTimeout(showPromo, 900);
+            return;
+        }
+        fnStorageSet(window.sessionStorage, 'fixnear_promo_seen_session', '1');
+        promoModal.classList.add('active');
+        document.body.style.overflow = 'hidden';
+        promoModal.querySelector('.fn-close-modal')?.focus();
+    };
+
+    const hasSavedLocation = !!(window.FixNearLocation && window.FixNearLocation.hasLocation());
+    const locationShown = fnStorageGet(window.sessionStorage, 'fixnear_location_prompt_seen_session');
+    if (hasSavedLocation || locationShown) {
+        window.setTimeout(showPromo, 1500);
+        return;
     }
 
-});
+    // Ask only after the page has loaded. The browser permission prompt appears
+    // only if the visitor presses the GPS button inside this dialog.
+    fnStorageSet(window.sessionStorage, 'fixnear_location_prompt_seen_session', '1');
+    let waitingForLocationClose = true;
+    const observer = new MutationObserver(() => {
+        if (waitingForLocationClose && !locationModal.classList.contains('active')) {
+            waitingForLocationClose = false;
+            observer.disconnect();
+            window.setTimeout(showPromo, 650);
+        }
+    });
+    window.setTimeout(() => {
+        if (document.querySelector('.fn-modal-overlay.active')) {
+            waitingForLocationClose = false;
+            observer.disconnect();
+            window.setTimeout(showPromo, 1500);
+            return;
+        }
+        locationModal.classList.add('active');
+        document.body.style.overflow = 'hidden';
+        locationModal.querySelector('#fn-main-gps-btn')?.focus();
+        observer.observe(locationModal, { attributes: true, attributeFilter: ['class'] });
+    }, 700);
+}
+
+function initScrollMotion() {
+    if (!('IntersectionObserver' in window) || window.matchMedia('(prefers-reduced-motion: reduce)').matches) return;
+    const selectors = [
+        '.fn-animate-on-scroll', '.fn-hero-badge', '.fn-hero-title',
+        '.fn-hero-subtitle', '.fn-wizard-box', '.fn-section-title', '.fn-section-subtitle',
+        '.fn-section-badge', '.fn-stats-bar', '.fn-shop-card', '.fn-process-card',
+        '.fn-review-card', '.fn-brand-card', '.fn-faq-item', '.fn-device-cat-card',
+        '.fn-price-hero', '.fn-price-tabs', '.fn-price-panel', '.fn-shop-header-grid'
+    ];
+    const items = [...document.querySelectorAll(selectors.join(', '))]
+        .filter(el => !el.closest('.fn-modal-overlay, .fn-admin-layout'));
+
+    let lastScrollY = window.scrollY;
+    const observer = new IntersectionObserver(entries => {
+        const scrollingUp = window.scrollY < lastScrollY;
+        lastScrollY = window.scrollY;
+        entries.forEach(entry => {
+            if (entry.isIntersecting) {
+                entry.target.classList.toggle('fn-motion-from-top', scrollingUp);
+                entry.target.classList.add('fn-motion-visible', 'fn-visible');
+            } else {
+                entry.target.classList.remove('fn-motion-visible', 'fn-visible');
+            }
+        });
+    }, { rootMargin: '0px 0px -6% 0px', threshold: 0.06 });
+
+    items.forEach((item, index) => {
+        item.classList.add('fn-motion-item');
+        item.style.setProperty('--fn-motion-delay', `${(index % 4) * 65}ms`);
+        observer.observe(item);
+    });
+    document.body.classList.add('fn-motion-ready');
+
+    const progress = document.createElement('div');
+    progress.className = 'fn-scroll-progress';
+    progress.setAttribute('aria-hidden', 'true');
+    document.body.appendChild(progress);
+    let framePending = false;
+    const updateProgress = () => {
+        const scrollable = Math.max(1, document.documentElement.scrollHeight - window.innerHeight);
+        progress.style.transform = `scaleX(${Math.min(1, Math.max(0, window.scrollY / scrollable))})`;
+        framePending = false;
+    };
+    const requestUpdate = () => {
+        if (framePending) return;
+        framePending = true;
+        window.requestAnimationFrame(updateProgress);
+    };
+    window.addEventListener('scroll', requestUpdate, { passive: true });
+    window.addEventListener('resize', requestUpdate);
+    requestUpdate();
+}
 
 // ================= 1. REPAIR FINDER WIZARD LOGIC =================
 function initRepairWizard() {

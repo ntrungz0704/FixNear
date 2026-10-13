@@ -53,8 +53,8 @@
     </div>
 </div>
 
-<!-- Modal Banner Khuyến Mãi 3s (Promo Popup) -->
-<div class="fn-modal-overlay" id="fn-promo-modal" style="z-index: 2500;">
+<!-- Ưu đãi được giới thiệu sau khi người dùng chọn hoặc bỏ qua vị trí. -->
+<div class="fn-modal-overlay" id="fn-promo-modal" role="dialog" aria-modal="true" aria-labelledby="fn-promo-title" style="z-index: 2500;">
     <div class="fn-modal-card" style="max-width: 620px; width: 100%; padding: 0; overflow: hidden; border-radius: 16px; border: 2px solid #ea580c; box-shadow: 0 25px 60px rgba(0,0,0,0.4); position: relative; background: #0f172a;">
         <!-- Nút đóng nhanh căn giữa hoàn hảo -->
         <button type="button" class="fn-close-modal" style="position: absolute; top: 12px; right: 12px; width: 36px; height: 36px; border-radius: 50%; background: rgba(0,0,0,0.7); color: #fff; border: 2px solid rgba(255,255,255,0.4); padding: 0; display: flex; align-items: center; justify-content: center; cursor: pointer; z-index: 10; transition: background-color 0.2s, transform 0.2s;" title="Đóng banner" aria-label="Đóng banner">
@@ -74,14 +74,14 @@
             <div style="display: inline-flex; align-items: center; gap: 6px; background: rgba(234, 88, 12, 0.2); border: 1px solid #ea580c; color: #fb923c; font-size: 11.5px; font-weight: 800; padding: 4px 12px; border-radius: 20px; margin-bottom: 8px; text-transform: uppercase;">
                 🔥 Chiến Dịch Đồng Hành Sửa Chữa
             </div>
-            <h3 style="font-family: var(--fn-font-heading); font-size: 21px; font-weight: 900; color: #fff; margin-bottom: 8px; line-height: 1.3;">
+            <h3 id="fn-promo-title" style="font-family: var(--fn-font-heading); font-size: 21px; font-weight: 900; color: #fff; margin-bottom: 8px; line-height: 1.3;">
                 KIỂM TRA ƯU ĐÃI HỌC SINH – SINH VIÊN TRƯỚC KHI ĐẾN
             </h3>
             <p style="font-size: 13.5px; color: #cbd5e1; line-height: 1.5; margin-bottom: 20px;">
                 FixNear chưa xác nhận ưu đãi riêng cho từng chi nhánh trong <?= (int)$footerStats['total_shops'] ?> bản ghi thuộc <?= (int)$footerStats['total_districts'] ?> khu vực. Hãy xem nguồn chính thức và gọi cửa hàng để xác nhận điều kiện áp dụng.
             </p>
 
-            <div style="display: flex; gap: 12px; justify-content: center; flex-wrap: wrap;">
+            <div class="fn-promo-actions" style="display: flex; gap: 12px; justify-content: center; flex-wrap: wrap;">
                 <a href="request_repair.php" class="fn-btn fn-btn-primary" style="padding: 12px 24px; font-size: 14.5px; font-weight: 800; border-radius: 10px; text-decoration: none; flex: 1; min-width: 200px; display: flex; align-items: center; justify-content: center; gap: 8px;">
                     ⚡ GỬI THIẾT BỊ TÌM THỢ NGAY
                 </a>
@@ -97,8 +97,9 @@
 </div>
 <script>
 function dismissPromoToday() {
-    const today = new Date().toISOString().slice(0, 10);
-    localStorage.setItem('fixnear_promo_dismissed_date', today);
+    const now = new Date();
+    const today = [now.getFullYear(), String(now.getMonth() + 1).padStart(2, '0'), String(now.getDate()).padStart(2, '0')].join('-');
+    try { localStorage.setItem('fixnear_promo_dismissed_date', today); } catch (error) {}
     const modal = document.getElementById('fn-promo-modal');
     if (modal) modal.classList.remove('active');
     document.body.style.overflow = '';
@@ -106,7 +107,7 @@ function dismissPromoToday() {
 </script>
 
 <!-- Modal Chọn Vị Trí / Khu Vực Của Bạn -->
-<div class="fn-modal-overlay" id="fn-location-modal">
+<div class="fn-modal-overlay" id="fn-location-modal" role="dialog" aria-modal="true" aria-labelledby="fn-location-title">
     <div class="fn-modal-card" style="max-width: 580px; max-height: 90vh; overflow-y: auto; padding: 28px 24px;">
         <div style="display: flex; justify-content: space-between; align-items: flex-start; margin-bottom: 8px;">
             <div style="flex: 1; text-align: center;">
@@ -115,7 +116,7 @@ function dismissPromoToday() {
                     <div class="fn-gps-radar-ring delay"></div>
                     <div class="fn-gps-radar-center">📍</div>
                 </div>
-                <h3 style="font-family: var(--fn-font-heading); font-size: 20px; font-weight: 900; color: var(--fn-dark);">
+                <h3 id="fn-location-title" style="font-family: var(--fn-font-heading); font-size: 20px; font-weight: 900; color: var(--fn-dark);">
                     Chọn Khu Vực / Định Vị Cửa Hàng
                 </h3>
                 <p style="font-size: 13px; color: var(--fn-dark-muted); margin-top: 6px; line-height: 1.5; max-width: 480px; margin-left: auto; margin-right: auto;">
