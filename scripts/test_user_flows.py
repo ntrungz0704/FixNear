@@ -129,6 +129,9 @@ def main():
             assert "Mức giữa tham khảo" in guest_detail and "Website chính thức" in guest_detail
             assert "Gọi hỏi giá &amp; lịch sửa" in guest_detail and "Xem trên Google Maps" in guest_detail
             assert "Nguồn địa chỉ" not in guest_detail and "Logo từ website hệ thống" not in guest_detail
+            status, _, pending_photo_detail = request(guest, base, "/shop_detail.php?id=23")
+            assert status == 200 and "Chưa có ảnh đã xác minh" in pending_photo_detail
+            assert "gps-cs-s" not in pending_photo_detail
             status, _, unverified_detail = request(guest, base, "/shop_detail.php?id=26")
             assert status == 200 and "Địa chỉ này chưa có nguồn chính thức" in unverified_detail
             assert 'href="tel:' not in unverified_detail

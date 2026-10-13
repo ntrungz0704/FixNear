@@ -2,6 +2,7 @@
 
 from pathlib import Path
 from urllib.request import Request, urlopen
+from concurrent.futures import ThreadPoolExecutor, as_completed
 from html.parser import HTMLParser
 import hashlib
 import json
@@ -36,18 +37,28 @@ def compact(value):
 
 pages = {}
 phone_pages = {}
+unavailable = {}
 if args.live:
-    for key, url in evidence["sources"].items():
+    def fetch_source(key, url):
         request = Request(url, headers={"User-Agent": "Mozilla/5.0"})
         with urlopen(request, timeout=12) as response:
             page_parser = PageText()
             page_parser.feed(response.read().decode("utf-8", "ignore"))
             content = " ".join(page_parser.parts)
-            pages[key] = compact(content)
-            phone_pages[key] = re.sub(r"[^0-9]", "", content)
+            return key, compact(content), re.sub(r"[^0-9]", "", content)
+
+    with ThreadPoolExecutor(max_workers=6) as executor:
+        jobs = {executor.submit(fetch_source, key, url): key for key, url in evidence["sources"].items()}
+        for job in as_completed(jobs):
+            key = jobs[job]
+            try:
+                _, pages[key], phone_pages[key] = job.result()
+            except Exception as exc:
+                unavailable[key] = f"{type(exc).__name__}: {exc}"
 
 unmatched = []
 unmatched_phone = []
+unverified_live = []
 for shop_id, source in evidence["shops"].items():
     record = shops.get(shop_id)
     if record is None or source not in evidence["sources"]:
@@ -57,6 +68,9 @@ for shop_id, source in evidence["shops"].items():
     if evidence.get("recordHashes", {}).get(shop_id) != expected_hash:
         unmatched.append((shop_id, "record hash mismatch", source))
     if args.live:
+        if source not in pages:
+            unverified_live.append(shop_id)
+            continue
         street = record["address"].split(",", 1)[0]
         if compact(street) not in pages[source]:
             unmatched.append((shop_id, street, source))
@@ -69,5 +83,9 @@ for item in unmatched:
 print(f"Phone numbers absent from cited pages: {len(unmatched_phone)}" if args.live else "Live source text check skipped (run with --live)")
 for item in unmatched_phone:
     print(json.dumps(item, ensure_ascii=True))
-if unmatched or unmatched_phone:
+if args.live:
+    print(f"Live source pages fetched: {len(pages)}/{len(evidence['sources'])}; shops not checked live: {len(unverified_live)}")
+    for key, error in unavailable.items():
+        print(json.dumps((key, error), ensure_ascii=True))
+if unmatched or unmatched_phone or unavailable:
     raise SystemExit(1)

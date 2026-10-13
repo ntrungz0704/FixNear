@@ -68,9 +68,18 @@ class FixNearDB {
 
     private function annotateShopVerification($shop) {
         static $addressEvidence = null;
+        static $imageEvidence = null;
         if ($addressEvidence === null) {
             $evidenceFile = dirname(__DIR__) . '/data/shop-address-evidence.json';
             $addressEvidence = is_file($evidenceFile) ? (json_decode(file_get_contents($evidenceFile), true) ?: []) : [];
+        }
+        if ($imageEvidence === null) {
+            $imageEvidence = [];
+            $imageFile = dirname(__DIR__) . '/data/shop-image-candidates.json';
+            $candidates = is_file($imageFile) ? json_decode((string) file_get_contents($imageFile), true) : null;
+            foreach (is_array($candidates) ? $candidates : [] as $candidate) {
+                $imageEvidence[(string) ($candidate['shop_id'] ?? '')] = $candidate;
+            }
         }
         $recordId = (string) ($shop['id'] ?? '');
         $recordHash = hash('sha256', (string) ($shop['name'] ?? '') . '|' . explode(',', (string) ($shop['address'] ?? ''))[0]);
@@ -99,10 +108,22 @@ class FixNearDB {
         // Cờ seed is_verified cũ không phải bằng chứng độc lập.
         $shop['is_verified'] = $shop['source_verified'];
         $shop['raw_image'] = trim((string)($shop['image'] ?? ''));
-        // Website logos and product-page screenshots are not photos of a branch.
-        // Do not display any image as a shop photo without branch-specific evidence.
+        $photo = $imageEvidence[$recordId] ?? [];
+        $photoMatchesBranch = ($photo['shop_name'] ?? '') === ($shop['name'] ?? '')
+            && ($photo['shop_address'] ?? '') === ($shop['address'] ?? '')
+            && ($photo['image_url'] ?? '') === $shop['raw_image'];
+        $photoVerified = $photoMatchesBranch
+            && ($photo['verification_status'] ?? '') === 'verified'
+            && in_array($photo['image_type'] ?? '', ['storefront', 'branch_representative'], true)
+            && filter_var($shop['raw_image'], FILTER_VALIDATE_URL);
         $shop['image'] = '';
         $shop['image_kind'] = 'none';
+        if ($photoVerified) {
+            $shop['image'] = $shop['raw_image'];
+            $shop['image_kind'] = $photo['image_type'];
+            $shop['image_source_url'] = $photo['source_page_url'] ?? '';
+            $shop['image_verified_at'] = $photo['checked_at'] ?? '';
+        }
         return $shop;
     }
 
