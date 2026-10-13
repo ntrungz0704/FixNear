@@ -17,10 +17,14 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
 
     if ($error !== '') {
         // Giữ thông báo giới hạn đã đặt ở trên.
-    } elseif (empty($name) || empty($email) || empty($password)) {
+    } elseif (empty($name) || empty($email) || empty($phone) || empty($password)) {
         $error = "Vui lòng điền đầy đủ các thông tin bắt buộc.";
     } elseif (!filter_var($email, FILTER_VALIDATE_EMAIL)) {
         $error = "Địa chỉ email không đúng định dạng.";
+    } elseif (!str_ends_with($email, '@gmail.com')) {
+        $error = "Vui lòng đăng ký bằng địa chỉ Gmail (@gmail.com).";
+    } elseif (!preg_match('/^(?:0|84)[35789][0-9]{8}$/', preg_replace('/\D+/', '', $phone))) {
+        $error = "Vui lòng nhập số điện thoại di động Việt Nam hợp lệ.";
     } elseif (mb_strlen($name) > 100 || mb_strlen($email) > 150 || mb_strlen($phone) > 20) {
         $error = "Một hoặc nhiều trường vượt quá độ dài cho phép.";
     } elseif (strlen($password) < 10 || strlen($password) > 200) {
@@ -80,13 +84,13 @@ require_once __DIR__ . '/../includes/navbar.php';
             </div>
 
             <div class="fn-form-group">
-                <label class="fn-label" for="register-email">Địa chỉ Email:</label>
-                <input type="email" id="register-email" name="email" class="fn-input" placeholder="name@example.com" value="<?= htmlspecialchars($_POST['email'] ?? '') ?>" autocomplete="email" spellcheck="false" maxlength="150" required>
+                <label class="fn-label" for="register-email">Địa chỉ Gmail:</label>
+                <input type="email" id="register-email" name="email" class="fn-input" placeholder="tenban@gmail.com" value="<?= htmlspecialchars($_POST['email'] ?? '') ?>" autocomplete="email" spellcheck="false" maxlength="150" pattern=".+@gmail\.com" title="Vui lòng dùng địa chỉ @gmail.com" required>
             </div>
 
             <div class="fn-form-group">
                 <label class="fn-label" for="register-phone">Số điện thoại liên hệ:</label>
-                <input type="tel" id="register-phone" name="phone" class="fn-input" placeholder="Ví dụ: 0901234567 (hoặc để trống)" value="<?= htmlspecialchars($_POST['phone'] ?? '') ?>" autocomplete="tel" inputmode="tel" maxlength="20">
+                <input type="tel" id="register-phone" name="phone" class="fn-input" placeholder="Ví dụ: 0901234567" value="<?= htmlspecialchars($_POST['phone'] ?? '') ?>" autocomplete="tel" inputmode="tel" maxlength="20" required>
             </div>
 
             <div class="fn-form-group">

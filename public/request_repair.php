@@ -3,6 +3,8 @@ $pageTitle = "Gửi Yêu Cầu Sửa Chữa & Nhận Báo Giá — FixNear";
 require_once __DIR__ . '/../config/db.php';
 require_once __DIR__ . '/../includes/pricing_engine.php';
 
+$requestUser = currentUser();
+
 $wizardCatalogBrands = [];
 foreach (RepairAtlasPricing::getAllDevices() as $wizardDeviceKey => $wizardDevice) {
     $wizardCatalogBrands[$wizardDeviceKey] = RepairAtlasPricing::getBrandsByDevice($wizardDeviceKey);
@@ -26,7 +28,7 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST' && isset($_POST['submit_request'])) {
     $faultId = trim($_POST['fault_id'] ?? '');
     $issueType = trim($_POST['issue_type'] ?? 'Kiểm tra chẩn đoán toàn diện');
     $symptom = trim($_POST['symptom'] ?? '');
-    $district = trim($_POST['district'] ?? 'Quận 1');
+    $district = trim($_POST['district'] ?? '');
     $customerName = trim($_POST['customer_name'] ?? '');
     $customerEmail = trim($_POST['customer_email'] ?? '');
     $customerPhone = trim($_POST['customer_phone'] ?? '');
@@ -463,7 +465,8 @@ require_once __DIR__ . '/../includes/navbar.php';
                         <div class="fn-form-group">
                             <label class="fn-label" for="fn-wizard-district">Khu vực bạn muốn sửa: <span style="color:#ef4444;">*</span></label>
                             <select name="district" id="fn-wizard-district" class="fn-select" required>
-                                <option value="Quận 1">Quận 1</option>
+                                <option value="" disabled <?= empty($_POST['district']) ? 'selected' : '' ?>>Chọn khu vực hoặc dùng GPS</option>
+                                <option value="Quận 1" <?= ($_POST['district'] ?? '') === 'Quận 1' ? 'selected' : '' ?>>Quận 1</option>
                                 <option value="Quận 3">Quận 3</option>
                                 <option value="Quận 4">Quận 4</option>
                                 <option value="Quận 5">Quận 5</option>
@@ -485,35 +488,36 @@ require_once __DIR__ . '/../includes/navbar.php';
 
                         <div class="fn-form-group">
                             <label class="fn-label">Định vị GPS thông minh:</label>
-                            <button type="button" class="fn-btn fn-btn-secondary" style="width: 100%; height: 44px; display: flex; align-items: center; justify-content: center; gap: 8px; font-size: 13px; font-weight: 700;" onclick="wizardDetectDistrict(this)">
+                            <button type="button" id="fn-wizard-gps-button" class="fn-btn fn-btn-secondary" style="width: 100%; min-height: 44px; display: flex; align-items: center; justify-content: center; gap: 8px; font-size: 13px; font-weight: 700;" onclick="wizardDetectDistrict(this)">
                                 📍 Lấy Vị Trí Của Tôi Hiện Tại
                             </button>
+                            <p id="fn-wizard-gps-status" role="status" aria-live="polite" style="margin: 7px 0 0; font-size: 12px; line-height: 1.4; color: #64748b;">Chưa bật GPS. Bạn có thể chọn khu vực thủ công.</p>
                         </div>
                     </div>
 
                     <div class="fn-form-row" style="margin-top: 14px;">
                         <div class="fn-form-group">
                             <label class="fn-label" for="customer-name">Họ và tên của bạn: <span style="color:#ef4444;">*</span></label>
-                            <input type="text" id="customer-name" name="customer_name" class="fn-input" placeholder="Ví dụ: Nguyễn Văn An" autocomplete="name" maxlength="100" required>
+                            <input type="text" id="customer-name" name="customer_name" class="fn-input" placeholder="Ví dụ: Nguyễn Văn An" value="<?= htmlspecialchars((string)($_POST['customer_name'] ?? $requestUser['name'] ?? ''), ENT_QUOTES, 'UTF-8') ?>" autocomplete="name" maxlength="100" required>
                         </div>
                         <div class="fn-form-group">
                             <label class="fn-label" for="customer-phone">Số điện thoại nhận cuộc gọi: <span style="color:#ef4444;">*</span></label>
-                            <input type="tel" id="customer-phone" name="customer_phone" class="fn-input" placeholder="Ví dụ: 0908 123 456" autocomplete="tel" inputmode="tel" required>
+                            <input type="tel" id="customer-phone" name="customer_phone" class="fn-input" placeholder="Ví dụ: 0908 123 456" value="<?= htmlspecialchars((string)($_POST['customer_phone'] ?? $requestUser['phone'] ?? ''), ENT_QUOTES, 'UTF-8') ?>" autocomplete="tel" inputmode="tel" required>
                         </div>
                     </div>
 
                     <div class="fn-form-row" style="margin-top: 14px;">
                         <div class="fn-form-group">
                             <label class="fn-label" for="customer-email">Email nhận phản hồi: <span style="color:#ef4444;">*</span></label>
-                            <input type="email" id="customer-email" name="customer_email" class="fn-input" placeholder="email@gmail.com" autocomplete="email" spellcheck="false" maxlength="160" required>
+                            <input type="email" id="customer-email" name="customer_email" class="fn-input" placeholder="email@gmail.com" value="<?= htmlspecialchars((string)($_POST['customer_email'] ?? $requestUser['email'] ?? ''), ENT_QUOTES, 'UTF-8') ?>" autocomplete="email" spellcheck="false" maxlength="160" required>
                         </div>
                         <div class="fn-form-group">
                             <label class="fn-label" for="customer-zalo">Số Zalo nhận phản hồi: <span style="color:#ef4444;">*</span></label>
-                            <div class="fn-zalo-field"><input type="tel" id="customer-zalo" name="customer_zalo" class="fn-input" placeholder="Ví dụ: 0908 123 456" inputmode="tel" required><button type="button" onclick="document.getElementById('customer-zalo').value=document.getElementById('customer-phone').value">Giống SĐT</button></div>
+                            <div class="fn-zalo-field"><input type="tel" id="customer-zalo" name="customer_zalo" class="fn-input" placeholder="Ví dụ: 0908 123 456" value="<?= htmlspecialchars((string)($_POST['customer_zalo'] ?? ''), ENT_QUOTES, 'UTF-8') ?>" inputmode="tel" required><button type="button" onclick="document.getElementById('customer-zalo').value=document.getElementById('customer-phone').value">Giống SĐT</button></div>
                         </div>
                     </div>
                     <div class="fn-form-row" style="margin-top: 14px;">
-                        <div class="fn-form-group">
+                        <div class="fn-form-group" style="grid-column: 1 / -1;">
                             <label class="fn-label" for="preferred-time">Khung giờ bạn có thể mang máy đến (08:30 - 20:30):</label>
                             <select name="preferred_time" id="preferred-time" class="fn-select">
                                 <option value="⚡ Hôm nay (Sửa gấp lấy liền trong giờ mở cửa 08:30 - 20:30)">⚡ Sửa gấp lấy liền hôm nay (08:30 - 20:30)</option>
@@ -1000,6 +1004,23 @@ const catalogBrandsByDevice = <?= json_encode($wizardCatalogBrands, JSON_UNESCAP
 // ================= KHỞI TẠO GIAO DIỆN KHI LOAD TRANG =================
 document.addEventListener('DOMContentLoaded', function() {
     renderStep2Brands();
+    const districtSelect = document.getElementById('fn-wizard-district');
+    const postedDistrict = <?= json_encode($formError !== '' ? ($_POST['district'] ?? '') : '', JSON_UNESCAPED_UNICODE | JSON_HEX_TAG | JSON_HEX_AMP | JSON_HEX_APOS | JSON_HEX_QUOT) ?>;
+    if (postedDistrict && [...districtSelect.options].some(option => option.value === postedDistrict)) {
+        districtSelect.value = postedDistrict;
+        wizardDistrictManuallyChanged = true;
+    } else {
+        wizardApplySavedLocation();
+    }
+    districtSelect.addEventListener('change', function() {
+        wizardDistrictManuallyChanged = true;
+        const status = document.getElementById('fn-wizard-gps-status');
+        if (status) status.textContent = 'Bạn đã chọn ' + this.value + ' thủ công. Có thể bấm GPS để gợi ý lại.';
+    });
+});
+
+window.addEventListener('fixnear:location-updated', function() {
+    if (!wizardDistrictManuallyChanged) wizardApplySavedLocation();
 });
 
 // Chuyển bước
@@ -1369,36 +1390,87 @@ function wizardProceedToStep5() {
     wizardGoToStep(5);
 }
 
-// Định vị GPS lấy quận tự động
-function wizardDetectDistrict(button) {
-    if (!navigator.geolocation) {
-        alert('Trình duyệt của bạn không hỗ trợ Geolocation GPS.');
+// Gợi ý khu vực từ 17 tâm khu vực đã dùng trên trang chọn vị trí.
+const wizardDistrictCenters = [
+    ['Quận 1', 10.7769, 106.7009], ['Quận 3', 10.7844, 106.6844],
+    ['Quận 4', 10.7578, 106.7013], ['Quận 5', 10.7554, 106.6669],
+    ['Quận 6', 10.7473, 106.6352], ['Quận 7', 10.7340, 106.7218],
+    ['Quận 8', 10.7241, 106.6286], ['Quận 10', 10.7716, 106.6675],
+    ['Quận 11', 10.7629, 106.6504], ['Quận 12', 10.8530, 106.6275],
+    ['Quận Bình Tân', 10.7654, 106.6039], ['Quận Bình Thạnh', 10.8106, 106.6983],
+    ['Quận Gò Vấp', 10.8387, 106.6653], ['Quận Phú Nhuận', 10.7992, 106.6803],
+    ['Quận Tân Bình', 10.8015, 106.6558], ['Quận Tân Phú', 10.7901, 106.6283],
+    ['TP. Thủ Đức', 10.8494, 106.7715]
+];
+let wizardDistrictManuallyChanged = false;
+
+function wizardClosestDistrict(lat, lng) {
+    if (!Number.isFinite(lat) || !Number.isFinite(lng)) return null;
+    const radians = value => value * Math.PI / 180;
+    let nearest = null;
+    wizardDistrictCenters.forEach(([name, centerLat, centerLng]) => {
+        const deltaLat = radians(centerLat - lat);
+        const deltaLng = radians(centerLng - lng);
+        const a = Math.sin(deltaLat / 2) ** 2 + Math.cos(radians(lat)) * Math.cos(radians(centerLat)) * Math.sin(deltaLng / 2) ** 2;
+        const distance = 6371 * 2 * Math.atan2(Math.sqrt(a), Math.sqrt(1 - a));
+        if (!nearest || distance < nearest.distance) nearest = { name, distance };
+    });
+    return nearest;
+}
+
+function wizardApplySavedLocation(location, fresh = false) {
+    const loc = location || (window.FixNearLocation && FixNearLocation.get());
+    if (!loc) return;
+    const select = document.getElementById('fn-wizard-district');
+    const button = document.getElementById('fn-wizard-gps-button');
+    const status = document.getElementById('fn-wizard-gps-status');
+    if (!select || !button || !status) return;
+
+    if (loc.source === 'district') {
+        const name = String(loc.name || '').replace(/\s*\(.*\)$/, '');
+        if ([...select.options].some(option => option.value === name)) {
+            select.value = name;
+            status.textContent = 'Đã chọn ' + name + ' từ khu vực bạn lưu trước đó. Bạn có thể đổi quận hoặc bật GPS.';
+        }
         return;
     }
-    const btn = button;
-    const oldHtml = btn.innerHTML;
-    btn.innerHTML = '⏳ Đang xác định vị trí...';
-    btn.disabled = true;
+    if (loc.source !== 'gps') return;
+    button.textContent = fresh ? '✓ GPS đã bật · Cập nhật vị trí' : '✓ Đã lưu GPS · Cập nhật vị trí';
+    button.style.borderColor = '#86efac';
+    button.style.background = '#f0fdf4';
+    button.style.color = '#166534';
+    const nearest = wizardClosestDistrict(Number(loc.lat), Number(loc.lng));
+    if (!nearest || nearest.distance > 15) {
+        status.textContent = (fresh ? 'GPS đã bật' : 'Đã lưu vị trí GPS') + ', nhưng vị trí nằm ngoài 17 khu vực hỗ trợ. Vui lòng chọn khu vực thủ công.';
+        return;
+    }
+    select.value = nearest.name;
+    status.textContent = (fresh ? 'GPS đã bật.' : 'Đã lưu vị trí GPS.') + ' Gợi ý gần bạn: ' + nearest.name + ' (ước tính ' + nearest.distance.toFixed(1) + ' km tới trung tâm khu vực). Bạn có thể đổi quận.';
+}
 
-    navigator.geolocation.getCurrentPosition(
-        function(pos) {
-            btn.innerHTML = '✓ Đã nhận diện vị trí gần bạn';
-            // Mặc định chọn khu vực trung tâm nếu GPS thành công
-            const sel = document.getElementById('fn-wizard-district');
-            if (sel) sel.value = 'Quận 1';
-            setTimeout(() => {
-                btn.innerHTML = oldHtml;
-                btn.disabled = false;
-            }, 2000);
+function wizardDetectDistrict(button) {
+    const status = document.getElementById('fn-wizard-gps-status');
+    if (!window.FixNearLocation || !navigator.geolocation) {
+        status.textContent = 'Trình duyệt không hỗ trợ GPS. Vui lòng chọn khu vực thủ công.';
+        return;
+    }
+    button.textContent = '⏳ Đang xác định vị trí...';
+    button.disabled = true;
+    status.textContent = 'Đang chờ trình duyệt cấp quyền định vị.';
+    FixNearLocation.requestGPS(
+        function(location) {
+            wizardDistrictManuallyChanged = false;
+            wizardApplySavedLocation(location, true);
+            button.disabled = false;
         },
-        function(err) {
-            btn.innerHTML = '⚠️ Không lấy được GPS (Đã chọn mặc định)';
-            setTimeout(() => {
-                btn.innerHTML = oldHtml;
-                btn.disabled = false;
-            }, 2000);
+        function(error) {
+            button.disabled = false;
+            button.textContent = '📍 Thử lấy vị trí lần nữa';
+            status.textContent = error && error.code === 1
+                ? 'Bạn chưa cấp quyền GPS. Hãy cho phép định vị trong trình duyệt hoặc chọn khu vực thủ công.'
+                : 'Chưa lấy được vị trí. Hãy thử lại hoặc chọn khu vực thủ công.';
         },
-        { timeout: 6000 }
+        { timeout: 10000 }
     );
 }
 
