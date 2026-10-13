@@ -28,8 +28,11 @@ $urls = [
     '/admin/shops.php' => 302,
     '/admin/services.php' => 302,
     '/admin/requests.php' => 302,
+    '/admin/approvals.php' => 302,
     '/admin/reviews.php' => 302,
     '/admin/reports.php' => 302,
+    '/api/admin_live.php' => 403,
+    '/api/user_live.php' => 403,
     // Sensitive files blocked check:
     '/config/db.php' => 404,
     '/data/users.json' => 404,

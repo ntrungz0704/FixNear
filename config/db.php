@@ -1077,6 +1077,28 @@ class FixNearDB {
         });
     }
 
+    /** Decide only a still-pending request; prevents a stale approval from overwriting later work. */
+    public function decidePendingRepairRequest($id, $decision) {
+        $status = $decision === 'approve' ? 'contacted' : ($decision === 'reject' ? 'cancelled' : null);
+        if ($status === null || trim((string)$id) === '') return false;
+        if ($this->isUsingMySQL()) {
+            $stmt = $this->pdo->prepare("UPDATE repair_requests SET status = :status WHERE id = :id AND status = 'pending'");
+            $stmt->execute([':status' => $status, ':id' => $id]);
+            return $stmt->rowCount() === 1;
+        }
+        return $this->withJsonLock('repair_requests.json', function() use ($id, $status) {
+            $requests = $this->readJson('repair_requests.json');
+            if (!is_array($requests)) return false;
+            foreach ($requests as &$request) {
+                if (($request['id'] ?? '') !== $id || ($request['status'] ?? 'pending') !== 'pending') continue;
+                $request['status'] = $status;
+                $request['updated_at'] = date('Y-m-d H:i:s');
+                return $this->writeJson('repair_requests.json', $requests);
+            }
+            return false;
+        });
+    }
+
     // ================= BÁO CÁO THÔNG TIN SAI & LIÊN HỆ =================
     public function addReport($data) {
         if ($this->isUsingMySQL()) {

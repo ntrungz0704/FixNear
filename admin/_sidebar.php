@@ -3,6 +3,7 @@ $adminCurrentPage = basename($_SERVER['PHP_SELF'] ?? 'index.php');
 $adminNavItems = [
     ['index.php', '📊', 'Tổng quan'],
     ['requests.php', '📋', 'Yêu cầu sửa chữa'],
+    ['approvals.php', '✅', 'Duyệt yêu cầu'],
     ['shops.php', '🏪', 'Cửa hàng'],
     ['services.php', '🏷️', 'Dịch vụ & giá'],
     ['reviews.php', '⭐', 'Đánh giá'],

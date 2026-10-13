@@ -309,7 +309,60 @@ def main():
             live_after = json.loads(live_response)
             assert status == 200 and live_after["pending_requests"] == 1 and live_after["pending_reviews"] == 0
             assert live_after["revision"] != live_before["revision"]
-            print("PASS: 319-model prices, guest/member booking, registration/login, guest contact, login-only favorites/reviews, admin shop and price validation, status, moderation/reply and public sync")
+            assert request(guest, base, "/admin/approvals.php")[1].endswith("/login.php?redirect=admin/approvals.php")
+            status, _, approval_page = request(admin, base, "/admin/approvals.php")
+            assert status == 200 and member_request["id"] in approval_page and request_id not in approval_page
+            assert request(admin, base, "/admin/approvals.php", {"id": member_request["id"], "decision": "approve"})[0] == 403
+            status, _, _ = request(admin, base, "/admin/approvals.php", {
+                "csrf_token": csrf(approval_page), "id": member_request["id"], "decision": "approve"
+            })
+            assert status == 200
+            requests = json.loads((data_dir / "repair_requests.json").read_text(encoding="utf-8"))
+            assert next(item for item in requests if item["id"] == member_request["id"])["status"] == "contacted"
+            assert member_request["id"] not in request(admin, base, "/admin/approvals.php")[2]
+            assert json.loads(request(user, base, "/api/user_live.php")[2])["requests"][0]["status"] == "contacted"
+            assert request(guest, base, "/api/user_live.php")[0] == 403
+            status, _, form = request(guest, base, "/request_repair.php")
+            status, _, _ = request(guest, base, "/request_repair.php", {
+                "csrf_token": csrf(form), "submit_request": "1", "device_type": "Điện thoại (Smartphone)",
+                "brand_model": "iPhone 16e", "model_id": "apple-iphone-16e", "fault_id": "battery",
+                "issue_type": "Thay pin", "symptom": "Kiểm thử từ chối yêu cầu", "district": "Quận 1",
+                "customer_name": "Test Guest Rejected", "customer_email": "guest-rejected@example.invalid",
+                "customer_phone": "0901234570", "customer_zalo": "0901234570", "preferred_time": "Ngày mai"
+            })
+            assert status == 200
+            rejected_request = next(item for item in json.loads((data_dir / "repair_requests.json").read_text(encoding="utf-8")) if item["customer_name"] == "Test Guest Rejected")
+            status, _, approval_page = request(admin, base, "/admin/approvals.php")
+            assert rejected_request["id"] in approval_page
+            status, _, _ = request(admin, base, "/admin/approvals.php", {
+                "csrf_token": csrf(approval_page), "id": rejected_request["id"], "decision": "reject"
+            })
+            assert status == 200
+            assert next(item for item in json.loads((data_dir / "repair_requests.json").read_text(encoding="utf-8")) if item["id"] == rejected_request["id"])["status"] == "cancelled"
+            status, url, _ = request(admin, base, "/admin/approvals.php", {
+                "csrf_token": csrf(approval_page), "id": rejected_request["id"], "decision": "approve"
+            })
+            assert status == 200 and "result=stale" in url
+            status, _, detail = request(user, base, "/shop_detail.php?id=1")
+            status, _, _ = request(user, base, "/api/add_report.php", {
+                "csrf_token": csrf(detail), "shop_id": "1", "reason": "Sai giờ mở cửa",
+                "details": "Kiểm thử báo cáo giờ mở cửa", "reporter_phone": "",
+                "redirect_url": "../shop_detail.php?id=1"
+            })
+            reports = json.loads((data_dir / "reports.json").read_text(encoding="utf-8"))
+            assert status == 200 and len(reports) == 1
+            status, _, report_page = request(admin, base, "/admin/reports.php?detail=" + str(reports[0]["id"]))
+            assert status == 200 and "Kiểm thử báo cáo giờ mở cửa" in report_page
+            assert 'Warning: Undefined array key "reporter_phone"' not in report_page
+            status, _, _ = request(admin, base, "/admin/reports.php", {
+                "csrf_token": csrf(report_page), "id": str(reports[0]["id"]), "status": "resolved"
+            })
+            assert status == 200 and json.loads((data_dir / "reports.json").read_text(encoding="utf-8"))[0]["status"] == "resolved"
+            status, _, approvals = request(admin, base, "/admin/approvals.php")
+            assert "Hiện chưa có yêu cầu nào cần duyệt" in approvals
+            status, _, live_response = request(admin, base, "/api/admin_live.php")
+            assert json.loads(live_response)["pending_reports"] == 0
+            print("PASS: 319-model prices, search/filter, guest/member booking, registration/login, favorites/reviews, contacts/reports, admin CRUD, request approval, moderation and role sync")
         finally:
             process.terminate()
             try:
