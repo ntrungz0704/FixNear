@@ -32,12 +32,35 @@ define('FIXNEAR_DATA_DIR', rtrim((string) fixnearConfig('FIXNEAR_DATA_DIR', 'dat
 // Cấu hình kết nối Cơ sở dữ liệu MySQL (Chuẩn XAMPP / Laragon)
 // Bản clone chạy JSON mặc định; production giữ MySQL khi đã cấu hình.
 define('ENABLE_MYSQL', filter_var(fixnearConfig('ENABLE_MYSQL', 'enable_mysql', FIXNEAR_IS_PRODUCTION), FILTER_VALIDATE_BOOLEAN));
+define('FIXNEAR_REQUIRE_MYSQL', filter_var(fixnearConfig('FIXNEAR_REQUIRE_MYSQL', 'require_mysql', FIXNEAR_IS_PRODUCTION), FILTER_VALIDATE_BOOLEAN));
 define('DB_HOST', (string) fixnearConfig('DB_HOST', 'db_host', '127.0.0.1'));
 define('DB_PORT', (int) fixnearConfig('DB_PORT', 'db_port', 3306));
 define('DB_NAME', (string) fixnearConfig('DB_NAME', 'db_name', 'fixnear_db'));
 define('DB_USER', (string) fixnearConfig('DB_USER', 'db_user', 'root'));
 define('DB_PASS', (string) fixnearConfig('DB_PASS', 'db_pass', ''));
-define('DB_TIMEOUT', (int) fixnearConfig('DB_TIMEOUT', 'db_timeout', 1));
+define('DB_TIMEOUT', (int) fixnearConfig('DB_TIMEOUT', 'db_timeout', 5));
+define('DB_SSL_CA', (string) fixnearConfig('DB_SSL_CA', 'db_ssl_ca', str_ends_with(DB_HOST, '.tidbcloud.com') ? __DIR__ . '/certs/isrgrootx1.pem' : ''));
+define('FIXNEAR_SESSION_STORAGE', strtolower((string)fixnearConfig('FIXNEAR_SESSION_STORAGE', 'session_storage', 'files')));
+
+function fixnearPdoOptions(): array
+{
+    $options = [
+        PDO::ATTR_ERRMODE => PDO::ERRMODE_EXCEPTION,
+        PDO::ATTR_DEFAULT_FETCH_MODE => PDO::FETCH_ASSOC,
+        PDO::ATTR_EMULATE_PREPARES => false,
+        PDO::ATTR_TIMEOUT => max(1, DB_TIMEOUT),
+    ];
+    if (DB_SSL_CA !== '') {
+        if (!is_readable(DB_SSL_CA)) {
+            throw new RuntimeException('Database CA certificate is not readable.');
+        }
+        $caOption = defined('Pdo\\Mysql::ATTR_SSL_CA') ? constant('Pdo\\Mysql::ATTR_SSL_CA') : constant('PDO::MYSQL_ATTR_SSL_CA');
+        $verifyOption = defined('Pdo\\Mysql::ATTR_SSL_VERIFY_SERVER_CERT') ? constant('Pdo\\Mysql::ATTR_SSL_VERIFY_SERVER_CERT') : constant('PDO::MYSQL_ATTR_SSL_VERIFY_SERVER_CERT');
+        $options[$caOption] = DB_SSL_CA;
+        $options[$verifyOption] = true;
+    }
+    return $options;
+}
 
 // ================= GEMINI AI API =================
 define('GEMINI_API_KEY', (string) fixnearConfig('GEMINI_API_KEY', 'gemini_api_key', ''));
@@ -54,6 +77,16 @@ $httpsEnabled = (!empty($_SERVER['HTTPS']) && $_SERVER['HTTPS'] !== 'off')
     || (($_SERVER['HTTP_X_FORWARDED_PROTO'] ?? '') === 'https');
 
 if (session_status() === PHP_SESSION_NONE) {
+    if (FIXNEAR_SESSION_STORAGE === 'database') {
+        require_once __DIR__ . '/db_session_handler.php';
+        $sessionPdo = new PDO(
+            'mysql:host=' . DB_HOST . ';port=' . DB_PORT . ';dbname=' . DB_NAME . ';charset=utf8mb4',
+            DB_USER,
+            DB_PASS,
+            fixnearPdoOptions()
+        );
+        session_set_save_handler(new FixNearDbSessionHandler($sessionPdo), true);
+    }
     session_name('fixnear_session');
     session_set_cookie_params([
         'lifetime' => 0,

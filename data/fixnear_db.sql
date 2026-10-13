@@ -39,6 +39,7 @@ CREATE TABLE `shops` (
   `google_reviews_count` INT DEFAULT NULL,
   `devices` VARCHAR(150) DEFAULT 'laptop,phone',
   `is_verified` TINYINT(1) DEFAULT 0,
+  `is_active` TINYINT(1) DEFAULT 1,
   `allows_onsite_watch` TINYINT(1) DEFAULT 0,
   `requires_component_signing` TINYINT(1) DEFAULT 0,
   `source_url` TEXT,
@@ -1482,7 +1483,9 @@ CREATE TABLE `wrong_info_reports` (
   `reporter_phone` VARCHAR(50) DEFAULT NULL,
   `reason` VARCHAR(255) NOT NULL,
   `details` TEXT,
-  `status` ENUM('pending', 'resolved') DEFAULT 'pending',
+  `priority` ENUM('low', 'medium', 'high') DEFAULT 'medium',
+  `admin_note` TEXT,
+  `status` ENUM('pending', 'verifying', 'resolved') DEFAULT 'pending',
   `created_at` DATETIME DEFAULT CURRENT_TIMESTAMP
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci;
 
@@ -1497,6 +1500,24 @@ CREATE TABLE `contact_messages` (
   `phone` VARCHAR(50) DEFAULT NULL,
   `subject` VARCHAR(255) NOT NULL,
   `message` TEXT NOT NULL,
+  `status` ENUM('pending', 'read', 'replied') DEFAULT 'pending',
+  `admin_reply` TEXT,
+  `replied_at` DATETIME DEFAULT NULL,
   `created_at` DATETIME DEFAULT CURRENT_TIMESTAMP
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci;
+
+CREATE TABLE IF NOT EXISTS `favorites` (
+  `user_id` INT NOT NULL,
+  `shop_id` INT NOT NULL,
+  `created_at` DATETIME DEFAULT CURRENT_TIMESTAMP,
+  PRIMARY KEY (`user_id`, `shop_id`)
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci;
+
+-- Phiên đăng nhập dùng chung khi triển khai trên nhiều PHP worker.
+CREATE TABLE IF NOT EXISTS `app_sessions` (
+  `session_id` VARCHAR(128) PRIMARY KEY,
+  `payload` LONGBLOB NOT NULL,
+  `expires_at` BIGINT NOT NULL,
+  INDEX `idx_session_expiry` (`expires_at`)
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci;
 

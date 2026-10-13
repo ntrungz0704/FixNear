@@ -28,3 +28,5 @@ fixnear/
 outputs/qa-*.png
 outputs/site-*.png
 outputs/preview-*.png
+.vercel
+.env*

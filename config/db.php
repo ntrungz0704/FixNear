@@ -133,6 +133,9 @@ class FixNearDB {
             // Log fallback
         }
         $this->initMySQL();
+        if (FIXNEAR_REQUIRE_MYSQL && !$this->is_mysql) {
+            throw new RuntimeException('Database unavailable; refusing to use local JSON storage.');
+        }
     }
 
     private function initMySQL() {
@@ -141,23 +144,10 @@ class FixNearDB {
             return;
         }
 
-        // Kiểm tra nhanh cổng kết nối MySQL (0.15s) tránh độ trễ TCP timeout khi MySQL chưa bật
-        $probe = @fsockopen(DB_HOST, DB_PORT, $errno, $errstr, 0.15);
-        if (!$probe) {
-            $this->is_mysql = false;
-            return;
-        }
-        fclose($probe);
-
         try {
             $timeout = defined('DB_TIMEOUT') ? (int)DB_TIMEOUT : 1;
             $dsn = "mysql:host=" . DB_HOST . ";port=" . DB_PORT . ";dbname=" . DB_NAME . ";charset=utf8mb4";
-            $this->pdo = new PDO($dsn, DB_USER, DB_PASS, [
-                PDO::ATTR_ERRMODE => PDO::ERRMODE_EXCEPTION,
-                PDO::ATTR_DEFAULT_FETCH_MODE => PDO::FETCH_ASSOC,
-                PDO::ATTR_EMULATE_PREPARES => false,
-                PDO::ATTR_TIMEOUT => $timeout
-            ]);
+            $this->pdo = new PDO($dsn, DB_USER, DB_PASS, fixnearPdoOptions());
             $this->is_mysql = true;
             $this->ensureTablesExist();
         } catch (PDOException $e) {
@@ -851,6 +841,7 @@ class FixNearDB {
                 return $stmt->fetchAll(PDO::FETCH_ASSOC);
             } catch (Exception $e) {
                 // CSDL cũ thiếu cột origin: không công bố review seed.
+                if (FIXNEAR_REQUIRE_MYSQL) throw $e;
                 return [];
             }
         }
@@ -904,6 +895,7 @@ class FixNearDB {
                 $stmt->execute($reviewParams);
             } catch (Exception $e) {
                 // Schema cũ: lưu để admin xem, nhưng giữ ẩn vì không phân biệt được nguồn.
+                if (FIXNEAR_REQUIRE_MYSQL) throw $e;
                 $stmt = $this->pdo->prepare("
                     INSERT INTO reviews (shop_id, user_id, user_name, rating, device_name, service_repaired, comment, is_hidden, admin_reply, created_at)
                     VALUES (:shop_id, :user_id, :user_name, :rating, :device_name, :service_repaired, :comment, 1, NULL, NOW())
@@ -1161,6 +1153,7 @@ class FixNearDB {
                 return false;
             } catch (Exception $e) {
                 // Fallback nếu bảng chưa có cột status
+                if (FIXNEAR_REQUIRE_MYSQL) throw $e;
                 try {
                     $stmt = $this->pdo->prepare("
                         INSERT INTO contact_messages (name, email, phone, subject, message, created_at)
@@ -1215,6 +1208,7 @@ class FixNearDB {
                 return $stmt->fetchAll(PDO::FETCH_ASSOC);
             } catch (Exception $e) {
                 error_log("getContactMessages MySQL error: " . $e->getMessage());
+                if (FIXNEAR_REQUIRE_MYSQL) throw $e;
             }
         }
 
@@ -1233,6 +1227,7 @@ class FixNearDB {
                 $stmt = $this->pdo->prepare("UPDATE contact_messages SET status = :status WHERE id = :id");
                 return $stmt->execute([':status' => $status, ':id' => (int)$id]);
             } catch (Exception $e) {
+                if (FIXNEAR_REQUIRE_MYSQL) throw $e;
                 return true;
             }
         }
@@ -1260,6 +1255,7 @@ class FixNearDB {
                 ");
                 return $stmt->execute([':reply' => $replyText, ':id' => (int)$id]);
             } catch (Exception $e) {
+                if (FIXNEAR_REQUIRE_MYSQL) throw $e;
                 return false;
             }
         }
@@ -1286,6 +1282,7 @@ class FixNearDB {
                 return $stmt->execute([':id' => (int)$id]);
             } catch (Exception $e) {
                 error_log("deleteContactMessage MySQL error: " . $e->getMessage());
+                if (FIXNEAR_REQUIRE_MYSQL) throw $e;
                 return false;
             }
         }
@@ -1310,6 +1307,7 @@ class FixNearDB {
                 return $stmt->fetchAll(PDO::FETCH_COLUMN) ?: [];
             } catch (Exception $e) {
                 // Nếu bảng favorites chưa có trong MySQL, tiếp tục fallback JSON
+                if (FIXNEAR_REQUIRE_MYSQL) throw $e;
             }
         }
 
@@ -1349,6 +1347,7 @@ class FixNearDB {
                 return ['favorited' => $newFavorited];
             } catch (Exception $e) {
                 // Fallback qua JSON nếu bảng MySQL chưa được tạo
+                if (FIXNEAR_REQUIRE_MYSQL) throw $e;
             }
         }
 
@@ -1402,6 +1401,7 @@ class FixNearDB {
                 ");
                 return $stmt->fetchAll(PDO::FETCH_ASSOC);
             } catch (Exception $e) {
+                if (FIXNEAR_REQUIRE_MYSQL) throw $e;
                 $stmt = $this->pdo->query("SELECT * FROM wrong_info_reports ORDER BY created_at DESC");
                 return $stmt->fetchAll(PDO::FETCH_ASSOC);
             }
@@ -1599,6 +1599,7 @@ class FixNearDB {
                     $pendingContacts = (int)$this->pdo->query("SELECT COUNT(*) FROM contact_messages WHERE status = 'pending'")->fetchColumn();
                 } catch (Exception $e) {
                     // Cột status có thể chưa tồn tại nếu dùng CSDL cũ
+                    if (FIXNEAR_REQUIRE_MYSQL) throw $e;
                 }
 
                 return [
@@ -1618,6 +1619,7 @@ class FixNearDB {
                 ];
             } catch (Exception $e) {
                 // Nếu bảng chưa sẵn sàng, tiếp tục dùng JSON
+                if (FIXNEAR_REQUIRE_MYSQL) throw $e;
             }
         }
 

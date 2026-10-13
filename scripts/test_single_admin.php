@@ -10,6 +10,7 @@ $directory = sys_get_temp_dir() . '/fixnear-admin-' . bin2hex(random_bytes(8));
 mkdir($directory, 0700, true);
 putenv('FIXNEAR_DATA_DIR=' . $directory);
 putenv('FIXNEAR_DISABLE_MYSQL=1');
+putenv('FIXNEAR_REQUIRE_MYSQL=0');
 require_once __DIR__ . '/../config/db.php';
 
 try {
