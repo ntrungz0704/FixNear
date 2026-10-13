@@ -138,7 +138,7 @@ require_once __DIR__ . '/../includes/navbar.php';
             <div class="w-full md:w-52">
                 <label class="block text-[11px] font-bold text-orange-950/70 mb-1">Khoảng thời gian</label>
                 <div class="relative">
-                    <input type="text" value="01/05/2025 - 31/05/2025" readonly class="w-full text-xs font-semibold bg-[#fffcf9] border border-orange-200 rounded-lg pl-3 pr-8 py-2 text-slate-700 cursor-pointer">
+                    <input type="text" value="Toàn bộ thời gian" readonly class="w-full text-xs font-semibold bg-[#fffcf9] border border-orange-200 rounded-lg pl-3 pr-8 py-2 text-slate-700">
                     <span class="absolute inset-y-0 right-0 flex items-center pr-2.5 pointer-events-none text-slate-400">
                         <svg class="w-3.5 h-3.5" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M8 7V3m8 4V3m-9 8h10M5 21h14a2 2 0 002-2V7a2 2 0 00-2-2H5a2 2 0 00-2 2v12a2 2 0 002 2z"></path></svg>
                     </span>
@@ -297,7 +297,7 @@ require_once __DIR__ . '/../includes/navbar.php';
                         <div class="relative">
                             <span class="absolute -left-6 top-0.5 w-4 h-4 rounded-full bg-emerald-500 border-2 border-white shadow-xs"></span>
                             <div class="font-bold text-slate-800">Khách gửi yêu cầu</div>
-                            <div class="text-[11px] text-slate-400 mt-0.5" id="drawer-timeline-created">01/05/2025 08:30</div>
+                            <div class="text-[11px] text-slate-400 mt-0.5" id="drawer-timeline-created">Chưa có dữ liệu</div>
                         </div>
                         <div class="relative">
                             <span class="absolute -left-6 top-0.5 w-4 h-4 rounded-full bg-amber-500 border-2 border-white shadow-xs"></span>

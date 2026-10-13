@@ -1566,6 +1566,7 @@ class FixNearDB {
                 $avgRating = $this->pdo->query("SELECT ROUND(AVG(google_rating), 1) FROM shops WHERE google_place_id IS NOT NULL AND google_place_id != '' AND google_verified_at IS NOT NULL AND google_rating IS NOT NULL")->fetchColumn();
                 $totalServices = (int)$this->pdo->query("SELECT COUNT(*) FROM services")->fetchColumn();
                 $totalReviews = (int)$this->pdo->query("SELECT COUNT(*) FROM reviews")->fetchColumn();
+                $totalUsers = (int)$this->pdo->query("SELECT COUNT(*) FROM users")->fetchColumn();
                 $pendingReports = (int)$this->pdo->query("SELECT COUNT(*) FROM wrong_info_reports WHERE status = 'pending'")->fetchColumn();
                 $totalRequests = (int)$this->pdo->query("SELECT COUNT(*) FROM repair_requests")->fetchColumn();
                 $pendingRequests = (int)$this->pdo->query("SELECT COUNT(*) FROM repair_requests WHERE status = 'pending'")->fetchColumn();
@@ -1585,7 +1586,9 @@ class FixNearDB {
                     'average_shop_rating' => $avgRating ? (float)$avgRating : null,
                     'total_services' => $totalServices,
                     'total_reviews' => $totalReviews,
+                    'total_users' => $totalUsers,
                     'pending_reports' => $pendingReports,
+                    'total_reports' => (int)$this->pdo->query("SELECT COUNT(*) FROM wrong_info_reports")->fetchColumn(),
                     'total_requests' => $totalRequests,
                     'pending_requests' => $pendingRequests,
                     'total_contacts' => $totalContacts,
@@ -1599,6 +1602,7 @@ class FixNearDB {
         $shops = $this->readJson('shops.json');
         $services = $this->readJson('services.json');
         $reviews = $this->readJson('reviews.json');
+        $users = $this->readJson('users.json');
         $reports = $this->readJson('reports.json');
         $requests = $this->readJson('repair_requests.json');
         if (!is_array($requests)) $requests = [];
@@ -1647,7 +1651,9 @@ class FixNearDB {
             'average_shop_rating' => $ratingCount ? round($ratingTotal / $ratingCount, 1) : null,
             'total_services' => count($services),
             'total_reviews' => count($reviews),
+            'total_users' => count($users),
             'pending_reports' => $pending_reports,
+            'total_reports' => count($reports),
             'total_requests' => count($requests),
             'pending_requests' => $pending_requests,
             'total_contacts' => count($contacts),

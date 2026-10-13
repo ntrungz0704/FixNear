@@ -14,10 +14,11 @@ $currentPage = basename($_SERVER['PHP_SELF']);
                 Xem trang web ↗
             </a>
             <!-- Nút thông báo chuyển lên header -->
-            <button type="button" class="fn-admin-notif-btn" style="position:relative;background:transparent;border:none;cursor:pointer;padding:6px;display:flex;align-items:center;justify-content:center;color:#64748b;" title="Thông báo hệ thống">
+            <button type="button" class="fn-admin-notif-btn" id="fn-admin-notif-btn" aria-label="Thông báo quản trị" aria-expanded="false" aria-controls="fn-admin-notif-panel" style="position:relative;background:transparent;border:none;cursor:pointer;padding:6px;display:flex;align-items:center;justify-content:center;color:#64748b;" title="Thông báo hệ thống">
                 <svg style="width:20px;height:20px;" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M15 17h5l-1.405-1.405A2.032 2.032 0 0118 14.158V11a6.002 6.002 0 00-4-5.659V5a2 2 0 10-4 0v.341C7.67 6.165 6 8.388 6 11v3.159c0 .538-.214 1.055-.595 1.436L4 17h5m6 0v1a3 3 0 11-6 0v-1m6 0H9"></path></svg>
-                <span style="position:absolute;top:2px;right:2px;width:16px;height:16px;background:#ea580c;color:#ffffff;font-size:10px;font-weight:800;border-radius:999px;display:flex;align-items:center;justify-content:center;">3</span>
+                <span id="fn-admin-notif-count" hidden style="position:absolute;top:2px;right:2px;min-width:16px;height:16px;background:#ea580c;color:#ffffff;font-size:10px;font-weight:800;border-radius:999px;align-items:center;justify-content:center;"></span>
             </button>
+            <div id="fn-admin-notif-panel" hidden style="position:absolute;right:120px;top:64px;z-index:1000;background:white;border:1px solid #fed7aa;border-radius:12px;box-shadow:0 12px 35px #1e293b22;padding:16px;min-width:270px;color:#1e293b;font-size:13px"></div>
             <div style="height:20px;width:1px;background:#e2e8f0;"></div>
             <div style="display:flex;align-items:center;gap:8px;">
                 <div style="width:30px;height:30px;border-radius:999px;background:#ea580c;color:#fff;font-weight:800;font-size:12px;display:flex;align-items:center;justify-content:center;">
@@ -86,6 +87,9 @@ $currentPage = basename($_SERVER['PHP_SELF']);
                             🛡️ Trang Quản Trị
                         </a>
                     <?php endif; ?>
+                    <?php if (!isAdmin()): ?>
+                        <a id="fn-user-live-badge" href="<?= $assetPrefix ?>track_request.php" hidden data-user-id="<?= (int)($currentUser['id'] ?? 0) ?>" data-prefix="<?= htmlspecialchars($assetPrefix) ?>" style="font-size:12px;font-weight:700;color:#c2410c">Yêu cầu cập nhật</a>
+                    <?php endif; ?>
                     <span style="font-size: 13.5px; font-weight: 700; color: var(--fn-dark);">
                         <?= htmlspecialchars($currentUser['name'] ?? 'Thành viên') ?>
                         <span style="font-size: 11px; padding: 2px 6px; background: #fff7ed; color: #ea580c; border: 1px solid #fed7aa; border-radius: 4px; margin-left: 4px;">
@@ -104,5 +108,6 @@ $currentPage = basename($_SERVER['PHP_SELF']);
         </div>
     </div>
 </nav>
+<?php if (isLoggedIn() && !isAdmin()): ?><script defer src="<?= $assetPrefix ?>assets/js/user-live.js?v=<?= filemtime(__DIR__ . '/../assets/js/user-live.js') ?>"></script><?php endif; ?>
 <!-- Backdrop tối khi mở menu mobile -->
 <div class="fn-mobile-backdrop" id="fn-mobile-backdrop" onclick="fnToggleMobileMenu()"></div>

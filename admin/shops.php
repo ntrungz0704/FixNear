@@ -217,7 +217,7 @@ require_once __DIR__ . '/../includes/navbar.php';
                         <?php foreach ($shops as $index => $s): 
                             $isActive = (isset($s['is_active']) ? (int)$s['is_active'] : 1) === 1;
                             $imgCount = !empty($s['raw_image']) ? 3 : 0;
-                            $formattedDate = !empty($s['address_verified_at']) ? date('d/m/Y', strtotime($s['address_verified_at'])) : '01/05/2025';
+                            $formattedDate = !empty($s['address_verified_at']) ? date('d/m/Y', strtotime($s['address_verified_at'])) : 'Chưa xác minh';
                         ?>
                             <tr class="shop-row hover:bg-[#fffaf3] transition"
                                 data-id="<?= (int)$s['id'] ?>"

@@ -996,7 +996,7 @@ require_once __DIR__ . '/../includes/navbar.php';
                                             </div>
                                             <?php if (!empty($rp['reporter_phone']) || !empty($rp['registered_user_phone'])): ?>
                                                 <div style="font-size: 11px; color: #94a3b8;">
-                                                    <?= htmlspecialchars($rp['reporter_phone'] ?: $rp['registered_user_phone']) ?>
+                                                    <?= htmlspecialchars(($rp['reporter_phone'] ?? '') ?: ($rp['registered_user_phone'] ?? '')) ?>
                                                 </div>
                                             <?php endif; ?>
                                         </td>
@@ -1131,7 +1131,7 @@ require_once __DIR__ . '/../includes/navbar.php';
                                 <?= htmlspecialchars($currentReport['user_name'] ?? 'Khách vãng lai') ?>
                                 <?php if (!empty($currentReport['reporter_phone']) || !empty($currentReport['registered_user_phone'])): ?>
                                     <span style="font-weight: 500; color: #64748b; font-size: 12px;">
-                                        (<?= htmlspecialchars($currentReport['reporter_phone'] ?: $currentReport['registered_user_phone']) ?>)
+                                        (<?= htmlspecialchars(($currentReport['reporter_phone'] ?? '') ?: ($currentReport['registered_user_phone'] ?? '')) ?>)
                                     </span>
                                 <?php endif; ?>
                             </span>

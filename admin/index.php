@@ -23,7 +23,30 @@ if (is_dir($catalogDir)) {
         }
     }
 }
-if ($totalModels === 0) $totalModels = 319; // Giá trị tham chiếu
+
+$today = new DateTimeImmutable('today');
+$chartStart = $today->modify('-29 days');
+$dailyRequests = [];
+for ($day = 0; $day < 30; $day++) {
+    $key = $chartStart->modify("+{$day} days")->format('Y-m-d');
+    $dailyRequests[$key] = ['total' => 0, 'completed' => 0];
+}
+foreach ($requests as $request) {
+    $key = substr((string)($request['created_at'] ?? ''), 0, 10);
+    if (!isset($dailyRequests[$key])) continue;
+    $dailyRequests[$key]['total']++;
+    if (($request['status'] ?? '') === 'completed') $dailyRequests[$key]['completed']++;
+}
+$chartHasData = array_sum(array_column($dailyRequests, 'total')) > 0;
+$chartMax = max(1, ...array_column($dailyRequests, 'total'));
+$chartPoints = ['total' => [], 'completed' => []];
+foreach (array_values($dailyRequests) as $index => $counts) {
+    $x = round($index * 600 / 29, 1);
+    foreach (['total', 'completed'] as $series) {
+        $y = round(180 - ($counts[$series] * 160 / $chartMax), 1);
+        $chartPoints[$series][] = $x . ',' . $y;
+    }
+}
 
 // Thống kê yêu cầu & lọc danh sách chờ xử lý thực tế
 $pendingReqCount = 0;
@@ -33,7 +56,11 @@ foreach ($requests as $r) {
     if (($r['status'] ?? 'pending') === 'pending') {
         $pendingReqCount++;
 
-        $createdTs = !empty($r['created_at']) ? strtotime($r['created_at']) : time();
+        $createdTs = !empty($r['created_at']) ? strtotime($r['created_at']) : false;
+        if ($createdTs === false) {
+            $timeStr = 'Chưa có thời gian gửi';
+            $diffHours = 0;
+        } else {
         $diffMinutes = max(1, round((time() - $createdTs) / 60));
         $diffHours = round($diffMinutes / 60, 1);
 
@@ -44,6 +71,7 @@ foreach ($requests as $r) {
             $timeStr = floor($diffHours) . ' giờ trước';
         } else {
             $timeStr = floor($diffHours / 24) . ' ngày trước';
+        }
         }
 
         // Đánh giá mức độ ưu tiên theo SLA (thời gian chờ phản hồi) và tính cấp bách của lỗi
@@ -93,17 +121,7 @@ require_once __DIR__ . '/../includes/navbar.php';
                 <p class="text-sm text-slate-500 mt-0.5">Cập nhật tình hình hoạt động của FixNear trong thời gian qua</p>
             </div>
             <div class="flex items-center gap-3">
-                <div class="relative">
-                    <select class="appearance-none bg-white border border-orange-200 rounded-lg px-4 py-2 pr-9 text-xs font-bold text-slate-700 shadow-sm hover:border-orange-300 focus:outline-none focus:ring-2 focus:ring-orange-500/20">
-                        <option>01/05/2025 - 31/05/2025</option>
-                        <option>30 ngày gần nhất</option>
-                        <option>7 ngày gần nhất</option>
-                        <option>Hôm nay</option>
-                    </select>
-                    <span class="absolute inset-y-0 right-0 flex items-center pr-3 pointer-events-none text-slate-400">
-                        <svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M19 9l-7 7-7-7"></path></svg>
-                    </span>
-                </div>
+                <span class="bg-white border border-orange-200 rounded-lg px-4 py-2 text-xs font-bold text-slate-700">Dữ liệu đến <?= htmlspecialchars($today->format('d/m/Y')) ?></span>
             </div>
         </div>
 
@@ -120,13 +138,7 @@ require_once __DIR__ . '/../includes/navbar.php';
                         <svg class="w-6 h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M19 21V5a2 2 0 00-2-2H7a2 2 0 00-2 2v16m14 0h2m-2 0h-5m-9 0H3m2 0h5M9 7h1m-1 4h1m4-4h1m-1 4h1m-5 10v-5a1 1 0 011-1h2a1 1 0 011 1v5m-4 0h4"></path></svg>
                     </div>
                 </div>
-                <div class="mt-4 pt-3 border-t border-orange-50 flex items-center text-xs">
-                    <span class="text-emerald-600 font-bold flex items-center gap-0.5">
-                        <svg class="w-3.5 h-3.5" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2.5" d="M5 10l7-7m0 0l7 7m-7-7v18"></path></svg>
-                        6.3%
-                    </span>
-                    <span class="text-slate-400 ml-1.5">so với tháng trước</span>
-                </div>
+                <div class="mt-4 pt-3 border-t border-orange-50 text-xs text-slate-500"><?= count($sourcedShops) ?> cửa hàng có địa chỉ đối chiếu</div>
             </div>
 
             <!-- Card 2: Khu vực -->
@@ -140,13 +152,7 @@ require_once __DIR__ . '/../includes/navbar.php';
                         <svg class="w-6 h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M17.657 16.657L13.414 20.9a1.998 1.998 0 01-2.827 0l-4.244-4.243a8 8 0 1111.314 0z"></path><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M15 11a3 3 0 11-6 0 3 3 0 016 0z"></path></svg>
                     </div>
                 </div>
-                <div class="mt-4 pt-3 border-t border-orange-50 flex items-center text-xs">
-                    <span class="text-emerald-600 font-bold flex items-center gap-0.5">
-                        <svg class="w-3.5 h-3.5" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2.5" d="M5 10l7-7m0 0l7 7m-7-7v18"></path></svg>
-                        6.3%
-                    </span>
-                    <span class="text-slate-400 ml-1.5">so với tháng trước</span>
-                </div>
+                <div class="mt-4 pt-3 border-t border-orange-50 text-xs text-slate-500">Tính từ danh sách cửa hàng hiện có</div>
             </div>
 
             <!-- Card 3: Model -->
@@ -160,13 +166,7 @@ require_once __DIR__ . '/../includes/navbar.php';
                         <svg class="w-6 h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 18h.01M8 21h8a2 2 0 002-2V5a2 2 0 00-2-2H8a2 2 0 00-2 2v14a2 2 0 002 2z"></path></svg>
                     </div>
                 </div>
-                <div class="mt-4 pt-3 border-t border-orange-50 flex items-center text-xs">
-                    <span class="text-emerald-600 font-bold flex items-center gap-0.5">
-                        <svg class="w-3.5 h-3.5" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2.5" d="M5 10l7-7m0 0l7 7m-7-7v18"></path></svg>
-                        12.7%
-                    </span>
-                    <span class="text-slate-400 ml-1.5">so với tháng trước</span>
-                </div>
+                <div class="mt-4 pt-3 border-t border-orange-50 text-xs text-slate-500">Tính từ danh mục thiết bị hiện có</div>
             </div>
 
             <!-- Card 4: Yêu cầu chờ xử lý -->
@@ -190,6 +190,13 @@ require_once __DIR__ . '/../includes/navbar.php';
         </div>
 
         <!-- MIDDLE SECTION: CHART (65%) & PENDING REQUESTS LIST (35%) -->
+        <div class="bg-white rounded-xl border border-orange-100 px-5 py-3 mb-6 text-sm text-slate-600 flex flex-wrap gap-x-6 gap-y-1" aria-label="Số lượng dữ liệu hiện có">
+            <span>Tài khoản: <strong><?= (int)($stats['total_users'] ?? 0) ?></strong></span>
+            <span>Yêu cầu: <strong><?= (int)($stats['total_requests'] ?? 0) ?></strong></span>
+            <span>Đánh giá: <strong><?= (int)($stats['total_reviews'] ?? 0) ?></strong></span>
+            <span>Báo cáo: <strong><?= (int)($stats['total_reports'] ?? 0) ?></strong></span>
+            <span>Liên hệ: <strong><?= (int)($stats['total_contacts'] ?? 0) ?></strong></span>
+        </div>
         <div class="grid grid-cols-1 lg:grid-cols-12 gap-6 mb-6">
             <!-- LEFT: CHART BÁO CÁO YÊU CẦU -->
             <div class="lg:col-span-8 bg-white rounded-xl border border-orange-100 p-6 shadow-sm">
@@ -207,60 +214,21 @@ require_once __DIR__ . '/../includes/navbar.php';
                             </div>
                         </div>
                     </div>
-                    <div class="relative">
-                        <select class="appearance-none bg-orange-50/50 border border-orange-200 rounded-lg px-3 py-1.5 pr-8 text-xs font-semibold text-slate-700 focus:outline-none focus:ring-1 focus:ring-orange-500">
-                            <option>30 ngày qua</option>
-                            <option>7 ngày qua</option>
-                            <option>Tháng này</option>
-                        </select>
-                        <span class="absolute inset-y-0 right-0 flex items-center pr-2.5 pointer-events-none text-slate-400">
-                            <svg class="w-3.5 h-3.5" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M19 9l-7 7-7-7"></path></svg>
-                        </span>
-                    </div>
+                    <span class="text-xs font-semibold text-slate-500">30 ngày gần nhất</span>
                 </div>
 
-                <!-- SVG Area Chart -->
-                <div class="relative h-64 w-full">
-                    <svg class="w-full h-full overflow-visible" viewBox="0 0 600 200" preserveAspectRatio="none">
-                        <defs>
-                            <linearGradient id="chartGradientOrange" x1="0" y1="0" x2="0" y2="1">
-                                <stop offset="0%" stop-color="#ea580c" stop-opacity="0.25"/>
-                                <stop offset="100%" stop-color="#ea580c" stop-opacity="0.0"/>
-                            </linearGradient>
-                            <linearGradient id="chartGradientLight" x1="0" y1="0" x2="0" y2="1">
-                                <stop offset="0%" stop-color="#fdba74" stop-opacity="0.3"/>
-                                <stop offset="100%" stop-color="#fdba74" stop-opacity="0.0"/>
-                            </linearGradient>
-                        </defs>
-                        <!-- Grid lines -->
-                        <line x1="0" y1="40" x2="600" y2="40" stroke="#fed7aa" stroke-opacity="0.4" stroke-width="1" stroke-dasharray="4 4" />
-                        <line x1="0" y1="90" x2="600" y2="90" stroke="#fed7aa" stroke-opacity="0.4" stroke-width="1" stroke-dasharray="4 4" />
-                        <line x1="0" y1="140" x2="600" y2="140" stroke="#fed7aa" stroke-opacity="0.4" stroke-width="1" stroke-dasharray="4 4" />
-                        <line x1="0" y1="190" x2="600" y2="190" stroke="#fdba74" stroke-width="1" />
-
-                        <!-- Path 2: Hoàn thành (cam nhạt) -->
-                        <path d="M 0,160 Q 100,140 200,120 T 400,90 T 600,60 L 600,190 L 0,190 Z" fill="url(#chartGradientLight)" />
-                        <path d="M 0,160 Q 100,140 200,120 T 400,90 T 600,60" fill="none" stroke="#fdba74" stroke-width="2.5" />
-
-                        <!-- Path 1: Tổng yêu cầu (cam đậm) -->
-                        <path d="M 0,130 Q 100,110 200,80 T 400,50 T 600,30 L 600,190 L 0,190 Z" fill="url(#chartGradientOrange)" />
-                        <path d="M 0,130 Q 100,110 200,80 T 400,50 T 600,30" fill="none" stroke="#ea580c" stroke-width="3" />
-
-                        <!-- Chart data points -->
-                        <circle cx="200" cy="80" r="4.5" fill="#ea580c" stroke="#fff" stroke-width="2" />
-                        <circle cx="400" cy="50" r="4.5" fill="#ea580c" stroke="#fff" stroke-width="2" />
-                        <circle cx="600" cy="30" r="5" fill="#ea580c" stroke="#fff" stroke-width="2" />
-                    </svg>
-                    <!-- X Axis Labels -->
-                    <div class="flex justify-between text-[11px] font-semibold text-slate-400 mt-2 px-1">
-                        <span>01 Th5</span>
-                        <span>07 Th5</span>
-                        <span>14 Th5</span>
-                        <span>21 Th5</span>
-                        <span>28 Th5</span>
-                        <span>31 Th5</span>
+                <?php if (!$chartHasData): ?>
+                    <div class="h-64 flex items-center justify-center rounded-xl bg-orange-50/40 text-sm text-slate-500">Chưa có yêu cầu sửa chữa trong 30 ngày gần nhất.</div>
+                <?php else: ?>
+                    <div class="relative h-64 w-full">
+                        <svg class="w-full h-[220px]" viewBox="0 0 600 200" preserveAspectRatio="none" role="img" aria-label="Biểu đồ số yêu cầu sửa chữa thực tế trong 30 ngày">
+                            <line x1="0" y1="180" x2="600" y2="180" stroke="#fdba74" stroke-width="1" />
+                            <polyline points="<?= htmlspecialchars(implode(' ', $chartPoints['total'])) ?>" fill="none" stroke="#ea580c" stroke-width="3" />
+                            <polyline points="<?= htmlspecialchars(implode(' ', $chartPoints['completed'])) ?>" fill="none" stroke="#fdba74" stroke-width="2.5" />
+                        </svg>
+                        <div class="flex justify-between text-xs font-semibold text-slate-400"><span><?= $chartStart->format('d/m') ?></span><span><?= $today->format('d/m') ?></span></div>
                     </div>
-                </div>
+                <?php endif; ?>
             </div>
 
             <!-- RIGHT: YÊU CẦU CHỜ XỬ LÝ -->

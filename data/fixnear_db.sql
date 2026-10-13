@@ -1448,11 +1448,7 @@ CREATE TABLE `repair_requests` (
   `created_at` DATETIME DEFAULT CURRENT_TIMESTAMP
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci;
 
-INSERT INTO `repair_requests` (`id`, `customer_name`, `customer_email`, `customer_phone`, `device_type`, `brand_model`, `issue_type`, `symptom`, `district`, `preferred_time`, `estimated_price`, `status`, `created_at`) VALUES
-('FN-5524', 'Trần Thị Mai', 'mai.tran@gmail.com', '0912345678', 'Điện thoại', 'iPhone 13 Pro', 'Thay pin', 'Pin chai 75% sập nguồn nhanh', 'Quận 1', 'Chiều nay', '250.000đ - 850.000đ (Bảo hành chính hãng 12 - 24 tháng)', 'pending', '2026-09-26 12:16:57'),
-('FN-8921', 'Trần Minh Tuấn', 'minhtuan.tech@gmail.com', '0908776554', 'Laptop', 'Asus TUF Gaming F15', 'Vệ sinh & Tra keo tản nhiệt (Máy nóng, quạt kêu)', 'Máy dùng quạt kêu to, nhiệt độ CPU lên 88 độ C khi mở phần mềm nặng', 'Quận Tân Bình', '🌅 Ca Sáng (08:30 - 11:30) — Kiểm tra và lấy máy trước trưa', '80.000đ - 180.000đ (Nhanh 30-45 phút)', 'pending', '2026-09-22 19:30:00'),
-('FN-6512', 'Lê Hoàng Yến', 'hoangyen.le99@gmail.com', '0938221345', 'Điện thoại', 'iPhone 12 Pro Max', 'Pin (Chai, tụt nhanh, phù pin)', 'Pin báo bảo trì 74%, dùng được tầm 2 tiếng là tụt nguồn nhanh', 'Quận 10', '☀️ Ca Chiều (13:30 - 17:30) — Xử lý trong buổi chiều', '450.000đ - 850.000đ (Bảo hành 12 tháng)', 'contacted', '2026-09-22 15:15:00'),
-('FN-4320', 'Nguyễn Đức Hùng', 'duchung.q12@gmail.com', '0903112889', 'Laptop', 'Dell Latitude 7490', 'Nâng cấp SSD & RAM (Máy chậm, đơ lag)', 'Ổ cứng HDD cũ chạy chậm, muốn nâng cấp SSD NVMe 512GB và thêm thanh RAM 8GB', 'Quận 12', '🌙 Ca Tối sau giờ học/làm (17:30 - 20:30)', '400.000đ - 1.500.000đ (SSD NVMe chính hãng)', 'completed', '2026-09-21 10:00:00');
+-- repair_requests: dữ liệu giao dịch chỉ được tạo bởi người dùng thực.
 
 -- 6. BẢNG REVIEWS (Đánh Giá Minh Bạch Của Sinh Viên & Khách Hàng)
 DROP TABLE IF EXISTS `reviews`;
@@ -1473,14 +1469,7 @@ CREATE TABLE `reviews` (
   INDEX `idx_shop_review` (`shop_id`)
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci;
 
-INSERT INTO `reviews` (`id`, `shop_id`, `user_id`, `user_name`, `rating`, `device_name`, `service_repaired`, `comment`, `is_hidden`, `origin`, `admin_reply`, `admin_reply_at`, `created_at`) VALUES
-(1, 1, 2, 'Nguyễn Văn Nam', 5, 'Laptop Asus TUF F15', 'Thay pin laptop', 'Mình đi thay pin ở Điện Thoại Vui 136 Nguyễn Thái Học, thợ mở máy cho mình xem tận mắt, pin mới nguyên seal. Thay xong test phần mềm BatteryReport báo pin 100% dung lượng. Nhân viên tư vấn nhiệt tình, có phiếu bảo hành 6 tháng.', 0, 'seed', 'FixNear chân thành cảm ơn bạn Nam đã chia sẻ trải nghiệm thực tế! Tiêu chuẩn cho khách ngồi xem trực tiếp và kiểm tra dung lượng pin trước khi bàn giao là quy định bắt buộc đối với tất cả đối tác được công bố trên nền tảng FixNear.', '2026-09-15 14:15:00', '2026-09-15 10:30:00'),
-(2, 2, 3, 'Trần Minh Hoàng', 5, 'iPhone 12 Pro', 'Thay pin điện thoại', 'Bên Viện Di Động 73 Trần Quang Khải làm việc cực kỳ chuyên nghiệp. Báo giá trên web bao nhiêu tới nơi thu đúng bấy nhiêu, không vẽ thêm tiền công. Có phiếu bảo hành điện tử qua SĐT, lấy máy sau 30 phút.', 0, 'seed', 'Cảm ơn bạn Hoàng đã phản hồi tích cực! FixNear luôn giám sát chặt chẽ tính chuẩn xác của bảng giá niêm yết để bảo đảm khách hàng không bao giờ bị phát sinh phụ phí ẩn.', '2026-09-16 18:20:00', '2026-09-16 15:45:00'),
-(3, 3, 4, 'Lê Thị Lan Anh', 5, 'MacBook Pro M1', 'Vệ sinh máy & Tra keo tản nhiệt', 'Tiệm Bảo Hành One 195 Nguyễn Thái Học vệ sinh rất kỹ, thợ tháo từng cánh quạt ra lau sạch bụi rồi tra keo gấu xịn. Máy mình từ 85 độ C lúc render video giảm còn 65 độ. Được xuất trình thẻ sinh viên giảm 10% phí dịch vụ rất hài lòng!', 0, 'seed', 'Cảm ơn bạn Lan Anh đã tin tưởng sử dụng dịch vụ tại đối tác của FixNear!', '2026-09-17 19:00:00', '2026-09-17 17:20:00'),
-(4, 4, 2, 'Nguyễn Văn Nam', 5, 'Samsung Galaxy A53', 'Thay mặt kính / Ép kính', 'Bệnh Viện Điện Thoại Laptop 24h Tân Định làm việc rất chuẩn mực, cho ký tên lên mainboard và màn hình trước khi ép kính. Lấy máy sau 40 phút, cảm ứng mượt mà và màn hình trong veo.', 0, 'seed', NULL, NULL, '2026-09-18 11:15:00'),
-(5, 15, 3, 'Trần Minh Hoàng', 5, 'Laptop Lenovo ThinkPad', 'Cài Windows & Phần mềm văn phòng', 'iCare Center Hùng Vương hỗ trợ rất nhanh nhẹn và am hiểu kỹ thuật! Cài Win sạch chuẩn UEFI, kích hoạt bản quyền, cài đầy đủ phần mềm văn phòng, đồ họa và tối ưu tốc độ khởi động chỉ 15 giây. 10 sao cho độ nhiệt tình!', 0, 'seed', NULL, NULL, '2026-09-19 19:10:00'),
-(6, 38, 4, 'Lê Thị Lan Anh', 5, 'Laptop Dell Inspiron 5515', 'Thay pin laptop', 'Chi nhánh FASTCARE Tô Ký gần trường FPT Polytechnic, thợ mở máy cho mình xem tận mắt, pin mới nguyên seal. Thay xong test phần mềm BatteryReport báo pin 100% dung lượng. Sinh viên được hỗ trợ nhiệt tình!', 0, 'seed', NULL, NULL, '2026-09-20 14:00:00'),
-(7, 39, 2, 'Nguyễn Văn Nam', 5, 'Laptop Asus ROG', 'Bàn phím liệt / Kẹt nút bấm', 'Bệnh viện Laptop ZIN Tô Ký thay phím zin gõ cực êm, thợ thao tác nhanh trong 30 phút, giá chuẩn theo khung tham khảo trên FixNear không phát sinh thêm chi phí.', 0, 'seed', NULL, NULL, '2026-09-21 09:30:00');
+-- reviews: dữ liệu giao dịch chỉ được tạo bởi người dùng thực.
 
 -- 7. BẢNG WRONG_INFO_REPORTS (Báo Cáo Thông Tin Sai Lệch Từ Cộng Đồng)
 DROP TABLE IF EXISTS `wrong_info_reports`;
@@ -1497,9 +1486,7 @@ CREATE TABLE `wrong_info_reports` (
   `created_at` DATETIME DEFAULT CURRENT_TIMESTAMP
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci;
 
-INSERT INTO `wrong_info_reports` (`id`, `shop_id`, `shop_name`, `user_id`, `user_name`, `reporter_phone`, `reason`, `details`, `status`, `created_at`) VALUES
-(1, 8, 'Huy An Phát Computer', 2, 'Nguyễn Văn Nam', NULL, 'Sai giờ mở cửa', 'Tiệm chủ nhật chỉ mở từ 09:00 đến 17:00 chứ không mở tới 18:30 như trên web.', 'pending', '2026-09-20 14:00:00'),
-(2, 4, 'Tiệm Sửa Chữa ĐTDĐ Minh Phát', 4, 'Lê Thị Lan Anh', NULL, 'Cập nhật khoảng giá dịch vụ', 'Giá dán cường lực chống nhìn trộm hiện tại là 50k, không phải 30k.', 'resolved', '2026-09-18 09:30:00');
+-- wrong_info_reports: dữ liệu giao dịch chỉ được tạo bởi người dùng thực.
 
 -- 8. BẢNG CONTACT_MESSAGES (Tin Nhắn Liên Hệ Hợp Tác)
 DROP TABLE IF EXISTS `contact_messages`;
