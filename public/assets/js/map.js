@@ -160,10 +160,11 @@ function initFixnearMap(shopsData, defaultCenter = [10.7769, 106.7009], userLoca
 
     fixnearMap = L.map('leaflet-map').setView(center, zoom);
 
-    // OSM Standard tiles work without a CARTO API key. Keep attribution visible.
-    L.tileLayer('https://tile.openstreetmap.org/{z}/{x}/{y}.png', {
+    // OSM France permits moderate, public, non-profit use with visible attribution.
+    L.tileLayer('https://{s}.tile.openstreetmap.fr/osmfr/{z}/{x}/{y}.png', {
         maxZoom: 19,
-        attribution: '&copy; <a href="https://www.openstreetmap.org/copyright">OpenStreetMap</a> contributors'
+        subdomains: 'abc',
+        attribution: '&copy; <a href="https://www.openstreetmap.org/copyright">OpenStreetMap</a> contributors · Tiles <a href="https://www.openstreetmap.fr/">OSM France</a>'
     }).addTo(fixnearMap);
 
     // Custom icon cho cửa hàng
