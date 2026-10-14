@@ -379,6 +379,54 @@ window.addEventListener('resize', function() {
         document.body.style.overflow = '';
     }
 });
+
+// ================= GOOGLE ANALYTICS 4 UX EVENT TRACKING (FIXNEAR-V2 SURVEY) =================
+(function() {
+    if (typeof window.gtag !== 'function') return;
+    const path = window.location.pathname || '';
+    const params = new URLSearchParams(window.location.search);
+
+    if (path.includes('models.php') || path.includes('model_detail.php')) {
+        window.gtag('event', 'fn_select_device_flow', {
+            device: params.get('device') || '',
+            brand: params.get('brand') || '',
+            model_id: params.get('id') || params.get('model') || ''
+        });
+    } else if (path.includes('prices.php')) {
+        window.gtag('event', 'fn_view_prices', {
+            model_id: params.get('model') || '',
+            fault: params.get('fault') || ''
+        });
+    } else if (path.includes('shops.php')) {
+        window.gtag('event', 'fn_view_shops', {
+            district: params.get('district') || '',
+            device: params.get('device') || ''
+        });
+    } else if (path.includes('shop_detail.php')) {
+        window.gtag('event', 'fn_view_shop_detail', {
+            shop_id: params.get('id') || ''
+        });
+    } else if (path.includes('map.php')) {
+        window.gtag('event', 'fn_view_map', {
+            district: params.get('district') || ''
+        });
+    } else if (path.includes('request_repair.php')) {
+        window.gtag('event', 'fn_view_repair_request');
+    } else if (path.includes('track_request.php')) {
+        window.gtag('event', 'fn_track_request');
+    }
+
+    document.addEventListener('click', function(e) {
+        const chatToggle = e.target.closest('#fn-chatbot-toggle, .fn-chatbot-fab, [data-chatbot-open]');
+        if (chatToggle) {
+            window.gtag('event', 'fn_open_chatbot');
+        }
+        const mapLink = e.target.closest('a[href*="google.com/maps"], a[href*="maps.app.goo.gl"]');
+        if (mapLink) {
+            window.gtag('event', 'fn_click_directions');
+        }
+    });
+})();
 </script>
 </body>
 </html>
