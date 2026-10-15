@@ -22,19 +22,23 @@ $filteredLogs = db()->getSearchLogs([
     'q' => $filterQuery,
 ]);
 
-// Đếm số lượt tìm kiếm theo email người dùng
-$searchCountByEmail = [];
-$lastSearchByEmail = [];
-foreach ($allSearchLogs as $log) {
-    $em = mb_strtolower(trim((string)($log['user_email'] ?? '')), 'UTF-8');
-    if ($em === '') continue;
-    $searchCountByEmail[$em] = ($searchCountByEmail[$em] ?? 0) + 1;
-    if (!isset($lastSearchByEmail[$em]) || strcmp((string)$log['created_at'], $lastSearchByEmail[$em]) > 0) {
-        $lastSearchByEmail[$em] = (string)$log['created_at'];
+// Map user info & logs by email
+$userByEmail = [];
+foreach ($regularUsers as $u) {
+    $em = mb_strtolower(trim((string)($u['email'] ?? '')), 'UTF-8');
+    if ($em !== '') {
+        $userByEmail[$em] = $u;
     }
 }
 
-$activeSearchingUsersCount = count($searchCountByEmail);
+$logsByEmail = [];
+foreach ($allSearchLogs as $log) {
+    $em = mb_strtolower(trim((string)($log['user_email'] ?? '')), 'UTF-8');
+    if ($em === '') continue;
+    $logsByEmail[$em][] = $log;
+}
+
+$activeSearchingUsersCount = count($logsByEmail);
 
 function fnUserInitials(string $name): string {
     $name = trim($name);
@@ -68,6 +72,16 @@ function fnDeviceBadgeClass(string $dev): string {
         return 'bg-slate-100 text-slate-700 border-slate-300';
     }
     return 'bg-orange-50 text-orange-700 border-orange-200';
+}
+
+function fnShortDeviceLabel(string $dev): string {
+    $dev = trim($dev);
+    return match ($dev) {
+        'Máy tính bảng (Tablet)' => 'Tablet',
+        'Máy tính bàn (PC)' => 'PC',
+        'Đồng hồ thông minh' => 'Smartwatch',
+        default => $dev,
+    };
 }
 
 $districtOptions = [
@@ -242,7 +256,7 @@ require_once __DIR__ . '/../includes/navbar.php';
                     </p>
                 </div>
                 <span class="text-xs font-semibold text-orange-700 bg-orange-50 border border-orange-200 rounded-md px-3 py-1">
-                    Xác thực hành vi người dùng thực tế
+                    Bấm "Xem chi tiết" để xem đầy đủ các bước thao tác
                 </span>
             </div>
 
@@ -255,7 +269,7 @@ require_once __DIR__ . '/../includes/navbar.php';
                             <th class="py-3 px-4">Khu vực</th>
                             <th class="py-3 px-4">Thiết bị</th>
                             <th class="py-3 px-4">Nội dung tìm kiếm & Dòng máy / Lỗi</th>
-                            <th class="py-3 px-4">Tính năng đã thao tác trên Web</th>
+                            <th class="py-3 px-4 text-right">Thao tác</th>
                         </tr>
                     </thead>
                     <tbody class="divide-y divide-orange-50 text-slate-700 text-xs">
@@ -264,59 +278,91 @@ require_once __DIR__ . '/../includes/navbar.php';
                                 <td colspan="6" class="py-8 text-center text-slate-400">Không tìm thấy lịch sử tra cứu phù hợp với bộ lọc.</td>
                             </tr>
                         <?php else: ?>
-                            <?php foreach ($filteredLogs as $log):
+                            <?php foreach ($filteredLogs as $idx => $log):
                                 $ts = strtotime((string)($log['created_at'] ?? 'now'));
                                 $dateFormatted = $ts ? date('d/m/Y', $ts) : '';
                                 $timeFormatted = $ts ? date('H:i:s', $ts) : '';
-                                $features = array_filter(array_map('trim', explode(',', (string)($log['features_used'] ?? ''))));
+                                $em = mb_strtolower(trim((string)($log['user_email'] ?? '')), 'UTF-8');
+                                $uInfo = $userByEmail[$em] ?? [];
+                                $featuresRaw = (string)($log['features_used'] ?? '');
+                                // Tách chuẩn các tính năng (tránh cắt nhầm dấu phẩy trong "Xem chi tiết dịch vụ, phản hồi của cửa hàng")
+                                $normalizedFeatures = str_replace(
+                                    'Xem chi tiết dịch vụ, phản hồi của cửa hàng',
+                                    'Xem chi tiết dịch vụ & phản hồi của cửa hàng',
+                                    $featuresRaw
+                                );
+                                $features = array_values(array_filter(array_map('trim', explode(',', $normalizedFeatures))));
+                                $modalPayload = [
+                                    'type' => 'log',
+                                    'user_name' => $log['user_name'] ?? 'Khách',
+                                    'user_email' => $log['user_email'] ?? '',
+                                    'user_phone' => $log['user_phone'] ?? ($uInfo['phone'] ?? ''),
+                                    'user_group' => $uInfo['user_group'] ?? 'Sinh viên / Người đi làm',
+                                    'user_created_at' => !empty($uInfo['created_at']) ? date('d/m/Y H:i:s', strtotime((string)$uInfo['created_at'])) : $dateFormatted . ' ' . $timeFormatted,
+                                    'district' => $log['district'] ?? 'TP.HCM',
+                                    'device_category' => $log['device_category'] ?? 'Điện thoại',
+                                    'device_group' => $uInfo['device_group'] ?? ($log['device_category'] ?? 'Điện thoại'),
+                                    'search_query' => $log['search_query'] ?? '',
+                                    'page_url' => ltrim((string)($log['page_url'] ?? 'index.php'), '/'),
+                                    'search_time' => $dateFormatted . ' lúc ' . $timeFormatted,
+                                    'features' => $features,
+                                    'user_logs' => array_map(static function ($l) {
+                                        $t = strtotime((string)($l['created_at'] ?? 'now'));
+                                        return [
+                                            'time' => $t ? date('d/m/Y H:i:s', $t) : '',
+                                            'device' => $l['device_category'] ?? '',
+                                            'district' => $l['district'] ?? '',
+                                            'query' => $l['search_query'] ?? '',
+                                            'url' => ltrim((string)($l['page_url'] ?? ''), '/'),
+                                        ];
+                                    }, $logsByEmail[$em] ?? [$log]),
+                                ];
                             ?>
-                                <tr class="hover:bg-[#fffaf3] transition align-top">
-                                    <td class="py-3.5 px-4 whitespace-nowrap">
+                                <tr class="hover:bg-[#fffaf3] transition">
+                                    <td class="py-3 px-4 whitespace-nowrap">
                                         <div class="font-bold text-slate-900"><?= htmlspecialchars($dateFormatted) ?></div>
                                         <div class="text-[11px] text-orange-600 font-semibold mt-0.5">⏰ <?= htmlspecialchars($timeFormatted) ?></div>
                                     </td>
-                                    <td class="py-3.5 px-4">
-                                        <div class="flex items-start gap-2.5">
-                                            <div class="w-8 h-8 rounded-full bg-orange-100 text-orange-700 font-bold text-[11px] flex items-center justify-center flex-shrink-0 mt-0.5">
+                                    <td class="py-3 px-4 whitespace-nowrap">
+                                        <div class="flex items-center gap-2.5">
+                                            <div class="w-8 h-8 rounded-full bg-orange-100 text-orange-700 font-bold text-[11px] flex items-center justify-center flex-shrink-0">
                                                 <?= htmlspecialchars(fnUserInitials((string)($log['user_name'] ?? ''))) ?>
                                             </div>
                                             <div>
                                                 <div class="font-bold text-slate-900"><?= htmlspecialchars($log['user_name'] ?? 'Khách') ?></div>
-                                                <div class="text-[11px] text-slate-500"><?= htmlspecialchars($log['user_email'] ?? '') ?></div>
-                                                <?php if (!empty($log['user_phone'])): ?>
-                                                    <div class="text-[11px] text-slate-400 font-medium">📞 <?= htmlspecialchars($log['user_phone']) ?></div>
-                                                <?php endif; ?>
+                                                <div class="text-[11px] text-slate-400"><?= htmlspecialchars($log['user_phone'] ?: ($log['user_email'] ?? '')) ?></div>
                                             </div>
                                         </div>
                                     </td>
-                                    <td class="py-3.5 px-4 whitespace-nowrap">
+                                    <td class="py-3 px-4 whitespace-nowrap">
                                         <span class="inline-flex items-center gap-1 px-2.5 py-1 rounded-md text-[11px] font-bold bg-amber-50 text-amber-800 border border-amber-200">
                                             📍 <?= htmlspecialchars($log['district'] ?? 'TP.HCM') ?>
                                         </span>
                                     </td>
-                                    <td class="py-3.5 px-4 whitespace-nowrap">
+                                    <td class="py-3 px-4 whitespace-nowrap">
                                         <span class="inline-flex items-center px-2.5 py-1 rounded-md text-[11px] font-bold border <?= fnDeviceBadgeClass((string)($log['device_category'] ?? '')) ?>">
-                                            <?= htmlspecialchars($log['device_category'] ?? 'Điện thoại') ?>
+                                            <?= htmlspecialchars(fnShortDeviceLabel((string)($log['device_category'] ?? 'Điện thoại'))) ?>
                                         </span>
                                     </td>
-                                    <td class="py-3.5 px-4 max-w-md">
-                                        <div class="font-bold text-slate-900 leading-snug">
+                                    <td class="py-3 px-4 max-w-sm">
+                                        <div class="font-bold text-slate-900 truncate" title="<?= htmlspecialchars($log['search_query'] ?? '') ?>">
                                             <?= htmlspecialchars($log['search_query'] ?? '') ?>
                                         </div>
-                                        <?php if (!empty($log['page_url'])): ?>
-                                            <a href="../<?= htmlspecialchars(ltrim((string)$log['page_url'], '/')) ?>" target="_blank" class="inline-block text-[11px] text-blue-600 hover:underline mt-1">
-                                                🔗 /<?= htmlspecialchars(ltrim((string)$log['page_url'], '/')) ?> ↗
-                                            </a>
-                                        <?php endif; ?>
-                                    </td>
-                                    <td class="py-3.5 px-4 max-w-xs">
-                                        <div class="flex flex-wrap gap-1">
-                                            <?php foreach ($features as $feat): ?>
-                                                <span class="inline-block px-2 py-0.5 rounded bg-slate-100 text-slate-700 border border-slate-200 text-[10.5px] font-semibold">
-                                                    ✓ <?= htmlspecialchars($feat) ?>
-                                                </span>
-                                            <?php endforeach; ?>
+                                        <div class="text-[11px] text-slate-400 mt-0.5 flex items-center gap-2">
+                                            <span class="text-emerald-600 font-semibold">✓ <?= count($features) ?> bước thao tác</span>
+                                            <span>•</span>
+                                            <span class="truncate text-blue-600">/<?= htmlspecialchars(ltrim((string)($log['page_url'] ?? ''), '/')) ?></span>
                                         </div>
+                                    </td>
+                                    <td class="py-3 px-4 text-right whitespace-nowrap">
+                                        <button
+                                            type="button"
+                                            onclick='fnOpenUserDetailModal(<?= htmlspecialchars(json_encode($modalPayload, JSON_HEX_TAG | JSON_HEX_APOS | JSON_HEX_QUOT | JSON_HEX_AMP | JSON_UNESCAPED_UNICODE), ENT_QUOTES, "UTF-8") ?>)'
+                                            class="inline-flex items-center gap-1.5 px-3 py-1.5 rounded-lg bg-orange-50 hover:bg-orange-600 text-orange-700 hover:text-white border border-orange-200 hover:border-orange-600 font-bold text-xs transition cursor-pointer shadow-xs"
+                                        >
+                                            <svg class="w-3.5 h-3.5" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M15 12a3 3 0 11-6 0 3 3 0 016 0z"></path><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M2.458 12C3.732 7.943 7.523 5 12 5c4.478 0 8.268 2.943 9.542 7-1.274 4.057-5.064 7-9.542 7-4.477 0-8.268-2.943-9.542-7z"></path></svg>
+                                            Xem chi tiết
+                                        </button>
                                     </td>
                                 </tr>
                             <?php endforeach; ?>
@@ -346,67 +392,106 @@ require_once __DIR__ . '/../includes/navbar.php';
                         <tr class="bg-[#fff7ed] border-b border-orange-200 text-[11px] font-bold text-orange-950 uppercase tracking-wider">
                             <th class="py-3 px-4">Họ và tên</th>
                             <th class="py-3 px-4">Email & SĐT</th>
-                            <th class="py-3 px-4">Nhóm đối tượng</th>
                             <th class="py-3 px-4">Khu vực (Quận/Huyện)</th>
-                            <th class="py-3 px-4">Nhóm thiết bị sử dụng</th>
+                            <th class="py-3 px-4">Nhóm thiết bị</th>
                             <th class="py-3 px-4">Thời gian tạo TK</th>
-                            <th class="py-3 px-4 text-center">Lịch sử tra cứu</th>
+                            <th class="py-3 px-4 text-right">Thao tác</th>
                         </tr>
                     </thead>
                     <tbody class="divide-y divide-orange-50 text-slate-700 text-xs">
                         <?php foreach ($regularUsers as $u):
                             $em = mb_strtolower(trim((string)($u['email'] ?? '')), 'UTF-8');
-                            $sCount = $searchCountByEmail[$em] ?? 0;
+                            $uLogs = $logsByEmail[$em] ?? [];
+                            $sCount = count($uLogs);
                             $createdTs = !empty($u['created_at']) ? strtotime((string)$u['created_at']) : false;
-                            $devs = array_filter(array_map('trim', explode(',', (string)($u['device_group'] ?? 'Điện thoại'))));
+                            $devs = array_values(array_filter(array_map('trim', explode(',', (string)($u['device_group'] ?? 'Điện thoại')))));
+                            $firstLog = $uLogs[0] ?? [];
+                            $featuresRaw = (string)($firstLog['features_used'] ?? 'Chọn loại thiết bị → hãng → model → lỗi, Xem giá dự đoán / giá có nguồn');
+                            $normalizedFeatures = str_replace(
+                                'Xem chi tiết dịch vụ, phản hồi của cửa hàng',
+                                'Xem chi tiết dịch vụ & phản hồi của cửa hàng',
+                                $featuresRaw
+                            );
+                            $features = array_values(array_filter(array_map('trim', explode(',', $normalizedFeatures))));
+
+                            $userModalPayload = [
+                                'type' => 'user',
+                                'user_name' => $u['name'] ?? '',
+                                'user_email' => $u['email'] ?? '',
+                                'user_phone' => $u['phone'] ?? '',
+                                'user_group' => $u['user_group'] ?? 'Sinh viên / Người đi làm',
+                                'user_created_at' => $createdTs ? date('d/m/Y H:i:s', $createdTs) : '',
+                                'district' => $u['district'] ?? 'TP.HCM',
+                                'device_category' => $firstLog['device_category'] ?? ($devs[0] ?? 'Điện thoại'),
+                                'device_group' => $u['device_group'] ?? 'Điện thoại',
+                                'search_query' => $firstLog['search_query'] ?? '',
+                                'page_url' => ltrim((string)($firstLog['page_url'] ?? 'index.php'), '/'),
+                                'search_time' => !empty($firstLog['created_at']) ? date('d/m/Y lúc H:i:s', strtotime((string)$firstLog['created_at'])) : '',
+                                'features' => $features,
+                                'user_logs' => array_map(static function ($l) {
+                                    $t = strtotime((string)($l['created_at'] ?? 'now'));
+                                    return [
+                                        'time' => $t ? date('d/m/Y H:i:s', $t) : '',
+                                        'device' => $l['device_category'] ?? '',
+                                        'district' => $l['district'] ?? '',
+                                        'query' => $l['search_query'] ?? '',
+                                        'url' => ltrim((string)($l['page_url'] ?? ''), '/'),
+                                    ];
+                                }, $uLogs),
+                            ];
                         ?>
                             <tr class="hover:bg-[#fffaf3] transition">
-                                <td class="py-3.5 px-4">
+                                <td class="py-3 px-4 whitespace-nowrap">
                                     <div class="flex items-center gap-2.5">
                                         <div class="w-8 h-8 rounded-lg bg-orange-100 text-orange-700 font-bold text-xs flex items-center justify-center flex-shrink-0">
                                             <?= htmlspecialchars(fnUserInitials((string)($u['name'] ?? ''))) ?>
                                         </div>
                                         <div>
                                             <div class="font-bold text-slate-900"><?= htmlspecialchars($u['name'] ?? '') ?></div>
-                                            <div class="text-[10.5px] text-emerald-600 font-semibold">● Đã xác thực trải nghiệm</div>
+                                            <div class="text-[11px] text-slate-400"><?= htmlspecialchars($u['user_group'] ?? 'Sinh viên / Người đi làm') ?></div>
                                         </div>
                                     </div>
                                 </td>
-                                <td class="py-3.5 px-4">
+                                <td class="py-3 px-4 whitespace-nowrap">
                                     <div class="font-medium text-slate-800"><?= htmlspecialchars($u['email'] ?? '') ?></div>
                                     <div class="text-[11px] text-slate-500 mt-0.5">📞 <?= htmlspecialchars($u['phone'] ?? 'Chưa cập nhật') ?></div>
                                 </td>
-                                <td class="py-3.5 px-4 whitespace-nowrap">
-                                    <span class="px-2.5 py-1 rounded-full text-[11px] font-semibold bg-slate-100 text-slate-700">
-                                        <?= htmlspecialchars($u['user_group'] ?? 'Sinh viên / Người đi làm') ?>
-                                    </span>
-                                </td>
-                                <td class="py-3.5 px-4 whitespace-nowrap">
+                                <td class="py-3 px-4 whitespace-nowrap">
                                     <span class="inline-flex items-center gap-1 px-2.5 py-1 rounded-md text-[11px] font-bold bg-amber-50 text-amber-800 border border-amber-200">
                                         📍 <?= htmlspecialchars($u['district'] ?? 'TP.HCM') ?>
                                     </span>
                                 </td>
-                                <td class="py-3.5 px-4 max-w-xs">
-                                    <div class="flex flex-wrap gap-1">
-                                        <?php foreach ($devs as $d): ?>
-                                            <span class="inline-block px-2 py-0.5 rounded text-[10.5px] font-bold border <?= fnDeviceBadgeClass($d) ?>">
-                                                <?= htmlspecialchars($d) ?>
+                                <td class="py-3 px-4 whitespace-nowrap">
+                                    <div class="flex items-center gap-1">
+                                        <?php foreach (array_slice($devs, 0, 2) as $d): ?>
+                                            <span class="inline-block px-2 py-0.5 rounded text-[11px] font-bold border <?= fnDeviceBadgeClass($d) ?>">
+                                                <?= htmlspecialchars(fnShortDeviceLabel($d)) ?>
                                             </span>
                                         <?php endforeach; ?>
+                                        <?php if (count($devs) > 2): ?>
+                                            <span class="inline-block px-2 py-0.5 rounded text-[10.5px] font-bold bg-slate-100 text-slate-600 border border-slate-200">
+                                                +<?= count($devs) - 2 ?>
+                                            </span>
+                                        <?php endif; ?>
                                     </div>
                                 </td>
-                                <td class="py-3.5 px-4 whitespace-nowrap">
+                                <td class="py-3 px-4 whitespace-nowrap">
                                     <?php if ($createdTs): ?>
                                         <div class="font-bold text-slate-800"><?= date('d/m/Y', $createdTs) ?></div>
-                                        <div class="text-[11px] text-slate-500"><?= date('H:i:s', $createdTs) ?></div>
+                                        <div class="text-[11px] text-slate-500">⏰ <?= date('H:i:s', $createdTs) ?></div>
                                     <?php else: ?>
                                         <span class="text-slate-400">—</span>
                                     <?php endif; ?>
                                 </td>
-                                <td class="py-3.5 px-4 text-center whitespace-nowrap">
-                                    <a href="users.php?email=<?= urlencode((string)($u['email'] ?? '')) ?>" class="inline-flex items-center gap-1 px-3 py-1.5 rounded-lg bg-orange-50 hover:bg-orange-100 text-orange-700 border border-orange-200 font-bold text-xs transition">
-                                        🔍 <?= $sCount ?> lượt tra cứu
-                                    </a>
+                                <td class="py-3 px-4 text-right whitespace-nowrap">
+                                    <button
+                                        type="button"
+                                        onclick='fnOpenUserDetailModal(<?= htmlspecialchars(json_encode($userModalPayload, JSON_HEX_TAG | JSON_HEX_APOS | JSON_HEX_QUOT | JSON_HEX_AMP | JSON_UNESCAPED_UNICODE), ENT_QUOTES, "UTF-8") ?>)'
+                                        class="inline-flex items-center gap-1.5 px-3 py-1.5 rounded-lg bg-orange-50 hover:bg-orange-600 text-orange-700 hover:text-white border border-orange-200 hover:border-orange-600 font-bold text-xs transition cursor-pointer"
+                                    >
+                                        <svg class="w-3.5 h-3.5" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M15 12a3 3 0 11-6 0 3 3 0 016 0z"></path><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M2.458 12C3.732 7.943 7.523 5 12 5c4.478 0 8.268 2.943 9.542 7-1.274 4.057-5.064 7-9.542 7-4.477 0-8.268-2.943-9.542-7z"></path></svg>
+                                        Xem chi tiết (<?= $sCount ?>)
+                                    </button>
                                 </td>
                             </tr>
                         <?php endforeach; ?>
@@ -416,5 +501,169 @@ require_once __DIR__ . '/../includes/navbar.php';
         </div>
     </div>
 </div>
+
+<!-- MODAL XEM CHI TIẾT HỒ SƠ & LỊCH SỬ TRẢI NGHIỆM -->
+<div id="fn-user-detail-modal" class="fixed inset-0 z-50 hidden items-center justify-center bg-slate-900/60 backdrop-blur-xs p-4">
+    <div class="bg-white rounded-2xl border border-orange-200 shadow-2xl max-w-2xl w-full max-h-[90vh] overflow-y-auto">
+        <!-- Modal Header -->
+        <div class="px-6 py-4 bg-[#fff7ed] border-b border-orange-200 flex items-center justify-between sticky top-0 z-10">
+            <div class="flex items-center gap-3">
+                <div id="fn-md-avatar" class="w-11 h-11 rounded-xl bg-orange-600 text-white font-black text-sm flex items-center justify-center shadow-xs">
+                    ND
+                </div>
+                <div>
+                    <div class="flex items-center gap-2">
+                        <h3 id="fn-md-name" class="text-base font-black text-slate-900">Họ và tên</h3>
+                        <span class="px-2 py-0.5 rounded-full text-[10.5px] font-bold bg-emerald-100 text-emerald-800 border border-emerald-200">
+                            ✓ Đã trải nghiệm thực tế
+                        </span>
+                    </div>
+                    <p id="fn-md-sub" class="text-xs text-slate-500 mt-0.5">Email · Số điện thoại</p>
+                </div>
+            </div>
+            <button type="button" onclick="fnCloseUserDetailModal()" class="w-8 h-8 rounded-lg bg-white hover:bg-orange-100 text-slate-500 hover:text-orange-700 border border-orange-200 flex items-center justify-center text-lg font-bold cursor-pointer transition">
+                &times;
+            </button>
+        </div>
+
+        <!-- Modal Body -->
+        <div class="p-6 space-y-5">
+            <!-- Thông tin tổng quan (Grid 2 cột) -->
+            <div class="grid grid-cols-1 sm:grid-cols-2 gap-3 bg-slate-50 rounded-xl p-4 border border-slate-200 text-xs">
+                <div>
+                    <span class="text-slate-400 font-semibold block mb-1">KHU VỰC SINH SỐNG / TÌM KIẾM</span>
+                    <span id="fn-md-district" class="font-bold text-slate-800 text-sm">📍 TP.HCM</span>
+                </div>
+                <div>
+                    <span class="text-slate-400 font-semibold block mb-1">THỜI ĐIỂM ĐĂNG KÝ TÀI KHOẢN</span>
+                    <span id="fn-md-created" class="font-bold text-slate-800 text-sm">⏰ —</span>
+                </div>
+                <div class="sm:col-span-2 pt-2 border-t border-slate-200/80">
+                    <span class="text-slate-400 font-semibold block mb-1.5">NHÓM THIẾT BỊ SỬ DỤNG & QUAN TÂM</span>
+                    <div id="fn-md-devices" class="flex flex-wrap gap-1.5"></div>
+                </div>
+            </div>
+
+            <!-- Các tính năng đã thao tác trên Website -->
+            <div>
+                <h4 class="text-xs font-extrabold text-slate-700 uppercase tracking-wider mb-2.5 flex items-center gap-1.5">
+                    <span>⚡</span> Các bước & Tính năng đã thao tác trên Website FixNear
+                </h4>
+                <div id="fn-md-features" class="grid grid-cols-1 sm:grid-cols-2 gap-2"></div>
+            </div>
+
+            <!-- Nhật ký các lượt tìm kiếm chi tiết -->
+            <div>
+                <h4 class="text-xs font-extrabold text-slate-700 uppercase tracking-wider mb-2.5 flex items-center gap-1.5">
+                    <span>🔍</span> Lịch sử tra cứu chi tiết của người dùng này
+                </h4>
+                <div id="fn-md-logs" class="space-y-2.5"></div>
+            </div>
+        </div>
+
+        <!-- Modal Footer -->
+        <div class="px-6 py-3.5 bg-slate-50 border-t border-slate-200 flex items-center justify-end gap-2">
+            <button type="button" onclick="fnCloseUserDetailModal()" class="px-5 py-2 rounded-lg bg-slate-800 hover:bg-slate-900 text-white font-bold text-xs cursor-pointer transition">
+                Đóng cửa sổ
+            </button>
+        </div>
+    </div>
+</div>
+
+<script>
+function fnOpenUserDetailModal(data) {
+    const modal = document.getElementById('fn-user-detail-modal');
+    if (!modal || !data) return;
+
+    const name = data.user_name || 'Người dùng';
+    const words = name.trim().split(/\s+/);
+    const initials = words.length >= 2
+        ? (words[words.length - 2][0] + words[words.length - 1][0]).toUpperCase()
+        : name.slice(0, 2).toUpperCase();
+
+    document.getElementById('fn-md-avatar').textContent = initials;
+    document.getElementById('fn-md-name').textContent = name;
+    document.getElementById('fn-md-sub').textContent = [data.user_email, data.user_phone ? ('📞 ' + data.user_phone) : '', data.user_group].filter(Boolean).join('  •  ');
+    document.getElementById('fn-md-district').textContent = '📍 ' + (data.district || 'TP.HCM');
+    document.getElementById('fn-md-created').textContent = '⏰ ' + (data.user_created_at || data.search_time || '');
+
+    // Render devices
+    const devContainer = document.getElementById('fn-md-devices');
+    devContainer.innerHTML = '';
+    const devs = String(data.device_group || data.device_category || 'Điện thoại').split(',').map(s => s.trim()).filter(Boolean);
+    devs.forEach(dev => {
+        const span = document.createElement('span');
+        span.className = 'px-2.5 py-1 rounded-md text-xs font-bold bg-orange-50 text-orange-700 border border-orange-200';
+        span.textContent = dev;
+        devContainer.appendChild(span);
+    });
+
+    // Render features
+    const featContainer = document.getElementById('fn-md-features');
+    featContainer.innerHTML = '';
+    const features = Array.isArray(data.features) ? data.features : [];
+    features.forEach(feat => {
+        const div = document.createElement('div');
+        div.className = 'flex items-center gap-2 p-2.5 rounded-lg bg-emerald-50/70 border border-emerald-200 text-xs font-semibold text-slate-800';
+        div.innerHTML = '<span class="w-5 h-5 rounded-full bg-emerald-600 text-white flex items-center justify-center text-[11px] font-bold flex-shrink-0">✓</span><span></span>';
+        div.querySelector('span:last-child').textContent = feat;
+        featContainer.appendChild(div);
+    });
+
+    // Render logs
+    const logsContainer = document.getElementById('fn-md-logs');
+    logsContainer.innerHTML = '';
+    const userLogs = Array.isArray(data.user_logs) ? data.user_logs : [];
+    userLogs.forEach(log => {
+        const item = document.createElement('div');
+        item.className = 'p-3.5 rounded-xl border border-orange-200 bg-[#fffaf5] flex flex-col sm:flex-row sm:items-center justify-between gap-2';
+        const left = document.createElement('div');
+        left.innerHTML = `
+            <div class="flex flex-wrap items-center gap-2 mb-1">
+                <span class="px-2 py-0.5 rounded text-[11px] font-bold bg-orange-100 text-orange-800">${log.device || 'Thiết bị'}</span>
+                <span class="text-[11px] font-semibold text-slate-500">📍 ${log.district || 'TP.HCM'}</span>
+                <span class="text-[11px] font-bold text-orange-600">⏰ ${log.time || ''}</span>
+            </div>
+            <div class="text-xs font-bold text-slate-900">${log.query || ''}</div>
+        `;
+        item.appendChild(left);
+
+        if (log.url) {
+            const link = document.createElement('a');
+            link.href = '../' + log.url;
+            link.target = '_blank';
+            link.className = 'px-3 py-1.5 rounded-lg bg-white hover:bg-orange-50 text-blue-600 border border-slate-200 text-[11px] font-bold whitespace-nowrap self-start sm:self-center';
+            link.textContent = 'Mở trang đã xem ↗';
+            item.appendChild(link);
+        }
+        logsContainer.appendChild(item);
+    });
+
+    modal.classList.remove('hidden');
+    modal.classList.add('flex');
+    document.body.style.overflow = 'hidden';
+}
+
+function fnCloseUserDetailModal() {
+    const modal = document.getElementById('fn-user-detail-modal');
+    if (!modal) return;
+    modal.classList.add('hidden');
+    modal.classList.remove('flex');
+    document.body.style.overflow = '';
+}
+
+document.addEventListener('click', function(e) {
+    const modal = document.getElementById('fn-user-detail-modal');
+    if (modal && e.target === modal) {
+        fnCloseUserDetailModal();
+    }
+});
+
+document.addEventListener('keydown', function(e) {
+    if (e.key === 'Escape') {
+        fnCloseUserDetailModal();
+    }
+});
+</script>
 
 <?php require_once __DIR__ . '/../includes/footer.php'; ?>
