@@ -686,6 +686,8 @@ function initWelcomePopups() {
 
 function initScrollMotion() {
     if (!('IntersectionObserver' in window) || window.matchMedia('(prefers-reduced-motion: reduce)').matches) return;
+
+    const desktopMotionQuery = window.matchMedia('(min-width: 1025px) and (hover: hover) and (pointer: fine)');
     const selectors = [
         '.fn-animate-on-scroll', '.fn-hero-badge', '.fn-hero-title',
         '.fn-hero-subtitle', '.fn-wizard-box', '.fn-section-title', '.fn-section-subtitle',
@@ -697,7 +699,9 @@ function initScrollMotion() {
         .filter(el => !el.closest('.fn-modal-overlay, .fn-admin-layout'));
 
     let lastScrollY = window.scrollY;
+    let isObserving = false;
     const observer = new IntersectionObserver(entries => {
+        if (!desktopMotionQuery.matches) return;
         const scrollingUp = window.scrollY < lastScrollY;
         lastScrollY = window.scrollY;
         entries.forEach(entry => {
@@ -710,31 +714,67 @@ function initScrollMotion() {
         });
     }, { rootMargin: '0px 0px -6% 0px', threshold: 0.06 });
 
-    items.forEach((item, index) => {
-        item.classList.add('fn-motion-item');
-        item.style.setProperty('--fn-motion-delay', `${(index % 4) * 65}ms`);
-        observer.observe(item);
-    });
-    document.body.classList.add('fn-motion-ready');
-
-    const progress = document.createElement('div');
-    progress.className = 'fn-scroll-progress';
-    progress.setAttribute('aria-hidden', 'true');
-    document.body.appendChild(progress);
+    let progress = null;
     let framePending = false;
     const updateProgress = () => {
+        framePending = false;
+        if (!progress || !desktopMotionQuery.matches) return;
         const scrollable = Math.max(1, document.documentElement.scrollHeight - window.innerHeight);
         progress.style.transform = `scaleX(${Math.min(1, Math.max(0, window.scrollY / scrollable))})`;
-        framePending = false;
     };
     const requestUpdate = () => {
-        if (framePending) return;
+        if (framePending || !desktopMotionQuery.matches) return;
         framePending = true;
         window.requestAnimationFrame(updateProgress);
     };
+
+    const syncMotionMode = () => {
+        if (desktopMotionQuery.matches) {
+            if (!isObserving) {
+                items.forEach((item, index) => {
+                    item.classList.add('fn-motion-item');
+                    item.style.setProperty('--fn-motion-delay', `${(index % 4) * 65}ms`);
+                    observer.observe(item);
+                });
+                isObserving = true;
+            }
+            document.body.classList.add('fn-motion-ready');
+            if (!progress) {
+                progress = document.createElement('div');
+                progress.className = 'fn-scroll-progress';
+                progress.setAttribute('aria-hidden', 'true');
+                document.body.appendChild(progress);
+            }
+            progress.style.display = '';
+            requestUpdate();
+        } else {
+            if (isObserving) {
+                observer.disconnect();
+                isObserving = false;
+            }
+            document.body.classList.remove('fn-motion-ready');
+            items.forEach(item => {
+                item.classList.remove('fn-motion-item', 'fn-motion-from-top');
+                item.classList.add('fn-motion-visible', 'fn-visible');
+                item.style.removeProperty('--fn-motion-delay');
+            });
+            if (progress) {
+                progress.style.display = 'none';
+            }
+        }
+    };
+
+    syncMotionMode();
+    if (typeof desktopMotionQuery.addEventListener === 'function') {
+        desktopMotionQuery.addEventListener('change', syncMotionMode);
+    } else if (typeof desktopMotionQuery.addListener === 'function') {
+        desktopMotionQuery.addListener(syncMotionMode);
+    }
     window.addEventListener('scroll', requestUpdate, { passive: true });
-    window.addEventListener('resize', requestUpdate);
-    requestUpdate();
+    window.addEventListener('resize', () => {
+        syncMotionMode();
+        requestUpdate();
+    }, { passive: true });
 }
 
 // ================= 1. REPAIR FINDER WIZARD LOGIC =================

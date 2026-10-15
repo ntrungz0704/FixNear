@@ -204,13 +204,13 @@ require_once __DIR__ . '/../includes/navbar.php';
 
     <?php if ($success && $requestData): ?>
         <!-- KẾT QUẢ CUỐI CÙNG TRẢ VỀ CHO NGƯỜI DÙNG -->
-        <div style="background: #f0fdf4; border: 2px solid #86efac; border-radius: var(--fn-radius-lg); padding: 32px; margin-bottom: 40px; box-shadow: 0 10px 30px rgba(22, 163, 74, 0.12); text-align: left;">
-            <div style="display: flex; align-items: center; gap: 16px; margin-bottom: 20px;">
+        <div class="fn-repair-success-card" style="background: #f0fdf4; border: 2px solid #86efac; border-radius: var(--fn-radius-lg); padding: 32px; margin-bottom: 40px; box-shadow: 0 10px 30px rgba(22, 163, 74, 0.12); text-align: left;">
+            <div style="display: flex; align-items: flex-start; flex-wrap: wrap; gap: 16px; margin-bottom: 20px;">
                 <div style="width: 56px; height: 56px; border-radius: 50%; background: #22c55e; color: #fff; display: flex; align-items: center; justify-content: center; font-size: 28px; flex-shrink: 0;">
                     ✓
                 </div>
-                <div>
-                    <h2 style="font-family: var(--fn-font-heading); font-size: 22px; font-weight: 900; color: #15803d; margin-bottom: 4px; text-align: left;">
+                <div style="flex: 1; min-width: 220px;">
+                    <h2 style="font-family: var(--fn-font-heading); font-size: clamp(18px, 5vw, 22px); font-weight: 900; color: #15803d; margin-bottom: 4px; text-align: left;">
                         Tiếp Nhận Thành Công! Mã Hồ Sơ: [<?= $requestData['id'] ?>]
                     </h2>
                     <p style="font-size: 14px; color: #166534; text-align: left;">
@@ -271,8 +271,8 @@ require_once __DIR__ . '/../includes/navbar.php';
                     </div>
                 <?php endforeach; ?>
             </div>
-            <div style="text-align: center; margin-top: 24px;">
-                <a href="track_request.php" class="fn-btn fn-btn-primary" style="font-size:14px;font-weight:800;margin-right:8px;">Theo dõi mã hồ sơ</a>
+            <div style="display: flex; justify-content: center; flex-wrap: wrap; gap: 10px; margin-top: 24px;">
+                <a href="track_request.php" class="fn-btn fn-btn-primary" style="font-size:14px;font-weight:800;">Theo dõi mã hồ sơ</a>
                 <button type="button" onclick="window.location.href='request_repair.php'" class="fn-btn fn-btn-secondary" style="font-size: 14px; font-weight: 700;">
                     🔄 Tạo Thêm Yêu Cầu Cho Thiết Bị Khác
                 </button>
@@ -341,7 +341,7 @@ require_once __DIR__ . '/../includes/navbar.php';
 
                 <!-- ================= BƯỚC 2: CHỌN THƯƠNG HIỆU (LOGO CĂN GIỮA ĐẸP) ================= -->
                 <div id="wizard-step-2" class="wizard-step" style="display: none;">
-                    <div style="display: flex; align-items: center; justify-content: space-between; margin-bottom: 6px;">
+                    <div style="display: flex; align-items: center; justify-content: space-between; flex-wrap: wrap; gap: 8px; margin-bottom: 6px;">
                         <h2 class="fn-rb-title" id="step-2-title">2. Chọn Hãng Thiết Bị Của Bạn</h2>
                         <button type="button" class="fn-btn fn-btn-secondary" style="padding: 6px 14px; font-size: 12.5px;" onclick="wizardGoToStep(1)">
                             ← Đổi Thiết Bị
@@ -356,7 +356,7 @@ require_once __DIR__ . '/../includes/navbar.php';
 
                 <!-- ================= BƯỚC 3: CHỌN MODEL MÁY CỤ THỂ ================= -->
                 <div id="wizard-step-3" class="wizard-step" style="display: none;">
-                    <div style="display: flex; align-items: center; justify-content: space-between; margin-bottom: 6px;">
+                    <div style="display: flex; align-items: center; justify-content: space-between; flex-wrap: wrap; gap: 8px; margin-bottom: 6px;">
                         <h2 class="fn-rb-title" id="step-3-title">3. Chọn Đúng Đời Máy / Model</h2>
                         <button type="button" class="fn-btn fn-btn-secondary" style="padding: 6px 14px; font-size: 12.5px;" onclick="wizardGoToStep(2)">
                             ← Đổi Hãng
@@ -386,7 +386,7 @@ require_once __DIR__ . '/../includes/navbar.php';
 
                 <!-- ================= BƯỚC 4: CHỌN PAN BỆNH CẦN SỬA (DEVICE-SPECIFIC) ================= -->
                 <div id="wizard-step-4" class="wizard-step" style="display: none;">
-                    <div style="display: flex; align-items: center; justify-content: space-between; margin-bottom: 6px;">
+                    <div style="display: flex; align-items: center; justify-content: space-between; flex-wrap: wrap; gap: 8px; margin-bottom: 6px;">
                         <h2 class="fn-rb-title">4. Bạn Cần Sửa Chữa Pan Bệnh Nào?</h2>
                         <button type="button" class="fn-btn fn-btn-secondary" style="padding: 6px 14px; font-size: 12.5px;" onclick="wizardGoToStep(3)">
                             ← Đổi Model
@@ -427,7 +427,7 @@ require_once __DIR__ . '/../includes/navbar.php';
 
                 <!-- ================= BƯỚC 5: KHU VỰC, THỜI GIAN & THÔNG TIN ================= -->
                 <div id="wizard-step-5" class="wizard-step" style="display: none;">
-                    <div style="display: flex; align-items: center; justify-content: space-between; margin-bottom: 6px;">
+                    <div style="display: flex; align-items: center; justify-content: space-between; flex-wrap: wrap; gap: 8px; margin-bottom: 6px;">
                         <h2 class="fn-rb-title">5. Khu Vực & Thời Gian Tiếp Nhận</h2>
                         <button type="button" class="fn-btn fn-btn-secondary" style="padding: 6px 14px; font-size: 12.5px;" onclick="wizardGoToStep(4)">
                             ← Đổi Pan Bệnh

@@ -105,7 +105,7 @@ require_once __DIR__ . '/../includes/navbar.php';
     </div>
 
     <!-- HERO HEADER HIỆN ĐẠI -->
-    <div style="background: linear-gradient(135deg, #0f172a 0%, #1e293b 100%); border-radius: 20px; padding: 36px 32px; margin-bottom: 26px; box-shadow: 0 10px 30px -10px rgba(15,23,42,0.3); position: relative; overflow: hidden; color: #ffffff;">
+    <div class="fn-models-hero-box" style="background: linear-gradient(135deg, #0f172a 0%, #1e293b 100%); border-radius: 20px; padding: 36px 32px; margin-bottom: 26px; box-shadow: 0 10px 30px -10px rgba(15,23,42,0.3); position: relative; overflow: hidden; color: #ffffff;">
         <div style="position: absolute; right: -30px; bottom: -30px; font-size: 160px; opacity: 0.04; pointer-events: none; user-select: none;">
             🔍
         </div>
@@ -174,9 +174,15 @@ require_once __DIR__ . '/../includes/navbar.php';
     }
     @media (max-width: 640px) {
         .fn-models-tabs-grid {
+            grid-template-columns: repeat(2, minmax(0, 1fr));
+            gap: 6px;
+        }
+        .fn-models-tab-btn { justify-content: space-between; min-width: 0; white-space: normal; padding: 9px 10px; font-size: 12.5px; gap: 6px; }
+    }
+    @media (max-width: 374px) {
+        .fn-models-tabs-grid {
             grid-template-columns: 1fr;
         }
-        .fn-models-tab-btn { justify-content: space-between; min-width: 0; white-space: normal; }
     }
     </style>
     <div class="fn-models-tabs-grid">

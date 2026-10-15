@@ -48,8 +48,8 @@ $statusLabels = [
 require_once __DIR__ . '/../includes/header.php';
 require_once __DIR__ . '/../includes/navbar.php';
 ?>
-<main class="fn-container" style="max-width:760px;padding:48px 20px 72px;">
-    <h1 style="font-family:var(--fn-font-heading);font-size:30px;font-weight:900;color:var(--fn-dark);margin-bottom:8px;">Theo Dõi Yêu Cầu</h1>
+<main class="fn-container fn-track-page" style="max-width:760px;padding:48px 20px 72px;">
+    <h1 style="font-family:var(--fn-font-heading);font-size:clamp(24px, 5.8vw, 30px);font-weight:900;color:var(--fn-dark);margin-bottom:8px;">Theo Dõi Yêu Cầu</h1>
     <p style="color:var(--fn-dark-muted);margin-bottom:24px;">Nhập đồng thời mã hồ sơ và số điện thoại đã gửi để bảo vệ thông tin cá nhân.</p>
 
     <?php if (isLoggedIn()): ?>
@@ -70,7 +70,7 @@ require_once __DIR__ . '/../includes/navbar.php';
         </section>
     <?php endif; ?>
 
-    <form method="post" action="track_request.php" style="background:#fff;border:1px solid var(--fn-border);border-radius:16px;padding:24px;box-shadow:var(--fn-shadow-sm);">
+    <form method="post" action="track_request.php" class="fn-track-form" style="background:#fff;border:1px solid var(--fn-border);border-radius:16px;padding:24px;box-shadow:var(--fn-shadow-sm);">
         <?= csrfField() ?>
         <div class="fn-form-row">
             <div class="fn-form-group">
@@ -82,19 +82,19 @@ require_once __DIR__ . '/../includes/navbar.php';
                 <input class="fn-input" id="track-phone" name="phone" type="tel" inputmode="tel" placeholder="Ví dụ: 0908 123 456" autocomplete="tel" maxlength="20" required>
             </div>
         </div>
-        <button class="fn-btn fn-btn-primary" type="submit">Kiểm tra trạng thái</button>
+        <button class="fn-btn fn-btn-primary fn-track-submit-btn" type="submit">Kiểm tra trạng thái</button>
     </form>
 
     <?php if ($lookupError): ?>
         <div role="alert" aria-live="polite" style="margin-top:20px;background:#fee2e2;color:#991b1b;padding:14px 16px;border-radius:10px;border-left:4px solid #ef4444;"><?= htmlspecialchars($lookupError) ?></div>
     <?php elseif ($request): ?>
         <?php $status = $request['status'] ?? 'pending'; ?>
-        <section aria-live="polite" style="margin-top:24px;background:#fff;border:1px solid var(--fn-border);border-radius:16px;padding:24px;box-shadow:var(--fn-shadow-sm);">
+        <section aria-live="polite" class="fn-track-result-card" style="margin-top:24px;background:#fff;border:1px solid var(--fn-border);border-radius:16px;padding:24px;box-shadow:var(--fn-shadow-sm);">
             <div style="display:flex;justify-content:space-between;gap:12px;flex-wrap:wrap;align-items:center;">
                 <h2 style="font-size:20px;color:var(--fn-dark);">Hồ sơ <?= htmlspecialchars($request['id']) ?></h2>
                 <strong style="background:#fff7ed;color:#c2410c;border:1px solid #fed7aa;padding:7px 12px;border-radius:999px;"><?= htmlspecialchars($statusLabels[$status] ?? $status) ?></strong>
             </div>
-            <dl style="display:grid;grid-template-columns:minmax(120px,180px) 1fr;gap:10px;margin-top:20px;">
+            <dl class="fn-track-dl" style="display:grid;grid-template-columns:minmax(120px,180px) 1fr;gap:10px;margin-top:20px;">
                 <dt>Thiết bị</dt><dd><?= htmlspecialchars(($request['device_type'] ?? '') . ' — ' . (($request['brand_model'] ?? '') ?: 'chưa xác định model')) ?></dd>
                 <dt>Lỗi mô tả</dt><dd><?= htmlspecialchars($request['issue_type'] ?? '') ?></dd>
                 <dt>Khu vực</dt><dd><?= htmlspecialchars($request['district'] ?? '') ?></dd>

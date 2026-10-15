@@ -208,14 +208,14 @@ require_once __DIR__ . '/../includes/navbar.php';
     </div>
 
     <!-- Header Tiêu Đề Kết Quả & Ngữ Cảnh -->
-    <div style="background: #ffffff; border: 1px solid #e2e8f0; border-radius: 18px; padding: 24px 28px; margin-bottom: 28px; box-shadow: 0 4px 20px rgba(0,0,0,0.04); text-align: left;">
+    <div class="fn-shops-hero-card" style="background: #ffffff; border: 1px solid #e2e8f0; border-radius: 18px; padding: 24px 28px; margin-bottom: 28px; box-shadow: 0 4px 20px rgba(0,0,0,0.04); text-align: left;">
         
         <div style="display: flex; justify-content: space-between; align-items: flex-start; flex-wrap: wrap; gap: 16px; margin-bottom: 16px;">
             <div>
                 <div style="display: inline-flex; align-items: center; gap: 6px; background: #fff7ed; border: 1px solid #fed7aa; color: #ea580c; font-size: 12px; font-weight: 800; padding: 3px 10px; border-radius: 20px; margin-bottom: 8px; text-transform: uppercase;">
                     <?= $isResultMode ? '⚡ Kết quả chẩn đoán & tìm kiếm' : '📋 Danh bạ cửa hàng sửa chữa' ?>
                 </div>
-                <h1 style="font-family: var(--fn-font-heading); font-size: 26px; font-weight: 900; color: #0f172a; margin: 0 0 6px 0; line-height: 1.3;">
+                <h1 style="font-family: var(--fn-font-heading); font-size: clamp(21px, 5.5vw, 26px); font-weight: 900; color: #0f172a; margin: 0 0 6px 0; line-height: 1.3;">
                     Tìm thấy <span style="color: #ea580c;"><?= count($filteredShops) ?></span> Cửa Hàng Phù Hợp
                 </h1>
                 <p style="font-size: 14px; color: #64748b; margin: 0; line-height: 1.5;">
@@ -225,13 +225,13 @@ require_once __DIR__ . '/../includes/navbar.php';
             </div>
 
             <!-- GPS Status Bar trong Header -->
-            <div style="display: flex; flex-direction: column; align-items: flex-end; gap: 8px;">
+            <div class="fn-shops-gps-status" style="display: flex; flex-direction: column; align-items: flex-end; gap: 8px;">
                 <?php if ($isLocated): ?>
                     <div style="display: inline-flex; align-items: center; gap: 8px; background: #ecfdf5; border: 1.5px solid #a7f3d0; color: #059669; padding: 6px 14px; border-radius: 20px; font-size: 13px; font-weight: 700;">
                         <span class="fn-pulse-dot" style="background:#10b981; width:8px; height:8px;"></span>
                         <span>Đang tìm quanh: <strong><?= htmlspecialchars($loc_name ?: 'Vị trí của bạn') ?></strong></span>
                     </div>
-                    <div style="display: flex; gap: 6px;">
+                    <div style="display: flex; gap: 6px; flex-wrap: wrap;">
                         <button type="button" onclick="openLocationModal()" style="font-size: 12px; padding: 4px 10px; background: #ffffff; border: 1px solid #cbd5e1; border-radius: 6px; color: #475569; font-weight: 700; cursor: pointer;">
                             ⚙️ Đổi vị trí
                         </button>
@@ -243,7 +243,7 @@ require_once __DIR__ . '/../includes/navbar.php';
                     <div style="display: inline-flex; align-items: center; gap: 8px; background: #fff7ed; border: 1.5px solid #fed7aa; color: #c2410c; padding: 6px 14px; border-radius: 20px; font-size: 13px; font-weight: 700;">
                         <span>📍 Chưa xác định vị trí của bạn</span>
                     </div>
-                    <div style="display: flex; gap: 6px;">
+                    <div style="display: flex; gap: 6px; flex-wrap: wrap;">
                         <button type="button" onclick="triggerDeviceGPS(this)" style="font-size: 12px; padding: 5px 12px; background: #ea580c; border: 1px solid #ea580c; border-radius: 6px; color: #ffffff; font-weight: 800; cursor: pointer; box-shadow: 0 2px 6px rgba(234,88,12,0.3);">
                             🛰️ Bật vị trí
                         </button>
@@ -293,11 +293,11 @@ require_once __DIR__ . '/../includes/navbar.php';
 
     <!-- Summary Card: Thông Tin Lỗi & Báo Giá Tham Khảo (Chỉ hiển thị khi có chọn Lỗi/Pan bệnh) -->
     <?php if (!empty($faultId) && (!empty($faultData) || !empty($gradePrices))): ?>
-    <div style="background: #ffffff; border: 2px solid #ea580c; border-radius: 18px; padding: 24px; margin-bottom: 32px; box-shadow: 0 8px 30px rgba(234, 88, 12, 0.08); text-align: left;">
-        <div style="display: grid; grid-template-columns: 1.1fr 1.9fr; gap: 24px; align-items: stretch;">
+    <div class="fn-shops-fault-card" style="background: #ffffff; border: 2px solid #ea580c; border-radius: 18px; padding: 24px; margin-bottom: 32px; box-shadow: 0 8px 30px rgba(234, 88, 12, 0.08); text-align: left;">
+        <div class="fn-shops-fault-grid" style="display: grid; grid-template-columns: 1.1fr 1.9fr; gap: 24px; align-items: stretch;">
             
             <!-- Cột trái: Thông tin pan bệnh -->
-            <div style="display: flex; flex-direction: column; justify-content: space-between; border-right: 1px solid #f1f5f9; padding-right: 20px;">
+            <div class="fn-shops-fault-left" style="display: flex; flex-direction: column; justify-content: space-between; border-right: 1px solid #f1f5f9; padding-right: 20px;">
                 <div>
                     <div style="display: flex; align-items: center; gap: 10px; margin-bottom: 8px;">
                         <span style="font-size: 32px;"><?= htmlspecialchars($faultData['icon'] ?? '🔧') ?></span>
@@ -327,7 +327,7 @@ require_once __DIR__ . '/../includes/navbar.php';
 
             <!-- Cột phải: Bảng giá tham khảo 3 cấp linh kiện (Dynamic RepairAtlas) -->
             <div>
-                <div style="display: flex; justify-content: space-between; align-items: center; margin-bottom: 12px;">
+                <div style="display: flex; justify-content: space-between; align-items: center; flex-wrap: wrap; gap: 8px; margin-bottom: 12px;">
                     <div>
                         <h3 style="font-family: var(--fn-font-heading); font-size: 16px; font-weight: 900; color: #0f172a; margin: 0;">
                             GIÁ DỰ ĐOÁN TỪ MÔ HÌNH FIXNEAR
@@ -342,7 +342,7 @@ require_once __DIR__ . '/../includes/navbar.php';
                 </div>
 
                 <!-- 3 Thẻ Linh Kiện -->
-                <div style="display: grid; grid-template-columns: repeat(3, 1fr); gap: 10px; margin-bottom: 12px;">
+                <div class="fn-shops-grade-grid" style="display: grid; grid-template-columns: repeat(3, 1fr); gap: 10px; margin-bottom: 12px;">
                     
                     <!-- Cấp 1: Tiêu chuẩn -->
                     <?php $pStd = $gradePrices['standard'] ?? null; ?>
@@ -399,8 +399,8 @@ require_once __DIR__ . '/../includes/navbar.php';
     <?php endif; ?>
 
     <!-- Thanh Bộ Lọc & Tìm Kiếm Khu Vực Nhanh -->
-    <div style="background: var(--fn-surface); border: 1px solid var(--fn-border); border-radius: 14px; padding: 18px 20px; margin-bottom: 28px; box-shadow: var(--fn-shadow-sm);">
-        <form action="shops.php" method="GET" style="display: flex; gap: 12px; flex-wrap: wrap; align-items: center;">
+    <div class="fn-shops-filter-bar" style="background: var(--fn-surface); border: 1px solid var(--fn-border); border-radius: 14px; padding: 18px 20px; margin-bottom: 28px; box-shadow: var(--fn-shadow-sm);">
+        <form action="shops.php" method="GET" class="fn-shops-filter-form" style="display: flex; gap: 12px; flex-wrap: wrap; align-items: center;">
             <!-- Giữ nguyên context ẩn nếu có -->
             <?php if ($device): ?><input type="hidden" name="device" value="<?= htmlspecialchars($device) ?>"><?php endif; ?>
             <?php if ($brand): ?><input type="hidden" name="brand" value="<?= htmlspecialchars($brand) ?>"><?php endif; ?>
@@ -409,11 +409,11 @@ require_once __DIR__ . '/../includes/navbar.php';
             <?php if ($serviceId > 0): ?><input type="hidden" name="service_id" value="<?= (int)$serviceId ?>"><?php endif; ?>
             <?php if ($issueName): ?><input type="hidden" name="issue_name" value="<?= htmlspecialchars($issueName) ?>"><?php endif; ?>
 
-            <div style="flex: 1.5; min-width: 220px;">
+            <div class="fn-shops-filter-field" style="flex: 1.5; min-width: 220px;">
                 <input type="text" name="q" value="<?= htmlspecialchars($searchKw) ?>" class="fn-input" placeholder="🔍 Tìm tên tiệm, đường hoặc khu vực..." style="padding: 10px 14px;">
             </div>
 
-            <div style="flex: 1; min-width: 160px;">
+            <div class="fn-shops-filter-field" style="flex: 1; min-width: 160px;">
                 <select name="district" class="fn-select" style="padding: 10px 14px;">
                     <option value="">Tất cả khu vực TP.HCM</option>
                     <?php
@@ -440,12 +440,12 @@ require_once __DIR__ . '/../includes/navbar.php';
                 </label>
             <?php endif; ?>
 
-            <button type="submit" class="fn-btn fn-btn-primary" style="padding: 10px 20px; font-size: 13.5px; font-weight: 800;">
+            <button type="submit" class="fn-btn fn-btn-primary fn-shops-filter-submit" style="padding: 10px 20px; font-size: 13.5px; font-weight: 800;">
                 Lọc Tiệm
             </button>
 
             <?php if ($districtFilter || $studentOnly || $favoriteFilter || $searchKw): ?>
-                <a href="shops.php<?= $isResultMode ? '?device=' . urlencode($device) . '&fault_id=' . urlencode($faultId) . '&model=' . urlencode($modelId) : '' ?>" class="fn-btn fn-btn-secondary" style="font-size: 13px; text-decoration: none;">
+                <a href="shops.php<?= $isResultMode ? '?device=' . urlencode($device) . '&fault_id=' . urlencode($faultId) . '&model=' . urlencode($modelId) : '' ?>" class="fn-btn fn-btn-secondary fn-shops-filter-reset" style="font-size: 13px; text-decoration: none;">
                     ✕ Xóa lọc phụ
                 </a>
             <?php endif; ?>

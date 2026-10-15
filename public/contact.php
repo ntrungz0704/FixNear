@@ -41,7 +41,7 @@ require_once __DIR__ . '/../includes/header.php';
 require_once __DIR__ . '/../includes/navbar.php';
 ?>
 
-<div class="fn-container" style="padding: 24px 20px 80px;">
+<div class="fn-container fn-contact-page" style="padding: 24px 20px 80px;">
     <!-- Nút Trở Lại Trang Chủ -->
     <div style="margin-bottom: 24px;">
         <a href="index.php" style="display: inline-flex; align-items: center; gap: 8px; color: #1e293b; font-size: 14px; font-weight: 800; text-decoration: none; padding: 9px 16px; background: #ffffff; border: 1.5px solid #cbd5e1; border-radius: 10px; transition: color 0.2s, background-color 0.2s, border-color 0.2s, box-shadow 0.2s, transform 0.2s, opacity 0.2s; box-shadow: 0 1px 4px rgba(0,0,0,0.04);">
@@ -54,7 +54,7 @@ require_once __DIR__ . '/../includes/navbar.php';
         <div style="display: inline-flex; align-items: center; gap: 8px; background: #fff7ed; border: 1px solid #fed7aa; color: #ea580c; font-size: 12.5px; font-weight: 800; padding: 5px 16px; border-radius: 20px; margin-bottom: 12px; text-transform: uppercase;">
             📞 LIÊN HỆ & ĐỒNG HÀNH CÙNG DỰ ÁN
         </div>
-        <h1 style="font-family: var(--fn-font-heading); font-size: 32px; font-weight: 900; color: var(--fn-dark); line-height: 1.25;">
+        <h1 style="font-family: var(--fn-font-heading); font-size: clamp(23px, 5.8vw, 32px); font-weight: 900; color: var(--fn-dark); line-height: 1.25;">
             Kết Nối Với Ban Điều Hành <span style="color: #ea580c;">Dự Án FixNear</span>
         </h1>
         <p style="font-size: 15px; color: var(--fn-dark-muted); margin-top: 10px; line-height: 1.6;">
@@ -76,7 +76,7 @@ require_once __DIR__ . '/../includes/navbar.php';
     <div class="fn-contact-grid">
         <!-- Thông tin liên hệ -->
         <div style="text-align: left;">
-            <div style="background: linear-gradient(135deg, #0f172a, #1e293b); color: #fff; border-radius: var(--fn-radius-lg); padding: 32px; margin-bottom: 24px; box-shadow: var(--fn-shadow); text-align: left;">
+            <div class="fn-contact-info-box" style="background: linear-gradient(135deg, #0f172a, #1e293b); color: #fff; border-radius: var(--fn-radius-lg); padding: 32px; margin-bottom: 24px; box-shadow: var(--fn-shadow); text-align: left;">
                 <div style="display: flex; align-items: center; gap: 12px; margin-bottom: 20px; text-align: left;">
                     <div style="width: 46px; height: 46px; border-radius: 10px; background: #ea580c; display: flex; align-items: center; justify-content: center; font-size: 22px; flex-shrink: 0;">
                         🔧
@@ -125,7 +125,7 @@ require_once __DIR__ . '/../includes/navbar.php';
             </div>
 
             <!-- Câu hỏi thường gặp -->
-            <div style="background: var(--fn-surface); border: 1px solid var(--fn-border); border-radius: var(--fn-radius-lg); padding: 24px; text-align: left;">
+            <div class="fn-contact-faq-box" style="background: var(--fn-surface); border: 1px solid var(--fn-border); border-radius: var(--fn-radius-lg); padding: 24px; text-align: left;">
                 <h4 style="font-family: var(--fn-font-heading); font-size: 16px; font-weight: 900; color: var(--fn-dark); margin-bottom: 12px; text-align: left;">
                     ❓ Câu Hỏi Thường Gặp
                 </h4>
@@ -143,7 +143,7 @@ require_once __DIR__ . '/../includes/navbar.php';
         </div>
 
         <!-- Form gửi tin nhắn liên hệ -->
-        <div style="background: var(--fn-surface); border: 1px solid var(--fn-border); border-radius: var(--fn-radius-lg); padding: 32px; box-shadow: var(--fn-shadow); text-align: left;">
+        <div class="fn-contact-form-box" style="background: var(--fn-surface); border: 1px solid var(--fn-border); border-radius: var(--fn-radius-lg); padding: 32px; box-shadow: var(--fn-shadow); text-align: left;">
             <h2 style="font-family: var(--fn-font-heading); font-size: 20px; font-weight: 900; color: var(--fn-dark); margin-bottom: 20px; text-align: left;">
                 ✉️ Gửi Tin Nhắn / Góp Ý Đến Dự Án
             </h2>
@@ -186,7 +186,7 @@ require_once __DIR__ . '/../includes/navbar.php';
                 </div>
 
                 <div style="margin-top: 24px;">
-                    <button type="submit" class="fn-btn fn-btn-primary" style="width: 100%; padding: 14px; font-size: 15px; font-weight: 800; border-radius: 10px; text-align: center;">
+                    <button type="submit" class="fn-btn fn-btn-primary fn-contact-submit-btn" style="width: 100%; padding: 14px; font-size: 15px; font-weight: 800; border-radius: 10px; text-align: center;">
                         📤 GỬI TIN NHẮN ĐẾN BAN ĐIỀU HÀNH FIXNEAR
                     </button>
                 </div>

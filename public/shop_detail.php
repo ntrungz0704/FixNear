@@ -228,8 +228,9 @@ $msg = $_GET['msg'] ?? '';
     <!-- Khối 2: ĐÁNH GIÁ & TRẢI NGHIỆM TỪ THÀNH VIÊN -->
     <div class="fn-shop-reviews-grid">
         <!-- Cột danh sách đánh giá -->
-            <div style="display: flex; justify-content: space-between; align-items: center; margin-bottom: 16px;">
-                <h2 class="fn-section-title" style="font-size: 20px;">
+        <div>
+            <div style="display: flex; justify-content: space-between; align-items: center; flex-wrap: wrap; gap: 6px; margin-bottom: 16px;">
+                <h2 class="fn-section-title" style="font-size: 20px; margin-bottom: 0;">
                     Đánh Giá Từ Thành Viên FixNear (<?= count($reviews) ?>)
                 </h2>
                 <span style="font-size: 13px; color: var(--fn-text-light);">Phản hồi do tài khoản gửi; FixNear chưa xác minh giao dịch sửa chữa</span>

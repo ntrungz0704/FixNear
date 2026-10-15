@@ -28,22 +28,22 @@ require_once __DIR__ . '/../includes/header.php';
 require_once __DIR__ . '/../includes/navbar.php';
 ?>
 
-<div style="display: flex; flex-direction: column; height: calc(100vh - 68px); position: relative; overflow: hidden; background: #0f172a;">
+<div class="fn-map-page-shell" style="display: flex; flex-direction: column; height: calc(100vh - 68px); height: calc(100dvh - 68px); position: relative; overflow: hidden; background: #0f172a;">
     
     <!-- Top Action Bar -->
-    <div style="background: #ffffff; border-bottom: 1px solid #e2e8f0; padding: 12px 20px; display: flex; align-items: center; justify-content: space-between; gap: 14px; flex-wrap: wrap; z-index: 1000; box-shadow: 0 2px 10px rgba(0,0,0,0.06);">
+    <div class="fn-map-top-bar" style="background: #ffffff; border-bottom: 1px solid #e2e8f0; padding: 12px 20px; display: flex; align-items: center; justify-content: space-between; gap: 14px; flex-wrap: wrap; z-index: 900; box-shadow: 0 2px 10px rgba(0,0,0,0.06);">
         <!-- Nút Trở Lại Danh Sách Cửa Hàng -->
-        <div style="display: flex; align-items: center; gap: 12px;">
+        <div style="display: flex; align-items: center; gap: 12px; flex-wrap: wrap; min-width: 0;">
             <a href="shops.php" style="display: inline-flex; align-items: center; gap: 8px; color: #0f172a; font-size: 13.5px; font-weight: 800; text-decoration: none; padding: 8px 16px; background: #f8fafc; border: 1.5px solid #cbd5e1; border-radius: 10px; transition: all 0.2s;" onmouseover="this.style.background='#f1f5f9'" onmouseout="this.style.background='#f8fafc'">
                 <span style="color: #ea580c; font-size: 16px; font-weight: 900;">←</span>
                 <span>Quay lại danh sách cửa hàng</span>
             </a>
 
             <?php if ($focusShop): ?>
-            <div style="display: flex; align-items: center; gap: 8px; font-size: 13.5px; color: #334155;">
+            <div style="display: flex; align-items: center; gap: 8px; font-size: 13.5px; color: #334155; flex-wrap: wrap; min-width: 0;">
                 <span style="color: #94a3b8;">|</span>
                 <span>Đang xem:</span>
-                <strong style="color: #ea580c; font-weight: 800; max-width: 280px; white-space: nowrap; overflow: hidden; text-overflow: ellipsis; display: inline-block; vertical-align: bottom;">
+                <strong style="color: #ea580c; font-weight: 800; max-width: 240px; white-space: nowrap; overflow: hidden; text-overflow: ellipsis; display: inline-block; vertical-align: bottom;">
                     <?= htmlspecialchars($focusShop['name']) ?>
                 </strong>
                 <span style="background: #f1f5f9; padding: 2px 8px; border-radius: 6px; font-size: 11.5px; font-weight: 700; color: #475569;">
