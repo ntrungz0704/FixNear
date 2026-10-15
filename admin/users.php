@@ -12,6 +12,14 @@ $allUsers = db()->getUsers();
 $regularUsers = array_values(array_filter($allUsers, static fn($u) => ($u['role'] ?? 'user') !== 'admin'));
 $allSearchLogs = db()->getSearchLogs();
 
+$regularUserEmails = [];
+foreach ($regularUsers as $ru) {
+    $rem = mb_strtolower(trim((string)($ru['email'] ?? '')), 'UTF-8');
+    if ($rem !== '') {
+        $regularUserEmails[$rem] = true;
+    }
+}
+
 $logsByEmail = [];
 $featuresByEmail = [];
 foreach ($allSearchLogs as $log) {
@@ -29,7 +37,7 @@ foreach ($allSearchLogs as $log) {
     }
 }
 
-$activeSearchingUsersCount = count($logsByEmail);
+$activeSearchingUsersCount = count(array_intersect_key($logsByEmail, $regularUserEmails));
 
 $filterUserQuery = trim((string)($_GET['user_q'] ?? ($_GET['q'] ?? '')));
 $filterDistrict = trim((string)($_GET['district'] ?? ''));

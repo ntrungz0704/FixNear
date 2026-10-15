@@ -84,7 +84,10 @@ foreach ($allSearchLogs as $log) {
     }
 }
 
-$activeSearchingUsersCount = count($logsByEmail);
+$activeSearchingUsersCount = count(array_intersect_key($logsByEmail, $userByEmail));
+if ($activeSearchingUsersCount === 0 && !empty($logsByEmail)) {
+    $activeSearchingUsersCount = count($logsByEmail);
+}
 
 // Pagination: 8 lượt tra cứu / trang
 $logsPerPage = 8;
@@ -240,10 +243,10 @@ require_once __DIR__ . '/../includes/navbar.php';
 
         <!-- 4 KPI CARDS -->
         <div class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-4 mb-6">
-            <div class="bg-white rounded-xl border border-orange-100 p-5 shadow-sm">
+            <div id="fn-kpi-card-searches" class="bg-white rounded-xl border border-orange-100 p-5 shadow-sm transition-all duration-300">
                 <div class="flex items-center justify-between">
                     <div>
-                        <div class="text-3xl font-black text-orange-600 leading-none"><?= count($allSearchLogs) ?></div>
+                        <div id="fn-kpi-total-searches" class="text-3xl font-black text-orange-600 leading-none"><?= count($allSearchLogs) ?></div>
                         <div class="text-xs font-semibold text-slate-500 mt-2">Tổng lượt tìm kiếm & tra cứu</div>
                     </div>
                     <div class="w-12 h-12 rounded-xl bg-orange-50 text-orange-600 border border-orange-100 flex items-center justify-center text-xl">
@@ -255,10 +258,10 @@ require_once __DIR__ . '/../includes/navbar.php';
                 </div>
             </div>
 
-            <div class="bg-white rounded-xl border border-orange-100 p-5 shadow-sm">
+            <div id="fn-kpi-card-users" class="bg-white rounded-xl border border-orange-100 p-5 shadow-sm transition-all duration-300">
                 <div class="flex items-center justify-between">
                     <div>
-                        <div class="text-3xl font-black text-emerald-600 leading-none"><?= $activeSearchingUsersCount ?></div>
+                        <div id="fn-kpi-active-users" class="text-3xl font-black text-emerald-600 leading-none"><?= $activeSearchingUsersCount ?></div>
                         <div class="text-xs font-semibold text-slate-500 mt-2">Người dùng có lịch sử tra cứu</div>
                     </div>
                     <div class="w-12 h-12 rounded-xl bg-emerald-50 text-emerald-600 border border-emerald-100 flex items-center justify-center text-xl">
@@ -270,10 +273,10 @@ require_once __DIR__ . '/../includes/navbar.php';
                 </div>
             </div>
 
-            <div class="bg-white rounded-xl border border-orange-100 p-5 shadow-sm">
+            <div id="fn-kpi-card-ga4" class="bg-white rounded-xl border border-orange-100 p-5 shadow-sm transition-all duration-300">
                 <div class="flex items-center justify-between">
                     <div>
-                        <div class="text-3xl font-black text-blue-600 leading-none"><?= $totalGaEvents ?></div>
+                        <div id="fn-kpi-total-ga-events" class="text-3xl font-black text-blue-600 leading-none"><?= $totalGaEvents ?></div>
                         <div class="text-xs font-semibold text-slate-500 mt-2">Sự kiện hành vi GA4</div>
                     </div>
                     <div class="w-12 h-12 rounded-xl bg-blue-50 text-blue-600 border border-blue-100 flex items-center justify-center text-xl">
@@ -304,18 +307,25 @@ require_once __DIR__ . '/../includes/navbar.php';
         <!-- KHỐI ĐỒNG BỘ SỰ KIỆN GOOGLE ANALYTICS 4 (G-ZEH4B0DYFQ) -->
         <div class="bg-white rounded-xl border border-orange-100 p-4 mb-6 shadow-sm">
             <div class="flex flex-col sm:flex-row sm:items-center justify-between gap-2 mb-3">
-                <div class="flex items-center gap-2">
+                <div class="flex flex-wrap items-center gap-2">
                     <span class="px-2 py-0.5 rounded bg-blue-50 text-blue-700 border border-blue-200 text-[11px] font-black">GA4</span>
                     <h2 class="text-xs font-extrabold text-slate-800 uppercase tracking-wider">Thống kê Sự kiện Hành vi Đồng bộ Google Analytics 4 (G-ZEH4B0DYFQ)</h2>
+                    <span id="fn-ga4-live-pill" class="inline-flex items-center gap-1.5 px-2.5 py-0.5 rounded-full bg-emerald-50 text-emerald-700 border border-emerald-200 text-[10.5px] font-bold">
+                        <span class="w-1.5 h-1.5 rounded-full bg-emerald-500 animate-ping"></span>
+                        <span id="fn-ga4-live-pill-text">Đồng bộ Real-time (Tự động)</span>
+                    </span>
                 </div>
-                <span class="text-[11px] text-slate-500 font-medium">
+                <span id="fn-ga4-last-activity" class="text-[11px] text-slate-500 font-medium">
                     Tự động ghi nhận mỗi khi người dùng chọn dòng máy, xem giá hoặc tra cứu cửa hàng
                 </span>
             </div>
-            <div class="grid grid-cols-2 sm:grid-cols-4 lg:grid-cols-8 gap-2">
+            <div id="fn-ga4-breakdown-grid" class="grid grid-cols-2 sm:grid-cols-4 lg:grid-cols-8 gap-2">
                 <?php foreach ($gaEventBreakdown as $evCode => $evInfo): ?>
-                    <div class="p-2.5 rounded-lg bg-[#fffaf5] border border-orange-100">
-                        <div class="text-lg font-black text-slate-900 leading-none"><?= $evInfo['count'] ?></div>
+                    <div data-ga-card="<?= htmlspecialchars($evCode) ?>" class="p-2.5 rounded-lg bg-[#fffaf5] border border-orange-100 transition-all duration-300 relative">
+                        <div class="flex items-center justify-between gap-1">
+                            <div data-ga-count="<?= htmlspecialchars($evCode) ?>" class="text-lg font-black text-slate-900 leading-none"><?= $evInfo['count'] ?></div>
+                            <span data-ga-delta="<?= htmlspecialchars($evCode) ?>" class="hidden px-1.5 py-0.5 rounded-full bg-emerald-100 text-emerald-700 text-[10px] font-black">+1</span>
+                        </div>
                         <div class="text-[10.5px] font-mono font-bold text-orange-600 mt-1 truncate" title="<?= htmlspecialchars($evCode) ?>"><?= htmlspecialchars($evCode) ?></div>
                         <div class="text-[10.5px] text-slate-500 mt-0.5 line-clamp-1" title="<?= htmlspecialchars($evInfo['label']) ?>"><?= htmlspecialchars($evInfo['label']) ?></div>
                     </div>
@@ -393,7 +403,7 @@ require_once __DIR__ . '/../includes/navbar.php';
             <div class="p-5 border-b border-orange-100 flex flex-col sm:flex-row sm:items-center justify-between gap-2">
                 <div>
                     <h2 class="text-base font-bold text-slate-900">🔍 Nhật ký Lịch sử Tìm kiếm & Hành vi Trải nghiệm Website</h2>
-                    <p class="text-xs text-slate-500 mt-0.5">
+                    <p id="fn-search-logs-summary" class="text-xs text-slate-500 mt-0.5">
                         <?php if ($totalFilteredLogs > 0): ?>
                             Hiển thị <strong><?= $logOffset + 1 ?>–<?= min($logOffset + $logsPerPage, $totalFilteredLogs) ?></strong> trên tổng số <strong><?= $totalFilteredLogs ?></strong> lượt tra cứu dòng máy, lỗi hư hỏng và cửa hàng
                         <?php else: ?>
@@ -401,7 +411,7 @@ require_once __DIR__ . '/../includes/navbar.php';
                         <?php endif; ?>
                     </p>
                 </div>
-                <span class="text-xs font-semibold text-orange-700 bg-orange-50 border border-orange-200 rounded-md px-3 py-1">
+                <span id="fn-search-logs-page-badge" class="text-xs font-semibold text-orange-700 bg-orange-50 border border-orange-200 rounded-md px-3 py-1">
                     Trang <?= $logPage ?> / <?= $totalLogPages ?> • Bấm "Xem chi tiết" để xem đầy đủ thao tác
                 </span>
             </div>
@@ -419,7 +429,7 @@ require_once __DIR__ . '/../includes/navbar.php';
                             <th class="py-3 px-4 text-right">Thao tác</th>
                         </tr>
                     </thead>
-                    <tbody class="divide-y divide-orange-50 text-slate-700 text-xs">
+                    <tbody id="fn-search-logs-tbody" class="divide-y divide-orange-50 text-slate-700 text-xs">
                         <?php if (empty($pagedLogs)): ?>
                             <tr>
                                 <td colspan="7" class="py-8 text-center text-slate-400">Không tìm thấy lịch sử tra cứu phù hợp với từ khóa / bộ lọc.</td>
@@ -432,7 +442,13 @@ require_once __DIR__ . '/../includes/navbar.php';
                                 $timeFormatted = $ts ? date('H:i:s', $ts) : '';
                                 $em = mb_strtolower(trim((string)($log['user_email'] ?? '')), 'UTF-8');
                                 $uInfo = $userByEmail[$em] ?? [];
-                                $features = array_values($featuresByEmail[$em] ?? []);
+                                $rowFeaturesRaw = str_replace(
+                                    'Xem chi tiết dịch vụ, phản hồi của cửa hàng',
+                                    'Xem chi tiết dịch vụ & phản hồi của cửa hàng',
+                                    (string)($log['features_used'] ?? '')
+                                );
+                                $rowFeatures = array_values(array_unique(array_filter(array_map('trim', explode(',', $rowFeaturesRaw)))));
+                                $features = !empty($featuresByEmail[$em]) ? array_values($featuresByEmail[$em]) : $rowFeatures;
                                 $modalPayload = [
                                     'type' => 'log',
                                     'user_name' => $log['user_name'] ?? 'Khách',
@@ -456,10 +472,10 @@ require_once __DIR__ . '/../includes/navbar.php';
                                             'query' => $l['search_query'] ?? '',
                                             'url' => ltrim((string)($l['page_url'] ?? ''), '/'),
                                         ];
-                                    }, $logsByEmail[$em] ?? [$log]),
+                                    }, !empty($logsByEmail[$em]) ? $logsByEmail[$em] : [$log]),
                                 ];
                             ?>
-                                <tr class="hover:bg-[#fffaf3] transition">
+                                <tr data-log-id="<?= (int)($log['id'] ?? 0) ?>" class="hover:bg-[#fffaf3] transition">
                                     <td class="py-3 px-4 text-center font-bold text-slate-400"><?= $rowNumber ?></td>
                                     <td class="py-3 px-4 whitespace-nowrap">
                                         <div class="font-bold text-slate-900"><?= htmlspecialchars($dateFormatted) ?></div>
@@ -516,7 +532,7 @@ require_once __DIR__ . '/../includes/navbar.php';
             <!-- PHÂN TRANG -->
             <?php if ($totalLogPages > 1): ?>
                 <div class="px-5 py-3.5 bg-[#fffaf5] border-t border-orange-100 flex flex-col sm:flex-row sm:items-center justify-between gap-3">
-                    <div class="text-xs text-slate-500">
+                    <div id="fn-search-logs-footer-summary" class="text-xs text-slate-500">
                         Hiển thị <strong class="text-slate-800"><?= $logOffset + 1 ?>–<?= min($logOffset + $logsPerPage, $totalFilteredLogs) ?></strong> / <strong class="text-slate-800"><?= $totalFilteredLogs ?></strong> lượt tra cứu
                     </div>
                     <div class="flex items-center gap-1.5">
@@ -621,7 +637,11 @@ require_once __DIR__ . '/../includes/navbar.php';
 </div>
 
 <script>
-const FN_ALL_SEARCH_LOGS = <?= json_encode($gaSyncLogsPayload, JSON_UNESCAPED_UNICODE | JSON_HEX_TAG | JSON_HEX_APOS | JSON_HEX_QUOT | JSON_HEX_AMP) ?>;
+let FN_ALL_SEARCH_LOGS = <?= json_encode($gaSyncLogsPayload, JSON_UNESCAPED_UNICODE | JSON_HEX_TAG | JSON_HEX_APOS | JSON_HEX_QUOT | JSON_HEX_AMP) ?>;
+let fnLiveRevision = '';
+let fnInitialMaxLogId = <?= !empty($allSearchLogs) ? (int)max(array_map(static fn($l) => (int)($l['id'] ?? 0), $allSearchLogs)) : 0 ?>;
+let fnLastSyncedLogId = fnInitialMaxLogId;
+let fnPollInFlight = false;
 
 (function initLiveClock() {
     const clockEl = document.getElementById('fn-live-clock');
@@ -637,14 +657,267 @@ const FN_ALL_SEARCH_LOGS = <?= json_encode($gaSyncLogsPayload, JSON_UNESCAPED_UN
     setInterval(tick, 1000);
 })();
 
-function fnSyncAllLogsToGA4() {
+function fnEscapeHtml(str) {
+    return String(str ?? '')
+        .replace(/&/g, '&amp;')
+        .replace(/</g, '&lt;')
+        .replace(/>/g, '&gt;')
+        .replace(/"/g, '&quot;')
+        .replace(/'/g, '&#039;');
+}
+
+function fnFlashElement(el, highlightClasses) {
+    if (!el) return;
+    const classes = highlightClasses || ['ring-2', 'ring-orange-400', 'bg-orange-50'];
+    el.classList.add(...classes);
+    setTimeout(() => {
+        el.classList.remove(...classes);
+    }, 1800);
+}
+
+function fnRenderRealtimeRows(rows) {
+    const tbody = document.getElementById('fn-search-logs-tbody');
+    if (!tbody || !Array.isArray(rows)) return;
+
+    if (rows.length === 0) {
+        tbody.innerHTML = '<tr><td colspan="7" class="py-8 text-center text-slate-400">Không tìm thấy lịch sử tra cứu phù hợp với từ khóa / bộ lọc.</td></tr>';
+        return;
+    }
+
+    tbody.innerHTML = '';
+    rows.forEach((row) => {
+        const isNewRow = Number(row.id) > fnInitialMaxLogId;
+        const tr = document.createElement('tr');
+        tr.dataset.logId = String(row.id || 0);
+        tr.className = isNewRow
+            ? 'bg-emerald-50/60 hover:bg-[#fffaf3] transition-colors duration-700'
+            : 'hover:bg-[#fffaf3] transition';
+
+        const newBadgeHtml = isNewRow
+            ? '<span class="ml-1.5 px-1.5 py-0.5 rounded bg-emerald-600 text-white text-[9.5px] font-black uppercase tracking-wider">Mới</span>'
+            : '';
+
+        tr.innerHTML = `
+            <td class="py-3 px-4 text-center font-bold text-slate-400">${Number(row.row_number) || ''}</td>
+            <td class="py-3 px-4 whitespace-nowrap">
+                <div class="font-bold text-slate-900 flex items-center">${fnEscapeHtml(row.date_formatted)}${newBadgeHtml}</div>
+                <div class="text-[11px] text-orange-600 font-semibold mt-0.5">⏰ ${fnEscapeHtml(row.time_formatted)}</div>
+            </td>
+            <td class="py-3 px-4 whitespace-nowrap">
+                <div class="flex items-center gap-2.5">
+                    <div class="w-8 h-8 rounded-full bg-orange-100 text-orange-700 font-bold text-[11px] flex items-center justify-center flex-shrink-0">
+                        ${fnEscapeHtml(row.initials)}
+                    </div>
+                    <div>
+                        <div class="font-bold text-slate-900">${fnEscapeHtml(row.user_name)}</div>
+                        <div class="text-[11px] text-slate-400">${fnEscapeHtml(row.user_contact)}</div>
+                    </div>
+                </div>
+            </td>
+            <td class="py-3 px-4 whitespace-nowrap">
+                <span class="inline-flex items-center gap-1 px-2.5 py-1 rounded-md text-[11px] font-bold bg-amber-50 text-amber-800 border border-amber-200">
+                    📍 ${fnEscapeHtml(row.district)}
+                </span>
+            </td>
+            <td class="py-3 px-4 whitespace-nowrap">
+                <span class="inline-flex items-center px-2.5 py-1 rounded-md text-[11px] font-bold border ${fnEscapeHtml(row.device_badge_class)}">
+                    ${fnEscapeHtml(row.device_short_label)}
+                </span>
+            </td>
+            <td class="py-3 px-4 max-w-sm">
+                <div class="font-bold text-slate-900 truncate" title="${fnEscapeHtml(row.search_query)}">
+                    ${fnEscapeHtml(row.search_query)}
+                </div>
+                <div class="text-[11px] text-slate-400 mt-0.5 flex items-center gap-2">
+                    <span class="text-emerald-600 font-semibold">✓ ${Number(row.features_count) || 1} bước thao tác</span>
+                    <span>•</span>
+                    <span class="truncate text-blue-600">/${fnEscapeHtml(row.page_url)}</span>
+                </div>
+            </td>
+            <td class="py-3 px-4 text-right whitespace-nowrap">
+                <button
+                    type="button"
+                    class="fn-btn-view-detail inline-flex items-center gap-1.5 px-3 py-1.5 rounded-lg bg-orange-50 hover:bg-orange-600 text-orange-700 hover:text-white border border-orange-200 hover:border-orange-600 font-bold text-xs transition cursor-pointer shadow-xs"
+                >
+                    <svg class="w-3.5 h-3.5" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M15 12a3 3 0 11-6 0 3 3 0 016 0z"></path><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M2.458 12C3.732 7.943 7.523 5 12 5c4.478 0 8.268 2.943 9.542 7-1.274 4.057-5.064 7-9.542 7-4.477 0-8.268-2.943-9.542-7z"></path></svg>
+                    Xem chi tiết
+                </button>
+            </td>
+        `;
+
+        const detailBtn = tr.querySelector('.fn-btn-view-detail');
+        if (detailBtn && row.modal_payload) {
+            detailBtn.addEventListener('click', () => fnOpenUserDetailModal(row.modal_payload));
+        }
+
+        tbody.appendChild(tr);
+    });
+}
+
+async function fnPollRealtimeSearchLogs(forceUpdate) {
+    if (fnPollInFlight) return null;
+    fnPollInFlight = true;
+    try {
+        const qs = window.location.search || '';
+        const res = await fetch('../api/search_logs_live.php' + qs, {
+            credentials: 'same-origin',
+            cache: 'no-store'
+        });
+        if (!res.ok) return null;
+        const data = await res.json();
+        if (!data || !data.ok) return null;
+
+        const isFirstPoll = (fnLiveRevision === '');
+        const hasChanged = !isFirstPoll && fnLiveRevision !== data.revision;
+        fnLiveRevision = data.revision;
+
+        if (!hasChanged && !forceUpdate) {
+            return data;
+        }
+
+        // 1. Cập nhật 3 KPI Cards động
+        if (data.kpi) {
+            const elSearches = document.getElementById('fn-kpi-total-searches');
+            const elUsers = document.getElementById('fn-kpi-active-users');
+            const elGa4 = document.getElementById('fn-kpi-total-ga-events');
+
+            if (elSearches && String(data.kpi.total_searches) !== elSearches.textContent.trim()) {
+                elSearches.textContent = String(data.kpi.total_searches);
+                fnFlashElement(document.getElementById('fn-kpi-card-searches'), ['ring-2', 'ring-orange-400', 'bg-orange-50/40']);
+            }
+            if (elUsers && String(data.kpi.active_users) !== elUsers.textContent.trim()) {
+                elUsers.textContent = String(data.kpi.active_users);
+                fnFlashElement(document.getElementById('fn-kpi-card-users'), ['ring-2', 'ring-emerald-400', 'bg-emerald-50/40']);
+            }
+            if (elGa4 && String(data.kpi.total_ga_events) !== elGa4.textContent.trim()) {
+                elGa4.textContent = String(data.kpi.total_ga_events);
+                fnFlashElement(document.getElementById('fn-kpi-card-ga4'), ['ring-2', 'ring-blue-400', 'bg-blue-50/40']);
+            }
+        }
+
+        // 2. Cập nhật 8 ô sự kiện GA4 kèm hiệu ứng +N khi tăng số
+        if (data.ga_breakdown) {
+            Object.entries(data.ga_breakdown).forEach(([evCode, newVal]) => {
+                const countEl = document.querySelector(`[data-ga-count="${evCode}"]`);
+                const cardEl = document.querySelector(`[data-ga-card="${evCode}"]`);
+                const deltaEl = document.querySelector(`[data-ga-delta="${evCode}"]`);
+                if (!countEl) return;
+
+                const oldVal = parseInt(countEl.textContent.trim(), 10) || 0;
+                const nextVal = parseInt(newVal, 10) || 0;
+                if (nextVal !== oldVal) {
+                    const diff = nextVal - oldVal;
+                    countEl.textContent = String(nextVal);
+                    if (cardEl) {
+                        fnFlashElement(cardEl, ['ring-2', 'ring-orange-500', 'bg-orange-100/70', 'scale-[1.03]']);
+                    }
+                    if (deltaEl && diff > 0) {
+                        deltaEl.textContent = '+' + diff;
+                        deltaEl.classList.remove('hidden');
+                        setTimeout(() => {
+                            deltaEl.classList.add('hidden');
+                        }, 4500);
+                    }
+                }
+            });
+        }
+
+        // 3. Cập nhật thông tin phân trang & Bảng lịch sử tra cứu
+        if (data.pagination) {
+            const p = data.pagination;
+            const summaryEl = document.getElementById('fn-search-logs-summary');
+            if (summaryEl) {
+                if (p.filtered_total > 0) {
+                    summaryEl.innerHTML = `Hiển thị <strong>${p.range_start}–${p.range_end}</strong> trên tổng số <strong>${p.filtered_total}</strong> lượt tra cứu dòng máy, lỗi hư hỏng và cửa hàng`;
+                } else {
+                    summaryEl.textContent = 'Không có lượt tra cứu nào khớp với bộ lọc hiện tại';
+                }
+            }
+            const pageBadgeEl = document.getElementById('fn-search-logs-page-badge');
+            if (pageBadgeEl) {
+                pageBadgeEl.textContent = `Trang ${p.page} / ${p.total_pages} • Bấm "Xem chi tiết" để xem đầy đủ thao tác`;
+            }
+            const footerSumEl = document.getElementById('fn-search-logs-footer-summary');
+            if (footerSumEl && p.filtered_total > 0) {
+                footerSumEl.innerHTML = `Hiển thị <strong class="text-slate-800">${p.range_start}–${p.range_end}</strong> / <strong class="text-slate-800">${p.filtered_total}</strong> lượt tra cứu`;
+            }
+        }
+
+        if (Array.isArray(data.rows)) {
+            fnRenderRealtimeRows(data.rows);
+        }
+
+        // 4. Hiển thị dòng trạng thái hoạt động mới nhất & đồng bộ lên GA4
+        if (data.latest_log && hasChanged) {
+            const actEl = document.getElementById('fn-ga4-last-activity');
+            if (actEl) {
+                const nowStr = (data.server_time || '').split(' — ')[0] || 'Vừa xong';
+                actEl.innerHTML = `<span class="text-emerald-700 font-bold">⚡ Vừa đồng bộ (${fnEscapeHtml(nowStr)}):</span> <strong class="text-slate-800">${fnEscapeHtml(data.latest_log.user_name)}</strong> — ${fnEscapeHtml(data.latest_log.search_query)}`;
+            }
+
+            if (Number(data.latest_log.id) > fnLastSyncedLogId && typeof window.gtag === 'function') {
+                fnLastSyncedLogId = Number(data.latest_log.id);
+                window.gtag('event', 'fn_realtime_admin_sync', {
+                    device_category: data.latest_log.device_category,
+                    district: data.latest_log.district,
+                    search_query: data.latest_log.search_query
+                });
+            }
+        }
+
+        return data;
+    } catch (err) {
+        return null;
+    } finally {
+        fnPollInFlight = false;
+    }
+}
+
+// Khởi chạy kết nối Real-time: Polling 3s + BroadcastChannel 0ms + Storage listener
+(function initRealtimeSearchLogsSync() {
+    fnPollRealtimeSearchLogs(false);
+
+    setInterval(() => {
+        if (!document.hidden) {
+            fnPollRealtimeSearchLogs(false);
+        }
+    }, 3000);
+
+    document.addEventListener('visibilitychange', () => {
+        if (!document.hidden) {
+            fnPollRealtimeSearchLogs(false);
+        }
+    });
+
+    try {
+        if (typeof BroadcastChannel !== 'undefined') {
+            const bc = new BroadcastChannel('fixnear_ga4_realtime');
+            bc.addEventListener('message', () => {
+                fnPollRealtimeSearchLogs(true);
+            });
+        }
+    } catch (err) {}
+
+    window.addEventListener('storage', (e) => {
+        if (e.key === 'fixnear_ga4_last_event') {
+            fnPollRealtimeSearchLogs(true);
+        }
+    });
+})();
+
+async function fnSyncAllLogsToGA4() {
     const btn = document.getElementById('fn-btn-ga-sync');
     const icon = document.getElementById('fn-ga-sync-icon');
     const text = document.getElementById('fn-ga-sync-text');
     const toast = document.getElementById('fn-ga-sync-toast');
+    const toastMsg = document.getElementById('fn-ga-sync-toast-msg');
     if (btn) btn.disabled = true;
     if (icon) icon.textContent = '⏳';
     if (text) text.textContent = 'Đang đồng bộ lên GA4...';
+
+    const latestData = await fnPollRealtimeSearchLogs(true);
+    const totalCount = latestData && latestData.kpi ? latestData.kpi.total_searches : FN_ALL_SEARCH_LOGS.length;
+    const totalEvents = latestData && latestData.kpi ? latestData.kpi.total_ga_events : '';
 
     if (typeof window.gtag === 'function' && Array.isArray(FN_ALL_SEARCH_LOGS)) {
         FN_ALL_SEARCH_LOGS.forEach((item) => {
@@ -670,12 +943,15 @@ function fnSyncAllLogsToGA4() {
     setTimeout(() => {
         if (btn) btn.disabled = false;
         if (icon) icon.textContent = '✅';
-        if (text) text.textContent = 'Đã đồng bộ GA4 (' + FN_ALL_SEARCH_LOGS.length + ' lượt)';
+        if (text) text.textContent = 'Đã đồng bộ GA4 (' + totalCount + ' lượt)';
+        if (toastMsg) {
+            toastMsg.textContent = `Đã gửi đồng bộ toàn bộ ${totalCount} lượt tra cứu` + (totalEvents ? ` và ${totalEvents} sự kiện hành vi người dùng` : '') + ' lên Google Analytics 4 (Mã: G-ZEH4B0DYFQ).';
+        }
         if (toast) {
             toast.classList.remove('hidden');
             toast.classList.add('flex');
         }
-    }, 600);
+    }, 450);
 }
 
 function fnOpenUserDetailModal(data) {
@@ -725,11 +1001,11 @@ function fnOpenUserDetailModal(data) {
         const left = document.createElement('div');
         left.innerHTML = `
             <div class="flex flex-wrap items-center gap-2 mb-1">
-                <span class="px-2 py-0.5 rounded text-[11px] font-bold bg-orange-100 text-orange-800">${log.device || 'Thiết bị'}</span>
-                <span class="text-[11px] font-semibold text-slate-500">📍 ${log.district || 'TP.HCM'}</span>
-                <span class="text-[11px] font-bold text-orange-600">⏰ ${log.time || ''}</span>
+                <span class="px-2 py-0.5 rounded text-[11px] font-bold bg-orange-100 text-orange-800">${fnEscapeHtml(log.device || 'Thiết bị')}</span>
+                <span class="text-[11px] font-semibold text-slate-500">📍 ${fnEscapeHtml(log.district || 'TP.HCM')}</span>
+                <span class="text-[11px] font-bold text-orange-600">⏰ ${fnEscapeHtml(log.time || '')}</span>
             </div>
-            <div class="text-xs font-bold text-slate-900">${log.query || ''}</div>
+            <div class="text-xs font-bold text-slate-900">${fnEscapeHtml(log.query || '')}</div>
         `;
         item.appendChild(left);
 

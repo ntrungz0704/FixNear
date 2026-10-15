@@ -1689,8 +1689,9 @@ class FixNearDB {
         if ($searchQuery === '') {
             return false;
         }
-        $dedupKey = md5(($data['user_email'] ?? '') . '|' . $searchQuery . '|' . ($data['page_url'] ?? ''));
-        if (!empty($_SESSION['last_search_log_key']) && $_SESSION['last_search_log_key'] === $dedupKey && (time() - (int)($_SESSION['last_search_log_ts'] ?? 0)) < 60) {
+        $dedupSeconds = isset($data['dedup_seconds']) ? (int)$data['dedup_seconds'] : 5;
+        $dedupKey = md5(($data['user_email'] ?? '') . '|' . $searchQuery . '|' . ($data['features_used'] ?? '') . '|' . ($data['page_url'] ?? ''));
+        if ($dedupSeconds > 0 && !empty($_SESSION['last_search_log_key']) && $_SESSION['last_search_log_key'] === $dedupKey && (time() - (int)($_SESSION['last_search_log_ts'] ?? 0)) < $dedupSeconds) {
             return false;
         }
         $_SESSION['last_search_log_key'] = $dedupKey;
@@ -1703,12 +1704,13 @@ class FixNearDB {
             'user_phone' => trim((string)($data['user_phone'] ?? '')),
             'district' => trim((string)($data['district'] ?? ($_SESSION['user_location_name'] ?? 'TP.HCM'))),
             'device_category' => trim((string)($data['device_category'] ?? 'Điện thoại')),
-            'search_query' => $searchQuery,
+            'search_query' => mb_substr($searchQuery, 0, 250, 'UTF-8'),
             'features_used' => trim((string)($data['features_used'] ?? 'Tra cứu trên website')),
-            'page_url' => trim((string)($data['page_url'] ?? ($_SERVER['REQUEST_URI'] ?? 'index.php'))),
+            'page_url' => mb_substr(trim((string)($data['page_url'] ?? ($_SERVER['REQUEST_URI'] ?? 'index.php'))), 0, 250, 'UTF-8'),
             'created_at' => $data['created_at'] ?? date('Y-m-d H:i:s'),
         ];
 
+        $insertedId = null;
         if ($this->isUsingMySQL()) {
             try {
                 $stmt = $this->pdo->prepare("
@@ -1727,21 +1729,26 @@ class FixNearDB {
                     ':page_url' => $entry['page_url'],
                     ':created_at' => $entry['created_at'],
                 ]);
-                return true;
+                $insertedId = (int)$this->pdo->lastInsertId();
             } catch (Exception $e) {
                 // Fallback to JSON if table unavailable
             }
         }
 
-        return (bool)$this->withJsonLock('search_logs.json', function () use ($entry) {
-            $logs = $this->readJson('search_logs.json');
-            if (!is_array($logs)) $logs = [];
-            $maxId = 0;
-            foreach ($logs as $l) $maxId = max($maxId, (int)($l['id'] ?? 0));
-            $entry['id'] = $maxId + 1;
-            array_unshift($logs, $entry);
-            return $this->writeJson('search_logs.json', $logs);
-        });
+        $jsonSaved = false;
+        if (is_writable($this->data_dir)) {
+            $jsonSaved = (bool)$this->withJsonLock('search_logs.json', function () use ($entry, $insertedId) {
+                $logs = $this->readJson('search_logs.json');
+                if (!is_array($logs)) $logs = [];
+                $maxId = 0;
+                foreach ($logs as $l) $maxId = max($maxId, (int)($l['id'] ?? 0));
+                $entry['id'] = $insertedId ?: ($maxId + 1);
+                array_unshift($logs, $entry);
+                return $this->writeJson('search_logs.json', $logs);
+            });
+        }
+
+        return $insertedId !== null || $jsonSaved;
     }
 
     // ================= THỐNG KÊ (STATS CHO ADMIN) =================

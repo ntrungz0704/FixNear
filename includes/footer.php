@@ -5,15 +5,30 @@
 <?php return; endif; ?>
 <?php $footerStats = db()->getPublicStats(); ?>
 <?php
+$fnServerLoggedSearch = false;
 try {
+    require_once __DIR__ . '/pricing_engine.php';
     $currentScript = basename($_SERVER['PHP_SELF'] ?? '');
-    $trackedPages = ['prices.php', 'models.php', 'model_detail.php', 'shops.php', 'map.php', 'search.php'];
-    if (!empty($currentUser) && ($currentUser['role'] ?? '') !== 'admin' && in_array($currentScript, $trackedPages, true)) {
+    $trackedPages = [
+        'prices.php',
+        'models.php',
+        'model_detail.php',
+        'shops.php',
+        'shop_detail.php',
+        'map.php',
+        'search.php',
+        'request_repair.php',
+        'track_request.php',
+    ];
+    if (in_array($currentScript, $trackedPages, true)) {
         $devParam = trim((string)($_GET['device'] ?? ''));
         $brandParam = trim((string)($_GET['brand'] ?? ''));
         $modelParam = trim((string)($_GET['model'] ?? ($_GET['id'] ?? '')));
         $faultParam = trim((string)($_GET['fault'] ?? ($_GET['issue_name'] ?? '')));
         $distParam = trim((string)($_GET['district'] ?? ($currentUser['district'] ?? ($_SESSION['user_location_name'] ?? 'TP.HCM'))));
+        if ($distParam === '') {
+            $distParam = 'TP.HCM';
+        }
         $qParam = trim((string)($_GET['q'] ?? ($_GET['keyword'] ?? '')));
 
         $devLabels = [
@@ -27,31 +42,89 @@ try {
             'pc_desktop' => 'Máy tính bàn (PC)',
             'pc' => 'Máy tính bàn (PC)',
         ];
-        $devName = $devLabels[$devParam] ?? ($currentUser['device_group'] ?? 'Điện thoại, Laptop Windows');
 
-        $parts = array_filter([$modelParam ?: $brandParam, $faultParam, $qParam]);
-        if (!empty($parts) || $currentScript === 'prices.php' || $currentScript === 'shops.php' || $currentScript === 'map.php') {
-            $pageDesc = match ($currentScript) {
-                'prices.php' => 'Xem giá dự đoán / giá có nguồn theo model và dịch vụ',
-                'models.php', 'model_detail.php' => 'Chọn loại thiết bị → hãng → model → lỗi',
-                'shops.php' => 'Lọc hoặc tra cứu danh sách cửa hàng',
-                'map.php' => 'Xem bản đồ / chỉ đường',
-                'search.php' => 'Tìm kiếm cửa hàng theo khu vực & dòng máy',
-                default => 'Tra cứu trên website',
-            };
-            $queryText = !empty($parts) ? implode(' — ', $parts) . ' (' . $pageDesc . ')' : $pageDesc . ' (' . $distParam . ')';
-            db()->logUserSearch([
-                'user_id' => (int)($currentUser['id'] ?? 0),
-                'user_name' => (string)($currentUser['name'] ?? ''),
-                'user_email' => (string)($currentUser['email'] ?? ''),
-                'user_phone' => (string)($currentUser['phone'] ?? ''),
-                'district' => $distParam ?: 'TP.HCM',
-                'device_category' => $devName,
-                'search_query' => $queryText,
-                'features_used' => $pageDesc,
-                'page_url' => basename($_SERVER['REQUEST_URI'] ?? $currentScript),
-            ]);
+        $allCatalogModels = RepairAtlasPricing::getAllModels();
+        $allCatalogFaults = RepairAtlasPricing::getAllFaults();
+        $resolvedModelName = '';
+        if ($currentScript !== 'shop_detail.php' && $modelParam !== '' && isset($allCatalogModels[$modelParam])) {
+            $resolvedModelName = (string)($allCatalogModels[$modelParam]['name'] ?? $modelParam);
+            if ($devParam === '') {
+                $devParam = (string)($allCatalogModels[$modelParam]['deviceType'] ?? '');
+            }
         }
+        $resolvedFaultName = '';
+        if ($faultParam !== '' && isset($allCatalogFaults[$faultParam])) {
+            $resolvedFaultName = (string)($allCatalogFaults[$faultParam]['name'] ?? $faultParam);
+        } elseif ($faultParam !== '') {
+            $resolvedFaultName = $faultParam;
+        }
+
+        $firstUserDev = trim(explode(',', (string)($currentUser['device_group'] ?? 'Điện thoại'))[0] ?? 'Điện thoại');
+        $devName = $devLabels[$devParam] ?? ($firstUserDev ?: 'Điện thoại');
+
+        $featuresUsed = match ($currentScript) {
+            'prices.php' => ($resolvedModelName !== '' || $resolvedFaultName !== '' || $brandParam !== '' || $devParam !== '')
+                ? 'Chọn loại thiết bị → hãng → model → lỗi, Xem giá dự đoán / giá có nguồn theo model và dịch vụ'
+                : 'Xem giá dự đoán / giá có nguồn theo model và dịch vụ',
+            'model_detail.php' => 'Chọn loại thiết bị → hãng → model → lỗi, Xem giá dự đoán / giá có nguồn theo model và dịch vụ',
+            'models.php' => 'Chọn loại thiết bị → hãng → model → lỗi',
+            'shops.php', 'search.php' => 'Lọc hoặc tra cứu danh sách cửa hàng',
+            'shop_detail.php' => 'Xem chi tiết dịch vụ & phản hồi của cửa hàng',
+            'map.php' => 'Xem bản đồ / chỉ đường',
+            'request_repair.php' => 'Xem giao diện gửi yêu cầu sửa chữa',
+            'track_request.php' => 'Tra cứu mã yêu cầu sửa chữa',
+            default => 'Tra cứu trên website',
+        };
+
+        if ($currentScript === 'shop_detail.php') {
+            $shopName = isset($shop['name']) ? (string)$shop['name'] : ('Cửa hàng #' . (int)($_GET['id'] ?? 0));
+            $shopDist = isset($shop['district']) && $shop['district'] !== '' ? (string)$shop['district'] : $distParam;
+            $distParam = $shopDist;
+            $queryText = $shopName . ' — Xem chi tiết dịch vụ & đánh giá tiệm (' . $distParam . ')';
+        } elseif ($currentScript === 'request_repair.php') {
+            $queryText = 'Mở biểu mẫu gửi yêu cầu sửa chữa & tìm kỹ thuật viên (' . $distParam . ')';
+        } elseif ($currentScript === 'track_request.php') {
+            $codeParam = trim((string)($_GET['code'] ?? ($_GET['phone'] ?? '')));
+            $queryText = 'Tra cứu tiến độ & mã yêu cầu sửa chữa' . ($codeParam !== '' ? ': ' . $codeParam : '') . ' (' . $distParam . ')';
+        } elseif ($currentScript === 'map.php') {
+            $queryText = 'Xem bản đồ định vị & chỉ đường tới cửa hàng sửa chữa (' . $distParam . ')';
+        } elseif ($currentScript === 'shops.php' || $currentScript === 'search.php') {
+            $shopFilterParts = array_filter([$resolvedModelName ?: ($devLabels[$devParam] ?? ''), $qParam]);
+            $prefix = !empty($shopFilterParts) ? implode(' · ', $shopFilterParts) . ' — ' : '';
+            $queryText = $prefix . 'Lọc & tra cứu danh sách cửa hàng sửa chữa (' . $distParam . ')';
+        } else {
+            $parts = array_filter([
+                $resolvedModelName ?: ($brandParam !== '' ? ucfirst($brandParam) : $devName),
+                $resolvedFaultName,
+                $qParam,
+            ]);
+            $queryText = !empty($parts)
+                ? implode(' — ', $parts) . ' (' . $distParam . ')'
+                : $featuresUsed . ' (' . $distParam . ')';
+        }
+
+        $logUserName = trim((string)($currentUser['name'] ?? ''));
+        $logUserEmail = trim((string)($currentUser['email'] ?? ''));
+        $logUserPhone = trim((string)($currentUser['phone'] ?? ''));
+        if ($logUserName === '') {
+            $logUserName = 'Khách truy cập';
+        }
+        if ($logUserPhone === '' && $logUserEmail === '') {
+            $logUserPhone = 'Khách trực tuyến';
+        }
+
+        $fnServerLoggedSearch = db()->logUserSearch([
+            'user_id' => (int)($currentUser['id'] ?? 0),
+            'user_name' => $logUserName,
+            'user_email' => $logUserEmail,
+            'user_phone' => $logUserPhone,
+            'district' => $distParam,
+            'device_category' => $devName,
+            'search_query' => $queryText,
+            'features_used' => $featuresUsed,
+            'page_url' => basename($_SERVER['REQUEST_URI'] ?? $currentScript),
+            'dedup_seconds' => 3,
+        ]);
     }
 } catch (Throwable $e) {
     // Ignore logging errors
@@ -433,52 +506,174 @@ window.addEventListener('resize', function() {
     }
 });
 
-// ================= GOOGLE ANALYTICS 4 UX EVENT TRACKING (FIXNEAR-V2 SURVEY) =================
+// ================= GOOGLE ANALYTICS 4 & REAL-TIME SYNC TRACKING =================
 (function() {
-    if (typeof window.gtag !== 'function') return;
+    const assetPrefix = <?= json_encode($assetPrefix) ?>;
+    const serverLoggedOnLoad = <?= json_encode((bool)$fnServerLoggedSearch) ?>;
     const path = window.location.pathname || '';
     const params = new URLSearchParams(window.location.search);
+    const currentRelativeUrl = (path.split('/').pop() || 'index.php') + (window.location.search || '');
 
+    let bc = null;
+    try {
+        if (typeof BroadcastChannel !== 'undefined') {
+            bc = new BroadcastChannel('fixnear_ga4_realtime');
+        }
+    } catch (err) {}
+
+    function notifyAdminRealtime(eventName, detail) {
+        const msg = {
+            type: 'ga4_event',
+            event_name: eventName,
+            detail: detail || {},
+            ts: Date.now()
+        };
+        try {
+            if (bc) bc.postMessage(msg);
+        } catch (err) {}
+        try {
+            localStorage.setItem('fixnear_ga4_last_event', JSON.stringify(msg));
+        } catch (err) {}
+    }
+
+    function fireGtag(eventName, eventParams) {
+        if (typeof window.gtag === 'function') {
+            window.gtag('event', eventName, eventParams || {});
+        }
+    }
+
+    window.fnTrackRealtimeEvent = function(eventName, extraPayload) {
+        const payload = Object.assign({
+            event_name: eventName,
+            device: params.get('device') || '',
+            brand: params.get('brand') || '',
+            model: params.get('model') || params.get('id') || '',
+            fault: params.get('fault') || '',
+            shop_id: params.get('id') || '',
+            district: params.get('district') || '',
+            page_url: currentRelativeUrl,
+            dedup_seconds: 1
+        }, extraPayload || {});
+
+        fireGtag(eventName, payload);
+
+        fetch(assetPrefix + 'api/search_logs_live.php', {
+            method: 'POST',
+            headers: { 'Content-Type': 'application/json' },
+            credentials: 'same-origin',
+            keepalive: true,
+            body: JSON.stringify(payload)
+        })
+        .then(function(res) { return res.ok ? res.json() : null; })
+        .then(function(data) {
+            notifyAdminRealtime(eventName, data || payload);
+        })
+        .catch(function() {
+            notifyAdminRealtime(eventName, payload);
+        });
+    };
+
+    // 1. Bắn sự kiện GA4 khi tải trang & thông báo ngay cho tab Admin nếu server vừa ghi log
     if (path.includes('models.php') || path.includes('model_detail.php')) {
-        window.gtag('event', 'fn_select_device_flow', {
+        fireGtag('fn_select_device_flow', {
             device: params.get('device') || '',
             brand: params.get('brand') || '',
             model_id: params.get('id') || params.get('model') || ''
         });
     } else if (path.includes('prices.php')) {
-        window.gtag('event', 'fn_view_prices', {
+        fireGtag('fn_select_device_flow', {
+            device: params.get('device') || '',
+            brand: params.get('brand') || '',
+            model_id: params.get('model') || ''
+        });
+        fireGtag('fn_view_prices', {
             model_id: params.get('model') || '',
             fault: params.get('fault') || ''
         });
-    } else if (path.includes('shops.php')) {
-        window.gtag('event', 'fn_view_shops', {
+    } else if (path.includes('shops.php') || path.includes('search.php')) {
+        fireGtag('fn_view_shops', {
             district: params.get('district') || '',
             device: params.get('device') || ''
         });
     } else if (path.includes('shop_detail.php')) {
-        window.gtag('event', 'fn_view_shop_detail', {
+        fireGtag('fn_view_shop_detail', {
             shop_id: params.get('id') || ''
         });
     } else if (path.includes('map.php')) {
-        window.gtag('event', 'fn_view_map', {
+        fireGtag('fn_view_map', {
             district: params.get('district') || ''
         });
     } else if (path.includes('request_repair.php')) {
-        window.gtag('event', 'fn_view_repair_request');
+        fireGtag('fn_view_repair_request');
     } else if (path.includes('track_request.php')) {
-        window.gtag('event', 'fn_track_request');
+        fireGtag('fn_track_request');
     }
 
+    if (serverLoggedOnLoad) {
+        notifyAdminRealtime('page_load_logged', { page_url: currentRelativeUrl });
+    }
+
+    // 2. Bắt sự kiện tương tác trực tiếp (Click Chatbot AI, Quick Chips, Chỉ đường Bản đồ)
     document.addEventListener('click', function(e) {
-        const chatToggle = e.target.closest('#fn-chatbot-toggle, .fn-chatbot-fab, [data-chatbot-open]');
+        const chatToggle = e.target.closest('#fn-ai-chat-bubble, #fn-chatbot-toggle, .fn-chatbot-fab, [data-chatbot-open]');
         if (chatToggle) {
-            window.gtag('event', 'fn_open_chatbot');
+            const chatWin = document.getElementById('fn-ai-chat-window');
+            // Ghi nhận khi bấm nút mở cửa sổ Chatbot
+            setTimeout(function() {
+                if (!chatWin || chatWin.classList.contains('active') || chatWin.style.display !== 'none') {
+                    window.fnTrackRealtimeEvent('fn_open_chatbot', {
+                        search_query: 'Mở Trợ lý Kỹ thuật Chatbot AI — Tư vấn chẩn đoán & báo giá'
+                    });
+                }
+            }, 50);
         }
+
+        const quickChip = e.target.closest('.fn-ai-chip');
+        if (quickChip) {
+            const chipText = (quickChip.textContent || '').trim();
+            window.fnTrackRealtimeEvent('fn_open_chatbot', {
+                search_query: 'Hỏi Chatbot AI: ' + chipText
+            });
+        }
+
         const mapLink = e.target.closest('a[href*="google.com/maps"], a[href*="maps.app.goo.gl"]');
         if (mapLink) {
-            window.gtag('event', 'fn_click_directions');
+            window.fnTrackRealtimeEvent('fn_view_map', {
+                search_query: 'Xem bản đồ & bấm chỉ đường Google Maps tới cửa hàng'
+            });
         }
     });
+
+    // 3. Bắt sự kiện gửi câu hỏi trong khung chat Chatbot AI
+    const chatForm = document.getElementById('fn-ai-chat-form');
+    if (chatForm) {
+        chatForm.addEventListener('submit', function() {
+            const chatInput = document.getElementById('fn-ai-chat-input');
+            const qText = chatInput ? chatInput.value.trim() : '';
+            if (qText !== '') {
+                window.fnTrackRealtimeEvent('fn_open_chatbot', {
+                    search_query: 'Hỏi Chatbot AI: ' + qText
+                });
+            }
+        });
+    }
+
+    // 4. Bắt sự kiện chọn nhanh dòng máy / lỗi trên bộ lọc Bảng giá (prices.php)
+    const priceModelSel = document.getElementById('price-model');
+    const priceDeviceSel = document.getElementById('price-device');
+    const priceBrandSel = document.getElementById('price-brand');
+    const priceFaultSel = document.querySelector('.fn-price-filters select[name="fault"]');
+    if (priceModelSel) {
+        priceModelSel.addEventListener('change', function() {
+            if (!priceModelSel.value) return;
+            window.fnTrackRealtimeEvent('fn_select_device_flow', {
+                device: priceDeviceSel ? priceDeviceSel.value : '',
+                brand: priceBrandSel ? priceBrandSel.value : '',
+                model: priceModelSel.value,
+                fault: priceFaultSel ? priceFaultSel.value : ''
+            });
+        });
+    }
 })();
 </script>
 </body>
