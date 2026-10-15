@@ -1,8 +1,17 @@
 <?php
-$adminCurrentPage = basename($_SERVER['PHP_SELF'] ?? 'index.php');
+$reqPath = parse_url($_SERVER['REQUEST_URI'] ?? '', PHP_URL_PATH) ?: ($_SERVER['PHP_SELF'] ?? 'index.php');
+$adminCurrentPage = basename($reqPath);
+if ($adminCurrentPage === '' || $adminCurrentPage === 'admin') {
+    $adminCurrentPage = 'index.php';
+}
+if ($adminCurrentPage === 'shop_edit.php') {
+    $adminCurrentPage = 'shops.php';
+}
+
 $adminNavItems = [
     ['index.php', '📊', 'Tổng quan'],
-    ['users.php', '👥', 'Người dùng & Lịch sử'],
+    ['users.php', '👥', 'Người dùng'],
+    ['search_logs.php', '🔍', 'Lịch sử tìm kiếm'],
     ['requests.php', '📋', 'Yêu cầu sửa chữa'],
     ['approvals.php', '✅', 'Duyệt yêu cầu'],
     ['shops.php', '🏪', 'Cửa hàng'],
@@ -11,7 +20,6 @@ $adminNavItems = [
     ['reports.php', '🚩', 'Báo cáo sai sót'],
     ['contacts.php', '💬', 'Liên hệ'],
 ];
-if ($adminCurrentPage === 'shop_edit.php') $adminCurrentPage = 'shops.php';
 ?>
 <aside class="fn-admin-sidebar" aria-label="Điều hướng quản trị">
     <p class="fn-admin-sidebar-label">QUẢN TRỊ FIXNEAR</p>

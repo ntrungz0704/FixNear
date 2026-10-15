@@ -10,28 +10,7 @@ date_default_timezone_set('Asia/Ho_Chi_Minh');
 
 $allUsers = db()->getUsers();
 $regularUsers = array_values(array_filter($allUsers, static fn($u) => ($u['role'] ?? 'user') !== 'admin'));
-
-$filterUserQuery = trim((string)($_GET['user_q'] ?? ($_GET['email'] ?? '')));
-$filterDistrict = trim((string)($_GET['district'] ?? ''));
-$filterDevice = trim((string)($_GET['device'] ?? ''));
-$filterQuery = trim((string)($_GET['q'] ?? ''));
-
 $allSearchLogs = db()->getSearchLogs();
-$filteredLogs = db()->getSearchLogs([
-    'user_q' => $filterUserQuery,
-    'district' => $filterDistrict,
-    'device' => $filterDevice,
-    'q' => $filterQuery,
-]);
-
-// Map user info & logs by email
-$userByEmail = [];
-foreach ($regularUsers as $u) {
-    $em = mb_strtolower(trim((string)($u['email'] ?? '')), 'UTF-8');
-    if ($em !== '') {
-        $userByEmail[$em] = $u;
-    }
-}
 
 $logsByEmail = [];
 $featuresByEmail = [];
@@ -52,77 +31,56 @@ foreach ($allSearchLogs as $log) {
 
 $activeSearchingUsersCount = count($logsByEmail);
 
-// Filter regular users for Table 2 based on search & filter criteria
-$filteredUsers = array_values(array_filter($regularUsers, static function ($u) use ($filterUserQuery, $filterDistrict, $filterDevice, $filterQuery, $logsByEmail) {
-    $em = mb_strtolower(trim((string)($u['email'] ?? '')), 'UTF-8');
-    $uLogs = $logsByEmail[$em] ?? [];
+$filterUserQuery = trim((string)($_GET['user_q'] ?? ($_GET['q'] ?? '')));
+$filterDistrict = trim((string)($_GET['district'] ?? ''));
+$filterDevice = trim((string)($_GET['device'] ?? ''));
+$filterGroup = trim((string)($_GET['user_group'] ?? ''));
 
+$filteredUsers = array_values(array_filter($regularUsers, static function ($u) use ($filterUserQuery, $filterDistrict, $filterDevice, $filterGroup) {
     if ($filterUserQuery !== '') {
-        $userHaystack = implode(' ', [
-            $u['name'] ?? '',
-            $u['email'] ?? '',
-            $u['phone'] ?? '',
-            $u['user_group'] ?? '',
-        ]);
-        if (mb_stripos($userHaystack, $filterUserQuery, 0, 'UTF-8') === false) {
-            return false;
-        }
-    }
-
-    if ($filterDistrict !== '') {
-        if (mb_stripos((string)($u['district'] ?? ''), $filterDistrict, 0, 'UTF-8') === false) {
-            return false;
-        }
-    }
-
-    if ($filterDevice !== '') {
-        if (mb_stripos((string)($u['device_group'] ?? ''), $filterDevice, 0, 'UTF-8') === false) {
-            return false;
-        }
-    }
-
-    if ($filterQuery !== '') {
-        $logQueries = implode(' ', array_map(static fn($l) => ($l['search_query'] ?? '') . ' ' . ($l['device_category'] ?? ''), $uLogs));
-        $fullHaystack = implode(' ', [
+        $haystack = implode(' ', [
             $u['name'] ?? '',
             $u['email'] ?? '',
             $u['phone'] ?? '',
             $u['district'] ?? '',
             $u['device_group'] ?? '',
-            $logQueries,
+            $u['user_group'] ?? '',
         ]);
-        if (mb_stripos($fullHaystack, $filterQuery, 0, 'UTF-8') === false) {
+        if (mb_stripos($haystack, $filterUserQuery, 0, 'UTF-8') === false) {
             return false;
         }
+    }
+
+    if ($filterDistrict !== '' && mb_stripos((string)($u['district'] ?? ''), $filterDistrict, 0, 'UTF-8') === false) {
+        return false;
+    }
+
+    if ($filterDevice !== '' && mb_stripos((string)($u['device_group'] ?? ''), $filterDevice, 0, 'UTF-8') === false) {
+        return false;
+    }
+
+    if ($filterGroup !== '' && mb_stripos((string)($u['user_group'] ?? ''), $filterGroup, 0, 'UTF-8') === false) {
+        return false;
     }
 
     return true;
 }));
 
-// Pagination for Table 1 (Search Logs)
-$logsPerPage = 8;
-$totalFilteredLogs = count($filteredLogs);
-$totalLogPages = max(1, (int)ceil($totalFilteredLogs / $logsPerPage));
-$logPage = max(1, min($totalLogPages, (int)($_GET['log_page'] ?? 1)));
-$logOffset = ($logPage - 1) * $logsPerPage;
-$pagedLogs = array_slice($filteredLogs, $logOffset, $logsPerPage);
-
-// Pagination for Table 2 (User Accounts)
+// Pagination: 6 người dùng / trang
 $usersPerPage = 6;
 $totalFilteredUsers = count($filteredUsers);
 $totalUserPages = max(1, (int)ceil($totalFilteredUsers / $usersPerPage));
-$userPage = max(1, min($totalUserPages, (int)($_GET['user_page'] ?? 1)));
+$userPage = max(1, min($totalUserPages, (int)($_GET['page'] ?? ($_GET['user_page'] ?? 1))));
 $userOffset = ($userPage - 1) * $usersPerPage;
 $pagedUsers = array_slice($filteredUsers, $userOffset, $usersPerPage);
 
-function fnBuildPageUrl(array $overrides = [], string $anchor = ''): string {
+function fnBuildUserPageUrl(array $overrides = []): string {
     $params = [
-        'user_q' => $_GET['user_q'] ?? ($_GET['email'] ?? ''),
+        'user_q' => $_GET['user_q'] ?? ($_GET['q'] ?? ''),
         'district' => $_GET['district'] ?? '',
         'device' => $_GET['device'] ?? '',
-        'q' => $_GET['q'] ?? '',
-        'log_page' => $_GET['log_page'] ?? 1,
-        'user_page' => $_GET['user_page'] ?? 1,
+        'user_group' => $_GET['user_group'] ?? '',
+        'page' => $_GET['page'] ?? 1,
     ];
     foreach ($overrides as $k => $v) {
         $params[$k] = $v;
@@ -130,13 +88,13 @@ function fnBuildPageUrl(array $overrides = [], string $anchor = ''): string {
     $clean = [];
     foreach ($params as $k => $v) {
         $vStr = trim((string)$v);
-        if ($vStr === '' || (($k === 'log_page' || $k === 'user_page') && (int)$vStr <= 1)) {
+        if ($vStr === '' || ($k === 'page' && (int)$vStr <= 1)) {
             continue;
         }
         $clean[$k] = $vStr;
     }
     $qs = http_build_query($clean);
-    return 'users.php' . ($qs !== '' ? '?' . $qs : '') . ($anchor !== '' ? '#' . $anchor : '');
+    return 'users.php' . ($qs !== '' ? '?' . $qs : '');
 }
 
 function fnUserInitials(string $name): string {
@@ -202,9 +160,16 @@ $deviceOptions = [
     'Máy tính bàn (PC)',
 ];
 
-$hasActiveFilters = ($filterUserQuery !== '' || $filterDistrict !== '' || $filterDevice !== '' || $filterQuery !== '');
+$groupOptions = [
+    'Học sinh / Sinh viên năm 1',
+    'Sinh viên năm 2',
+    'Sinh viên năm 3 trở lên',
+    'Người đã đi làm',
+];
 
-$pageTitle = "Người dùng & Lịch sử tìm kiếm — FixNear Admin";
+$hasActiveFilters = ($filterUserQuery !== '' || $filterDistrict !== '' || $filterDevice !== '' || $filterGroup !== '');
+
+$pageTitle = "Quản lý Người dùng — FixNear Admin";
 require_once __DIR__ . '/../includes/header.php';
 require_once __DIR__ . '/../includes/navbar.php';
 ?>
@@ -216,10 +181,14 @@ require_once __DIR__ . '/../includes/navbar.php';
         <!-- HEADER & LIVE REALTIME CLOCK -->
         <div class="flex flex-col sm:flex-row sm:items-center justify-between gap-4 mb-6">
             <div>
-                <h1 class="text-2xl font-black text-slate-900 tracking-tight">Người dùng & Lịch sử tìm kiếm</h1>
-                <p class="text-sm text-slate-500 mt-0.5">Quản lý tài khoản người dùng, khu vực sinh sống, nhóm thiết bị và nhật ký tra cứu thực tế trên website</p>
+                <h1 class="text-2xl font-black text-slate-900 tracking-tight">Quản lý Tài khoản Người dùng</h1>
+                <p class="text-sm text-slate-500 mt-0.5">Thông tin tài khoản khách hàng, khu vực sinh sống/học tập và nhóm thiết bị đang sử dụng tại TP.HCM</p>
             </div>
-            <div class="flex items-center gap-2">
+            <div class="flex flex-wrap items-center gap-2.5">
+                <a href="search_logs.php" class="bg-white hover:bg-orange-50 border border-orange-200 rounded-xl px-3.5 py-2 text-xs font-bold text-orange-700 flex items-center gap-1.5 transition shadow-xs">
+                    <span>🔍</span>
+                    <span>Xem Lịch sử tìm kiếm (<?= count($allSearchLogs) ?>)</span>
+                </a>
                 <div class="bg-emerald-50 border border-emerald-200 rounded-xl px-4 py-2 text-xs font-bold text-emerald-800 flex items-center gap-2.5 shadow-xs">
                     <span class="w-2.5 h-2.5 rounded-full bg-emerald-500 animate-pulse"></span>
                     <span>Trực tuyến</span>
@@ -249,30 +218,30 @@ require_once __DIR__ . '/../includes/navbar.php';
             <div class="bg-white rounded-xl border border-orange-100 p-5 shadow-sm">
                 <div class="flex items-center justify-between">
                     <div>
-                        <div class="text-3xl font-black text-emerald-600 leading-none"><?= $activeSearchingUsersCount ?></div>
-                        <div class="text-xs font-semibold text-slate-500 mt-2">Người dùng có lịch sử tra cứu</div>
+                        <div class="text-3xl font-black text-emerald-600 leading-none"><?= $activeSearchingUsersCount ?> / <?= count($regularUsers) ?></div>
+                        <div class="text-xs font-semibold text-slate-500 mt-2">Tài khoản có hoạt động tra cứu</div>
                     </div>
                     <div class="w-12 h-12 rounded-xl bg-emerald-50 text-emerald-600 border border-emerald-100 flex items-center justify-center text-xl">
                         ✅
                     </div>
                 </div>
                 <div class="mt-4 pt-3 border-t border-orange-50 text-xs text-slate-500">
-                    Đã trực tiếp chọn máy, xem giá & cửa hàng
+                    100% người dùng đã tra cứu giá & cửa hàng
                 </div>
             </div>
 
             <div class="bg-white rounded-xl border border-orange-100 p-5 shadow-sm">
                 <div class="flex items-center justify-between">
                     <div>
-                        <div class="text-3xl font-black text-orange-600 leading-none"><?= count($allSearchLogs) ?></div>
-                        <div class="text-xs font-semibold text-slate-500 mt-2">Tổng lượt tìm kiếm & tra cứu</div>
+                        <div class="text-3xl font-black text-orange-600 leading-none">7 cụm</div>
+                        <div class="text-xs font-semibold text-slate-500 mt-2">Khu vực Quận / Huyện TP.HCM</div>
                     </div>
                     <div class="w-12 h-12 rounded-xl bg-amber-50 text-amber-600 border border-amber-100 flex items-center justify-center text-xl">
-                        🔍
+                        📍
                     </div>
                 </div>
                 <div class="mt-4 pt-3 border-t border-orange-50 text-xs text-slate-500">
-                    Ghi nhận theo từng dòng máy, lỗi và khu vực
+                    Phân bổ theo nơi sinh sống & học tập thực tế
                 </div>
             </div>
 
@@ -280,7 +249,7 @@ require_once __DIR__ . '/../includes/navbar.php';
                 <div class="flex items-center justify-between">
                     <div>
                         <div class="text-3xl font-black text-blue-600 leading-none">6 nhóm</div>
-                        <div class="text-xs font-semibold text-slate-500 mt-2">Thiết bị & Khu vực TP.HCM</div>
+                        <div class="text-xs font-semibold text-slate-500 mt-2">Thiết bị đăng ký sử dụng</div>
                     </div>
                     <div class="w-12 h-12 rounded-xl bg-blue-50 text-blue-600 border border-blue-100 flex items-center justify-center text-xl">
                         💻
@@ -292,7 +261,7 @@ require_once __DIR__ . '/../includes/navbar.php';
             </div>
         </div>
 
-        <!-- BỘ LỌC TÌM KIẾM NGƯỜI DÙNG & LỊCH SỬ TRA CỨU -->
+        <!-- BỘ LỌC TÌM KIẾM NGƯỜI DÙNG -->
         <form method="GET" action="users.php" class="bg-white rounded-xl border border-orange-100 p-4 mb-6 shadow-sm">
             <div class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-5 gap-3">
                 <div>
@@ -322,7 +291,7 @@ require_once __DIR__ . '/../includes/navbar.php';
                 </div>
 
                 <div>
-                    <label class="block text-[11px] font-bold text-slate-500 uppercase mb-1">Nhóm thiết bị</label>
+                    <label class="block text-[11px] font-bold text-slate-500 uppercase mb-1">Nhóm thiết bị sử dụng</label>
                     <select name="device" class="w-full rounded-lg border border-slate-200 px-3 py-2 text-xs font-medium text-slate-700 focus:border-orange-500 focus:outline-none">
                         <option value="">-- Tất cả thiết bị --</option>
                         <?php foreach ($deviceOptions as $dev): ?>
@@ -334,14 +303,15 @@ require_once __DIR__ . '/../includes/navbar.php';
                 </div>
 
                 <div>
-                    <label class="block text-[11px] font-bold text-slate-500 uppercase mb-1">Từ khóa dòng máy / lỗi</label>
-                    <input
-                        type="text"
-                        name="q"
-                        value="<?= htmlspecialchars($filterQuery) ?>"
-                        placeholder="VD: iPhone 13, MacBook, Thay màn..."
-                        class="w-full rounded-lg border border-slate-200 px-3 py-2 text-xs text-slate-700 focus:border-orange-500 focus:outline-none"
-                    >
+                    <label class="block text-[11px] font-bold text-slate-500 uppercase mb-1">Nhóm đối tượng</label>
+                    <select name="user_group" class="w-full rounded-lg border border-slate-200 px-3 py-2 text-xs font-medium text-slate-700 focus:border-orange-500 focus:outline-none">
+                        <option value="">-- Tất cả đối tượng --</option>
+                        <?php foreach ($groupOptions as $grp): ?>
+                            <option value="<?= htmlspecialchars($grp) ?>" <?= $filterGroup === $grp ? 'selected' : '' ?>>
+                                <?= htmlspecialchars($grp) ?>
+                            </option>
+                        <?php endforeach; ?>
+                    </select>
                 </div>
 
                 <div class="flex items-end gap-2">
@@ -357,170 +327,8 @@ require_once __DIR__ . '/../includes/navbar.php';
             </div>
         </form>
 
-        <!-- BẢNG 1: NHẬT KÝ LỊCH SỬ TÌM KIẾM & TRẢI NGHIỆM CỦA NGƯỜI DÙNG -->
-        <div id="section-logs" class="bg-white rounded-xl border border-orange-100 shadow-sm overflow-hidden mb-8">
-            <div class="p-5 border-b border-orange-100 flex flex-col sm:flex-row sm:items-center justify-between gap-2">
-                <div>
-                    <h2 class="text-base font-bold text-slate-900">🔍 Nhật ký Lịch sử Tìm kiếm & Hành vi Trải nghiệm Website</h2>
-                    <p class="text-xs text-slate-500 mt-0.5">
-                        <?php if ($totalFilteredLogs > 0): ?>
-                            Hiển thị <strong><?= $logOffset + 1 ?>–<?= min($logOffset + $logsPerPage, $totalFilteredLogs) ?></strong> trên tổng số <strong><?= $totalFilteredLogs ?></strong> lượt tra cứu dòng máy, lỗi hư hỏng và cửa hàng
-                        <?php else: ?>
-                            Không có lượt tra cứu nào khớp với bộ lọc hiện tại
-                        <?php endif; ?>
-                    </p>
-                </div>
-                <span class="text-xs font-semibold text-orange-700 bg-orange-50 border border-orange-200 rounded-md px-3 py-1">
-                    Trang <?= $logPage ?> / <?= $totalLogPages ?> • Bấm "Xem chi tiết" để xem đầy đủ thao tác
-                </span>
-            </div>
-
-            <div class="overflow-x-auto">
-                <table class="w-full text-left border-collapse text-sm">
-                    <thead>
-                        <tr class="bg-[#fff7ed] border-b border-orange-200 text-[11px] font-bold text-orange-950 uppercase tracking-wider">
-                            <th class="py-3 px-4">Thời gian</th>
-                            <th class="py-3 px-4">Người dùng</th>
-                            <th class="py-3 px-4">Khu vực</th>
-                            <th class="py-3 px-4">Thiết bị</th>
-                            <th class="py-3 px-4">Nội dung tìm kiếm & Dòng máy / Lỗi</th>
-                            <th class="py-3 px-4 text-right">Thao tác</th>
-                        </tr>
-                    </thead>
-                    <tbody class="divide-y divide-orange-50 text-slate-700 text-xs">
-                        <?php if (empty($pagedLogs)): ?>
-                            <tr>
-                                <td colspan="6" class="py-8 text-center text-slate-400">Không tìm thấy lịch sử tra cứu phù hợp với từ khóa / bộ lọc.</td>
-                            </tr>
-                        <?php else: ?>
-                            <?php foreach ($pagedLogs as $log):
-                                $ts = strtotime((string)($log['created_at'] ?? 'now'));
-                                $dateFormatted = $ts ? date('d/m/Y', $ts) : '';
-                                $timeFormatted = $ts ? date('H:i:s', $ts) : '';
-                                $em = mb_strtolower(trim((string)($log['user_email'] ?? '')), 'UTF-8');
-                                $uInfo = $userByEmail[$em] ?? [];
-                                $features = array_values($featuresByEmail[$em] ?? []);
-                                $modalPayload = [
-                                    'type' => 'log',
-                                    'user_name' => $log['user_name'] ?? 'Khách',
-                                    'user_email' => $log['user_email'] ?? '',
-                                    'user_phone' => $log['user_phone'] ?? ($uInfo['phone'] ?? ''),
-                                    'user_group' => $uInfo['user_group'] ?? 'Sinh viên / Người đi làm',
-                                    'user_created_at' => !empty($uInfo['created_at']) ? date('d/m/Y H:i:s', strtotime((string)$uInfo['created_at'])) : $dateFormatted . ' ' . $timeFormatted,
-                                    'district' => $log['district'] ?? 'TP.HCM',
-                                    'device_category' => $log['device_category'] ?? 'Điện thoại',
-                                    'device_group' => $uInfo['device_group'] ?? ($log['device_category'] ?? 'Điện thoại'),
-                                    'search_query' => $log['search_query'] ?? '',
-                                    'page_url' => ltrim((string)($log['page_url'] ?? 'index.php'), '/'),
-                                    'search_time' => $dateFormatted . ' lúc ' . $timeFormatted,
-                                    'features' => $features,
-                                    'user_logs' => array_map(static function ($l) {
-                                        $t = strtotime((string)($l['created_at'] ?? 'now'));
-                                        return [
-                                            'time' => $t ? date('d/m/Y H:i:s', $t) : '',
-                                            'device' => $l['device_category'] ?? '',
-                                            'district' => $l['district'] ?? '',
-                                            'query' => $l['search_query'] ?? '',
-                                            'url' => ltrim((string)($l['page_url'] ?? ''), '/'),
-                                        ];
-                                    }, $logsByEmail[$em] ?? [$log]),
-                                ];
-                            ?>
-                                <tr class="hover:bg-[#fffaf3] transition">
-                                    <td class="py-3 px-4 whitespace-nowrap">
-                                        <div class="font-bold text-slate-900"><?= htmlspecialchars($dateFormatted) ?></div>
-                                        <div class="text-[11px] text-orange-600 font-semibold mt-0.5">⏰ <?= htmlspecialchars($timeFormatted) ?></div>
-                                    </td>
-                                    <td class="py-3 px-4 whitespace-nowrap">
-                                        <div class="flex items-center gap-2.5">
-                                            <div class="w-8 h-8 rounded-full bg-orange-100 text-orange-700 font-bold text-[11px] flex items-center justify-center flex-shrink-0">
-                                                <?= htmlspecialchars(fnUserInitials((string)($log['user_name'] ?? ''))) ?>
-                                            </div>
-                                            <div>
-                                                <div class="font-bold text-slate-900"><?= htmlspecialchars($log['user_name'] ?? 'Khách') ?></div>
-                                                <div class="text-[11px] text-slate-400"><?= htmlspecialchars($log['user_phone'] ?: ($log['user_email'] ?? '')) ?></div>
-                                            </div>
-                                        </div>
-                                    </td>
-                                    <td class="py-3 px-4 whitespace-nowrap">
-                                        <span class="inline-flex items-center gap-1 px-2.5 py-1 rounded-md text-[11px] font-bold bg-amber-50 text-amber-800 border border-amber-200">
-                                            📍 <?= htmlspecialchars($log['district'] ?? 'TP.HCM') ?>
-                                        </span>
-                                    </td>
-                                    <td class="py-3 px-4 whitespace-nowrap">
-                                        <span class="inline-flex items-center px-2.5 py-1 rounded-md text-[11px] font-bold border <?= fnDeviceBadgeClass((string)($log['device_category'] ?? '')) ?>">
-                                            <?= htmlspecialchars(fnShortDeviceLabel((string)($log['device_category'] ?? 'Điện thoại'))) ?>
-                                        </span>
-                                    </td>
-                                    <td class="py-3 px-4 max-w-sm">
-                                        <div class="font-bold text-slate-900 truncate" title="<?= htmlspecialchars($log['search_query'] ?? '') ?>">
-                                            <?= htmlspecialchars($log['search_query'] ?? '') ?>
-                                        </div>
-                                        <div class="text-[11px] text-slate-400 mt-0.5 flex items-center gap-2">
-                                            <span class="text-emerald-600 font-semibold">✓ <?= count($features) ?> bước thao tác</span>
-                                            <span>•</span>
-                                            <span class="truncate text-blue-600">/<?= htmlspecialchars(ltrim((string)($log['page_url'] ?? ''), '/')) ?></span>
-                                        </div>
-                                    </td>
-                                    <td class="py-3 px-4 text-right whitespace-nowrap">
-                                        <button
-                                            type="button"
-                                            onclick='fnOpenUserDetailModal(<?= htmlspecialchars(json_encode($modalPayload, JSON_HEX_TAG | JSON_HEX_APOS | JSON_HEX_QUOT | JSON_HEX_AMP | JSON_UNESCAPED_UNICODE), ENT_QUOTES, "UTF-8") ?>)'
-                                            class="inline-flex items-center gap-1.5 px-3 py-1.5 rounded-lg bg-orange-50 hover:bg-orange-600 text-orange-700 hover:text-white border border-orange-200 hover:border-orange-600 font-bold text-xs transition cursor-pointer shadow-xs"
-                                        >
-                                            <svg class="w-3.5 h-3.5" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M15 12a3 3 0 11-6 0 3 3 0 016 0z"></path><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M2.458 12C3.732 7.943 7.523 5 12 5c4.478 0 8.268 2.943 9.542 7-1.274 4.057-5.064 7-9.542 7-4.477 0-8.268-2.943-9.542-7z"></path></svg>
-                                            Xem chi tiết
-                                        </button>
-                                    </td>
-                                </tr>
-                            <?php endforeach; ?>
-                        <?php endif; ?>
-                    </tbody>
-                </table>
-            </div>
-
-            <!-- PHÂN TRANG BẢNG 1 (SEARCH LOGS) -->
-            <?php if ($totalLogPages > 1): ?>
-                <div class="px-5 py-3.5 bg-[#fffaf5] border-t border-orange-100 flex flex-col sm:flex-row sm:items-center justify-between gap-3">
-                    <div class="text-xs text-slate-500">
-                        Hiển thị <strong class="text-slate-800"><?= $logOffset + 1 ?>–<?= min($logOffset + $logsPerPage, $totalFilteredLogs) ?></strong> / <strong class="text-slate-800"><?= $totalFilteredLogs ?></strong> lượt tra cứu
-                    </div>
-                    <div class="flex items-center gap-1.5">
-                        <?php if ($logPage > 1): ?>
-                            <a href="<?= htmlspecialchars(fnBuildPageUrl(['log_page' => $logPage - 1], 'section-logs')) ?>" class="px-3 py-1.5 rounded-lg border border-orange-200 bg-white hover:bg-orange-50 text-xs font-bold text-slate-700 transition">
-                                « Trước
-                            </a>
-                        <?php else: ?>
-                            <span class="px-3 py-1.5 rounded-lg border border-slate-200 bg-slate-50 text-xs font-bold text-slate-300 cursor-not-allowed">
-                                « Trước
-                            </span>
-                        <?php endif; ?>
-
-                        <?php for ($p = 1; $p <= $totalLogPages; $p++): ?>
-                            <a
-                                href="<?= htmlspecialchars(fnBuildPageUrl(['log_page' => $p], 'section-logs')) ?>"
-                                class="w-8 h-8 rounded-lg text-xs font-bold flex items-center justify-center transition <?= $p === $logPage ? 'bg-orange-600 text-white shadow-xs' : 'bg-white border border-orange-200 text-slate-700 hover:bg-orange-50' ?>"
-                            >
-                                <?= $p ?>
-                            </a>
-                        <?php endfor; ?>
-
-                        <?php if ($logPage < $totalLogPages): ?>
-                            <a href="<?= htmlspecialchars(fnBuildPageUrl(['log_page' => $logPage + 1], 'section-logs')) ?>" class="px-3 py-1.5 rounded-lg border border-orange-200 bg-white hover:bg-orange-50 text-xs font-bold text-slate-700 transition">
-                                Sau »
-                            </a>
-                        <?php else: ?>
-                            <span class="px-3 py-1.5 rounded-lg border border-slate-200 bg-slate-50 text-xs font-bold text-slate-300 cursor-not-allowed">
-                                Sau »
-                            </span>
-                        <?php endif; ?>
-                    </div>
-                </div>
-            <?php endif; ?>
-        </div>
-
-        <!-- BẢNG 2: DANH SÁCH TÀI KHOẢN NGƯỜI DÙNG & NHU CẦU THIẾT BỊ -->
-        <div id="section-users" class="bg-white rounded-xl border border-orange-100 shadow-sm overflow-hidden">
+        <!-- BẢNG DANH SÁCH TÀI KHOẢN NGƯỜI DÙNG -->
+        <div class="bg-white rounded-xl border border-orange-100 shadow-sm overflow-hidden">
             <div class="p-5 border-b border-orange-100 flex flex-col sm:flex-row sm:items-center justify-between gap-3">
                 <div>
                     <h2 class="text-base font-bold text-slate-900">👥 Danh sách Tài khoản Người dùng & Nhu cầu Sửa chữa Thiết bị</h2>
@@ -533,8 +341,8 @@ require_once __DIR__ . '/../includes/navbar.php';
                     </p>
                 </div>
                 <div class="flex items-center gap-2">
-                    <span class="text-xs font-semibold text-slate-600 bg-slate-100 border border-slate-200 rounded-md px-3 py-1">
-                        Trang <?= $userPage ?> / <?= $totalUserPages ?> (Tổng: <?= $totalFilteredUsers ?> tài khoản)
+                    <span class="text-xs font-semibold text-orange-700 bg-orange-50 border border-orange-200 rounded-md px-3 py-1">
+                        Trang <?= $userPage ?> / <?= $totalUserPages ?> • Bấm "Xem chi tiết" để xem hồ sơ
                     </span>
                 </div>
             </div>
@@ -543,6 +351,7 @@ require_once __DIR__ . '/../includes/navbar.php';
                 <table class="w-full text-left border-collapse text-sm">
                     <thead>
                         <tr class="bg-[#fff7ed] border-b border-orange-200 text-[11px] font-bold text-orange-950 uppercase tracking-wider">
+                            <th class="py-3 px-4 w-12 text-center">#</th>
                             <th class="py-3 px-4">Họ và tên</th>
                             <th class="py-3 px-4">Email & SĐT</th>
                             <th class="py-3 px-4">Khu vực (Quận/Huyện)</th>
@@ -554,10 +363,11 @@ require_once __DIR__ . '/../includes/navbar.php';
                     <tbody class="divide-y divide-orange-50 text-slate-700 text-xs">
                         <?php if (empty($pagedUsers)): ?>
                             <tr>
-                                <td colspan="6" class="py-8 text-center text-slate-400">Không tìm thấy tài khoản người dùng nào khớp với từ khóa tìm kiếm.</td>
+                                <td colspan="7" class="py-8 text-center text-slate-400">Không tìm thấy tài khoản người dùng nào khớp với từ khóa tìm kiếm.</td>
                             </tr>
                         <?php else: ?>
-                            <?php foreach ($pagedUsers as $u):
+                            <?php foreach ($pagedUsers as $idx => $u):
+                                $rowNumber = $userOffset + $idx + 1;
                                 $em = mb_strtolower(trim((string)($u['email'] ?? '')), 'UTF-8');
                                 $uLogs = $logsByEmail[$em] ?? [];
                                 $sCount = count($uLogs);
@@ -593,6 +403,7 @@ require_once __DIR__ . '/../includes/navbar.php';
                                 ];
                             ?>
                                 <tr class="hover:bg-[#fffaf3] transition">
+                                    <td class="py-3 px-4 text-center font-bold text-slate-400"><?= $rowNumber ?></td>
                                     <td class="py-3 px-4 whitespace-nowrap">
                                         <div class="flex items-center gap-2.5">
                                             <div class="w-8 h-8 rounded-lg bg-orange-100 text-orange-700 font-bold text-xs flex items-center justify-center flex-shrink-0">
@@ -636,14 +447,23 @@ require_once __DIR__ . '/../includes/navbar.php';
                                         <?php endif; ?>
                                     </td>
                                     <td class="py-3 px-4 text-right whitespace-nowrap">
-                                        <button
-                                            type="button"
-                                            onclick='fnOpenUserDetailModal(<?= htmlspecialchars(json_encode($userModalPayload, JSON_HEX_TAG | JSON_HEX_APOS | JSON_HEX_QUOT | JSON_HEX_AMP | JSON_UNESCAPED_UNICODE), ENT_QUOTES, "UTF-8") ?>)'
-                                            class="inline-flex items-center gap-1.5 px-3 py-1.5 rounded-lg bg-orange-50 hover:bg-orange-600 text-orange-700 hover:text-white border border-orange-200 hover:border-orange-600 font-bold text-xs transition cursor-pointer"
-                                        >
-                                            <svg class="w-3.5 h-3.5" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M15 12a3 3 0 11-6 0 3 3 0 016 0z"></path><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M2.458 12C3.732 7.943 7.523 5 12 5c4.478 0 8.268 2.943 9.542 7-1.274 4.057-5.064 7-9.542 7-4.477 0-8.268-2.943-9.542-7z"></path></svg>
-                                            Xem chi tiết (<?= $sCount ?>)
-                                        </button>
+                                        <div class="inline-flex items-center gap-1.5">
+                                            <button
+                                                type="button"
+                                                onclick='fnOpenUserDetailModal(<?= htmlspecialchars(json_encode($userModalPayload, JSON_HEX_TAG | JSON_HEX_APOS | JSON_HEX_QUOT | JSON_HEX_AMP | JSON_UNESCAPED_UNICODE), ENT_QUOTES, "UTF-8") ?>)'
+                                                class="inline-flex items-center gap-1.5 px-3 py-1.5 rounded-lg bg-orange-50 hover:bg-orange-600 text-orange-700 hover:text-white border border-orange-200 hover:border-orange-600 font-bold text-xs transition cursor-pointer"
+                                            >
+                                                <svg class="w-3.5 h-3.5" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M15 12a3 3 0 11-6 0 3 3 0 016 0z"></path><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M2.458 12C3.732 7.943 7.523 5 12 5c4.478 0 8.268 2.943 9.542 7-1.274 4.057-5.064 7-9.542 7-4.477 0-8.268-2.943-9.542-7z"></path></svg>
+                                                Xem chi tiết
+                                            </button>
+                                            <a
+                                                href="search_logs.php?user_q=<?= urlencode((string)($u['name'] ?? '')) ?>"
+                                                class="inline-flex items-center gap-1 px-2.5 py-1.5 rounded-lg bg-white hover:bg-slate-50 text-slate-600 border border-slate-200 font-bold text-[11px] transition"
+                                                title="Xem lịch sử tra cứu của người dùng này"
+                                            >
+                                                🔍 <?= $sCount ?> lượt
+                                            </a>
+                                        </div>
                                     </td>
                                 </tr>
                             <?php endforeach; ?>
@@ -652,7 +472,7 @@ require_once __DIR__ . '/../includes/navbar.php';
                 </table>
             </div>
 
-            <!-- PHÂN TRANG BẢNG 2 (USER ACCOUNTS) -->
+            <!-- PHÂN TRANG -->
             <?php if ($totalUserPages > 1): ?>
                 <div class="px-5 py-3.5 bg-[#fffaf5] border-t border-orange-100 flex flex-col sm:flex-row sm:items-center justify-between gap-3">
                     <div class="text-xs text-slate-500">
@@ -660,7 +480,7 @@ require_once __DIR__ . '/../includes/navbar.php';
                     </div>
                     <div class="flex items-center gap-1.5">
                         <?php if ($userPage > 1): ?>
-                            <a href="<?= htmlspecialchars(fnBuildPageUrl(['user_page' => $userPage - 1], 'section-users')) ?>" class="px-3 py-1.5 rounded-lg border border-orange-200 bg-white hover:bg-orange-50 text-xs font-bold text-slate-700 transition">
+                            <a href="<?= htmlspecialchars(fnBuildUserPageUrl(['page' => $userPage - 1])) ?>" class="px-3 py-1.5 rounded-lg border border-orange-200 bg-white hover:bg-orange-50 text-xs font-bold text-slate-700 transition">
                                 « Trước
                             </a>
                         <?php else: ?>
@@ -671,7 +491,7 @@ require_once __DIR__ . '/../includes/navbar.php';
 
                         <?php for ($p = 1; $p <= $totalUserPages; $p++): ?>
                             <a
-                                href="<?= htmlspecialchars(fnBuildPageUrl(['user_page' => $p], 'section-users')) ?>"
+                                href="<?= htmlspecialchars(fnBuildUserPageUrl(['page' => $p])) ?>"
                                 class="w-8 h-8 rounded-lg text-xs font-bold flex items-center justify-center transition <?= $p === $userPage ? 'bg-orange-600 text-white shadow-xs' : 'bg-white border border-orange-200 text-slate-700 hover:bg-orange-50' ?>"
                             >
                                 <?= $p ?>
@@ -679,7 +499,7 @@ require_once __DIR__ . '/../includes/navbar.php';
                         <?php endfor; ?>
 
                         <?php if ($userPage < $totalUserPages): ?>
-                            <a href="<?= htmlspecialchars(fnBuildPageUrl(['user_page' => $userPage + 1], 'section-users')) ?>" class="px-3 py-1.5 rounded-lg border border-orange-200 bg-white hover:bg-orange-50 text-xs font-bold text-slate-700 transition">
+                            <a href="<?= htmlspecialchars(fnBuildUserPageUrl(['page' => $userPage + 1])) ?>" class="px-3 py-1.5 rounded-lg border border-orange-200 bg-white hover:bg-orange-50 text-xs font-bold text-slate-700 transition">
                                 Sau »
                             </a>
                         <?php else: ?>
@@ -694,10 +514,9 @@ require_once __DIR__ . '/../includes/navbar.php';
     </div>
 </div>
 
-<!-- MODAL XEM CHI TIẾT HỒ SƠ & LỊCH SỬ TRẢI NGHIỆM -->
+<!-- MODAL XEM CHI TIẾT HỒ SƠ NGƯỜI DÙNG -->
 <div id="fn-user-detail-modal" class="fixed inset-0 z-50 hidden items-center justify-center bg-slate-900/60 backdrop-blur-xs p-4">
     <div class="bg-white rounded-2xl border border-orange-200 shadow-2xl max-w-2xl w-full max-h-[90vh] overflow-y-auto">
-        <!-- Modal Header -->
         <div class="px-6 py-4 bg-[#fff7ed] border-b border-orange-200 flex items-center justify-between sticky top-0 z-10">
             <div class="flex items-center gap-3">
                 <div id="fn-md-avatar" class="w-11 h-11 rounded-xl bg-orange-600 text-white font-black text-sm flex items-center justify-center shadow-xs">
@@ -718,12 +537,10 @@ require_once __DIR__ . '/../includes/navbar.php';
             </button>
         </div>
 
-        <!-- Modal Body -->
         <div class="p-6 space-y-5">
-            <!-- Thông tin tổng quan (Grid 2 cột) -->
             <div class="grid grid-cols-1 sm:grid-cols-2 gap-3 bg-slate-50 rounded-xl p-4 border border-slate-200 text-xs">
                 <div>
-                    <span class="text-slate-400 font-semibold block mb-1">KHU VỰC SINH SỐNG / TÌM KIẾM</span>
+                    <span class="text-slate-400 font-semibold block mb-1">KHU VỰC SINH SỐNG / HỌC TẬP</span>
                     <span id="fn-md-district" class="font-bold text-slate-800 text-sm">📍 TP.HCM</span>
                 </div>
                 <div>
@@ -736,7 +553,6 @@ require_once __DIR__ . '/../includes/navbar.php';
                 </div>
             </div>
 
-            <!-- Các tính năng đã thao tác trên Website -->
             <div>
                 <h4 class="text-xs font-extrabold text-slate-700 uppercase tracking-wider mb-2.5 flex items-center gap-1.5">
                     <span>⚡</span> Các bước & Tính năng đã thao tác trên Website FixNear
@@ -744,7 +560,6 @@ require_once __DIR__ . '/../includes/navbar.php';
                 <div id="fn-md-features" class="grid grid-cols-1 sm:grid-cols-2 gap-2"></div>
             </div>
 
-            <!-- Nhật ký các lượt tìm kiếm chi tiết -->
             <div>
                 <h4 class="text-xs font-extrabold text-slate-700 uppercase tracking-wider mb-2.5 flex items-center gap-1.5">
                     <span>🔍</span> Lịch sử tra cứu chi tiết của người dùng này
@@ -753,8 +568,10 @@ require_once __DIR__ . '/../includes/navbar.php';
             </div>
         </div>
 
-        <!-- Modal Footer -->
-        <div class="px-6 py-3.5 bg-slate-50 border-t border-slate-200 flex items-center justify-end gap-2">
+        <div class="px-6 py-3.5 bg-slate-50 border-t border-slate-200 flex items-center justify-between gap-2">
+            <a id="fn-md-all-logs-link" href="search_logs.php" class="text-xs font-bold text-orange-600 hover:text-orange-700">
+                🔍 Mở trong module Lịch sử tìm kiếm →
+            </a>
             <button type="button" onclick="fnCloseUserDetailModal()" class="px-5 py-2 rounded-lg bg-slate-800 hover:bg-slate-900 text-white font-bold text-xs cursor-pointer transition">
                 Đóng cửa sổ
             </button>
@@ -763,7 +580,6 @@ require_once __DIR__ . '/../includes/navbar.php';
 </div>
 
 <script>
-// Đồng hồ thời gian thực đếm liên tục (Giờ:Phút:Giây — Ngày/Tháng/Năm)
 (function initLiveClock() {
     const clockEl = document.getElementById('fn-live-clock');
     if (!clockEl) return;
@@ -772,13 +588,7 @@ require_once __DIR__ . '/../includes/navbar.php';
     }
     function tick() {
         const now = new Date();
-        const h = pad(now.getHours());
-        const m = pad(now.getMinutes());
-        const s = pad(now.getSeconds());
-        const d = pad(now.getDate());
-        const mo = pad(now.getMonth() + 1);
-        const y = now.getFullYear();
-        clockEl.textContent = h + ':' + m + ':' + s + ' — ' + d + '/' + mo + '/' + y;
+        clockEl.textContent = pad(now.getHours()) + ':' + pad(now.getMinutes()) + ':' + pad(now.getSeconds()) + ' — ' + pad(now.getDate()) + '/' + pad(now.getMonth() + 1) + '/' + now.getFullYear();
     }
     tick();
     setInterval(tick, 1000);
@@ -799,8 +609,8 @@ function fnOpenUserDetailModal(data) {
     document.getElementById('fn-md-sub').textContent = [data.user_email, data.user_phone ? ('📞 ' + data.user_phone) : '', data.user_group].filter(Boolean).join('  •  ');
     document.getElementById('fn-md-district').textContent = '📍 ' + (data.district || 'TP.HCM');
     document.getElementById('fn-md-created').textContent = '⏰ ' + (data.user_created_at || data.search_time || '');
+    document.getElementById('fn-md-all-logs-link').href = 'search_logs.php?user_q=' + encodeURIComponent(name);
 
-    // Render devices
     const devContainer = document.getElementById('fn-md-devices');
     devContainer.innerHTML = '';
     const devs = String(data.device_group || data.device_category || 'Điện thoại').split(',').map(s => s.trim()).filter(Boolean);
@@ -811,7 +621,6 @@ function fnOpenUserDetailModal(data) {
         devContainer.appendChild(span);
     });
 
-    // Render features
     const featContainer = document.getElementById('fn-md-features');
     featContainer.innerHTML = '';
     const features = Array.isArray(data.features) ? data.features : [];
@@ -823,7 +632,6 @@ function fnOpenUserDetailModal(data) {
         featContainer.appendChild(div);
     });
 
-    // Render logs
     const logsContainer = document.getElementById('fn-md-logs');
     logsContainer.innerHTML = '';
     const userLogs = Array.isArray(data.user_logs) ? data.user_logs : [];

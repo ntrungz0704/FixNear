@@ -192,7 +192,7 @@ require_once __DIR__ . '/../includes/navbar.php';
         <!-- MIDDLE SECTION: CHART (65%) & PENDING REQUESTS LIST (35%) -->
         <div class="bg-white rounded-xl border border-orange-100 px-5 py-3 mb-6 text-sm text-slate-600 flex flex-wrap items-center gap-x-6 gap-y-1" aria-label="Số lượng dữ liệu hiện có">
             <a href="users.php" class="hover:text-orange-600 transition">Tài khoản: <strong><?= (int)($stats['total_users'] ?? 0) ?></strong></a>
-            <a href="users.php" class="hover:text-orange-600 transition">Lượt tra cứu: <strong><?= (int)($stats['total_searches'] ?? 0) ?></strong></a>
+            <a href="search_logs.php" class="hover:text-orange-600 transition">Lượt tra cứu: <strong><?= (int)($stats['total_searches'] ?? 0) ?></strong></a>
             <span>Yêu cầu: <strong><?= (int)($stats['total_requests'] ?? 0) ?></strong></span>
             <span>Đánh giá: <strong><?= (int)($stats['total_reviews'] ?? 0) ?></strong></span>
             <span>Báo cáo: <strong><?= (int)($stats['total_reports'] ?? 0) ?></strong></span>
