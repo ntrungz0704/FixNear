@@ -61,10 +61,23 @@ button, input, select, textarea {
   position: sticky;
   top: 0;
   z-index: 1000;
-  background: rgba(255, 255, 255, 0.95);
-  backdrop-filter: blur(12px);
+  background: rgba(255, 255, 255, 0.96);
   border-bottom: 1px solid var(--fn-border);
-  transition: color 0.2s ease, background-color 0.2s ease, border-color 0.2s ease, box-shadow 0.2s ease, transform 0.2s ease, opacity 0.2s ease;
+  transition: color 0.2s ease, background-color 0.2s ease, border-color 0.2s ease, box-shadow 0.2s ease, opacity 0.2s ease;
+}
+
+.fn-navbar::before {
+  content: "";
+  position: absolute;
+  inset: 0;
+  backdrop-filter: blur(12px);
+  -webkit-backdrop-filter: blur(12px);
+  pointer-events: none;
+  z-index: -1;
+}
+
+.fn-mobile-drawer-head {
+  display: none;
 }
 
 .fn-nav-container {
@@ -1035,128 +1048,22 @@ img[src$="/infinix.png"] {
 }
 
 @media (max-width: 640px) {
-  /* === HAMBURGER HIỆN RA === */
-  .fn-hamburger {
-    display: flex;
-    order: 3;
-  }
-
-  /* === MOBILE NAV FULLSCREEN OVERLAY === */
-  .fn-nav-links {
-    display: flex !important;
-    flex-direction: column;
-    position: fixed;
-    top: 0;
-    right: -100%;
-    width: 85%;
-    max-width: 360px;
-    height: 100vh;
-    background: #ffffff;
-    z-index: 1101;
-    padding: 80px 28px 40px;
-    gap: 0;
-    box-shadow: -8px 0 40px rgba(0, 0, 0, 0.15);
-    transition: right 0.35s cubic-bezier(0.4, 0, 0.2, 1);
-    overflow-y: auto;
-    border-left: 3px solid var(--fn-primary);
-  }
-
-  .fn-nav-links.active {
-    right: 0;
-  }
-
-  /* Nút đóng X trên mobile panel */
-  .fn-mobile-close-btn {
-    display: flex;
-    align-items: center;
-    justify-content: center;
-    position: absolute;
-    top: 16px;
-    right: 16px;
-    width: 40px;
-    height: 40px;
-    border-radius: 50%;
-    background: #f1f5f9;
-    border: 1px solid #e2e8f0;
-    font-size: 20px;
-    font-weight: 700;
-    color: #64748b;
-    cursor: pointer;
-    transition: color 0.2s ease, background-color 0.2s ease, border-color 0.2s ease, box-shadow 0.2s ease, transform 0.2s ease, opacity 0.2s ease;
-    z-index: 10;
-  }
-
-  .fn-mobile-close-btn:hover {
-    background: #fee2e2;
-    color: #ef4444;
-    border-color: #fca5a5;
-  }
-
-  /* Các link trong mobile menu */
-  .fn-nav-links .fn-nav-link {
-    display: flex;
-    align-items: center;
-    gap: 10px;
-    padding: 16px 16px;
-    font-size: 15px;
-    font-weight: 700;
-    color: var(--fn-dark);
-    border-bottom: 1px solid #f1f5f9;
-    border-radius: 0;
-    transition: color 0.2s ease, background-color 0.2s ease, border-color 0.2s ease, box-shadow 0.2s ease, transform 0.2s ease, opacity 0.2s ease;
-    text-decoration: none;
-  }
-
-  .fn-nav-links .fn-nav-link:last-child {
-    border-bottom: none;
-  }
-
-  .fn-nav-links .fn-nav-link:hover,
-  .fn-nav-links .fn-nav-link.active {
-    background: var(--fn-primary-light);
-    color: var(--fn-primary);
-    padding-left: 22px;
-    border-radius: 12px;
-  }
-
-  /* Backdrop tối phía sau khi menu mở */
-  .fn-mobile-backdrop {
-    display: none;
-    position: fixed;
-    top: 0;
-    left: 0;
-    width: 100%;
-    height: 100%;
-    background: rgba(0, 0, 0, 0.45);
-    backdrop-filter: blur(4px);
-    z-index: 1100;
-    opacity: 0;
-    transition: opacity 0.3s ease;
-  }
-  .fn-mobile-backdrop.active {
-    display: block;
-    opacity: 1;
-  }
-
-  /* Nav actions (Login/Register buttons) ẩn trên mobile để gọn */
-  .fn-nav-actions {
-    display: none;
-  }
-
   /* Cards grid 1 cột */
   .fn-shops-grid {
     grid-template-columns: 1fr;
   }
   .fn-stats-bar {
-    grid-template-columns: 1fr;
+    grid-template-columns: repeat(2, minmax(0, 1fr));
+    gap: 12px;
+    padding: 16px 12px;
   }
   .fn-stat-item {
     border-right: none;
-    border-bottom: 1px solid var(--fn-border);
-    padding-bottom: 10px;
-  }
-  .fn-stat-item:last-child {
     border-bottom: none;
+    padding: 8px 6px;
+    background: #fffaf5;
+    border: 1px solid #fed7aa;
+    border-radius: 12px;
   }
   /* Override footer inline grid cho mobile */
   footer .fn-container > div[style] {
@@ -1173,6 +1080,17 @@ html,
 body {
     max-width: 100%;
     overflow-x: clip;
+}
+
+/* Lock scroll on root html without turning body into a separate scroll container
+   that would break position:sticky on .fn-navbar when scrolled down. */
+html.fn-scroll-locked,
+html:has(body[style*="overflow: hidden"]) {
+    overflow: hidden !important;
+}
+body[style*="overflow: hidden"] {
+    overflow-x: clip !important;
+    overflow-y: visible !important;
 }
 
 .fn-skip-link {
@@ -1221,10 +1139,6 @@ textarea:focus-visible,
 }
 
 @media (max-width: 640px) {
-    .fn-nav-links {
-        width: min(320px, calc(100vw - 48px)) !important;
-        max-width: calc(100vw - 48px);
-    }
     .fn-models-tabs-wrap {
         display: grid !important;
         grid-template-columns: 1fr !important;
@@ -1255,94 +1169,245 @@ textarea:focus-visible,
     }
 }
 
-/* Tablet dùng menu trượt để tránh ép 5 mục điều hướng thành nhiều dòng. */
-@media (min-width: 641px) and (max-width: 900px) {
-    .fn-hamburger { display: flex; order: 3; }
-    .fn-nav-actions { display: none; }
-    .fn-nav-links {
-        display: flex !important;
-        flex-direction: column;
-        position: fixed;
-        top: 0;
-        right: -100%;
-        width: min(360px, calc(100vw - 64px));
-        height: 100vh;
-        background: #fff;
-        z-index: 1101;
-        padding: 80px 28px 40px;
-        gap: 0;
-        box-shadow: -8px 0 40px rgba(0,0,0,.15);
-        transition: right .25s ease;
-        overflow-y: auto;
-        border-left: 3px solid var(--fn-primary);
-    }
-    .fn-nav-links.active { right: 0; }
-    .fn-mobile-close-btn {
-        display: flex;
-        align-items: center;
-        justify-content: center;
-        position: absolute;
-        top: 16px;
-        right: 16px;
-        width: 40px;
-        height: 40px;
-        border-radius: 50%;
-        background: #f1f5f9;
-        border: 1px solid #e2e8f0;
-    }
-    .fn-nav-links .fn-nav-link {
-        padding: 16px;
-        border-bottom: 1px solid #f1f5f9;
-        border-radius: 0;
-    }
-    .fn-mobile-backdrop.active {
-        display: block;
-        position: fixed;
-        inset: 0;
-        background: rgba(0,0,0,.45);
-        z-index: 1100;
-    }
-}
-
-/* ================= 2-STEP REPAIR FINDER WIZARD (REPAIRBOOKINGS STYLE) ================= */
-/* Keep the sticky header and its drawer above the dimming layer. */
+/* ====== UNIFIED MOBILE & TABLET NAVIGATION DRAWER (360px Android -> 440px iPhone 18 Pro Max -> 900px Tablet) ====== */
 .fn-mobile-account-actions { display: none; }
+.fn-mobile-backdrop { display: none; }
+
 @media (max-width: 900px) {
-  .fn-navbar.menu-open { z-index: 10001; }
-  .fn-mobile-backdrop.active { z-index: 10000; }
-  .fn-nav-links {
+  .fn-hamburger {
+    display: flex !important;
+    order: 3;
+  }
+  .fn-nav-actions {
+    display: none !important;
+  }
+  .fn-navbar.menu-open {
+    z-index: 10001 !important;
+    background: #ffffff !important;
+  }
+  .fn-navbar.menu-open::before {
+    display: none !important;
+  }
+
+  .fn-mobile-backdrop {
+    display: block;
+    position: fixed;
+    inset: 0;
+    width: 100vw;
+    height: 100vh;
     height: 100dvh;
+    background: rgba(15, 23, 42, 0.55);
+    backdrop-filter: blur(4px);
+    -webkit-backdrop-filter: blur(4px);
+    z-index: 10000;
+    opacity: 0;
     visibility: hidden;
     pointer-events: none;
+    transition: opacity 0.25s ease, visibility 0.25s ease;
+  }
+  .fn-mobile-backdrop.active {
+    opacity: 1;
+    visibility: visible;
+    pointer-events: auto;
+  }
+
+  .fn-nav-links {
+    display: flex !important;
+    flex-direction: column !important;
+    align-items: stretch !important;
+    justify-content: flex-start !important;
+    position: fixed !important;
+    top: 0 !important;
+    right: 0 !important;
+    bottom: 0 !important;
+    left: auto !important;
+    width: min(86vw, 340px) !important;
+    max-width: calc(100vw - 36px) !important;
+    height: 100vh !important;
+    height: 100dvh !important;
+    max-height: 100dvh !important;
+    margin: 0 !important;
+    padding: calc(env(safe-area-inset-top, 0px) + 16px) 18px calc(env(safe-area-inset-bottom, 0px) + 28px) !important;
+    gap: 4px !important;
+    background: #ffffff !important;
+    border-left: 3px solid var(--fn-primary) !important;
+    box-shadow: -12px 0 40px rgba(15, 23, 42, 0.22) !important;
+    z-index: 10002 !important;
+    overflow-y: auto !important;
+    overflow-x: hidden !important;
     overscroll-behavior: contain;
+    box-sizing: border-box !important;
+    transform: translateX(105%) !important;
+    visibility: hidden;
+    pointer-events: none;
+    transition: transform 0.28s cubic-bezier(0.22, 1, 0.36, 1), visibility 0.28s ease !important;
   }
-  .fn-nav-links.active { visibility: visible; pointer-events: auto; }
-  .fn-mobile-account-actions {
-    display: grid;
+  .fn-nav-links.active {
+    transform: translateX(0) !important;
+    visibility: visible !important;
+    pointer-events: auto !important;
+  }
+
+  .fn-mobile-drawer-head {
+    display: flex !important;
+    align-items: center;
+    justify-content: space-between;
     gap: 10px;
-    margin-top: 20px;
-    padding-top: 20px;
-    border-top: 1px solid #e2e8f0;
+    padding: 0 2px 14px;
+    margin-bottom: 6px;
+    border-bottom: 1px solid #fed7aa;
+    flex-shrink: 0;
   }
-  .fn-mobile-account-name { color: #475569; font-size: 13px; font-weight: 700; }
-  .fn-mobile-account-actions form { margin: 0; }
+  .fn-mobile-drawer-brand {
+    display: inline-flex;
+    align-items: center;
+    gap: 9px;
+    text-decoration: none;
+    color: #0f172a;
+    min-width: 0;
+  }
+  .fn-mobile-drawer-brand img {
+    width: 30px;
+    height: 30px;
+    flex-shrink: 0;
+  }
+  .fn-mobile-drawer-brand span {
+    display: flex;
+    flex-direction: column;
+    font-family: var(--fn-font-heading);
+    font-size: 18px;
+    font-weight: 900;
+    line-height: 1.15;
+    color: var(--fn-primary);
+  }
+  .fn-mobile-drawer-brand span b {
+    color: #0f172a;
+    font-weight: 900;
+  }
+  .fn-mobile-drawer-brand span small {
+    font-family: var(--fn-font-body);
+    font-size: 11px;
+    font-weight: 700;
+    color: #64748b;
+    margin-top: 1px;
+  }
+
+  .fn-mobile-close-btn {
+    display: inline-flex !important;
+    align-items: center;
+    justify-content: center;
+    position: static !important;
+    width: 38px;
+    height: 38px;
+    flex-shrink: 0;
+    border-radius: 10px;
+    background: #fff7ed;
+    border: 1px solid #fed7aa;
+    font-size: 18px;
+    font-weight: 800;
+    color: #9a3412;
+    cursor: pointer;
+    transition: background-color 0.15s ease, color 0.15s ease, border-color 0.15s ease;
+  }
+  .fn-mobile-close-btn:hover {
+    background: #fee2e2;
+    color: #dc2626;
+    border-color: #fca5a5;
+  }
+
+  .fn-nav-links .fn-nav-link {
+    display: flex !important;
+    align-items: center;
+    justify-content: space-between;
+    width: 100% !important;
+    min-height: 46px;
+    padding: 12px 14px !important;
+    font-size: 14.5px !important;
+    font-weight: 800 !important;
+    color: #0f172a;
+    border-bottom: 1px solid #f1f5f9;
+    border-radius: 10px;
+    box-sizing: border-box;
+    text-align: left !important;
+    text-decoration: none;
+    transition: background-color 0.15s ease, color 0.15s ease, padding-left 0.15s ease;
+  }
+  .fn-nav-links .fn-nav-link::after {
+    content: "→";
+    font-size: 13px;
+    color: #cbd5e1;
+    font-weight: 700;
+  }
+  .fn-nav-links .fn-nav-link:hover,
+  .fn-nav-links .fn-nav-link.active {
+    background: #fff7ed !important;
+    color: var(--fn-primary) !important;
+    border-color: #fed7aa;
+    padding-left: 18px !important;
+  }
+  .fn-nav-links .fn-nav-link:hover::after,
+  .fn-nav-links .fn-nav-link.active::after {
+    color: var(--fn-primary);
+  }
+
+  .fn-mobile-account-actions {
+    display: grid !important;
+    gap: 10px;
+    width: 100%;
+    margin-top: 14px;
+    padding-top: 16px;
+    border-top: 1px solid #fed7aa;
+    box-sizing: border-box;
+    flex-shrink: 0;
+  }
+  .fn-mobile-account-name {
+    display: flex;
+    align-items: center;
+    gap: 8px;
+    color: #0f172a;
+    font-size: 13.5px;
+    font-weight: 800;
+    padding: 8px 12px;
+    background: #fff7ed;
+    border: 1px solid #fed7aa;
+    border-radius: 10px;
+  }
+  .fn-mobile-account-name::before {
+    content: "👤";
+    font-size: 14px;
+  }
+  .fn-mobile-account-actions form {
+    margin: 0;
+    width: 100%;
+  }
   .fn-mobile-account-link {
     display: flex;
     align-items: center;
     justify-content: center;
+    gap: 6px;
     width: 100%;
     min-height: 44px;
     padding: 10px 14px;
     border: 1px solid #cbd5e1;
     border-radius: 10px;
-    background: #fff;
+    background: #ffffff;
     color: #0f172a;
     font-size: 14px;
-    font-weight: 700;
+    font-weight: 800;
     text-decoration: none;
     cursor: pointer;
+    box-sizing: border-box;
   }
-  .fn-mobile-account-primary { border-color: #ea580c; background: #ea580c; color: #fff; }
+  .fn-mobile-account-admin {
+    background: #0f172a;
+    border-color: #0f172a;
+    color: #ffffff;
+  }
+  .fn-mobile-account-primary {
+    border-color: #ea580c;
+    background: #ea580c;
+    color: #ffffff;
+  }
 }
 
 /* ================= 2-STEP REPAIR FINDER WIZARD (REPAIRBOOKINGS STYLE) ================= */
@@ -3640,3 +3705,206 @@ textarea:focus-visible,
   .fn-shop-service-table .fn-service-sourced td:nth-child(n+4) { grid-column: 1 / -1; }
   .fn-shop-service-table td[colspan] { grid-column: 1 / -1; }
 }
+
+/* ====== FULL UI/UX RESPONSIVE SYSTEM: ANDROID (360px-412px) & IPHONE XR -> IPHONE 18 PRO MAX (375px-440px) ====== */
+/* 1. Admin Modals & Drawers always stack above sticky .fn-navbar (z-index: 1000) */
+#fn-user-detail-modal,
+#fn-contact-modal,
+#request-drawer {
+  z-index: 3000 !important;
+}
+#request-drawer-overlay {
+  z-index: 2990 !important;
+}
+.fn-modal-overlay {
+  z-index: 3000 !important;
+}
+
+/* 2. Admin Mobile Header, Notification Dropdown & Content Spacing (<= 640px) */
+@media (max-width: 640px) {
+  .fn-admin-navbar .fn-nav-container {
+    padding: 8px 12px !important;
+    gap: 8px !important;
+  }
+  .fn-admin-navbar-title,
+  .fn-admin-navbar-user,
+  .fn-admin-nav-divider,
+  .fn-admin-nav-user-wrap {
+    display: none !important;
+  }
+  .fn-admin-navbar-actions {
+    margin-left: auto !important;
+    gap: 6px !important;
+  }
+  .fn-admin-navbar-actions > a,
+  .fn-admin-navbar-actions button {
+    min-height: 34px !important;
+    padding: 6px 10px !important;
+    font-size: 11.5px !important;
+  }
+  #fn-admin-notif-panel,
+  .fn-admin-notif-panel {
+    position: fixed !important;
+    top: 60px !important;
+    left: 12px !important;
+    right: 12px !important;
+    min-width: 0 !important;
+    max-width: calc(100vw - 24px) !important;
+    z-index: 2500 !important;
+  }
+  .fn-admin-page .fn-admin-live-status {
+    padding: 6px 12px !important;
+    font-size: 11px !important;
+  }
+  .fn-admin-page .fn-admin-sidebar {
+    top: 52px !important;
+    padding: 8px 12px !important;
+  }
+  .fn-admin-page .fn-admin-content {
+    padding: 16px 12px !important;
+  }
+}
+
+/* 3. Public Pages & Wizard Responsive Optimization (iPhone XR 414px, 14/15/16 Pro 393px, 18 Pro Max 440px, Android 360px-412px) */
+@media (max-width: 768px) {
+  .fn-shops-grid {
+    grid-template-columns: minmax(0, 1fr) !important;
+    gap: 16px;
+  }
+  .fn-hero {
+    padding: 32px 14px 24px;
+  }
+  .fn-container {
+    padding: 28px 14px;
+  }
+  .fn-section {
+    padding: 36px 14px;
+  }
+}
+
+@media (max-width: 480px) {
+  .fn-nav-container {
+    height: 60px;
+    padding: 0 14px;
+    gap: 10px;
+  }
+  .fn-logo-text {
+    font-size: 20px;
+  }
+  .fn-ticker-bar {
+    padding: 7px 12px;
+    font-size: 11.5px;
+  }
+  .fn-ticker-inner {
+    gap: 8px;
+    text-align: left;
+  }
+  .fn-hero-badge {
+    font-size: 11.5px;
+    padding: 5px 12px;
+    margin-bottom: 14px;
+    max-width: 100%;
+    white-space: normal;
+  }
+  .fn-hero-title {
+    font-size: clamp(24px, 6.8vw, 32px);
+    line-height: 1.2;
+    margin-bottom: 12px;
+  }
+  .fn-hero-subtitle {
+    font-size: 13.5px;
+    line-height: 1.5;
+    margin-bottom: 22px;
+  }
+  .fn-wizard-box,
+  .fn-rb-wizard {
+    padding: 18px 14px !important;
+    border-radius: 16px;
+    margin: 16px auto 24px;
+  }
+  .fn-wizard-stepper {
+    gap: 8px;
+    flex-wrap: wrap;
+    margin-bottom: 16px;
+  }
+  .fn-step-divider {
+    width: 24px;
+  }
+  .fn-wizard-title,
+  .fn-rb-title {
+    font-size: 18px !important;
+    line-height: 1.3;
+  }
+  .fn-device-category-grid,
+  .fn-rb-device-grid {
+    grid-template-columns: repeat(2, minmax(0, 1fr)) !important;
+    gap: 10px !important;
+  }
+  .fn-device-cat-card,
+  .fn-rb-device-card {
+    padding: 14px 10px !important;
+    min-height: 110px !important;
+  }
+  .fn-brands-grid,
+  .fn-brands-grid.fn-grid-compact,
+  .fn-rb-brand-grid,
+  .fn-rb-brand-grid.fn-grid-compact {
+    grid-template-columns: repeat(2, minmax(0, 1fr)) !important;
+    gap: 10px !important;
+  }
+  .fn-brand-card,
+  .fn-rb-brand-card {
+    padding: 12px 8px !important;
+    min-height: 102px !important;
+  }
+  .fn-models-grid,
+  .fn-rb-model-grid,
+  .fn-quick-models-grid {
+    grid-template-columns: repeat(2, minmax(0, 1fr)) !important;
+    gap: 8px !important;
+  }
+  .fn-model-btn,
+  .fn-rb-model-card {
+    padding: 10px 10px !important;
+    font-size: 12.5px !important;
+    min-height: 44px;
+  }
+  .fn-repairs-grid,
+  .fn-rb-repair-grid {
+    grid-template-columns: 1fr !important;
+    gap: 10px !important;
+  }
+  .fn-wizard-nav-header {
+    flex-wrap: wrap;
+    gap: 8px;
+  }
+  .fn-district-quick-grid {
+    grid-template-columns: repeat(2, minmax(0, 1fr)) !important;
+  }
+  .fn-modal-overlay {
+    padding: 12px !important;
+  }
+  .fn-modal-card {
+    width: 100% !important;
+    max-width: 100% !important;
+    padding: 18px 14px !important;
+    border-radius: 16px !important;
+  }
+  #fn-ai-chat-window {
+    left: 10px !important;
+    right: 10px !important;
+    bottom: calc(68px + env(safe-area-inset-bottom, 0px)) !important;
+    width: auto !important;
+    max-width: none !important;
+    height: min(72dvh, 520px) !important;
+  }
+}
+
+@media (max-width: 374px) {
+  .fn-models-grid,
+  .fn-rb-model-grid,
+  .fn-quick-models-grid {
+    grid-template-columns: 1fr !important;
+  }
+}
+

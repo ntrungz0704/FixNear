@@ -240,8 +240,8 @@ require_once __DIR__ . '/../includes/navbar.php';
         </div>
 
         <!-- RIGHT SLIDE-OVER DRAWER -->
-        <div id="request-drawer-overlay" onclick="closeRequestDrawer()" class="fixed inset-0 bg-slate-900/30 backdrop-blur-xs z-40 hidden transition-opacity"></div>
-        <div id="request-drawer" class="fixed inset-y-0 right-0 w-full max-w-md bg-white shadow-2xl z-50 transform translate-x-full transition-transform duration-300 ease-in-out flex flex-col">
+        <div id="request-drawer-overlay" onclick="closeRequestDrawer()" class="fixed inset-0 bg-slate-900/30 backdrop-blur-xs z-[2990] hidden transition-opacity" style="z-index: 2990;"></div>
+        <div id="request-drawer" class="fixed inset-y-0 right-0 w-full max-w-md bg-white shadow-2xl z-[3000] transform translate-x-full transition-transform duration-300 ease-in-out flex flex-col" style="z-index: 3000;">
             <!-- Drawer Header -->
             <div class="p-5 border-b border-orange-100 flex items-center justify-between bg-[#fff7ed]">
                 <div class="flex items-center gap-2.5">

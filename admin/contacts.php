@@ -511,29 +511,29 @@ require_once __DIR__ . '/../includes/navbar.php';
 </div>
 
 <!-- MODAL CHI TIẾT & PHẢN HỒI THƯ LIÊN HỆ -->
-<div id="fn-contact-modal" class="fixed inset-0 z-50 hidden items-center justify-center bg-slate-900/60 backdrop-blur-xs p-4">
-    <div class="bg-white rounded-2xl border border-orange-200 shadow-2xl max-w-xl w-full max-h-[90vh] overflow-y-auto">
+<div id="fn-contact-modal" class="fixed inset-0 z-[3000] hidden items-center justify-center bg-slate-900/60 backdrop-blur-xs p-2.5 sm:p-4" style="z-index: 3000;">
+    <div class="bg-white rounded-2xl border border-orange-200 shadow-2xl max-w-xl w-full max-h-[88dvh] overflow-y-auto">
         <!-- Modal Header -->
-        <div class="px-6 py-4 bg-[#fff7ed] border-b border-orange-200 flex items-center justify-between sticky top-0 z-10">
-            <div class="flex items-center gap-3">
-                <div id="fn-ct-md-avatar" class="w-11 h-11 rounded-xl bg-orange-600 text-white font-black text-sm flex items-center justify-center shadow-xs">
+        <div class="px-4 sm:px-6 py-3.5 sm:py-4 bg-[#fff7ed] border-b border-orange-200 flex items-start sm:items-center justify-between gap-2.5 sticky top-0 z-10">
+            <div class="flex items-start sm:items-center gap-3 min-w-0">
+                <div id="fn-ct-md-avatar" class="w-10 h-10 sm:w-11 sm:h-11 rounded-xl bg-orange-600 text-white font-black text-sm flex items-center justify-center shadow-xs shrink-0">
                     KH
                 </div>
-                <div>
-                    <div class="flex items-center gap-2">
-                        <h3 id="fn-ct-md-name" class="text-base font-black text-slate-900">Người gửi</h3>
+                <div class="min-w-0">
+                    <div class="flex flex-wrap items-center gap-1.5 sm:gap-2">
+                        <h3 id="fn-ct-md-name" class="text-sm sm:text-base font-black text-slate-900 break-words">Người gửi</h3>
                         <span id="fn-ct-md-code" class="font-mono text-xs font-bold text-slate-500">#CT-001</span>
                     </div>
                     <p id="fn-ct-md-time" class="text-xs text-slate-500 mt-0.5">Gửi lúc: —</p>
                 </div>
             </div>
-            <button type="button" onclick="fnCloseContactModal()" class="w-8 h-8 rounded-lg bg-white hover:bg-orange-100 text-slate-500 hover:text-orange-700 border border-orange-200 flex items-center justify-center text-lg font-bold cursor-pointer transition">
+            <button type="button" onclick="fnCloseContactModal()" class="w-8 h-8 rounded-lg bg-white hover:bg-orange-100 text-slate-500 hover:text-orange-700 border border-orange-200 flex items-center justify-center text-lg font-bold cursor-pointer transition shrink-0">
                 &times;
             </button>
         </div>
 
         <!-- Modal Body -->
-        <div class="p-6 space-y-4">
+        <div class="p-4 sm:p-6 space-y-4">
             <!-- Quick contact links -->
             <div class="flex flex-wrap items-center justify-between gap-2 bg-slate-50 p-3.5 rounded-xl border border-slate-200">
                 <div id="fn-ct-md-links" class="flex flex-wrap items-center gap-2"></div>

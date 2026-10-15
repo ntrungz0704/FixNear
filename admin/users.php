@@ -523,30 +523,30 @@ require_once __DIR__ . '/../includes/navbar.php';
 </div>
 
 <!-- MODAL XEM CHI TIẾT HỒ SƠ NGƯỜI DÙNG -->
-<div id="fn-user-detail-modal" class="fixed inset-0 z-50 hidden items-center justify-center bg-slate-900/60 backdrop-blur-xs p-4">
-    <div class="bg-white rounded-2xl border border-orange-200 shadow-2xl max-w-2xl w-full max-h-[90vh] overflow-y-auto">
-        <div class="px-6 py-4 bg-[#fff7ed] border-b border-orange-200 flex items-center justify-between sticky top-0 z-10">
-            <div class="flex items-center gap-3">
-                <div id="fn-md-avatar" class="w-11 h-11 rounded-xl bg-orange-600 text-white font-black text-sm flex items-center justify-center shadow-xs">
+<div id="fn-user-detail-modal" class="fixed inset-0 z-[3000] hidden items-center justify-center bg-slate-900/60 backdrop-blur-xs p-2.5 sm:p-4" style="z-index: 3000;">
+    <div class="bg-white rounded-2xl border border-orange-200 shadow-2xl max-w-2xl w-full max-h-[88dvh] overflow-y-auto">
+        <div class="px-4 sm:px-6 py-3.5 sm:py-4 bg-[#fff7ed] border-b border-orange-200 flex items-start sm:items-center justify-between gap-2.5 sticky top-0 z-10">
+            <div class="flex items-start sm:items-center gap-3 min-w-0">
+                <div id="fn-md-avatar" class="w-10 h-10 sm:w-11 sm:h-11 rounded-xl bg-orange-600 text-white font-black text-sm flex items-center justify-center shadow-xs shrink-0">
                     ND
                 </div>
-                <div>
-                    <div class="flex items-center gap-2">
-                        <h3 id="fn-md-name" class="text-base font-black text-slate-900">Họ và tên</h3>
-                        <span class="px-2 py-0.5 rounded-full text-[10.5px] font-bold bg-emerald-100 text-emerald-800 border border-emerald-200">
+                <div class="min-w-0">
+                    <div class="flex flex-wrap items-center gap-1.5 sm:gap-2">
+                        <h3 id="fn-md-name" class="text-sm sm:text-base font-black text-slate-900 break-words">Họ và tên</h3>
+                        <span class="px-2 py-0.5 rounded-full text-[10.5px] font-bold bg-emerald-100 text-emerald-800 border border-emerald-200 whitespace-nowrap">
                             ✓ Tài khoản hoạt động
                         </span>
                     </div>
-                    <p id="fn-md-sub" class="text-xs text-slate-500 mt-0.5">Email · Số điện thoại</p>
+                    <p id="fn-md-sub" class="text-xs text-slate-500 mt-0.5 break-all sm:break-normal">Email · Số điện thoại</p>
                 </div>
             </div>
-            <button type="button" onclick="fnCloseUserDetailModal()" class="w-8 h-8 rounded-lg bg-white hover:bg-orange-100 text-slate-500 hover:text-orange-700 border border-orange-200 flex items-center justify-center text-lg font-bold cursor-pointer transition">
+            <button type="button" onclick="fnCloseUserDetailModal()" class="w-8 h-8 rounded-lg bg-white hover:bg-orange-100 text-slate-500 hover:text-orange-700 border border-orange-200 flex items-center justify-center text-lg font-bold cursor-pointer transition shrink-0">
                 &times;
             </button>
         </div>
 
-        <div class="p-6 space-y-5">
-            <div class="grid grid-cols-1 sm:grid-cols-2 gap-3 bg-slate-50 rounded-xl p-4 border border-slate-200 text-xs">
+        <div class="p-4 sm:p-6 space-y-5">
+            <div class="grid grid-cols-1 sm:grid-cols-2 gap-3 bg-slate-50 rounded-xl p-3.5 sm:p-4 border border-slate-200 text-xs">
                 <div>
                     <span class="text-slate-400 font-semibold block mb-1">KHU VỰC SINH SỐNG / HỌC TẬP</span>
                     <span id="fn-md-district" class="font-bold text-slate-800 text-sm">📍 TP.HCM</span>
@@ -576,7 +576,7 @@ require_once __DIR__ . '/../includes/navbar.php';
             </div>
         </div>
 
-        <div class="px-6 py-3.5 bg-slate-50 border-t border-slate-200 flex items-center justify-between gap-2">
+        <div class="px-4 sm:px-6 py-3.5 bg-slate-50 border-t border-slate-200 flex flex-wrap items-center justify-between gap-2">
             <a id="fn-md-all-logs-link" href="search_logs.php" class="text-xs font-bold text-orange-600 hover:text-orange-700">
                 🔍 Mở trong module Lịch sử tìm kiếm →
             </a>

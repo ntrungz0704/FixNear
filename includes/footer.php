@@ -465,16 +465,18 @@ function fnToggleMobileMenu() {
         if (hamburger) hamburger.setAttribute('aria-expanded', 'false');
         if (backdrop) backdrop.classList.remove('active');
         if (navbar) navbar.classList.remove('menu-open');
+        document.documentElement.classList.remove('fn-scroll-locked');
         document.body.style.overflow = '';
         if (hamburger) hamburger.focus();
     } else {
         // Mở menu
+        navLinks.scrollTop = 0;
         navLinks.classList.add('active');
         if (hamburger) hamburger.classList.add('active');
         if (hamburger) hamburger.setAttribute('aria-expanded', 'true');
         if (backdrop) backdrop.classList.add('active');
         if (navbar) navbar.classList.add('menu-open');
-        document.body.style.overflow = 'hidden';
+        document.documentElement.classList.add('fn-scroll-locked');
         const closeButton = navLinks.querySelector('.fn-mobile-close-btn');
         if (closeButton) closeButton.focus();
     }
@@ -502,6 +504,7 @@ window.addEventListener('resize', function() {
         if (hamburger) hamburger.setAttribute('aria-expanded', 'false');
         if (backdrop) backdrop.classList.remove('active');
         if (navbar) navbar.classList.remove('menu-open');
+        document.documentElement.classList.remove('fn-scroll-locked');
         document.body.style.overflow = '';
     }
 });

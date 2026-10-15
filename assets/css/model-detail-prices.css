@@ -54,7 +54,7 @@
 .fn-model-price-sources { margin-top:0; }
 @media(max-width:1100px) { .fn-model-price-row { grid-template-columns:minmax(180px,1fr) minmax(400px,2fr); }.fn-model-price-shop { grid-column:1/-1;justify-self:start; } }
 @media(max-width:720px) { .fn-model-price-row { grid-template-columns:1fr;padding:14px; }.fn-model-price-shop { grid-column:1;justify-self:stretch; }.fn-model-prices-heading { padding:16px; }.fn-model-price-levels strong { font-size:11px; } }
-@media(max-width:420px) { .fn-model-price-levels { grid-template-columns:1fr; }.fn-model-price-levels>div { min-height:0;flex-direction:row;align-items:center;justify-content:space-between;gap:10px; } }
+@media(max-width:480px) { .fn-model-issue-grid { grid-template-columns:1fr; } .fn-model-price-levels { grid-template-columns:1fr; }.fn-model-price-levels>div { min-height:0;flex-direction:row;align-items:center;justify-content:space-between;gap:10px; } }
 
 /* Shop suggestions use the same media and content rhythm as the public store list. */
 .fn-model-shops{margin:0 0 36px;scroll-margin-top:88px}

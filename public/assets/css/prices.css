@@ -65,3 +65,9 @@
   .fn-price-tabs a.is-active{border-color:#fdba74;border-bottom:3px solid #ea580c;background:#fff7ed}
   .fn-price-panel{border-radius:0 0 16px 16px}
 }
+@media(max-width:480px){
+  .fn-price-range{grid-template-columns:1fr;gap:5px}
+  .fn-price-range span{min-height:0;flex-direction:row;align-items:center;justify-content:space-between;padding:7px 10px}
+  .fn-price-filter-actions{flex-wrap:wrap;gap:10px}
+  .fn-price-filter-actions button{flex:1 1 auto;width:100%}
+}
