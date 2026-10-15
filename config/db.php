@@ -1578,6 +1578,161 @@ class FixNearDB {
         });
     }
 
+    public function getUsers(): array {
+        $jsonUsers = $this->readJson('users.json');
+        $jsonByEmail = [];
+        foreach ($jsonUsers as $ju) {
+            $em = mb_strtolower(trim((string)($ju['email'] ?? '')), 'UTF-8');
+            if ($em !== '') {
+                $jsonByEmail[$em] = $ju;
+            }
+        }
+
+        if ($this->isUsingMySQL()) {
+            try {
+                $rows = $this->pdo->query("SELECT * FROM users ORDER BY created_at DESC, id DESC")->fetchAll(PDO::FETCH_ASSOC);
+                if (!empty($rows)) {
+                    foreach ($rows as &$row) {
+                        $em = mb_strtolower(trim((string)($row['email'] ?? '')), 'UTF-8');
+                        if (isset($jsonByEmail[$em])) {
+                            $row['district'] = $row['district'] ?? ($jsonByEmail[$em]['district'] ?? '');
+                            $row['device_group'] = $row['device_group'] ?? ($jsonByEmail[$em]['device_group'] ?? '');
+                            $row['user_group'] = $row['user_group'] ?? ($jsonByEmail[$em]['user_group'] ?? '');
+                            if (empty($row['phone']) && !empty($jsonByEmail[$em]['phone'])) {
+                                $row['phone'] = $jsonByEmail[$em]['phone'];
+                            }
+                        }
+                    }
+                    unset($row);
+                    return $rows;
+                }
+            } catch (Exception $e) {
+                // Fallback to JSON
+            }
+        }
+
+        usort($jsonUsers, static fn($a, $b) => strcmp((string)($b['created_at'] ?? ''), (string)($a['created_at'] ?? '')));
+        return $jsonUsers;
+    }
+
+    public function getSearchLogs(array $filters = []): array {
+        $logs = [];
+        if ($this->isUsingMySQL()) {
+            try {
+                $logs = $this->pdo->query("SELECT * FROM user_search_logs ORDER BY created_at DESC, id DESC")->fetchAll(PDO::FETCH_ASSOC);
+            } catch (Exception $e) {
+                $logs = [];
+            }
+        }
+        if (empty($logs)) {
+            $logs = $this->readJson('search_logs.json');
+        }
+        if (!is_array($logs)) {
+            $logs = [];
+        }
+        usort($logs, static fn($a, $b) => strcmp((string)($b['created_at'] ?? ''), (string)($a['created_at'] ?? '')));
+
+        $userId = isset($filters['user_id']) ? (int)$filters['user_id'] : 0;
+        $userEmail = trim((string)($filters['email'] ?? ''));
+        $district = trim((string)($filters['district'] ?? ''));
+        $device = trim((string)($filters['device'] ?? ''));
+        $q = trim((string)($filters['q'] ?? ''));
+
+        if ($userId > 0 || $userEmail !== '' || $district !== '' || $device !== '' || $q !== '') {
+            $logs = array_values(array_filter($logs, static function ($log) use ($userId, $userEmail, $district, $device, $q) {
+                if ($userId > 0 && (int)($log['user_id'] ?? 0) !== $userId) {
+                    return false;
+                }
+                if ($userEmail !== '' && strcasecmp(trim((string)($log['user_email'] ?? '')), $userEmail) !== 0) {
+                    return false;
+                }
+                if ($district !== '' && mb_stripos((string)($log['district'] ?? ''), $district, 0, 'UTF-8') === false) {
+                    return false;
+                }
+                if ($device !== '' && mb_stripos((string)($log['device_category'] ?? ''), $device, 0, 'UTF-8') === false) {
+                    return false;
+                }
+                if ($q !== '') {
+                    $haystack = implode(' ', [
+                        $log['user_name'] ?? '',
+                        $log['user_email'] ?? '',
+                        $log['user_phone'] ?? '',
+                        $log['district'] ?? '',
+                        $log['device_category'] ?? '',
+                        $log['search_query'] ?? '',
+                        $log['features_used'] ?? '',
+                    ]);
+                    if (mb_stripos($haystack, $q, 0, 'UTF-8') === false) {
+                        return false;
+                    }
+                }
+                return true;
+            }));
+        }
+
+        return $logs;
+    }
+
+    public function logUserSearch(array $data): bool {
+        $searchQuery = trim((string)($data['search_query'] ?? ''));
+        if ($searchQuery === '') {
+            return false;
+        }
+        $dedupKey = md5(($data['user_email'] ?? '') . '|' . $searchQuery . '|' . ($data['page_url'] ?? ''));
+        if (!empty($_SESSION['last_search_log_key']) && $_SESSION['last_search_log_key'] === $dedupKey && (time() - (int)($_SESSION['last_search_log_ts'] ?? 0)) < 60) {
+            return false;
+        }
+        $_SESSION['last_search_log_key'] = $dedupKey;
+        $_SESSION['last_search_log_ts'] = time();
+
+        $entry = [
+            'user_id' => isset($data['user_id']) ? (int)$data['user_id'] : 0,
+            'user_name' => trim((string)($data['user_name'] ?? 'Khách truy cập')),
+            'user_email' => trim((string)($data['user_email'] ?? '')),
+            'user_phone' => trim((string)($data['user_phone'] ?? '')),
+            'district' => trim((string)($data['district'] ?? ($_SESSION['user_location_name'] ?? 'TP.HCM'))),
+            'device_category' => trim((string)($data['device_category'] ?? 'Điện thoại')),
+            'search_query' => $searchQuery,
+            'features_used' => trim((string)($data['features_used'] ?? 'Tra cứu trên website')),
+            'page_url' => trim((string)($data['page_url'] ?? ($_SERVER['REQUEST_URI'] ?? 'index.php'))),
+            'created_at' => $data['created_at'] ?? date('Y-m-d H:i:s'),
+        ];
+
+        if ($this->isUsingMySQL()) {
+            try {
+                $stmt = $this->pdo->prepare("
+                    INSERT INTO user_search_logs (user_id, user_name, user_email, user_phone, district, device_category, search_query, features_used, page_url, created_at)
+                    VALUES (:user_id, :user_name, :user_email, :user_phone, :district, :device_category, :search_query, :features_used, :page_url, :created_at)
+                ");
+                $stmt->execute([
+                    ':user_id' => $entry['user_id'],
+                    ':user_name' => $entry['user_name'],
+                    ':user_email' => $entry['user_email'],
+                    ':user_phone' => $entry['user_phone'],
+                    ':district' => $entry['district'],
+                    ':device_category' => $entry['device_category'],
+                    ':search_query' => $entry['search_query'],
+                    ':features_used' => $entry['features_used'],
+                    ':page_url' => $entry['page_url'],
+                    ':created_at' => $entry['created_at'],
+                ]);
+                return true;
+            } catch (Exception $e) {
+                // Fallback to JSON if table unavailable
+            }
+        }
+
+        return (bool)$this->withJsonLock('search_logs.json', function () use ($entry) {
+            $logs = $this->readJson('search_logs.json');
+            if (!is_array($logs)) $logs = [];
+            $maxId = 0;
+            foreach ($logs as $l) $maxId = max($maxId, (int)($l['id'] ?? 0));
+            $entry['id'] = $maxId + 1;
+            array_unshift($logs, $entry);
+            return $this->writeJson('search_logs.json', $logs);
+        });
+    }
+
     // ================= THỐNG KÊ (STATS CHO ADMIN) =================
     public function getStats() {
         if ($this->isUsingMySQL()) {
@@ -1601,6 +1756,12 @@ class FixNearDB {
                     // Cột status có thể chưa tồn tại nếu dùng CSDL cũ
                     if (FIXNEAR_REQUIRE_MYSQL) throw $e;
                 }
+                $totalSearches = 0;
+                try {
+                    $totalSearches = (int)$this->pdo->query("SELECT COUNT(*) FROM user_search_logs")->fetchColumn();
+                } catch (Exception $e) {
+                    $totalSearches = count($this->readJson('search_logs.json'));
+                }
 
                 return [
                     'total_shops' => $totalShops,
@@ -1610,6 +1771,7 @@ class FixNearDB {
                     'total_services' => $totalServices,
                     'total_reviews' => $totalReviews,
                     'total_users' => $totalUsers,
+                    'total_searches' => $totalSearches,
                     'pending_reports' => $pendingReports,
                     'total_reports' => (int)$this->pdo->query("SELECT COUNT(*) FROM wrong_info_reports")->fetchColumn(),
                     'total_requests' => $totalRequests,
@@ -1627,6 +1789,7 @@ class FixNearDB {
         $services = $this->readJson('services.json');
         $reviews = $this->readJson('reviews.json');
         $users = $this->readJson('users.json');
+        $searchLogs = $this->readJson('search_logs.json');
         $reports = $this->readJson('reports.json');
         $requests = $this->readJson('repair_requests.json');
         if (!is_array($requests)) $requests = [];
@@ -1676,6 +1839,7 @@ class FixNearDB {
             'total_services' => count($services),
             'total_reviews' => count($reviews),
             'total_users' => count($users),
+            'total_searches' => is_array($searchLogs) ? count($searchLogs) : 0,
             'pending_reports' => $pending_reports,
             'total_reports' => count($reports),
             'total_requests' => count($requests),

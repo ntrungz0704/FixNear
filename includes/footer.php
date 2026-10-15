@@ -4,6 +4,59 @@
 </html>
 <?php return; endif; ?>
 <?php $footerStats = db()->getPublicStats(); ?>
+<?php
+try {
+    $currentScript = basename($_SERVER['PHP_SELF'] ?? '');
+    $trackedPages = ['prices.php', 'models.php', 'model_detail.php', 'shops.php', 'map.php', 'search.php'];
+    if (!empty($currentUser) && ($currentUser['role'] ?? '') !== 'admin' && in_array($currentScript, $trackedPages, true)) {
+        $devParam = trim((string)($_GET['device'] ?? ''));
+        $brandParam = trim((string)($_GET['brand'] ?? ''));
+        $modelParam = trim((string)($_GET['model'] ?? ($_GET['id'] ?? '')));
+        $faultParam = trim((string)($_GET['fault'] ?? ($_GET['issue_name'] ?? '')));
+        $distParam = trim((string)($_GET['district'] ?? ($currentUser['district'] ?? ($_SESSION['user_location_name'] ?? 'TP.HCM'))));
+        $qParam = trim((string)($_GET['q'] ?? ($_GET['keyword'] ?? '')));
+
+        $devLabels = [
+            'phone' => 'Điện thoại',
+            'win_laptop' => 'Laptop Windows',
+            'laptop' => 'Laptop Windows',
+            'macbook' => 'MacBook / Mac',
+            'mac' => 'MacBook / Mac',
+            'tablet' => 'Máy tính bảng (Tablet)',
+            'smartwatch' => 'Đồng hồ thông minh',
+            'pc_desktop' => 'Máy tính bàn (PC)',
+            'pc' => 'Máy tính bàn (PC)',
+        ];
+        $devName = $devLabels[$devParam] ?? ($currentUser['device_group'] ?? 'Điện thoại, Laptop Windows');
+
+        $parts = array_filter([$modelParam ?: $brandParam, $faultParam, $qParam]);
+        if (!empty($parts) || $currentScript === 'prices.php' || $currentScript === 'shops.php' || $currentScript === 'map.php') {
+            $pageDesc = match ($currentScript) {
+                'prices.php' => 'Xem giá dự đoán / giá có nguồn theo model và dịch vụ',
+                'models.php', 'model_detail.php' => 'Chọn loại thiết bị → hãng → model → lỗi',
+                'shops.php' => 'Lọc hoặc tra cứu danh sách cửa hàng',
+                'map.php' => 'Xem bản đồ / chỉ đường',
+                'search.php' => 'Tìm kiếm cửa hàng theo khu vực & dòng máy',
+                default => 'Tra cứu trên website',
+            };
+            $queryText = !empty($parts) ? implode(' — ', $parts) . ' (' . $pageDesc . ')' : $pageDesc . ' (' . $distParam . ')';
+            db()->logUserSearch([
+                'user_id' => (int)($currentUser['id'] ?? 0),
+                'user_name' => (string)($currentUser['name'] ?? ''),
+                'user_email' => (string)($currentUser['email'] ?? ''),
+                'user_phone' => (string)($currentUser['phone'] ?? ''),
+                'district' => $distParam ?: 'TP.HCM',
+                'device_category' => $devName,
+                'search_query' => $queryText,
+                'features_used' => $pageDesc,
+                'page_url' => basename($_SERVER['REQUEST_URI'] ?? $currentScript),
+            ]);
+        }
+    }
+} catch (Throwable $e) {
+    // Ignore logging errors
+}
+?>
 
 <!-- Modal Báo cáo thông tin sai -->
 <div class="fn-modal-overlay" id="fn-report-modal">
