@@ -1634,17 +1634,28 @@ class FixNearDB {
 
         $userId = isset($filters['user_id']) ? (int)$filters['user_id'] : 0;
         $userEmail = trim((string)($filters['email'] ?? ''));
+        $userQuery = trim((string)($filters['user_q'] ?? ''));
         $district = trim((string)($filters['district'] ?? ''));
         $device = trim((string)($filters['device'] ?? ''));
         $q = trim((string)($filters['q'] ?? ''));
 
-        if ($userId > 0 || $userEmail !== '' || $district !== '' || $device !== '' || $q !== '') {
-            $logs = array_values(array_filter($logs, static function ($log) use ($userId, $userEmail, $district, $device, $q) {
+        if ($userId > 0 || $userEmail !== '' || $userQuery !== '' || $district !== '' || $device !== '' || $q !== '') {
+            $logs = array_values(array_filter($logs, static function ($log) use ($userId, $userEmail, $userQuery, $district, $device, $q) {
                 if ($userId > 0 && (int)($log['user_id'] ?? 0) !== $userId) {
                     return false;
                 }
                 if ($userEmail !== '' && strcasecmp(trim((string)($log['user_email'] ?? '')), $userEmail) !== 0) {
                     return false;
+                }
+                if ($userQuery !== '') {
+                    $userHaystack = implode(' ', [
+                        $log['user_name'] ?? '',
+                        $log['user_email'] ?? '',
+                        $log['user_phone'] ?? '',
+                    ]);
+                    if (mb_stripos($userHaystack, $userQuery, 0, 'UTF-8') === false) {
+                        return false;
+                    }
                 }
                 if ($district !== '' && mb_stripos((string)($log['district'] ?? ''), $district, 0, 'UTF-8') === false) {
                     return false;
