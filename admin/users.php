@@ -32,10 +32,20 @@ foreach ($regularUsers as $u) {
 }
 
 $logsByEmail = [];
+$featuresByEmail = [];
 foreach ($allSearchLogs as $log) {
     $em = mb_strtolower(trim((string)($log['user_email'] ?? '')), 'UTF-8');
     if ($em === '') continue;
     $logsByEmail[$em][] = $log;
+
+    $fRaw = str_replace(
+        'Xem chi tiết dịch vụ, phản hồi của cửa hàng',
+        'Xem chi tiết dịch vụ & phản hồi của cửa hàng',
+        (string)($log['features_used'] ?? '')
+    );
+    foreach (array_filter(array_map('trim', explode(',', $fRaw))) as $fItem) {
+        $featuresByEmail[$em][$fItem] = $fItem;
+    }
 }
 
 $activeSearchingUsersCount = count($logsByEmail);
@@ -284,14 +294,7 @@ require_once __DIR__ . '/../includes/navbar.php';
                                 $timeFormatted = $ts ? date('H:i:s', $ts) : '';
                                 $em = mb_strtolower(trim((string)($log['user_email'] ?? '')), 'UTF-8');
                                 $uInfo = $userByEmail[$em] ?? [];
-                                $featuresRaw = (string)($log['features_used'] ?? '');
-                                // Tách chuẩn các tính năng (tránh cắt nhầm dấu phẩy trong "Xem chi tiết dịch vụ, phản hồi của cửa hàng")
-                                $normalizedFeatures = str_replace(
-                                    'Xem chi tiết dịch vụ, phản hồi của cửa hàng',
-                                    'Xem chi tiết dịch vụ & phản hồi của cửa hàng',
-                                    $featuresRaw
-                                );
-                                $features = array_values(array_filter(array_map('trim', explode(',', $normalizedFeatures))));
+                                $features = array_values($featuresByEmail[$em] ?? []);
                                 $modalPayload = [
                                     'type' => 'log',
                                     'user_name' => $log['user_name'] ?? 'Khách',
@@ -406,13 +409,7 @@ require_once __DIR__ . '/../includes/navbar.php';
                             $createdTs = !empty($u['created_at']) ? strtotime((string)$u['created_at']) : false;
                             $devs = array_values(array_filter(array_map('trim', explode(',', (string)($u['device_group'] ?? 'Điện thoại')))));
                             $firstLog = $uLogs[0] ?? [];
-                            $featuresRaw = (string)($firstLog['features_used'] ?? 'Chọn loại thiết bị → hãng → model → lỗi, Xem giá dự đoán / giá có nguồn');
-                            $normalizedFeatures = str_replace(
-                                'Xem chi tiết dịch vụ, phản hồi của cửa hàng',
-                                'Xem chi tiết dịch vụ & phản hồi của cửa hàng',
-                                $featuresRaw
-                            );
-                            $features = array_values(array_filter(array_map('trim', explode(',', $normalizedFeatures))));
+                            $features = array_values($featuresByEmail[$em] ?? ['Chọn loại thiết bị → hãng → model → lỗi', 'Xem giá dự đoán / giá có nguồn theo model và dịch vụ']);
 
                             $userModalPayload = [
                                 'type' => 'user',
