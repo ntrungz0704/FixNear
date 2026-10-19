@@ -5,6 +5,11 @@ if ($_SERVER['REQUEST_METHOD'] !== 'POST') {
     exit;
 }
 requireValidCsrf();
+if (!empty($_SESSION['admin_user_id']) && empty($_POST['logout_admin'])) {
+    unset($_SESSION['user_id'], $_SESSION['user_name'], $_SESSION['user_role']);
+    header("Location: index.php");
+    exit;
+}
 $_SESSION = [];
 if (ini_get("session.use_cookies")) {
     $params = session_get_cookie_params();

@@ -4,6 +4,12 @@ require_once __DIR__ . '/brand_assets.php';
 require_once __DIR__ . '/shop_media.php';
 $currentUser = currentUser();
 $assetPrefix = str_contains(str_replace('\\', '/', $_SERVER['PHP_SELF'] ?? ''), '/admin/') ? '../' : '';
+if ($assetPrefix === '../' && (!$currentUser || ($currentUser['role'] ?? '') !== 'admin') && !empty($_SESSION['admin_user_id'])) {
+    $adminCandidate = db()->getUserById($_SESSION['admin_user_id']);
+    if ($adminCandidate && ($adminCandidate['role'] ?? '') === 'admin') {
+        $currentUser = $adminCandidate;
+    }
+}
 ?>
 <!DOCTYPE html>
 <html lang="vi">

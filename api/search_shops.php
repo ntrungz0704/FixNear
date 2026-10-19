@@ -43,6 +43,40 @@ $allShops = db()->getShops([]);
 $districts = array_unique(array_column($allShops, 'district'));
 sort($districts, SORT_LOCALE_STRING);
 
+if (isLoggedIn() && ($q !== '' || $district !== '' || $device !== '' || $service_id !== '')) {
+    $currentUser = currentUser();
+    if ($currentUser && ($currentUser['role'] ?? 'user') !== 'admin') {
+        $devLabels = [
+            'phone' => 'Điện thoại',
+            'win_laptop' => 'Laptop Windows',
+            'laptop' => 'Laptop Windows',
+            'macbook' => 'MacBook / Mac',
+            'mac' => 'MacBook / Mac',
+            'tablet' => 'Máy tính bảng (Tablet)',
+            'smartwatch' => 'Đồng hồ thông minh',
+            'pc_desktop' => 'Máy tính bàn (PC)',
+            'pc' => 'Máy tính bàn (PC)',
+        ];
+        $firstDev = trim(explode(',', (string)($currentUser['device_group'] ?? 'Điện thoại'))[0] ?? 'Điện thoại');
+        $devCat = $devLabels[$device] ?? ($firstDev ?: 'Điện thoại');
+        $distLog = $district !== '' ? $district : (trim((string)($currentUser['district'] ?? '')) ?: 'TP.HCM');
+        $qParts = array_filter([$q, $devLabels[$device] ?? '', $district]);
+        $qText = (!empty($qParts) ? implode(' · ', $qParts) . ' — ' : '') . 'Lọc & tra cứu danh sách cửa hàng sửa chữa (' . $distLog . ')';
+        db()->logUserSearch([
+            'user_id' => (int)($currentUser['id'] ?? 0),
+            'user_name' => (string)($currentUser['name'] ?? 'Thành viên'),
+            'user_email' => (string)($currentUser['email'] ?? ''),
+            'user_phone' => (string)($currentUser['phone'] ?? ''),
+            'district' => $distLog,
+            'device_category' => $devCat,
+            'search_query' => $qText,
+            'features_used' => 'Lọc hoặc tra cứu danh sách cửa hàng',
+            'page_url' => 'search.php?' . http_build_query(array_filter(['q' => $q, 'district' => $district, 'device' => $device])),
+            'dedup_seconds' => 2,
+        ]);
+    }
+}
+
 echo json_encode([
     'success' => true,
     'shops' => array_values($shops),

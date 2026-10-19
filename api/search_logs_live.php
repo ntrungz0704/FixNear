@@ -360,6 +360,44 @@ foreach ($pagedLogs as $idx => $log) {
     ];
 }
 
+$userCounts = [];
+$userModals = [];
+foreach ($regularUsers as $ru) {
+    $em = mb_strtolower(trim((string)($ru['email'] ?? '')), 'UTF-8');
+    if ($em === '') continue;
+    $uLogs = $logsByEmail[$em] ?? [];
+    $userCounts[$em] = count($uLogs);
+    $createdTs = !empty($ru['created_at']) ? strtotime((string)$ru['created_at']) : false;
+    $devs = array_values(array_filter(array_map('trim', explode(',', (string)($ru['device_group'] ?? 'Điện thoại')))));
+    $firstLog = $uLogs[0] ?? [];
+    $uFeatures = array_values($featuresByEmail[$em] ?? ['Chọn loại thiết bị → hãng → model → lỗi', 'Xem giá dự đoán / giá có nguồn theo model và dịch vụ']);
+    $userModals[$em] = [
+        'type' => 'user',
+        'user_name' => $ru['name'] ?? '',
+        'user_email' => $ru['email'] ?? '',
+        'user_phone' => $ru['phone'] ?? '',
+        'user_group' => $ru['user_group'] ?? 'Sinh viên / Người đi làm',
+        'user_created_at' => $createdTs ? date('d/m/Y H:i:s', $createdTs) : '',
+        'district' => $ru['district'] ?? 'TP.HCM',
+        'device_category' => $firstLog['device_category'] ?? ($devs[0] ?? 'Điện thoại'),
+        'device_group' => $ru['device_group'] ?? 'Điện thoại',
+        'search_query' => $firstLog['search_query'] ?? '',
+        'page_url' => ltrim((string)($firstLog['page_url'] ?? 'index.php'), '/'),
+        'search_time' => !empty($firstLog['created_at']) ? date('d/m/Y lúc H:i:s', strtotime((string)$firstLog['created_at'])) : '',
+        'features' => $uFeatures,
+        'user_logs' => array_map(static function ($l) {
+            $t = strtotime((string)($l['created_at'] ?? 'now'));
+            return [
+                'time' => $t ? date('d/m/Y H:i:s', $t) : '',
+                'device' => $l['device_category'] ?? '',
+                'district' => $l['district'] ?? '',
+                'query' => $l['search_query'] ?? '',
+                'url' => ltrim((string)($l['page_url'] ?? ''), '/'),
+            ];
+        }, $uLogs),
+    ];
+}
+
 $latestLog = $allSearchLogs[0] ?? null;
 $revision = hash('sha256', json_encode([
     count($allSearchLogs),
@@ -369,6 +407,7 @@ $revision = hash('sha256', json_encode([
     $latestLog['features_used'] ?? '',
     $totalFilteredLogs,
     array_column($gaEventBreakdown, 'count'),
+    $userCounts,
 ]));
 
 echo json_encode([
@@ -380,6 +419,8 @@ echo json_encode([
         'active_users' => $activeRegularUsersCount,
         'total_ga_events' => $totalGaEvents,
     ],
+    'user_counts' => $userCounts,
+    'user_modals' => $userModals,
     'ga_breakdown' => array_map(static fn($item) => $item['count'], $gaEventBreakdown),
     'pagination' => [
         'filtered_total' => $totalFilteredLogs,

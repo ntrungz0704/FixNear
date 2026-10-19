@@ -28,6 +28,7 @@ $currentPage = basename($_SERVER['PHP_SELF']);
             </div>
             <form method="post" action="../logout.php" style="margin:0;">
                 <?= csrfField() ?>
+                <input type="hidden" name="logout_admin" value="1">
                 <button type="submit" style="background:#fee2e2;color:#b91c1c;border:1px solid #fecaca;border-radius:6px;padding:5px 12px;font-size:12px;font-weight:700;cursor:pointer;transition:all 0.15s;">Đăng xuất</button>
             </form>
         </div>

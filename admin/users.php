@@ -193,9 +193,9 @@ require_once __DIR__ . '/../includes/navbar.php';
                 <p class="text-sm text-slate-500 mt-0.5">Thông tin tài khoản khách hàng, khu vực sinh sống/học tập và nhóm thiết bị đang sử dụng tại TP.HCM</p>
             </div>
             <div class="flex flex-wrap items-center gap-2.5">
-                <a href="search_logs.php" class="bg-white hover:bg-orange-50 border border-orange-200 rounded-xl px-3.5 py-2 text-xs font-bold text-orange-700 flex items-center gap-1.5 transition shadow-xs">
+                <a href="search_logs.php" id="fn-users-total-searches-btn" class="bg-white hover:bg-orange-50 border border-orange-200 rounded-xl px-3.5 py-2 text-xs font-bold text-orange-700 flex items-center gap-1.5 transition shadow-xs">
                     <span>🔍</span>
-                    <span>Xem Lịch sử tìm kiếm (<?= count($allSearchLogs) ?>)</span>
+                    <span id="fn-users-total-searches">Xem Lịch sử tìm kiếm (<?= count($allSearchLogs) ?>)</span>
                 </a>
                 <div class="bg-emerald-50 border border-emerald-200 rounded-xl px-4 py-2 text-xs font-bold text-emerald-800 flex items-center gap-2.5 shadow-xs">
                     <span class="w-2.5 h-2.5 rounded-full bg-emerald-500 animate-pulse"></span>
@@ -458,6 +458,7 @@ require_once __DIR__ . '/../includes/navbar.php';
                                         <div class="inline-flex items-center gap-1.5">
                                             <button
                                                 type="button"
+                                                data-user-modal-btn="<?= htmlspecialchars($em) ?>"
                                                 onclick='fnOpenUserDetailModal(<?= htmlspecialchars(json_encode($userModalPayload, JSON_HEX_TAG | JSON_HEX_APOS | JSON_HEX_QUOT | JSON_HEX_AMP | JSON_UNESCAPED_UNICODE), ENT_QUOTES, "UTF-8") ?>)'
                                                 class="inline-flex items-center gap-1.5 px-3 py-1.5 rounded-lg bg-orange-50 hover:bg-orange-600 text-orange-700 hover:text-white border border-orange-200 hover:border-orange-600 font-bold text-xs transition cursor-pointer"
                                             >
@@ -466,6 +467,8 @@ require_once __DIR__ . '/../includes/navbar.php';
                                             </button>
                                             <a
                                                 href="search_logs.php?user_q=<?= urlencode((string)($u['name'] ?? '')) ?>"
+                                                data-user-count-badge="<?= htmlspecialchars($em) ?>"
+                                                data-current-count="<?= (int)$sCount ?>"
                                                 class="inline-flex items-center gap-1 px-2.5 py-1.5 rounded-lg bg-white hover:bg-slate-50 text-slate-600 border border-slate-200 font-bold text-[11px] transition"
                                                 title="Xem lịch sử tra cứu của người dùng này"
                                             >
@@ -693,6 +696,92 @@ document.addEventListener('keydown', function(e) {
         fnCloseUserDetailModal();
     }
 });
+
+(function initUsersLiveSync() {
+    let lastRevision = '';
+    let pollInFlight = false;
+
+    function syncUsersLive() {
+        if (pollInFlight) return;
+        pollInFlight = true;
+        fetch('../api/search_logs_live.php', { credentials: 'same-origin', cache: 'no-store' })
+            .then(function(r) { return r.ok ? r.json() : null; })
+            .then(function(data) {
+                if (!data || !data.ok) return;
+                if (lastRevision !== '' && data.revision === lastRevision) return;
+                const isUpdate = lastRevision !== '';
+                lastRevision = data.revision || '';
+
+                if (data.kpi && typeof data.kpi.total_searches === 'number') {
+                    const totalEl = document.getElementById('fn-users-total-searches');
+                    const totalBtn = document.getElementById('fn-users-total-searches-btn');
+                    if (totalEl) {
+                        const newText = 'Xem Lịch sử tìm kiếm (' + data.kpi.total_searches + ')';
+                        if (totalEl.textContent !== newText) {
+                            totalEl.textContent = newText;
+                            if (isUpdate && totalBtn) {
+                                totalBtn.classList.add('ring-2', 'ring-emerald-400', 'bg-emerald-50');
+                                setTimeout(function() {
+                                    totalBtn.classList.remove('ring-2', 'ring-emerald-400', 'bg-emerald-50');
+                                }, 1800);
+                            }
+                        }
+                    }
+                }
+
+                if (data.user_counts) {
+                    document.querySelectorAll('[data-user-count-badge]').forEach(function(badge) {
+                        const em = badge.getAttribute('data-user-count-badge') || '';
+                        if (typeof data.user_counts[em] === 'number') {
+                            const prev = parseInt(badge.getAttribute('data-current-count') || '0', 10);
+                            const next = data.user_counts[em];
+                            if (next !== prev) {
+                                badge.setAttribute('data-current-count', String(next));
+                                badge.textContent = '🔍 ' + next + ' lượt';
+                                if (isUpdate) {
+                                    badge.classList.add('bg-emerald-100', 'text-emerald-800', 'border-emerald-300', 'ring-2', 'ring-emerald-400');
+                                    setTimeout(function() {
+                                        badge.classList.remove('bg-emerald-100', 'text-emerald-800', 'border-emerald-300', 'ring-2', 'ring-emerald-400');
+                                    }, 2200);
+                                }
+                            }
+                        }
+                    });
+                }
+
+                if (data.user_modals) {
+                    document.querySelectorAll('[data-user-modal-btn]').forEach(function(btn) {
+                        const em = btn.getAttribute('data-user-modal-btn') || '';
+                        if (data.user_modals[em]) {
+                            btn.onclick = function() {
+                                fnOpenUserDetailModal(data.user_modals[em]);
+                            };
+                        }
+                    });
+                }
+            })
+            .catch(function() {})
+            .finally(function() { pollInFlight = false; });
+    }
+
+    syncUsersLive();
+    setInterval(syncUsersLive, 4000);
+
+    try {
+        if (typeof BroadcastChannel !== 'undefined') {
+            const bc = new BroadcastChannel('fixnear_ga4_realtime');
+            bc.onmessage = function() {
+                setTimeout(syncUsersLive, 250);
+            };
+        }
+    } catch (err) {}
+
+    window.addEventListener('storage', function(e) {
+        if (e.key === 'fixnear_ga4_last_event') {
+            setTimeout(syncUsersLive, 250);
+        }
+    });
+})();
 </script>
 
 <?php require_once __DIR__ . '/../includes/footer.php'; ?>

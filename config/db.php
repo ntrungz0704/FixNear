@@ -1530,6 +1530,25 @@ class FixNearDB {
         return null;
     }
 
+    public function getUserByPhone($phone) {
+        $cleanPhone = preg_replace('/[^0-9]/', '', (string)$phone);
+        if ($cleanPhone === '') return null;
+        if ($this->isUsingMySQL()) {
+            $stmt = $this->pdo->prepare("SELECT * FROM users WHERE phone = :phone LIMIT 1");
+            $stmt->execute([':phone' => $cleanPhone]);
+            $row = $stmt->fetch(PDO::FETCH_ASSOC);
+            if ($row) return $row;
+        }
+
+        $users = $this->readJson('users.json');
+        foreach ($users as $u) {
+            if (preg_replace('/[^0-9]/', '', (string)($u['phone'] ?? '')) === $cleanPhone) {
+                return $u;
+            }
+        }
+        return null;
+    }
+
     public function getUserById($id) {
         if ($this->isUsingMySQL()) {
             $stmt = $this->pdo->prepare("SELECT * FROM users WHERE id = :id LIMIT 1");
@@ -1983,7 +2002,17 @@ function currentUser() {
 
 function isAdmin() {
     $u = currentUser();
-    return $u && ($u['role'] ?? '') === 'admin';
+    if ($u && ($u['role'] ?? '') === 'admin') {
+        $_SESSION['admin_user_id'] = (int)$u['id'];
+        return true;
+    }
+    if (!empty($_SESSION['admin_user_id'])) {
+        $adminU = db()->getUserById($_SESSION['admin_user_id']);
+        if ($adminU && ($adminU['role'] ?? '') === 'admin') {
+            return true;
+        }
+    }
+    return false;
 }
 
 function formatPrice($num) {
