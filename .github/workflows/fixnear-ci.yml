@@ -7,8 +7,11 @@ on:
 jobs:
   verify:
     runs-on: ubuntu-latest
+    timeout-minutes: 3
     steps:
       - uses: actions/checkout@v4
+        with:
+          clean: false
       - uses: shivammathur/setup-php@v2
         with:
           php-version: '8.2'
@@ -29,3 +32,5 @@ jobs:
         run: |
           php -d zend.assertions=1 -d assert.exception=1 scripts/test_single_admin.php
           python scripts/test_user_flows.py
+          pkill -9 php || true
+
