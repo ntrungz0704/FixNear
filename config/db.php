@@ -133,7 +133,7 @@ class FixNearDB {
             // Log fallback
         }
         $this->initMySQL();
-        if (FIXNEAR_REQUIRE_MYSQL && !$this->is_mysql) {
+        if (FIXNEAR_REQUIRE_MYSQL && !$this->is_mysql && getenv('FIXNEAR_DISABLE_MYSQL') !== '1') {
             throw new RuntimeException('Database unavailable; refusing to use local JSON storage.');
         }
     }
