@@ -1595,9 +1595,10 @@ class FixNearDB {
                     foreach ($rows as &$row) {
                         $em = mb_strtolower(trim((string)($row['email'] ?? '')), 'UTF-8');
                         if (isset($jsonByEmail[$em])) {
-                            $row['district'] = $row['district'] ?? ($jsonByEmail[$em]['district'] ?? '');
-                            $row['device_group'] = $row['device_group'] ?? ($jsonByEmail[$em]['device_group'] ?? '');
-                            $row['user_group'] = $row['user_group'] ?? ($jsonByEmail[$em]['user_group'] ?? '');
+                            $row['district'] = $row['district'] ?: ($jsonByEmail[$em]['district'] ?? '');
+                            $row['device_group'] = $row['device_group'] ?: ($jsonByEmail[$em]['device_group'] ?? '');
+                            $row['user_group'] = $row['user_group'] ?: ($jsonByEmail[$em]['user_group'] ?? '');
+                            $row['survey_timestamp'] = $jsonByEmail[$em]['survey_timestamp'] ?? '';
                             if (empty($row['phone']) && !empty($jsonByEmail[$em]['phone'])) {
                                 $row['phone'] = $jsonByEmail[$em]['phone'];
                             }
@@ -1761,7 +1762,7 @@ class FixNearDB {
                 $avgRating = $this->pdo->query("SELECT ROUND(AVG(google_rating), 1) FROM shops WHERE google_place_id IS NOT NULL AND google_place_id != '' AND google_verified_at IS NOT NULL AND google_rating IS NOT NULL")->fetchColumn();
                 $totalServices = (int)$this->pdo->query("SELECT COUNT(*) FROM services")->fetchColumn();
                 $totalReviews = (int)$this->pdo->query("SELECT COUNT(*) FROM reviews")->fetchColumn();
-                $totalUsers = (int)$this->pdo->query("SELECT COUNT(*) FROM users")->fetchColumn();
+                $totalUsers = (int)$this->pdo->query("SELECT COUNT(*) FROM users WHERE role != 'admin'")->fetchColumn();
                 $pendingReports = (int)$this->pdo->query("SELECT COUNT(*) FROM wrong_info_reports WHERE status = 'pending'")->fetchColumn();
                 $totalRequests = (int)$this->pdo->query("SELECT COUNT(*) FROM repair_requests")->fetchColumn();
                 $pendingRequests = (int)$this->pdo->query("SELECT COUNT(*) FROM repair_requests WHERE status = 'pending'")->fetchColumn();
@@ -1856,7 +1857,7 @@ class FixNearDB {
             'average_shop_rating' => $ratingCount ? round($ratingTotal / $ratingCount, 1) : null,
             'total_services' => count($services),
             'total_reviews' => count($reviews),
-            'total_users' => count($users),
+            'total_users' => is_array($users) ? count(array_filter($users, static fn($u) => ($u['role'] ?? 'user') !== 'admin')) : 0,
             'total_searches' => is_array($searchLogs) ? count($searchLogs) : 0,
             'pending_reports' => $pending_reports,
             'total_reports' => count($reports),

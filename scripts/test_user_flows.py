@@ -178,13 +178,13 @@ def main():
             status, _, form = request(user, base, "/register.php")
             assert status == 200
             status, url, _ = request(user, base, "/register.php", {
-                "csrf_token": csrf(form), "name": "Test User", "email": "USER-E2E@example.invalid",
+                "csrf_token": csrf(form), "name": "Test User", "email": "USER-E2E@gmail.com",
                 "phone": "0901234568", "password": " Test-user-password-2026 ",
                 "confirm_password": " Test-user-password-2026 "
             })
             assert status == 200 and url.endswith("/index.php")
             users = json.loads((data_dir / "users.json").read_text(encoding="utf-8"))
-            assert len(users) == 2 and users[-1]["role"] == "user" and users[-1]["email"] == "user-e2e@example.invalid"
+            assert len(users) == 2 and users[-1]["role"] == "user" and users[-1]["email"] == "user-e2e@gmail.com"
 
             status, _, home = request(user, base, "/index.php")
             assert status == 200
@@ -193,7 +193,7 @@ def main():
             status, _, form = request(user, base, "/login.php")
             assert status == 200
             status, url, _ = request(user, base, "/login.php", {
-                "csrf_token": csrf(form), "email": "user-e2e@example.invalid", "password": " Test-user-password-2026 "
+                "csrf_token": csrf(form), "email": "user-e2e@gmail.com", "password": " Test-user-password-2026 "
             })
             assert status == 200 and url.endswith("/index.php")
 
@@ -202,7 +202,7 @@ def main():
             status, _, _ = request(user, base, "/request_repair.php", {
                 "csrf_token": csrf(form), "submit_request": "1", "device_type": "Laptop Windows",
                 "brand_model": "Dell XPS", "issue_type": "Kiểm tra máy", "symptom": "Không khởi động",
-                "district": "Quận 3", "customer_name": "Test User", "customer_email": "user-e2e@example.invalid",
+                "district": "Quận 3", "customer_name": "Test User", "customer_email": "user-e2e@gmail.com",
                 "customer_phone": "0901234568", "customer_zalo": "0901234569", "preferred_time": "Chiều mai"
             })
             requests = json.loads((data_dir / "repair_requests.json").read_text(encoding="utf-8"))

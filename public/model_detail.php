@@ -78,10 +78,10 @@ require_once __DIR__ . '/../includes/navbar.php';
     </div>
 
     <!-- HERO SECTION: THÔNG TIN DÒNG MÁY -->
-    <div class="fn-card" style="padding: 28px; margin-bottom: 30px; border-top: 4px solid var(--fn-primary); background: #ffffff;">
-        <div class="fn-model-detail-hero" style="display: flex; flex-wrap: wrap; justify-content: space-between; align-items: flex-start; gap: 20px;">
-            <div style="flex: 1; min-width: 280px;">
-                <div style="display: flex; align-items: center; gap: 10px; margin-bottom: 10px; flex-wrap: wrap;">
+    <div class="fn-card fn-model-hero-card" style="padding: 28px; margin-bottom: 30px; border-top: 4px solid var(--fn-primary); background: #ffffff;">
+        <div class="fn-model-detail-hero" style="display: flex; flex-wrap: wrap; justify-content: space-between; align-items: stretch; gap: 20px;">
+            <div class="fn-model-hero-main" style="flex: 1 1 320px; min-width: 0; width: 100%;">
+                <div style="display: flex; align-items: center; gap: 8px; margin-bottom: 12px; flex-wrap: wrap;">
                     <span style="font-size: 13px; font-weight: 700; padding: 4px 10px; background: #fff7ed; color: #ea580c; border: 1px solid #fed7aa; border-radius: 6px;">
                         <?= $deviceInfo['icon'] ?> <?= htmlspecialchars($deviceInfo['name']) ?>
                     </span>
@@ -97,16 +97,16 @@ require_once __DIR__ . '/../includes/navbar.php';
                     </span>
                 </div>
 
-                <h1 style="font-family: var(--fn-font-heading); font-size: 28px; font-weight: 900; color: var(--fn-dark); margin: 0 0 14px 0; line-height: 1.3;">
+                <h1 class="fn-model-hero-title" style="font-family: var(--fn-font-heading); font-size: 28px; font-weight: 900; color: var(--fn-dark); margin: 0 0 14px 0; line-height: 1.25;">
                     <?= htmlspecialchars($model['name']) ?>
                 </h1>
 
                 <!-- Thông số kỹ thuật tóm tắt -->
-                <div style="display: grid; grid-template-columns: repeat(auto-fit, minmax(200px, 1fr)); gap: 10px; margin-top: 16px; background: #f8fafc; padding: 14px 18px; border-radius: 10px; border: 1px solid #e2e8f0;">
+                <div class="fn-model-specs-grid" style="display: grid; grid-template-columns: repeat(auto-fit, minmax(140px, 1fr)); gap: 12px; margin-top: 14px; background: #f8fafc; padding: 14px 16px; border-radius: 12px; border: 1px solid #e2e8f0;">
                     <?php foreach ($model['specs'] as $k => $v): ?>
-                        <div style="font-size: 13px;">
-                            <span style="color: var(--fn-dark-muted); text-transform: uppercase; font-size: 11px; font-weight: 700; display: block;"><?= htmlspecialchars($specLabels[$k] ?? ucfirst($k)) ?></span>
-                            <strong style="color: var(--fn-dark); font-size: 13.5px;"><?= htmlspecialchars($v) ?></strong>
+                        <div style="font-size: 13px; min-width: 0;">
+                            <span style="color: var(--fn-dark-muted); text-transform: uppercase; font-size: 11px; font-weight: 700; display: block; margin-bottom: 2px;"><?= htmlspecialchars($specLabels[$k] ?? ucfirst($k)) ?></span>
+                            <strong style="color: var(--fn-dark); font-size: 13.5px; display: block; overflow-wrap: anywhere;"><?= htmlspecialchars($v) ?></strong>
                         </div>
                     <?php endforeach; ?>
                 </div>
@@ -116,17 +116,17 @@ require_once __DIR__ . '/../includes/navbar.php';
             </div>
 
             <!-- Khối thống kê độ phủ -->
-            <div style="background: #fafaf9; border: 1px solid #e7e5e4; padding: 20px; border-radius: 12px; min-width: 240px; text-align: center;">
-                <div style="font-size: 12px; font-weight: 700; color: #ea580c; text-transform: uppercase; letter-spacing: 0.5px; margin-bottom: 6px;">Cơ sở dữ liệu FixNear</div>
-                <div style="font-size: 32px; font-weight: 900; color: var(--fn-dark); margin-bottom: 4px;">
-                    <?= count($model['supportedFaults']) ?> <span style="font-size: 16px; font-weight: 600; color: #64748b;">hạng mục</span>
+            <div class="fn-model-stats-box" style="background: #fffaf5; border: 1px solid #fed7aa; padding: 20px; border-radius: 14px; flex: 0 0 260px; max-width: 100%; text-align: center; display: flex; flex-direction: column; justify-content: center;">
+                <div style="font-size: 12px; font-weight: 800; color: #ea580c; text-transform: uppercase; letter-spacing: 0.5px; margin-bottom: 6px;">Cơ sở dữ liệu FixNear</div>
+                <div style="font-size: 32px; font-weight: 900; color: var(--fn-dark); margin-bottom: 4px; line-height: 1.15;">
+                    <?= count($model['supportedFaults']) ?> <span style="font-size: 16px; font-weight: 700; color: #64748b;">hạng mục</span>
                 </div>
                 <?php if (!empty($model['knownIssues'])): ?>
-                <div style="font-size: 13px; color: #16a34a; font-weight: 700; margin-bottom: 12px;">
+                <div style="font-size: 13px; color: #16a34a; font-weight: 700; margin-bottom: 14px;">
                     <?= count($model['knownIssues']) ?> lỗi thường gặp trong dữ liệu tham khảo
                 </div>
                 <?php endif; ?>
-                <a href="#bang-gia" class="fn-btn fn-btn-primary" style="width: 100%; display: block; text-align: center; font-size: 14px; padding: 10px 14px;">
+                <a href="#bang-gia" class="fn-btn fn-btn-primary" style="width: 100%; display: inline-flex; align-items: center; justify-content: center; text-align: center; font-size: 14px; padding: 11px 16px; border-radius: 10px;">
                     Xem Hạng Mục Cần Kiểm Tra ↓
                 </a>
             </div>

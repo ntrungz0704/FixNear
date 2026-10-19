@@ -4036,6 +4036,24 @@ textarea:focus-visible,
     padding: 22px 16px !important;
     border-radius: 16px !important;
   }
+  .fn-model-hero-card {
+    padding: 18px 15px !important;
+    border-radius: 16px !important;
+    margin-bottom: 22px !important;
+  }
+  .fn-model-hero-title {
+    font-size: 23px !important;
+  }
+  .fn-model-specs-grid {
+    grid-template-columns: repeat(2, minmax(0, 1fr)) !important;
+    gap: 10px 12px !important;
+    padding: 12px 14px !important;
+  }
+  .fn-model-stats-box {
+    flex: 1 1 100% !important;
+    width: 100% !important;
+    padding: 16px 14px !important;
+  }
   .fn-map-top-bar {
     padding: 10px 12px !important;
     gap: 8px !important;
@@ -4050,10 +4068,41 @@ textarea:focus-visible,
   }
 }
 
+.fn-back-btn {
+  display: inline-flex;
+  align-items: center;
+  gap: 8px;
+  padding: 8px 14px;
+  border-radius: 10px;
+  background: #ffffff;
+  border: 1px solid #e2e8f0;
+  color: #334155;
+  font-size: 13.5px;
+  font-weight: 700;
+  text-decoration: none;
+  box-shadow: 0 1px 3px rgba(15, 23, 42, 0.04);
+  transition: color 0.18s ease, background-color 0.18s ease, border-color 0.18s ease, transform 0.18s ease;
+}
+
+.fn-back-btn:hover {
+  border-color: #fdba74;
+  background: #fff7ed;
+  color: #ea580c;
+  transform: translateX(-2px);
+}
+
+@media (max-width: 768px) {
+  .fn-model-stats-box {
+    flex: 1 1 100% !important;
+    width: 100% !important;
+  }
+}
+
 @media (max-width: 374px) {
   .fn-models-grid,
   .fn-rb-model-grid,
-  .fn-quick-models-grid {
+  .fn-quick-models-grid,
+  .fn-model-specs-grid {
     grid-template-columns: 1fr !important;
   }
   .fn-map-floating-card {
@@ -4061,3 +4110,4 @@ textarea:focus-visible,
     bottom: 64px !important;
   }
 }
+

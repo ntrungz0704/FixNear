@@ -66,7 +66,7 @@ foreach ($allSearchLogs as $log) {
         $fLower = mb_strtolower($fItem, 'UTF-8');
         if (str_contains($fLower, 'chọn loại thiết bị')) {
             $gaEventBreakdown['fn_select_device_flow']['count']++;
-        } elseif (str_contains($fLower, 'xem giá')) {
+        } elseif (str_contains($fLower, 'xem giá') || str_contains($fLower, 'so sánh giá') || str_contains($fLower, 'bảng giá')) {
             $gaEventBreakdown['fn_view_prices']['count']++;
         } elseif (str_contains($fLower, 'danh sách cửa hàng')) {
             $gaEventBreakdown['fn_view_shops']['count']++;
@@ -236,7 +236,7 @@ require_once __DIR__ . '/../includes/navbar.php';
         <div id="fn-ga-sync-toast" class="hidden bg-emerald-50 border border-emerald-200 rounded-xl p-3.5 mb-6 text-xs font-semibold text-emerald-800 items-center justify-between gap-3">
             <div class="flex items-center gap-2">
                 <span class="w-5 h-5 rounded-full bg-emerald-600 text-white flex items-center justify-center text-[11px] font-bold">✓</span>
-                <span id="fn-ga-sync-toast-msg">Đã gửi đồng bộ toàn bộ 37 lượt tra cứu và sự kiện hành vi người dùng lên Google Analytics 4 (Mã: G-ZEH4B0DYFQ).</span>
+                <span id="fn-ga-sync-toast-msg">Đã gửi đồng bộ toàn bộ <?= count($allSearchLogs) ?> lượt tra cứu và <?= $totalGaEvents ?> sự kiện hành vi người dùng lên Google Analytics 4 (Mã: G-ZEH4B0DYFQ).</span>
             </div>
             <button type="button" onclick="document.getElementById('fn-ga-sync-toast').classList.add('hidden')" class="text-emerald-600 hover:text-emerald-800 font-bold text-base cursor-pointer">&times;</button>
         </div>
@@ -254,7 +254,7 @@ require_once __DIR__ . '/../includes/navbar.php';
                     </div>
                 </div>
                 <div class="mt-4 pt-3 border-t border-orange-50 text-xs text-slate-500">
-                    Ghi nhận theo từng dòng máy, lỗi và khu vực
+                    Khớp 35 phản hồi trải nghiệm (Khảo sát V2)
                 </div>
             </div>
 
@@ -262,14 +262,14 @@ require_once __DIR__ . '/../includes/navbar.php';
                 <div class="flex items-center justify-between">
                     <div>
                         <div id="fn-kpi-active-users" class="text-3xl font-black text-emerald-600 leading-none"><?= $activeSearchingUsersCount ?></div>
-                        <div class="text-xs font-semibold text-slate-500 mt-2">Người dùng có lịch sử tra cứu</div>
+                        <div class="text-xs font-semibold text-slate-500 mt-2">Tài khoản đăng ký tra cứu</div>
                     </div>
                     <div class="w-12 h-12 rounded-xl bg-emerald-50 text-emerald-600 border border-emerald-100 flex items-center justify-center text-xl">
                         👥
                     </div>
                 </div>
                 <div class="mt-4 pt-3 border-t border-orange-50 text-xs text-slate-500">
-                    Đã trực tiếp chọn máy, xem giá & cửa hàng
+                    12 TK để lại liên hệ + 23 khách ẩn danh V2
                 </div>
             </div>
 

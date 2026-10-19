@@ -269,7 +269,7 @@ foreach ($allSearchLogs as $log) {
         $fLower = mb_strtolower($fItem, 'UTF-8');
         if (str_contains($fLower, 'chọn loại thiết bị')) {
             $gaEventBreakdown['fn_select_device_flow']['count']++;
-        } elseif (str_contains($fLower, 'xem giá')) {
+        } elseif (str_contains($fLower, 'xem giá') || str_contains($fLower, 'so sánh giá') || str_contains($fLower, 'bảng giá')) {
             $gaEventBreakdown['fn_view_prices']['count']++;
         } elseif (str_contains($fLower, 'danh sách cửa hàng')) {
             $gaEventBreakdown['fn_view_shops']['count']++;
