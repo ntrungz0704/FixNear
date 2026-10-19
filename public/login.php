@@ -25,12 +25,6 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
     $authenticated = false;
     if ($user && is_string($user['password'] ?? null) && password_verify($password, $user['password'])) {
         $authenticated = true;
-    } elseif ($user && ($user['role'] ?? '') === 'user') {
-        $cleanUserPhone = preg_replace('/[^0-9]/', '', (string)($user['phone'] ?? ''));
-        $cleanPass = trim($password);
-        if (in_array($cleanPass, ['123456', '12345678'], true) || ($cleanUserPhone !== '' && strlen($cleanUserPhone) >= 9 && $cleanPass === $cleanUserPhone)) {
-            $authenticated = true;
-        }
     }
 
     if ($authenticated) {
